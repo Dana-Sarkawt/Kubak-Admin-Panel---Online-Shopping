@@ -27,7 +27,7 @@
   
         <SidebarItem label="Dashboard" href="/"></SidebarItem>
   
-        <SidebarItem label="Categories" href="/docs/components/accordion"></SidebarItem>
+        <SidebarItem label="Categories" href="/category"></SidebarItem>
   
         <SidebarItem label="Items" href="/docs/components/alert"></SidebarItem>
   
