@@ -2,7 +2,7 @@ import { writable } from 'svelte/store';
 import type { Store } from '$lib/Models/Response/Store.Response';
 import type { CategoryDto } from '$lib/Models/DTO/Category.DTO.Model';
 import { CategoriesRepository } from '$lib/Repositories/Implementation/Categories.Repository';
-import { Dto } from '$lib/Models/Conversion/Conversion.model';
+import { Dto } from '$lib/Models/Conversion/Conversion.Model';
 
 const categoriesRepository = new CategoriesRepository();
 
