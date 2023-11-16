@@ -25,7 +25,7 @@
       <Input id="large-input" size="lg" placeholder="Add Category" class="w-full rounded-xl" />
 
     </div>
-    <button class="bg-[#f17f18] font-bold text-white py-3 px-8 rounded-xl">Add Category</button>
+    <button class="bg-[#f17f18] font-bold text-white py-3 px-8 rounded-xl" type="submit">Add Category</button>
    
   </div>
 
