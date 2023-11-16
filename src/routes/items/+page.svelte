@@ -10,6 +10,45 @@
     TableHeadCell,
   } from "flowbite-svelte";
   import { Label, Input } from "flowbite-svelte";
+
+
+
+
+
+  import { page } from '$app/stores';
+  import { Pagination } from 'flowbite-svelte';
+  import { ChevronLeftOutline, ChevronRightOutline } from 'flowbite-svelte-icons';
+
+  $: activeUrl = $page.url.searchParams.get('page');
+  let pages = [
+    { name: 1, href: '/items' },
+    { name: 2, href: '/components/pagination?page=7' },
+    { name: 3, href: '/components/pagination?page=8' },
+    { name: 4, href: '/components/pagination?page=9' },
+    { name: 5, href: '/components/pagination?page=10' }
+  ];
+
+  $: {
+    pages.forEach((page) => {
+      let splitUrl = page.href.split('?');
+      let queryString = splitUrl.slice(1).join('?');
+      const hrefParams = new URLSearchParams(queryString);
+      let hrefValue = hrefParams.get('page');
+      if (hrefValue === activeUrl) {
+        page.active = true;
+      } else {
+        page.active = false;
+      }
+    });
+    pages = pages;
+  }
+
+  const previous = () => {
+    alert('Previous btn clicked. Make a call to your server to fetch data.');
+  };
+  const next = () => {
+    alert('Next btn clicked. Make a call to your server to fetch data.');
+  };
 </script>
 
 <div
@@ -30,7 +69,8 @@
     <Input id="large-input" type="date" />
   </div>
   <a href="#">
-    <button class="bg-white text-xs lg:text-lg h-12 px-3 py-3 rounded-xl text-center flex justify-center items-center"
+    <button
+      class="bg-white text-xs lg:text-lg h-12 p-3 rounded-xl text-center flex justify-center items-center"
       >Reset Date</button
     >
   </a>
@@ -41,6 +81,10 @@
       alt=""
       class="w-12 bg-[#f17f18] p-3 rounded-xl"
     />
+  </a>
+
+  <a href="/items/add">
+    <button class="w-12 h-12 bg-[#f17f18] p-3 rounded-xl text-white text-2xl  flex justify-center items-center">+</button>
   </a>
 </div>
 
@@ -92,3 +136,23 @@
     </TableBody>
   </Table>
 </div>
+
+
+<div class="w-full flex justify-center items-center mt-3">
+
+  <Pagination {pages} on:previous={previous} on:next={next} icon
+  class="shadow-lg rounded-lg"
+    activeClass="bg-gradient-to-b from-[#f17f17] to-[#ffab65] text-white"
+    normalClass="text-[#f17f18]"
+  >
+    <svelte:fragment slot="prev">
+      <span class="sr-only">Previous</span>
+      <ChevronLeftOutline class="w-2.5 h-2.5" />
+    </svelte:fragment>
+    <svelte:fragment slot="next">
+      <span class="sr-only">Next</span>
+      <ChevronRightOutline class="w-2.5 h-2.5" />
+    </svelte:fragment>
+  </Pagination>
+</div>
+
