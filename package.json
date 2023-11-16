@@ -26,6 +26,7 @@
   },
   "type": "module",
   "dependencies": {
+    "appwrite": "^13.0.0",
     "flowbite-svelte-icons": "^0.4.5"
   }
 }
