@@ -36,7 +36,7 @@
           </svelte:fragment>
         </SidebarItem>
   
-        <SidebarItem label="Items" href="/docs/components/alert" spanClass="-lg lg:text-xl ml-2">
+        <SidebarItem label="Items" href="/items" spanClass="-lg lg:text-xl ml-2">
           <svelte:fragment slot="icon">
             <LayersSolid class="w-5 h-5 text-white transition duration-75" />
           </svelte:fragment>

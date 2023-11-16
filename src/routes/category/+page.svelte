@@ -45,16 +45,18 @@ class="container mx-auto grid grid-cols-4 h-auto  flex-wrap justify-center  my-1
 >
 
 
+<a href="/category/add">
 
-<div
-class=" md:w-28 md:h-36  lg:w-44 lg:h-60 bg-[#f17f18] px-5 flex justify-around items-center flex-col rounded-xl"
->
-<p class="w-full flex justify-center items-center text-6xl text-white">+</p>
-
-</div>
+  <div
+  class=" md:w-28 md:h-36  lg:w-44 lg:h-60 2xl:w-64 2xl:h-96 bg-[#f17f18] px-5 flex justify-around items-center flex-col rounded-xl"
+  >
+  <p class="w-full flex justify-center items-center text-6xl text-white">+</p>
+  
+  </div>
+</a>
   {#each ArrayNumber as array}
     <div
-      class="md:w-28 md:h-36  lg:w-44 lg:h-60  bg-white px-5 flex justify-around items-center flex-col rounded-xl mb-5"
+      class="md:w-28 md:h-36  lg:w-44 lg:h-60 2xl:w-64 2xl:h-96 bg-white px-5 flex justify-around items-center flex-col rounded-xl mb-5"
     >
       <img src="/images/rice.png" alt="" />
       <p class="text-2xl">Rice</p>
