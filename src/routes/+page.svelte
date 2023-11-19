@@ -15,7 +15,7 @@
   <div class="w-full h-auto flex gap-2 justify-center mt-5">
     <!--  START CATEGORIES CARD  -->
     <div
-      class="w-[30%] h-[300px] 2xl:h-[500px] flex flex-col justify-around items-center bg-white rounded-2xl"
+      class="w-[30%] h-[300px] 2xl:h-[500px] flex flex-col justify-around items-center dark:text-white bg-white dark:bg-[#212121] rounded-2xl"
     >
       <p class="text-lg lg:text-2xl 2xl:text-5xl">Categories</p>
       <img src="/images/categories.png" alt="" class="px-2 w-72" />
@@ -24,14 +24,14 @@
 
     <!--  START LOWEST ORDER CARD  -->
     <div
-      class="w-[30%] h-[300px] 2xl:h-[500px] flex flex-col justify-center items-center bg-white rounded-2xl gap-2"
+      class="w-[30%] h-[300px] 2xl:h-[500px] flex flex-col justify-center items-center bg-white dark:text-white dark:bg-[#212121] rounded-2xl gap-2"
     >
       <p class="text-lg lg:text-2xl 2xl:text-5xl">Lowest Order</p>
 
       <!--  START FIRST LOWEST ORDER CARD  -->
 
       <div
-        class="w-11/12 h-12 2xl:h-20 bg-[#e8e8e8] rounded-xl flex justify-center items-center px-3 md:text-[8px] lg:text-lg"
+        class="w-11/12 h-12 2xl:h-20 bg-[#e8e8e8] dark:bg-[#363636] rounded-xl flex justify-center items-center px-3 md:text-[8px] lg:text-lg"
       >
         <img src="/images/rice.png" alt="" class="w-8" />
         <p class="w-1/2 text-center">Rice</p>
@@ -41,11 +41,11 @@
       <!--  END FIRST LOWEST ORDER CARD  -->
       <!--  AND DELETE ANOTHER LOWEST ORDER CARD  -->
 
-      <div class="w-11/12 h-12 2xl:h-20 bg-[#e8e8e8] rounded-xl" />
+      <div class="w-11/12 h-12 2xl:h-20 bg-[#e8e8e8] dark:bg-[#363636] rounded-xl" />
 
-      <div class="w-11/12 h-12 2xl:h-20 bg-[#e8e8e8] rounded-xl" />
+      <div class="w-11/12 h-12 2xl:h-20 bg-[#e8e8e8] dark:bg-[#363636] rounded-xl" />
 
-      <div class="w-11/12 h-12 2xl:h-20 bg-[#e8e8e8] rounded-xl" />
+      <div class="w-11/12 h-12 2xl:h-20 bg-[#e8e8e8] dark:bg-[#363636] rounded-xl" />
 
       <!-- svelte-ignore a11y-invalid-attribute -->
       <a href="#" class="text-[#f17f18]">See More</a>

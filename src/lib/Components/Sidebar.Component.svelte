@@ -8,17 +8,17 @@
   import { ChartPieSolid, GridSolid, MailBoxSolid, UserSolid, ArrowRightToBracketSolid, FileEditSolid, LayersSolid, ImageSolid, AddressCardSolid, NewspaperSolid, DesktopPcSolid, TableSolid, TableColumnSolid, TabletSolid, WindowSolid } from 'flowbite-svelte-icons';
 
   $: activeUrl = $page.url.pathname;
-  let activeClass = 'flex items-center p-2 text-base font-normal text-white bg-[#CB5500] rounded-l-full';
+  let activeClass = 'flex items-center p-2 text-base font-normal text-white bg-[#CB5500] dark:bg-[#5B5B5B] rounded-l-full';
   let nonActiveClass = 'flex items-center p-2 text-base font-normal text-white rounded-lg dark:text-white';
 </script>
 
 
 
 
-<div class="w-1/5  h-[100vh] bg-[#f17f18]">
+<div class="w-1/5  h-[100vh] bg-[#f17f18] dark:bg-[#212121]">
 
   <Sidebar {activeUrl} {activeClass} {nonActiveClass} asideClass="w-full ">
-    <SidebarWrapper class="bg-[#f17f18] p-0 h-full">
+    <SidebarWrapper class="bg-[#f17f18] dark:bg-[#212121] p-0 h-full">
       <SidebarGroup class="h-full " ulClass="h-full pl-3">
         <div class="w-full h-auto flex justify-center items-center pb-5 mt-5">
           <img src="/images/kubak.jpg" alt="" width="50px" height="50px">
@@ -27,6 +27,13 @@
         <SidebarItem label="Dashboard" href="/" spanClass="md:text-lg lg:text-xl ml-2">
           <svelte:fragment slot="icon">
             <ChartPieSolid class="w-5 h-5 text-white transition duration-75" />
+          </svelte:fragment>
+        </SidebarItem>
+        
+        <SidebarItem label="Monitoring" href="/monitoring" spanClass="-lg lg:text-xl ml-2">
+
+          <svelte:fragment slot="icon">
+            <DesktopPcSolid class="w-5 h-5 text-white transition duration-75" />
           </svelte:fragment>
         </SidebarItem>
   
@@ -61,12 +68,6 @@
 
         </SidebarItem>
   
-        <SidebarItem label="Monitoring" href="/monitoring" spanClass="-lg lg:text-xl ml-2">
-
-          <svelte:fragment slot="icon">
-            <DesktopPcSolid class="w-5 h-5 text-white transition duration-75" />
-          </svelte:fragment>
-        </SidebarItem>
   
       </SidebarGroup>
     </SidebarWrapper>

@@ -3,10 +3,10 @@
       import { SunSolid, MoonSolid } from 'flowbite-svelte-icons';
 let btnClass = 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-xl p-2';
 </script>
-<div class="w-4/5 h-20 bg-white flex flex-row float-right justify-end items-center">
+<div class="w-4/5 h-20 bg-white dark:bg-[#252525] flex flex-row float-right justify-end items-center">
     <div class="w-3/4 flex justify-center items-center gap-3 mr-12">
 
-        <p class="font-bold">Dana Sarkawt</p>
+        <p class="font-bold dark:text-white">Dana Sarkawt</p>
         <img src="/images/user.jpg" alt="" class="w-16 h-16 rounded-full bg-cover bg-no-repeat bg-center">
     </div>
     <DarkMode class="text-lg mr-5">

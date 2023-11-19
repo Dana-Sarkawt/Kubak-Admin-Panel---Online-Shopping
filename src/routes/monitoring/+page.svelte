@@ -1,6 +1,5 @@
 <script lang="ts">
     import { onMount } from 'svelte';
-
     let map:any;
 
     onMount(() => {
@@ -30,6 +29,46 @@
     }
 </script>
 
+<div class="w-full flex justify-end ">
+
+    <div class="w-60 h-[90vh] rounded-xl my-5 mr-3 flex-col gap-2 opacity-80 absolute flex justify-center items-center z-[5000]" id="request-box">
+
+<div class="bg-black w-full h-1/2 rounded-xl flex">
+   <div class="bg-gray-700 w-full h-12 rounded-xl flex gap-3 mt-2 mx-2 justify-center items-center">
+       
+    <div class="bg-[#009860] w-4 h-4 rounded-full"></div>
+    <div class="bg-white w-4 h-4 rounded-full"></div>
+    <div class="bg-[#F02525] w-4 h-4 rounded-full"></div>
+    <div class="bg-[#5570FF] w-4 h-4 rounded-full"></div>
+    <div class="bg-[#FFC01F] w-4 h-4 rounded-full"></div>
+
+      
+   </div>
+
+</div>
+<div class="bg-black w-full h-1/2 rounded-xl"></div>
 
 
-<div id="map" class="w-full h-[93.2vh]"/>
+
+    </div>
+   
+   
+</div>
+
+
+
+
+
+
+    <div id="map" class="w-full h-[93.2vh]"></div>
+    
+
+
+
+
+    <style>
+        #request-box{
+
+            backdrop-filter: blur(5px);
+        }
+    </style>
