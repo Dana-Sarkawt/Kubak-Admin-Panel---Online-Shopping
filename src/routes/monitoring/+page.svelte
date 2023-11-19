@@ -1,7 +1,7 @@
-<script>
+<script lang="ts">
     import { onMount } from 'svelte';
 
-    let map;
+    let map:any;
 
     onMount(() => {
         const link = document.createElement('link');
@@ -13,12 +13,12 @@
 
         return () => {
             map.remove();
-            link.parentNode.removeChild(link);
+            link.parentNode!.removeChild(link);
         };
     });
 
     async function loadMap() {
-        await import('leaflet');
+        const L = await import('leaflet');
         map = L.map('map').setView([35.5558, 45.4351], 13);
 
         
