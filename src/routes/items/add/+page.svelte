@@ -16,7 +16,7 @@
   <div class="container mx-auto max-w-2xl  flex justify-center items-center flex-col gap-3 mt-32 py-12 rounded-xl  bg-white ">
   
       
-      <img src="/images/rice.png" alt="" class="w-44 h-44 bg-cover p-5 rounded-xl flex bg-[#B0AFAF]">
+      <img src="/images/rice.png" alt="" class="w-44 h-44 object-cover p-5 rounded-xl flex bg-[#B0AFAF]">
       
    
 

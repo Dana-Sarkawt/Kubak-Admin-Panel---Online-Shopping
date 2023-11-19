@@ -42,26 +42,26 @@
           </svelte:fragment>
         </SidebarItem>
   
-        <SidebarItem label="Cards" href="/docs/components/sidebar"  spanClass="-lg lg:text-xl ml-2">
+        <SidebarItem label="Cards" href="/cards"  spanClass="-lg lg:text-xl ml-2">
           <svelte:fragment slot="icon">
             <ImageSolid class="w-5 h-5 text-white transition duration-75" />
           </svelte:fragment>
         </SidebarItem>
   
-        <SidebarItem label="Users" href="/docs/components/badge" spanClass="-lg lg:text-xl ml-2">
+        <SidebarItem label="Users" href="/users" spanClass="-lg lg:text-xl ml-2">
           <svelte:fragment slot="icon">
             <AddressCardSolid class="w-5 h-5 text-white transition duration-75" />
           </svelte:fragment>
         </SidebarItem>
   
-        <SidebarItem label="Reports" href="#" spanClass="-lg lg:text-xl ml-2">
+        <SidebarItem label="Reports" href="/raport" spanClass="-lg lg:text-xl ml-2">
           <svelte:fragment slot="icon">
             <NewspaperSolid class="w-5 h-5 text-white transition duration-75" />
           </svelte:fragment>
 
         </SidebarItem>
   
-        <SidebarItem label="Monitoring" href="#" spanClass="-lg lg:text-xl ml-2">
+        <SidebarItem label="Monitoring" href="/monitoring" spanClass="-lg lg:text-xl ml-2">
 
           <svelte:fragment slot="icon">
             <DesktopPcSolid class="w-5 h-5 text-white transition duration-75" />
