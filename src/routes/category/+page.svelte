@@ -1,10 +1,17 @@
 <script lang="ts">
   import { page } from "$app/stores";
+  import { categoryStore } from "$lib/Stores/Categories.Store";
   import { Pagination, type LinkType } from "flowbite-svelte";
   import {
     ChevronLeftOutline,
     ChevronRightOutline,
   } from "flowbite-svelte-icons";
+  import { onMount } from "svelte";
+
+  onMount( async () => {
+    await categoryStore.getAll();
+  });
+
 
   $: activeUrl = $page.url.searchParams.get("page");
   let pages:LinkType[] = [
@@ -17,18 +24,15 @@
 
   let ArrayNumber: number[] = [1, 2, 3, 4, 5, 6, 7];
   $: {
-    pages.forEach((page) => {
-      let splitUrl = page.href!.split("?");
-      let queryString = splitUrl.slice(1).join("?");
-      const hrefParams = new URLSearchParams(queryString);
-      let hrefValue = hrefParams.get("page");
-      if (hrefValue === activeUrl) {
-        page.active = true;
-      } else {
-        page.active = false;
-      }
-    });
-    pages = pages;
+    if (activeUrl) {
+      pages = pages.map((page) => {
+        if (page.name === activeUrl) {
+          return { ...page, active: true };
+        } else {
+          return { ...page, active: false };
+        }
+      });
+    }
   }
 
   const previous = () => {
