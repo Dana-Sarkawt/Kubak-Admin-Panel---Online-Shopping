@@ -1,10 +1,11 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
-  import type { CreateCategoryRequest } from "$lib/Models/Requests/CreateCategory.Request";
+  import type { CreateUpdateCategoryRequest } from "$lib/Models/Requests/CreateUpdateCategory.Request";
   import { categoryStore } from "$lib/Stores/Categories.Store";
   import { Label, Input } from "flowbite-svelte";
 
-  let options: CreateCategoryRequest = {
+  let options: CreateUpdateCategoryRequest = {
+    id: null,
     name: "",
     image: {
       url: "",

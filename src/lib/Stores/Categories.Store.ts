@@ -49,7 +49,10 @@ const createCategoryStore = () => {
         if (category.image.url == "") {
           throw new Error("Category Image is required");
         }
-        category.image.url = await ImageToUrl(category.image.url as File);
+        if (category.image.url instanceof File) {
+          category.image.url = await ImageToUrl(category.image.url as File);
+        }
+
         await categoriesRepository.createCategory(category);
       } catch (e) {
         console.log("Error :", e);
@@ -57,7 +60,9 @@ const createCategoryStore = () => {
     },
     update: async (category: CreateUpdateCategoryRequest) => {
       try {
-        const document = await categoriesRepository.getCategory(category.id);
+        const document = await categoriesRepository.getCategory(
+          category.id as string
+        );
 
         if (document === null) {
           throw new Error(
@@ -69,7 +74,9 @@ const createCategoryStore = () => {
           document.name = category.name;
         }
         if (category.image.url != "") {
-          category.image.url = await ImageToUrl(category.image.url as File);
+          if (category.image.url instanceof File) {
+            category.image.url = await ImageToUrl(category.image.url as File);
+          }
           document.categoryImage = category.image.url;
         }
         if (category.description != "") {
@@ -77,7 +84,6 @@ const createCategoryStore = () => {
         }
 
         await categoriesRepository.updateCategory(document);
-
       } catch (e) {
         console.log("Error :", e);
       }
