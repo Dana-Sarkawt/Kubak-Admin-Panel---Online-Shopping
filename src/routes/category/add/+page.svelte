@@ -32,45 +32,44 @@
 </script>
 
 <div class="container mx-auto h-auto">
-    <a href="/category">
-        <button class="bg-white px-5 py-3 rounded-xl m-3 text-[#f17f18] font-bold"
-        >Back
-        </button
-        >
-    </a>
+  <a href="/category">
+    <button class="bg-white dark:bg-[#212121] px-5 py-3 rounded-xl m-3 text-[#f17f18] font-bold"
+      >Back</button
+    >
+  </a>
 </div>
 
 <div
-        class="container mx-auto max-w-2xl flex justify-center items-center flex-col gap-3 mt-44 py-12 rounded-xl bg-white"
+  class="container mx-auto max-w-2xl flex justify-center items-center flex-col gap-3 mt-44 py-12 rounded-xl bg-white dark:bg-[#212121]"
 >
-    <img
-            src={options.image.localUrl ?? "/images/rice.png"}
-            alt=""
-            class="w-72 h-72 object-cover object-center p-1 rounded-xl flex bg-[#B0AFAF]"
-    />
+  <img
+    src={options.image.localUrl ?? "/images/rice.png"}
+    alt=""
+    class="w-72 h-72 object-cover object-center p-1 rounded-xl flex bg-[#B0AFAF] dark:bg-[#363636] "
+  />
 
-    <input type="file" id="uploadBtn" on:change={handleFileChange}/>
-    <label
-            for="uploadBtn"
-            class="font-bold hover:bg-gray-800 hover:text-white transition-all"
+  <input type="file" id="uploadBtn" on:change={handleFileChange} />
+  <label
+    for="uploadBtn"
+    class="font-bold  hover:bg-gray-800 bg-[#f0f0f0] text-[#f17f18] dark:bg-[#363636] hover:text-white transition-all"
     >Add Image</label
     >
 
-    <div class="mb-6 w-4/5 flex justify-center items-start flex-col">
-        <Label for="large-input" class="block mb-2">Name</Label>
-        <Input
-                id="large-input"
-                size="lg"
-                placeholder="Category Name"
-                class="w-full rounded-xl"
-                bind:value={options.name}
-        />
-    </div>
-    <button
-            class="bg-[#f17f18] font-bold text-white py-3 px-8 rounded-xl"
-            type="submit" on:click={create}>Add Category
-    </button
-    >
+  <div class="mb-6 w-4/5 flex justify-center items-start flex-col">
+    <Label for="large-input" class="block mb-2 ">Name</Label>
+    <Input
+      id="large-input"
+      size="lg"
+      placeholder="Category Name"
+      class="w-full  rounded-xl flex justify-center items-center text-center dark:bg-[#363636] dark:text-white"
+      
+      bind:value={options.name}
+    />
+  </div>
+  <button
+    class="bg-[#f17f18] font-bold text-white py-3 px-8 rounded-xl"
+    type="submit" on:click={create}>Add Category</button
+  >
 </div>
 
 <style>
@@ -78,13 +77,17 @@
         display: none;
     }
 
-    label {
-        display: inline-block;
-        color: #f17f18;
-        background-color: #f5f5f5;
-        text-align: center;
-        padding: 5px;
-        border-radius: 8px;
-        cursor: pointer;
-    }
+  label {
+    display: inline-block;
+    text-align: center;
+    padding: 5px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+ 
+
 </style>
+
+
+
