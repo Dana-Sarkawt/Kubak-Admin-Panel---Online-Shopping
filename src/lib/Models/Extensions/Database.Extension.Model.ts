@@ -1,8 +1,7 @@
 export interface Database {
   $id: string;
-  $createdAt: Date;
-  $updatedAt: Date;
-  $deletedAt: Date | null;
+  $createdAt: Date | string;
+  $updatedAt: Date | string;
   $permissions: [];
   $databaseId: string;
   $collectionId: string;
