@@ -6,12 +6,11 @@ export class Dto {
 			let dto: CategoryDto = {
 				id: categories.$id,
 				name: categories.name,
-				category_image: categories.categoryImage,
-				createdAt: categories.$createdAt,
-				updatedAt: categories.$updatedAt,
-				deletedAt: categories.$deletedAt,
+				categoryImage: categories.categoryImage,
+				createdAt: categories.$createdAt as Date,
+				updatedAt: categories.$updatedAt as Date,
+				deletedAt: categories.deletedAt as Date | null,
 			};
-
 			return dto;
 		} catch (e: any) {
 			throw new Error(e);

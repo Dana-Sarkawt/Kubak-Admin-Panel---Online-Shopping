@@ -1,9 +1,11 @@
 <script lang="ts">
-  import type { CreateCategoryRequest } from "$lib/Models/Requests/CreateCategory.Request";
+  import { goto } from "$app/navigation";
+  import type { CreateUpdateCategoryRequest } from "$lib/Models/Requests/CreateUpdateCategory.Request";
   import { categoryStore } from "$lib/Stores/Categories.Store";
   import { Label, Input } from "flowbite-svelte";
 
-  let options: CreateCategoryRequest = {
+  let options: CreateUpdateCategoryRequest = {
+    id: null,
     name: "",
     image: {
       url: "",
@@ -24,7 +26,7 @@
   async function create(){
     options.userId = "6559e81344d4547079c9";
     await categoryStore.create(options);
-    console.log(options);
+    goto("/category");
     
   }
 </script>

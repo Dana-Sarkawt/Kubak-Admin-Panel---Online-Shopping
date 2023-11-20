@@ -1,4 +1,4 @@
-export interface AppwriteResponse<T> {
+interface AppwriteResponse<T> {
   documents: T[];
   total: number;
 }

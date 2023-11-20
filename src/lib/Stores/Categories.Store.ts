@@ -3,8 +3,7 @@ import type { Store } from "$lib/Models/Response/Store.Response";
 import type { CategoryDto } from "$lib/Models/DTO/Category.DTO.Model";
 import { CategoriesRepository } from "$lib/Repositories/Implementation/Categories.Repository";
 import { Dto } from "$lib/Models/Conversion/Conversion.Model";
-import type { CreateCategoryRequest } from "$lib/Models/Requests/CreateCategory.Request";
-import { StorageRepository } from "../Repositories/Implementation/Storage.repository";
+import type { CreateUpdateCategoryRequest } from "$lib/Models/Requests/CreateUpdateCategory.Request";
 import { ImageToUrl } from "../../utils/ImageToUrl.Utils";
 
 const categoriesRepository = new CategoriesRepository();
@@ -42,7 +41,7 @@ const createCategoryStore = () => {
         console.log("Error:", e);
       }
     },
-    create: async (category: CreateCategoryRequest) => {
+    create: async (category: CreateUpdateCategoryRequest) => {
       try {
         if (category.name == "") {
           throw new Error("Category Name is required");
@@ -50,19 +49,41 @@ const createCategoryStore = () => {
         if (category.image.url == "") {
           throw new Error("Category Image is required");
         }
-        category.image.url = await ImageToUrl(category.image.url as File);
+        if (category.image.url instanceof File) {
+          category.image.url = await ImageToUrl(category.image.url as File);
+        }
+
         await categoriesRepository.createCategory(category);
       } catch (e) {
         console.log("Error :", e);
       }
     },
-    update: async (category: CategoryDto) => {
+    update: async (category: CreateUpdateCategoryRequest) => {
       try {
-        let document = await categoriesRepository.updateCategory(category);
+        const document = await categoriesRepository.getCategory(
+          category.id as string
+        );
 
-        let dto: CategoryDto = Dto.ToCategoriesDto(document);
+        if (document === null) {
+          throw new Error(
+            `Category not found with the following id:${category.id}`
+          );
+        }
 
-        return dto;
+        if (category.name != "") {
+          document.name = category.name;
+        }
+        if (category.image.url != "") {
+          if (category.image.url instanceof File) {
+            category.image.url = await ImageToUrl(category.image.url as File);
+          }
+          document.categoryImage = category.image.url;
+        }
+        if (category.description != "") {
+          document.description = category.description!;
+        }
+
+        await categoriesRepository.updateCategory(document);
       } catch (e) {
         console.log("Error :", e);
       }
@@ -71,13 +92,10 @@ const createCategoryStore = () => {
       try {
         let document = await categoriesRepository.getCategory(id);
 
-        if (document === null) return null;
+        if (document === null)
+          throw new Error(`Category not found with the following id:${id}`);
 
-        document.$deletedAt = new Date();
-
-        let dto: CategoryDto = Dto.ToCategoriesDto(document);
-
-        await categoriesRepository.updateCategory(dto);
+        await categoriesRepository.deleteCategory(id);
 
         return "Deleted";
       } catch (e) {

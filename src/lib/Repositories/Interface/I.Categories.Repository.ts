@@ -1,11 +1,10 @@
-import type { CategoryDto } from "$lib/Models/DTO/Category.DTO.Model";
 import type { Category } from "$lib/Models/Entities/Category.Entity.Model";
-import type { CreateCategoryRequest } from "$lib/Models/Requests/CreateCategory.Request";
-import type { AppwriteResponse } from "$lib/Models/Response/Appwrite.Response.Model";
+import type { CreateUpdateCategoryRequest } from "$lib/Models/Requests/CreateUpdateCategory.Request";
 
 export interface ICategoriesRepository {
     getCategories(): Promise<AppwriteResponse<Category>>;
     getCategory(id: string): Promise<Category>;
-    createCategory(category: CreateCategoryRequest): Promise<void>;
-    updateCategory(category: CategoryDto): Promise<Category>;
+    createCategory(category: CreateUpdateCategoryRequest): Promise<void>;
+    updateCategory(category: Category): Promise<Category>;
+    deleteCategory(id: string): Promise<void>;
 }

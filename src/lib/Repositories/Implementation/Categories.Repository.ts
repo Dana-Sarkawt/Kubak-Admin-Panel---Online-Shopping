@@ -1,20 +1,29 @@
-import type { CategoryDto } from "$lib/Models/DTO/Category.DTO.Model";
 import type { Category } from "$lib/Models/Entities/Category.Entity.Model";
-import type { AppwriteResponse } from "$lib/Models/Response/Appwrite.Response.Model";
 import type { ICategoriesRepository } from "$lib/Repositories/Interface/I.Categories.Repository";
 import { Appwrite } from "$lib/Appwrite/Appwrite";
 import { Enviroment } from "$lib/Env/Enviroment";
 import { ID } from "appwrite";
-import type { CreateCategoryRequest } from "$lib/Models/Requests/CreateCategory.Request";
+import type { CreateUpdateCategoryRequest } from "$lib/Models/Requests/CreateUpdateCategory.Request";
 
 export class CategoriesRepository implements ICategoriesRepository {
   async getCategories(): Promise<AppwriteResponse<Category>> {
-    throw new Error("Method not implemented.");
+    let { documents, total } = (await Appwrite.databases.listDocuments(
+      Enviroment.appwrite_database,
+      Enviroment.appwrite_collection_category
+    )) as AppwriteResponse<Category>;
+
+    return { documents, total };
   }
   async getCategory(id: string): Promise<Category> {
-    throw new Error("Method not implemented.");
+    const document = (await Appwrite.databases.getDocument(
+      Enviroment.appwrite_database,
+      Enviroment.appwrite_collection_category,
+      id
+    )) as Category;
+
+    return document;
   }
-  async createCategory(category: CreateCategoryRequest): Promise<void> {
+  async createCategory(category: CreateUpdateCategoryRequest): Promise<void> {
     await Appwrite.databases.createDocument(
       Enviroment.appwrite_database,
       Enviroment.appwrite_collection_category,
@@ -27,7 +36,16 @@ export class CategoriesRepository implements ICategoriesRepository {
       }
     );
   }
-  async updateCategory(category: CategoryDto): Promise<Category> {
-    throw new Error("Method not implemented.");
+  async updateCategory(category: Category): Promise<Category> {
+   const result = await Appwrite.databases.updateDocument(Enviroment.appwrite_database,
+      Enviroment.appwrite_collection_category,category.$id, category);
+
+    return result as Category;
+  }
+  async deleteCategory(id: string): Promise<void> {
+    await Appwrite.databases.updateDocument(Enviroment.appwrite_database,
+      Enviroment.appwrite_collection_category,id,{
+        deletedAt: Date.now()
+    });
   }
 }

@@ -3,5 +3,6 @@ import type { Datetime } from "$lib/Models/Extensions/Datetime.Extention.Model";
 export interface CategoryDto extends Datetime{
 	id: string;
 	name: string;
-	category_image: string;
+	categoryImage: string;
+	deletedAt: Date | null;
 }
