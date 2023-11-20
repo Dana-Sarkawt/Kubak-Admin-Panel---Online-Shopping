@@ -1,11 +1,11 @@
 <script>
-  import "../app.postcss";
-  import Sidebar from "$lib/Components/Sidebar.Component.svelte";
-  import Navbar from "$lib/Components/Navbar.Component.svelte";
+    import "../app.postcss";
+    import Sidebar from "$lib/Components/Sidebar.Component.svelte";
+    import Navbar from "$lib/Components/Navbar.Component.svelte";
 </script>
 
-<Navbar />
+<Navbar/>
 <div class="w-4/5 h-auto float-right">
-  <slot />
+    <slot/>
 </div>
-<Sidebar />
+<Sidebar/>

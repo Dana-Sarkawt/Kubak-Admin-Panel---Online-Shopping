@@ -1,90 +1,90 @@
 <script lang="ts">
-  import { page } from "$app/stores";
-  import { categoryStore } from "$lib/Stores/Categories.Store";
-  import { Pagination, type LinkType } from "flowbite-svelte";
-  import {
-    ChevronLeftOutline,
-    ChevronRightOutline,
-  } from "flowbite-svelte-icons";
-  import { onMount } from "svelte";
+    import {page} from "$app/stores";
+    import {categoryStore} from "$lib/Stores/Categories.Store";
+    import {Pagination, type LinkType} from "flowbite-svelte";
+    import {
+        ChevronLeftOutline,
+        ChevronRightOutline,
+    } from "flowbite-svelte-icons";
+    import {onMount} from "svelte";
 
-  onMount( async () => {
-    await categoryStore.getAll();
-  });
+    onMount(async () => {
+        await categoryStore.getAll();
+    });
 
 
-  $: activeUrl = $page.url.searchParams.get("page");
-  let pages:LinkType[] = [
-    { name: "1", href: "/category/1", active:true },
-    { name: "2", href: "/category/2", active:false },
-    { name: "3", href: "/category/3", active:false },
-    { name: "4", href: "/category/4", active:false },
-    { name: "5", href: "/category/5", active:false },
-  ];
+    $: activeUrl = $page.url.searchParams.get("page");
+    let pages: LinkType[] = [
+        {name: "1", href: "/category/1", active: true},
+        {name: "2", href: "/category/2", active: false},
+        {name: "3", href: "/category/3", active: false},
+        {name: "4", href: "/category/4", active: false},
+        {name: "5", href: "/category/5", active: false},
+    ];
 
-  let ArrayNumber: number[] = [1, 2, 3, 4, 5, 6, 7];
-  $: {
-    if (activeUrl) {
-      pages = pages.map((page) => {
-        if (page.name === activeUrl) {
-          return { ...page, active: true };
-        } else {
-          return { ...page, active: false };
+    let ArrayNumber: number[] = [1, 2, 3, 4, 5, 6, 7];
+    $: {
+        if (activeUrl) {
+            pages = pages.map((page) => {
+                if (page.name === activeUrl) {
+                    return {...page, active: true};
+                } else {
+                    return {...page, active: false};
+                }
+            });
         }
-      });
     }
-  }
 
-  const previous = () => {
-    alert("Previous btn clicked. Make a call to your server to fetch data.");
-  };
-  const next = () => {
-    alert("Next btn clicked. Make a call to your server to fetch data.");
-  };
+    const previous = () => {
+        alert("Previous btn clicked. Make a call to your server to fetch data.");
+    };
+    const next = () => {
+        alert("Next btn clicked. Make a call to your server to fetch data.");
+    };
 </script>
 
 
 <div
-class="container mx-auto grid grid-cols-4 h-auto  flex-wrap justify-center  my-12 items-center px-12  gap-3"
+        class="container mx-auto grid grid-cols-4 h-auto  flex-wrap justify-center  my-12 items-center px-12  gap-3"
 >
 
 
-<a href="/category/add">
+    <a href="/category/add">
 
-  <div
-  class=" md:w-28 md:h-36  lg:w-44 lg:h-60 2xl:w-64 2xl:h-96 bg-[#f17f18] dark:bg-[#212121] px-5 flex justify-around items-center flex-col rounded-xl"
-  >
-  <p class="w-full flex justify-center items-center text-6xl text-white">+</p>
-  
-  </div>
-</a>
-  {#each ArrayNumber as array}
-    <div
-      class="md:w-28 md:h-36  lg:w-44 lg:h-60 2xl:w-64 2xl:h-96 bg-white px-5 flex justify-around items-center flex-col rounded-xl mb-5"
-    >
-      <img src="/images/rice.png" alt="" />
-      <p class="text-2xl">Rice</p>
-    </div>
-  {/each}
+        <div
+                class=" md:w-28 md:h-36  lg:w-44 lg:h-60 2xl:w-64 2xl:h-96 bg-[#f17f18] dark:bg-[#212121] px-5 flex justify-around items-center flex-col rounded-xl"
+        >
+            <p class="w-full flex justify-center items-center text-6xl text-white">+</p>
+
+        </div>
+    </a>
+    {#each ArrayNumber as array}
+        <div
+                class="md:w-28 md:h-36  lg:w-44 lg:h-60 2xl:w-64 2xl:h-96 bg-white px-5 flex justify-around items-center flex-col rounded-xl mb-5"
+        >
+            <img src="/images/rice.png" alt=""/>
+            <p class="text-2xl">Rice</p>
+        </div>
+    {/each}
 </div>
 
 <div class="w-full flex justify-center items-center mt-3">
-  <Pagination
-    {pages}
-    on:previous={previous}
-    on:next={next}
-    class="shadow-lg rounded-lg"
-    activeClass="bg-gradient-to-b from-[#f17f17] to-[#ffab65] text-white"
-    normalClass="text-[#f17f18]"
-    icon
-  >
-    <svelte:fragment slot="prev">
-      <span class="sr-only">Previous</span>
-      <ChevronLeftOutline class="w-2.5 h-2.5 text-[#f17f18]" />
-    </svelte:fragment>
-    <svelte:fragment slot="next">
-      <span class="sr-only">Next</span>
-      <ChevronRightOutline class="w-2.5 h-2.5 text-[#f17f18]" />
-    </svelte:fragment>
-  </Pagination>
+    <Pagination
+            {pages}
+            on:previous={previous}
+            on:next={next}
+            class="shadow-lg rounded-lg"
+            activeClass="bg-gradient-to-b from-[#f17f17] to-[#ffab65] text-white"
+            normalClass="text-[#f17f18]"
+            icon
+    >
+        <svelte:fragment slot="prev">
+            <span class="sr-only">Previous</span>
+            <ChevronLeftOutline class="w-2.5 h-2.5 text-[#f17f18]"/>
+        </svelte:fragment>
+        <svelte:fragment slot="next">
+            <span class="sr-only">Next</span>
+            <ChevronRightOutline class="w-2.5 h-2.5 text-[#f17f18]"/>
+        </svelte:fragment>
+    </Pagination>
 </div>

@@ -3,9 +3,9 @@ export interface CreateUpdateCategoryRequest {
     name: string;
     description?: string;
     image: {
-    url: string | File,
-    localUrl?: string | null
+        url: string | File,
+        localUrl?: string | null
     };
     userId: string;
     deletedAt?: Date | null;
-  }
+}
