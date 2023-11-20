@@ -1,7 +1,7 @@
-<div class="w-full h-auto flex justify-center items-center flex-col gap-3">
+<div class="w-full container mx-auto h-auto flex justify-center items-center flex-col gap-3">
     
   <a href="/cards/add" class="w-full flex justify-center items-centere mt-5">
-    <button class="w-11/12 h-12  bg-[#f17f18] p-3 rounded-xl text-white text-2xl  flex justify-center items-center">+</button>
+    <button class="w-11/12 h-12  bg-[#f17f18] dark:bg-[#212121] p-3 rounded-xl text-white text-2xl  flex justify-center items-center">+</button>
   </a>
 
 <img src="images/wallpaper.jpg" alt="" class="w-11/12 h-[300px] bg-slate-700 rounded-xl object-center object-cover border-black">

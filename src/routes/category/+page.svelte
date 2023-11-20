@@ -60,7 +60,7 @@ class="container mx-auto grid grid-cols-4 h-auto  flex-wrap justify-center  my-1
 </a>
   {#each ArrayNumber as array}
     <div
-      class="md:w-28 md:h-36  lg:w-44 lg:h-60 2xl:w-64 2xl:h-96 bg-white px-5 flex justify-around items-center flex-col rounded-xl mb-5"
+      class="md:w-28 md:h-36  lg:w-44 lg:h-60 2xl:w-64 2xl:h-96 bg-white dark:bg-[#212121] dark:text-white px-5 flex justify-around items-center flex-col rounded-xl mb-5"
     >
       <img src="/images/rice.png" alt="" />
       <p class="text-2xl">Rice</p>
@@ -75,16 +75,16 @@ class="container mx-auto grid grid-cols-4 h-auto  flex-wrap justify-center  my-1
     on:next={next}
     class="shadow-lg rounded-lg"
     activeClass="bg-gradient-to-b from-[#f17f17] to-[#ffab65] text-white"
-    normalClass="text-[#f17f18]"
+    normalClass="text-[#f17f18] dark:text-white"
     icon
   >
     <svelte:fragment slot="prev">
       <span class="sr-only">Previous</span>
-      <ChevronLeftOutline class="w-2.5 h-2.5 text-[#f17f18]" />
+      <ChevronLeftOutline class="w-2.5 h-2.5 text-[#f17f18] dark:text-white" />
     </svelte:fragment>
     <svelte:fragment slot="next">
       <span class="sr-only">Next</span>
-      <ChevronRightOutline class="w-2.5 h-2.5 text-[#f17f18]" />
+      <ChevronRightOutline class="w-2.5 h-2.5 text-[#f17f18] dark:text-white" />
     </svelte:fragment>
   </Pagination>
 </div>

@@ -56,21 +56,21 @@
   >
     <div class="mb-6">
       <Label for="large-input" class="block mb-2">Search</Label>
-      <Input id="large-input" placeholder="Search for Items" />
+      <Input id="large-input" placeholder="Search for Items" class="dark:bg-[#212121]"/>
     </div>
   
     <div class="mb-6">
       <Label for="large-input" class="block mb-2">From</Label>
-      <Input id="large-input" type="date" />
+      <Input id="large-input" type="date" class="dark:bg-[#212121]"/>
     </div>
   
     <div class="mb-6">
       <Label for="large-input" class="block mb-2">To</Label>
-      <Input id="large-input" type="date" />
+      <Input id="large-input" type="date" class="dark:bg-[#212121]"/>
     </div>
     <a href="#">
       <button
-        class="bg-white text-xs lg:text-lg h-12 p-3 rounded-xl text-center flex justify-center items-center"
+        class="bg-white dark:bg-[#212121] dark:text-white text-xs lg:text-lg h-12 p-3 rounded-xl text-center flex justify-center items-center  dark:hover:bg-[#f17f18] duration-300 ease-in-out"
         >Reset Date</button
       >
     </a>
@@ -79,7 +79,7 @@
       <img
         src="/images/search.png"
         alt=""
-        class="w-12 bg-[#f17f18] p-3 rounded-xl"
+        class="w-12 bg-[#f17f18] p-3 rounded-xl dark:bg-[#212121] hover:bg-[#212121] dark:hover:bg-[#f17f18] duration-300 ease-in-out"
       />
     </a>
   
@@ -87,7 +87,7 @@
   
   <div class="container mx-auto px-12 mt-12">
     <Table shadow>
-      <TableHead class="bg-[#2D2D2D] text-white text-center">
+      <TableHead class="bg-[#2D2D2D] text-white text-center dark:bg-[#212121]">
         <TableHeadCell>Image</TableHeadCell>
         <TableHeadCell>Name</TableHeadCell>
         <TableHeadCell>Time</TableHeadCell>
@@ -96,7 +96,7 @@
         <TableHeadCell>Total</TableHeadCell>
       </TableHead>
       <TableBody class="divide-y">
-        <TableBodyRow class="text-center">
+        <TableBodyRow class="text-center dark:bg-[#272727]">
           <TableBodyCell class="flex justify-center">
             <img src="/images/rice.png" alt="" class="w-14" />
           </TableBodyCell>
@@ -108,7 +108,7 @@
           <TableBodyCell>25000 IQD</TableBodyCell>
         </TableBodyRow>
   
-        <TableBodyRow class="text-center">
+        <TableBodyRow class="text-center dark:bg-[#272727]">
           <TableBodyCell class="flex justify-center">
             <img src="/images/rice.png" alt="" class="w-14" />
           </TableBodyCell>
@@ -120,7 +120,7 @@
           <TableBodyCell>25000 IQD</TableBodyCell>
         </TableBodyRow>
   
-        <TableBodyRow class="text-center">
+        <TableBodyRow class="text-center dark:bg-[#272727]">
           <TableBodyCell class="flex justify-center">
             <img src="/images/rice.png" alt="" class="w-14" />
           </TableBodyCell>
@@ -140,7 +140,7 @@
     <Pagination {pages} on:previous={previous} on:next={next} icon
     class="shadow-lg rounded-lg"
       activeClass="bg-gradient-to-b from-[#f17f17] to-[#ffab65] text-white"
-      normalClass="text-[#f17f18]"
+      normalClass="text-[#f17f18] dark:text-white"
     >
       <svelte:fragment slot="prev">
         <span class="sr-only">Previous</span>
