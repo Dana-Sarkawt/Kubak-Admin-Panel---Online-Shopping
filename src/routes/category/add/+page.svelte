@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { goto } from "$app/navigation";
   import type { CreateCategoryRequest } from "$lib/Models/Requests/CreateCategory.Request";
   import { categoryStore } from "$lib/Stores/Categories.Store";
   import { Label, Input } from "flowbite-svelte";
@@ -24,7 +25,7 @@
   async function create(){
     options.userId = "6559e81344d4547079c9";
     await categoryStore.create(options);
-    console.log(options);
+    goto("/category");
     
   }
 </script>
