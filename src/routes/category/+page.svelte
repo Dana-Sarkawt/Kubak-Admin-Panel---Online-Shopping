@@ -52,7 +52,7 @@
     <a href="/category/add">
 
   <div
-  class=" md:w-28 md:h-36  lg:w-44 lg:h-60 2xl:w-64 2xl:h-96 bg-[#f17f18] dark:bg-[#212121] px-5 flex justify-around items-center flex-col rounded-xl"
+  class=" md:w-28 md:h-36  lg:w-44 lg:h-60 2xl:w-64 2xl:h-96 bg-[#f17f18] dark:bg-[#212121] px-5 flex justify-around items-center flex-col rounded-xl hover:bg-[#212121] dark:hover:bg-[#f17f18] ease-in-out duration-300"
   >
   <p class="w-full flex justify-center items-center text-6xl text-white">+</p>
   

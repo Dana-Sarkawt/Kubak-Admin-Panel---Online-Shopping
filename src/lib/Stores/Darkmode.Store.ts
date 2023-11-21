@@ -9,7 +9,7 @@ export function checkDarkMode() {
     const htmlTag = document.documentElement;
     const classList = htmlTag.classList;
     
-    if (classList.contains('dark')) {
+    if (classList.contains("dark")) {
         darkMode.set("dark");
         console.log("Dark mode is on");
         
