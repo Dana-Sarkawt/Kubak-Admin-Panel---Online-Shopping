@@ -38,7 +38,7 @@
         darkMode == "dark" ? "_dark" : ""
       }/{z}/{x}/{y}{r}.png`,
       {
-        maxZoom: 25,
+        maxZoom: 20,
         attribution:
           '© <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> © <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       }

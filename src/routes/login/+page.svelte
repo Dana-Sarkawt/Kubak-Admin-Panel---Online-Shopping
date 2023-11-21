@@ -16,13 +16,13 @@
 </script>
 
 <div
-	class="flex flex-col w-full bg-[#333333] h-screen justify-center items-center"
+	class="flex flex-col  w-full bg-[#e4e4e4] h-screen justify-center items-center"
 	id="particles-js"
 >
 	<div
-		class="absolute w-5/6 md:w-3/6 lg:w-4/12 gap-3 h-[520px] shadow-2xl py-10 px-5 rounded-xl flex flex-col justify-center items-center bg-gradient-to-r from-[#00000018] to-[#212121b2] backdrop-blur-md"
+		class="container mx-auto absolute  md:w-4/6 lg:w-6/12 2xl:w-2/12  gap-3 h-[520px] shadow-2xl py-10 px-5 rounded-xl flex flex-col justify-center items-center bg-gradient-to-r from-[#ffffff81] to-[#bbbbbb60] backdrop-blur-md"
 	>
-		<Avatar src="/Images/kubak.jpg" class="w-[180px] h-[180px] mb-11" />
+		<Avatar src="/images/kubak.jpg" class="w-[180px] h-[180px] mb-11" />
 		<div class="  flex justify-center items-center">
 			<!-- svelte-ignore missing-declaration -->
 		</div>
@@ -33,7 +33,7 @@
 			<div
 				class="w-[60px] md:w-[90px] flex justify-center items-center gap-2 bg-white rounded-md h-[50px] md:h-[55px]"
 			>
-				<img src="/Images/iraq.png" alt="" class="w-4 md:w-8" />
+				<img src="/images/iraq.png" alt="" class="w-4 md:w-8" />
 			</div>
 			<input
 				type="tel"
