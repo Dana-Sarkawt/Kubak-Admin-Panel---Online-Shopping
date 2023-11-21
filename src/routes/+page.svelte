@@ -54,7 +54,7 @@
     <div
       class="w-[30%] h-[300px] 2xl:h-[500px] flex flex-col justify-center items-center bg-white dark:bg-[#212121] dark:text-white rounded-2xl gap-2"
     >
-      <p class="text-lg lg:text-2xl 2xl:text-5xl">Lowest Order</p>
+      <p class="text-lg lg:text-2xl 2xl:text-5xl">Most Order</p>
 
             <!--  START FIRST MOST ORDER CARD  -->
 

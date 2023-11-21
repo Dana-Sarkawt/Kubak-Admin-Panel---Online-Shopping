@@ -23,7 +23,7 @@
   id="particles-js"
 >
   <div
-    class="container mx-auto absolute md:w-4/6 lg:w-6/12 2xl:w-2/12 gap-3 h-[520px] shadow-2xl py-10 px-5 rounded-xl flex flex-col justify-center items-center bg-gradient-to-r from-[#ffffff81] to-[#bbbbbb60] backdrop-blur-md"
+    class="container mx-auto absolute max-w-lg gap-3 h-[520px] shadow-2xl py-10 px-5 rounded-xl flex flex-col justify-center items-center bg-gradient-to-r from-[#ffffff81] to-[#bbbbbb60] backdrop-blur-md"
   >
     <Avatar src="/images/kubak.jpg" class="w-[180px] h-[180px] mb-11" />
     <div class="  flex justify-center items-center">
