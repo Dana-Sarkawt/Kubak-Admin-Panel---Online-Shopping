@@ -5,19 +5,15 @@
   let map: any;
   let tileLayer: any;
 
-  $: {
-    if ($darkMode || $darkMode == "")
-      console.log("In The Subscribe", $darkMode);
-
-    if (map) {
-      map.removeLayer(tileLayer);
-      tileLayer = createTileLayer($darkMode);
-      tileLayer.addTo(map);
-    }
-  }
-
   onMount(async () => {
     await loadMap();
+    darkMode.subscribe((value) => {
+      if (map) {
+        map.removeLayer(tileLayer);
+        tileLayer = createTileLayer(value);
+        tileLayer.addTo(map);
+      }
+    });
   });
 
   async function loadMap() {
@@ -38,7 +34,7 @@
         darkMode == "dark" ? "_dark" : ""
       }/{z}/{x}/{y}{r}.png`,
       {
-        maxZoom: 20,
+        maxZoom: 25,
         attribution:
           '© <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> © <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       }

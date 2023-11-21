@@ -29,7 +29,7 @@
 		<br
 			class=" flex justify-center items-center w-full md:w-4/5 max-w-2xl my-11 rounded-lg px-3 py-5"
 		/>
-		<div class="flex justify-center items-center w-full h-12 rounded-md gap-px">
+		<div class="flex justify-center items-center w-full h-12 rounded-md gap-2">
 			<div
 				class="w-[60px] md:w-[90px] flex justify-center items-center gap-2 bg-white rounded-md h-[50px] md:h-[55px]"
 			>
@@ -106,20 +106,8 @@
 		color: #fff;
 		padding: 15px 25px;
 		background-color: #f17f18;
-		background-image: radial-gradient(
-				93% 87% at 87% 89%,
-				rgba(0, 0, 0, 0.23) 0%,
-				transparent 86.18%
-			),
-			radial-gradient(
-				66% 66% at 26% 20%,
-				rgba(255, 255, 255, 0.55) 0%,
-				rgba(255, 255, 255, 0) 69.79%,
-				rgba(255, 255, 255, 0) 100%
-			);
-		box-shadow: inset -3px -3px 9px rgba(198, 147, 9, 0.25), inset 0px 3px 9px rgb(216, 138, 4),
-			inset 0px 1px 1px rgba(255, 255, 255, 0.6), inset 0px -8px 36px rgba(0, 0, 0, 0.3),
-			inset 0px 1px 5px rgba(255, 255, 255, 0.6), 2px 19px 31px rgba(0, 0, 0, 0.2);
+		background-image: #f17f18;
+		
 		border-radius: 14px;
 		font-weight: bold;
 
@@ -135,9 +123,7 @@
 
 	button:hover {
 		background-color: #fff;
-		box-shadow: inset -3px -3px 9px rgba(198, 147, 9, 0.25), inset 0px 3px 9px rgb(255, 255, 255),
-			inset 0px 1px 1px rgba(255, 255, 255, 0.6), inset 0px -8px 36px rgba(0, 0, 0, 0.3),
-			inset 0px 1px 5px rgba(255, 255, 255, 0.6), 2px 19px 31px rgba(0, 0, 0, 0.2);
+		
 		color: #f17f18;
 		transition: 0.3s ease-out;
 		box-shadow: 0 0 12px #000000;
