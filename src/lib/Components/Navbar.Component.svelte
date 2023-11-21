@@ -1,10 +1,9 @@
 <script lang="ts">
-  import { checkDarkMode } from "$lib/Stores/Darkmode.Store";
+  import { darkMode } from "$lib/Stores/Darkmode.Store";
   import { DarkMode } from "flowbite-svelte";
   import { SunSolid, MoonSolid } from "flowbite-svelte-icons";
   let btnClass =
     "text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-xl p-2";
-
 </script>
 
 <div
@@ -20,10 +19,18 @@
   </div>
   <DarkMode class="text-lg mr-5">
     <svelte:fragment slot="lightIcon">
-      <SunSolid on:click={checkDarkMode}/>
+      <SunSolid
+        on:click={() => {
+          darkMode.set("");
+        }}
+      />
     </svelte:fragment>
     <svelte:fragment slot="darkIcon">
-      <MoonSolid on:click={checkDarkMode}/>
+      <MoonSolid
+        on:click={() => {
+          darkMode.set("dark");
+        }}
+      />
     </svelte:fragment>
   </DarkMode>
 </div>
