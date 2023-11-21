@@ -1,67 +1,49 @@
 <script lang="ts">
-     import { darkMode } from "$lib/Stores/Darkmode.Store";
-  import { onMount, onDestroy } from "svelte";
-
+  import { darkMode } from "$lib/Stores/Darkmode.Store";
+  import { onMount } from "svelte";
+  let L: any;
   let map: any;
+  let tileLayer: any;
 
-  onMount(() => {
-    // Check if dark mode preference is stored in localStorage
-    const storedDarkMode = localStorage.getItem("darkMode");
-
-    // Set the darkMode store value based on localStorage or system preference
-    darkMode.set(
-      storedDarkMode ||
-        (window.matchMedia("(prefers-color-scheme: dark)").matches
-          ? "dark"
-          : "light")
-    );
-
-    // Load the map initially
-    loadMap();
-
-    const link = document.createElement("link");
-    link.rel = "stylesheet";
-    link.href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
-    link.onload = () => loadMap();
-
-    document.head.appendChild(link);
-
-    // Watch changes in darkMode store and update the map accordingly
-    const unsubscribe = darkMode.subscribe((value) => {
-      loadMap();
-    });
-
-    // Watch changes in system color scheme and update the darkMode store
-    const colorSchemeMediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-    const updateDarkMode = () => darkMode.set(colorSchemeMediaQuery.matches ? "dark" : "light");
-    colorSchemeMediaQuery.addEventListener("change", updateDarkMode);
-
-    return () => {
-      map.remove();
-      link.parentNode!.removeChild(link);
-      unsubscribe();
-      colorSchemeMediaQuery.removeEventListener("change", updateDarkMode);
-    };
+  onMount(async () => {
+    
+    await loadMap();
   });
 
-  function loadMap() {
-    if (map) {
-      map.remove();
-    }
-
-    import("leaflet").then((L) => {
-      map = L.map("map").setView([35.5558, 45.4351], 13);
-
-      L.tileLayer(
-        `https://tiles.stadiamaps.com/tiles/alidade_smooth${
-           $darkMode == "dark" ? "" : "_dark"
-        }/{z}/{x}/{y}{r}.png`,
-        {
-          attribution:
-            '&copy; <a href="&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  $: {
+      darkMode.subscribe((value) => {
+        if (map) {
+          map.removeLayer(tileLayer);
+          console.log(value)
+          tileLayer = createTileLayer(value);
+          tileLayer.addTo(map);
         }
-      ).addTo(map);
-    });
+      }); 
+  }
+
+  async function loadMap() {
+    // @ts-ignore
+    L = await import("leaflet");
+
+    map = L.map("map", {
+      fullscreenControl: true,
+    }).setView([35.5558, 45.4351], 13);
+
+    tileLayer = createTileLayer($darkMode);
+    tileLayer.addTo(map);
+  }
+
+  function createTileLayer(darkMode: string) {
+    return L.tileLayer(
+      `https://tiles.stadiamaps.com/tiles/alidade_smooth${
+        darkMode == "dark" ? "_dark" : ""
+      }/{z}/{x}/{y}{r}.png`,
+      {
+        maxZoom: 25,
+        attribution:
+          '© <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> © <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      }
+    );
   }
 </script>
 
@@ -85,7 +67,9 @@
   </div>
 </div>
 
-<div id="map" class="w-full h-[93.2vh]" />
+{#if typeof window !== "undefined"}
+  <div id="map" class="w-full h-[93.2vh]" />
+{/if}
 
 <style>
   #request-box {
