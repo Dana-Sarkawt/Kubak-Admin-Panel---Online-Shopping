@@ -5,21 +5,20 @@
   let map: any;
   let tileLayer: any;
 
+  $: {
+    if ($darkMode || $darkMode == "")
+      console.log("In The Subscribe", $darkMode);
+
+    if (map) {
+      map.removeLayer(tileLayer);
+      tileLayer = createTileLayer($darkMode);
+      tileLayer.addTo(map);
+    }
+  }
+
   onMount(async () => {
-    
     await loadMap();
   });
-
-  $: {
-      darkMode.subscribe((value) => {
-        if (map) {
-          map.removeLayer(tileLayer);
-          console.log(value)
-          tileLayer = createTileLayer(value);
-          tileLayer.addTo(map);
-        }
-      }); 
-  }
 
   async function loadMap() {
     // @ts-ignore
