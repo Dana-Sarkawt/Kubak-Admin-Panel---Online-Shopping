@@ -1,21 +1,36 @@
-<script>
+<script lang="ts">
   //@ts-ignore
   import SvelteOtp from "@k4ung/svelte-otp";
   import { onMount } from "svelte";
   import { Avatar } from "flowbite-svelte";
   import { Button, Modal } from "flowbite-svelte";
-  let defaultModal = false;
-  
+  import { phone as PhoneVerify } from "phone";
+  import { authStore } from "$lib/Stores/Auth.Store";
+  let userId:string;
+  let defaultModal:boolean = false;
+  let errorMassege:string;
   onMount(async () => {
     particlesJS.load("particles-js", "/assets/particles.json");
   });
-  let value = '';
+  let secret = "";
   let userInput = "";
 
   $: buttonActive = userInput && userInput.length >= 11;
-  $: otpActive = value && value.length >= 6;
- 
- 
+  $: otpActive = secret && secret.length >= 6;
+
+  async function signIn(phone: string) {
+    const verifyPhone = PhoneVerify(phone,{country:"IQ"});
+    if(!verifyPhone.isValid){
+      errorMassege = "Error phone number is not valid phone number";
+      return;
+    }
+    userId = await authStore.signIn(verifyPhone.phoneNumber as string) as string;
+    defaultModal = true;
+  }
+
+  async function otpVerify(id:string, secret:string){
+    await authStore.secret(id,secret);
+  }
 </script>
 
 <div
@@ -52,9 +67,11 @@
     <button
       type="submit"
       disabled={!buttonActive}
-      on:click={() => (defaultModal = true)}
       id="submit-btn"
-      class="w-full">Send</button
+      class="w-full"
+      on:click={() => {
+        signIn(userInput);
+      }}>Send</button
     >
   </div>
 </div>
@@ -74,19 +91,19 @@
       inputStyle="width:35px; height:35px; border:2px solid #f17f18; color:#000;"
       wrapperClass="flex justify-center"
       numberOfInputs={6}
-	  bind:value={value}
+      bind:value={secret}
     />
   </div>
 
   <svelte:fragment slot="footer">
     <div class="w-full flex justify-center">
-		
       <button
         type="submit"
         id="submit-btn"
         class=" w-4/6 flex justify-center items-center text-center"
-	    disabled={!otpActive}
-        >Verify</button
+        disabled={!otpActive} on:click={()=>{
+          otpVerify(userId,secret)
+        }}>Verify</button
       >
     </div>
   </svelte:fragment>
@@ -146,24 +163,10 @@
     cursor: pointer;
   }
 
-
-  #submit-btn:disabled{
-	color: #fff;
+  #submit-btn:disabled {
+    color: #fff;
     background-color: #636363;
     background-image: #636363;
     cursor: pointer;
   }
-  
-
-
-
-
-
-
-
-
-
-
-
-  
 </style>

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { authStore } from '$lib/Stores/Auth.Store';
   import { darkMode } from "$lib/Stores/Darkmode.Store";
   import { DarkMode } from "flowbite-svelte";
   import { SunSolid, MoonSolid } from "flowbite-svelte-icons";
@@ -10,9 +11,9 @@
   class="w-4/5 h-20 bg-white dark:bg-[#252525] flex flex-row float-right justify-end items-center"
 >
   <div class="w-3/4 flex justify-center items-center gap-3 mr-12">
-    <p class="font-bold dark:text-white">Dana Sarkawt</p>
+    <p class="font-bold dark:text-white">{$authStore.name}</p>
     <img
-      src="/images/user.jpg"
+      src={$authStore.imgUrl ?? "/images/user.jpg"}
       alt=""
       class="w-16 h-16 rounded-full bg-cover bg-no-repeat bg-center"
     />

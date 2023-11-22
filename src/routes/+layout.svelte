@@ -5,12 +5,18 @@
   import { page } from "$app/stores";
   import { darkMode } from "$lib/Stores/Darkmode.Store";
   import { onMount } from "svelte";
+  import { authStore } from "$lib/Stores/Auth.Store";
   $: pathUrl = $page.url.pathname;
 
-  onMount(() => {
+  onMount(async () => {
     darkMode.subscribe(() => {
       checkDarkMode();
     });
+
+    await authStore.get();
+
+    console.log($authStore);
+    
   });
 
   async function checkDarkMode() {
