@@ -4,5 +4,4 @@ export interface CategoryDto extends Datetime {
     id: string;
     name: string;
     categoryImage: string;
-    deletedAt: Date | null;
 }

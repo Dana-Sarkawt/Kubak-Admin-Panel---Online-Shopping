@@ -1,14 +1,14 @@
 import {Client, Account, Databases, Storage} from 'appwrite';
-import {Enviroment} from '$lib/Env/Enviroment';
+import {Environment} from '$lib/Env/Environment';
 
 export namespace Appwrite {
     const client = new Client();
 
     client
-        .setEndpoint(Enviroment.appwrite_endpoint)
-        .setProject(Enviroment.appwrite_project); // Replace with your project ID
+        .setEndpoint(Environment.appwrite_endpoint)
+        .setProject(Environment.appwrite_project); // Replace with your project ID
 
-    console.log(Enviroment.appwrite_endpoint, Enviroment.appwrite_project);
+    console.log(Environment.appwrite_endpoint, Environment.appwrite_project);
 
 
     export const account = new Account(client);

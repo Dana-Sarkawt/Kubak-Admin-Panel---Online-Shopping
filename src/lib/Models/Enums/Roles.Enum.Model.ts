@@ -1,7 +1,7 @@
 export enum Roles {
-  SuperAdmin,
-  Admin,
-  Client,
-  Support,
-  Employee,
+    SuperAdmin,
+    Admin,
+    Client,
+    Support,
+    Employee,
 }
