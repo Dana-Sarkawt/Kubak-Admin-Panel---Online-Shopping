@@ -6,6 +6,7 @@
     import {darkMode} from "$lib/Stores/Darkmode.Store";
     import {onMount} from "svelte";
     import {authStore} from "$lib/Stores/Auth.Store";
+  import { goto } from "$app/navigation";
 
     $: pathUrl = $page.url.pathname;
 
@@ -16,8 +17,9 @@
 
         await authStore.get();
 
-        console.log($authStore);
-
+        if ($authStore && $page.url.pathname === "/login") {
+            goto("/dashboard"); 
+        }
     });
 
     async function checkDarkMode() {

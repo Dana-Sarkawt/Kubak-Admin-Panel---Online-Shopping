@@ -8,9 +8,6 @@ export namespace Appwrite {
         .setEndpoint(Environment.appwrite_endpoint)
         .setProject(Environment.appwrite_project); // Replace with your project ID
 
-    console.log(Environment.appwrite_endpoint, Environment.appwrite_project);
-
-
     export const account = new Account(client);
     export const databases = new Databases(client);
     export const storage = new Storage(client);

@@ -1,3 +1,4 @@
+import { goto } from "$app/navigation";
 import {Dto} from "$lib/Models/Conversion/Conversion.Model";
 import type {AuthDto} from "$lib/Models/DTO/Auth.DTO.Model";
 import {AuthRepository} from "$lib/Repositories/Implementation/Auth.Repository";
@@ -14,11 +15,17 @@ const createAuthStore = () => {
             try {
                 const user = await authRepository.getAuth();
 
+                if (!user) {
+                    throw new Error("No User Was Found");
+                }
                 const userDto: AuthDto = Dto.ToAuthDto(user);
 
                 set(userDto);
             } catch (error) {
-                console.log("Error", error);
+                console.log(error);
+                set(null);
+                goto("/login");
+                return null;
             }
         },
 
