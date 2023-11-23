@@ -1,11 +1,15 @@
 import { writable } from "svelte/store";
 import { ItemsRepository } from "../Repositories/Implementation/Items.Repository";
+import { CategoriesRepository } from "$lib/Repositories/Implementation/Categories.Repository";
 import type { Store } from "$lib/Models/Response/Store.Response";
 import type { ItemDto } from "$lib/Models/DTO/Item.DTO.Model";
 import { Dto } from "$lib/Models/Conversion/Conversion.Model";
 import type { CreateItemRequest } from "$lib/Models/Requests/CreateItem.Request";
 import { ImageToUrl } from "../../utils/ImageToUrl.Utils";
+import type { Category } from "$lib/Models/Entities/Category.Entity.Model";
+
 const itemsRepository = new ItemsRepository();
+const categoryRepository = new CategoriesRepository();
 
 const createItemStore = () => {
   const { subscribe, set, update } = writable<Store<ItemDto>>({
@@ -57,13 +61,16 @@ const createItemStore = () => {
                 "Item Production Date Must Be Lesser Than The Expiration Date"
               );
             }
-            if (item.category!.length == 0) {
+            if (!item.category) {
               throw new Error("Please Add A Category To The Item");
             }
             if (item.image.url instanceof File) {
               item.image.url = await ImageToUrl(item.image.url as File);
             }
 
+            item.category = await categoryRepository.getCategory(item.category as string);
+
+            console.log(item.category);
             await itemsRepository.createItem(item);
         }catch(error:any){
             console.log(error);
