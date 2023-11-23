@@ -35,6 +35,7 @@ const createCategoryStore = () => {
                     return Dto.ToCategoriesDto(document);
                 });
                 set({data: dto, total: total});
+                return dto;
             } catch (e) {
                 console.log("Error:", e);
             }
