@@ -1,6 +1,7 @@
-<script>
-    // @ts-nocheck
+<script lang="ts">
+
     import {page} from "$app/stores";
+  import { authStore } from "$lib/Stores/Auth.Store";
     import {
         Sidebar,
         SidebarGroup,
@@ -15,8 +16,17 @@
         AddressCardSolid,
         NewspaperSolid,
         DesktopPcSolid,
+        ArrowRightSolid,
+        ArrowRightFromBracketSolid,
 
     } from "flowbite-svelte-icons";
+
+
+
+function SignOut(){
+    authStore.signOut();
+    console.log("signout");
+}
 
     $: activeUrl = $page.url.pathname;
     let activeClass =
@@ -33,77 +43,107 @@
                     <img src="/images/kubak.jpg" alt="" width="50px" height="50px"/>
                 </div>
 
-                <SidebarItem
-                        label="Dashboard"
-                        href="/"
-                        spanClass="md:text-lg lg:text-xl ml-2"
-                >
-                    <svelte:fragment slot="icon">
-                        <ChartPieSolid class="w-5 h-5 text-white transition duration-75"/>
-                    </svelte:fragment>
-                </SidebarItem>
 
-                <SidebarItem
-                        label="Monitoring"
-                        href="/monitoring"
-                        spanClass="-lg lg:text-xl ml-2"
-                >
-                    <svelte:fragment slot="icon">
-                        <DesktopPcSolid class="w-5 h-5 text-white transition duration-75"/>
-                    </svelte:fragment>
-                </SidebarItem>
+                <div class="w-full h-[90vh] flex justify-between flex-col">
+<div class="w-full flex flex-col">
 
-                <SidebarItem
-                        label="Categories"
-                        href="/category"
-                        spanClass="-lg lg:text-xl ml-2"
-                >
-                    <svelte:fragment slot="icon">
-                        <GridSolid class="w-5 h-5 text-white transition duration-75"/>
-                    </svelte:fragment>
-                </SidebarItem>
+    <SidebarItem
+            label="Dashboard"
+            href="/"
+            spanClass="md:text-lg lg:text-xl ml-2"
+    >
+        <svelte:fragment slot="icon">
+            <ChartPieSolid class="w-5 h-5 text-white transition duration-75"/>
+        </svelte:fragment>
+    </SidebarItem>
 
-                <SidebarItem
-                        label="Items"
-                        href="/items"
-                        spanClass="-lg lg:text-xl ml-2"
-                >
-                    <svelte:fragment slot="icon">
-                        <LayersSolid class="w-5 h-5 text-white transition duration-75"/>
-                    </svelte:fragment>
-                </SidebarItem>
+    <SidebarItem
+            label="Monitoring"
+            href="/monitoring"
+            spanClass="-lg lg:text-xl ml-2"
+    >
+        <svelte:fragment slot="icon">
+            <DesktopPcSolid class="w-5 h-5 text-white transition duration-75"/>
+        </svelte:fragment>
+    </SidebarItem>
 
-                <SidebarItem
-                        label="Cards"
-                        href="/cards"
-                        spanClass="-lg lg:text-xl ml-2"
-                >
-                    <svelte:fragment slot="icon">
-                        <ImageSolid class="w-5 h-5 text-white transition duration-75"/>
-                    </svelte:fragment>
-                </SidebarItem>
+    <SidebarItem
+            label="Categories"
+            href="/category"
+            spanClass="-lg lg:text-xl ml-2"
+    >
+        <svelte:fragment slot="icon">
+            <GridSolid class="w-5 h-5 text-white transition duration-75"/>
+        </svelte:fragment>
+    </SidebarItem>
 
-                <SidebarItem
-                        label="Users"
-                        href="/users"
-                        spanClass="-lg lg:text-xl ml-2"
-                >
-                    <svelte:fragment slot="icon">
-                        <AddressCardSolid
-                                class="w-5 h-5 text-white transition duration-75"
-                        />
-                    </svelte:fragment>
-                </SidebarItem>
+    <SidebarItem
+            label="Items"
+            href="/items"
+            spanClass="-lg lg:text-xl ml-2"
+    >
+        <svelte:fragment slot="icon">
+            <LayersSolid class="w-5 h-5 text-white transition duration-75"/>
+        </svelte:fragment>
+    </SidebarItem>
 
-                <SidebarItem
-                        label="Reports"
-                        href="/raport"
-                        spanClass="-lg lg:text-xl ml-2"
-                >
-                    <svelte:fragment slot="icon">
-                        <NewspaperSolid class="w-5 h-5 text-white transition duration-75"/>
-                    </svelte:fragment>
-                </SidebarItem>
+    <SidebarItem
+            label="Cards"
+            href="/cards"
+            spanClass="-lg lg:text-xl ml-2"
+    >
+        <svelte:fragment slot="icon">
+            <ImageSolid class="w-5 h-5 text-white transition duration-75"/>
+        </svelte:fragment>
+    </SidebarItem>
+
+    <SidebarItem
+            label="Users"
+            href="/users"
+            spanClass="-lg lg:text-xl ml-2"
+    >
+        <svelte:fragment slot="icon">
+            <AddressCardSolid
+                    class="w-5 h-5 text-white transition duration-75"
+            />
+        </svelte:fragment>
+    </SidebarItem>
+
+    <SidebarItem
+            label="Reports"
+            href="/raport"
+            spanClass="-lg lg:text-xl ml-2"
+    >
+        <svelte:fragment slot="icon">
+            <NewspaperSolid class="w-5 h-5 text-white transition duration-75"/>
+        </svelte:fragment>
+    </SidebarItem>
+</div>
+    
+    
+    
+    
+    
+    
+    <div class="w-full h-auto">
+
+        <SidebarItem
+        on:click={SignOut}
+        label="Logout"
+ 
+        spanClass="-lg lg:text-xl ml-2"
+    >
+    <svelte:fragment slot="icon">
+        <ArrowRightFromBracketSolid class="w-5 h-5 text-white transition duration-75"/>
+    </svelte:fragment>
+    </SidebarItem>
+    </div>
+    
+
+
+                </div>
+
+
             </SidebarGroup>
         </SidebarWrapper>
     </Sidebar>

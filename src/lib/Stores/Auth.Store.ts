@@ -62,15 +62,16 @@ const createAuthStore = () => {
       }
     },
 
-    signOut: async () => {
-      try {
-        await authRepository.signOut();
-        set(null);
-      } catch (error) {
-        console.log("Error", error);
-      }
-    },
-  };
+        signOut: async () => {
+            try {
+                await authRepository.signOut();
+                set(null);
+                goto("/login");
+            } catch (error) {
+                console.log("Error", error);
+            }
+        },
+    };
 };
 
 export const authStore = createAuthStore();
