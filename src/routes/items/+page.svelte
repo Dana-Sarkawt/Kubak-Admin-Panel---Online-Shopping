@@ -1,5 +1,5 @@
 <script lang="ts">
-  import moment from 'moment';
+  import moment from "moment";
   import {
     Table,
     TableBody,
@@ -15,7 +15,6 @@
   import {
     ChevronLeftOutline,
     ChevronRightOutline,
-    ShoppingCartSolid,
   } from "flowbite-svelte-icons";
   import { onMount } from "svelte";
   import { itemStore } from "$lib/Stores/Items.Store";
@@ -104,7 +103,7 @@
       <TableHeadCell>Quantity</TableHeadCell>
       <TableHeadCell>Cost</TableHeadCell>
     </TableHead>
-    <TableBody >
+    <TableBody>
       {#each $itemStore.data as item}
         <TableBodyRow class="text-center dark:bg-[#272727]">
           <TableBodyCell class="flex justify-center">
@@ -112,8 +111,12 @@
           </TableBodyCell>
           <TableBodyCell>{item.name}</TableBodyCell>
 
-          <TableBodyCell>{moment(item.productionDate).format('DD-MMM-YYYY')}</TableBodyCell>
-          <TableBodyCell>{moment(item.expiredDate).format('DD-MMM-YYYY')}</TableBodyCell>
+          <TableBodyCell
+            >{moment(item.productionDate).format("DD-MMM-YYYY")}</TableBodyCell
+          >
+          <TableBodyCell
+            >{moment(item.expiredDate).format("DD-MMM-YYYY")}</TableBodyCell
+          >
           <TableBodyCell>{item.quantity}</TableBodyCell>
           <TableBodyCell>{item.price}</TableBodyCell>
         </TableBodyRow>

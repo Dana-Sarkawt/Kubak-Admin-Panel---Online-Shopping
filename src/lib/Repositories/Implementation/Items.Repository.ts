@@ -1,9 +1,12 @@
 import { Appwrite } from "$lib/Appwrite/Appwrite";
 import { Environment } from "$lib/Env/Environment";
 import type { Item } from "$lib/Models/Entities/Item.Entities.Model";
-import { ID } from "appwrite";
+import { ID, Permission, Role } from "appwrite";
 import type { IItemsRepository } from "../Interface/I.Items.Repository";
 import type { CreateItemRequest } from "$lib/Models/Requests/CreateItem.Request";
+import { CategoriesRepository } from "./Categories.Repository";
+
+const categoriesRepository = new CategoriesRepository();
 
 export class ItemsRepository implements IItemsRepository {
   async getItems(): Promise<AppwriteResponse<Item>> {
@@ -23,6 +26,7 @@ export class ItemsRepository implements IItemsRepository {
   }
   async createItem(item: CreateItemRequest): Promise<void> {
     try {
+      const category = await categoriesRepository.getCategory(item.categoryId);
       await Appwrite.databases.createDocument(
         Environment.appwrite_database,
         Environment.appwrite_collection_item,
@@ -36,10 +40,16 @@ export class ItemsRepository implements IItemsRepository {
           expiredDate: item.expireDate,
           quantity: item.quantity,
           detail: item.detail,
-          category: item.categoryId,
+          category: category,
           popular: 0,
-          deletedAt: null
-        }
+          deletedAt: null,
+        },
+        [
+          Permission.read(Role.any()),
+          Permission.write(Role.any()),
+          Permission.delete(Role.any()),
+          Permission.update(Role.any()),
+        ]
       );
     } catch (error: any) {
       console.log(error);

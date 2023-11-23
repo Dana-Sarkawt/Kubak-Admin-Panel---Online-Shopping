@@ -59,16 +59,15 @@ const createItemStore = () => {
             "Item Production Date Must Be Lesser Than The Expiration Date"
           );
         }
-        if ((item.categoryId = "")) {
-          throw new Error("Please Add A Category To The Item");
-        }
+        // if (item.categoryId == "") {
+        //   throw new Error("Please Add A Category To The Item");
+        // }
         if (item.image.url instanceof File) {
           item.image.url = (await ImageToUrl(item.image.url as File)) as string;
         }
         console.log(item);
 
         await itemsRepository.createItem(item);
-        goto("/items")
       } catch (error: any) {
         console.log(error);
       }

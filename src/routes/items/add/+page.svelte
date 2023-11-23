@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { CreateItemRequest } from "$lib/Models/Requests/CreateItem.Request";
+  import { authStore } from "$lib/Stores/Auth.Store";
   import { itemStore } from "$lib/Stores/Items.Store";
   import { Label, Input } from "flowbite-svelte";
 
@@ -29,8 +30,10 @@
 
   async function create(options: CreateItemRequest) {
     options.userId = "6559e81344d4547079c9";
-    options.categoryId = "655f339544069b7285a4";
-    console.log(options);
+    options.categoryId = "655f3f5826df16e0777b";
+    console.log($authStore);
+
+    await itemStore.create(options);
   }
 </script>
 
