@@ -1,6 +1,7 @@
 import { goto } from "$app/navigation";
 import {Dto} from "$lib/Models/Conversion/Conversion.Model";
 import type {AuthDto} from "$lib/Models/DTO/Auth.DTO.Model";
+import { Roles } from "$lib/Models/Enums/Roles.Enum.Model";
 import {AuthRepository} from "$lib/Repositories/Implementation/Auth.Repository";
 import {writable} from "svelte/store";
 
@@ -45,7 +46,7 @@ const createAuthStore = () => {
         secret: async (userId: string, secret: string) => {
             try {
                 const user = await authRepository.secret(userId, secret);
-                if (!user.labels.includes("admin")) {
+                if (user.labels.includes(Roles[Roles.Client])) {
                     await authRepository.signOut();
                     throw new Error(
                         "This User Does Not have The right Permission To Login"
@@ -55,6 +56,7 @@ const createAuthStore = () => {
                 const userDto: AuthDto = Dto.ToAuthDto(user);
 
                 set(userDto);
+                goto("/");
             } catch (error) {
                 console.log("Error", error);
             }
