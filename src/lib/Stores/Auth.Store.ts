@@ -66,6 +66,7 @@ const createAuthStore = () => {
             try {
                 await authRepository.signOut();
                 set(null);
+                goto("/login");
             } catch (error) {
                 console.log("Error", error);
             }
