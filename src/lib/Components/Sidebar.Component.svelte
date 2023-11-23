@@ -21,7 +21,7 @@
   async function SignOut() {
     await authStore.signOut();
   }
-
+ 
   $: activeUrl = $page.url.pathname;
   let activeClass =
     "flex items-center p-2 text-base font-normal text-white bg-[#CB5500] dark:bg-[#5B5B5B] rounded-l-full";

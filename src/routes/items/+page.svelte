@@ -42,6 +42,9 @@
     const next = () => {
         alert('Next btn clicked. Make a call to your server to fetch data.');
     };
+
+
+
 </script>
 
 <div
@@ -107,28 +110,7 @@
                 <TableBodyCell>25000 IQD</TableBodyCell>
             </TableBodyRow>
 
-            <TableBodyRow class="text-center dark:bg-[#272727]">
-                <TableBodyCell class="flex justify-center">
-                    <img src="/images/rice.png" alt="" class="w-14"/>
-                </TableBodyCell>
-
-                <TableBodyCell>Rice</TableBodyCell>
-                <TableBodyCell>01 April, 2021 | 03:00 PM</TableBodyCell>
-                <TableBodyCell>3</TableBodyCell>
-                <TableBodyCell>4000IQD</TableBodyCell>
-                <TableBodyCell>25000 IQD</TableBodyCell>
-            </TableBodyRow>
-
-            <TableBodyRow class="text-center dark:bg-[#272727]">
-                <TableBodyCell class="flex justify-center ">
-                    <img src="/images/rice.png" alt="" class="w-14"/>
-                </TableBodyCell>
-                <TableBodyCell>Rice</TableBodyCell>
-                <TableBodyCell>01 April, 2021 | 03:00 PM</TableBodyCell>
-                <TableBodyCell>4</TableBodyCell>
-                <TableBodyCell>4000IQD</TableBodyCell>
-                <TableBodyCell>25000 IQD</TableBodyCell>
-            </TableBodyRow>
+         
         </TableBody>
     </Table>
 </div>

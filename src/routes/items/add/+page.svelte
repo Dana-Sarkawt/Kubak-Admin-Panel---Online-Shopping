@@ -8,7 +8,7 @@
   let options: CreateItemRequest = {
     id: null,
     name: "",
-    category: [],
+    category: "",
     price: 0,
     quantity: 0,
     productionDate: new Date(),
@@ -29,12 +29,13 @@
         options.image.localUrl = URL.createObjectURL(file);
     }
 
-  async function create(options: CreateItemRequest) {
-    options.userId = "6559e81344d4547079c9";
-    options.category = ["6559fa6c8aedde8b1fe7"];
-    console.log(options);
 
-    await itemStore.create(options);
+
+  
+
+
+  function create(options: CreateItemRequest): any {
+    throw new Error("Function not implemented.");
   }
 </script>
 
@@ -51,6 +52,7 @@
   class="container mx-auto max-w-2xl flex justify-center items-center flex-col gap-3 mt-32 py-12 rounded-xl bg-white dark:bg-[#212121]"
 >
   <img
+
     src="/images/rice.png"
     alt=""
     class="w-44 h-44 object-cover p-5 rounded-xl flex bg-[#B0AFAF] dark:bg-[#363636]"
