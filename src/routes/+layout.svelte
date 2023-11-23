@@ -20,8 +20,6 @@
     if ($authStore && $page.url.pathname === "/login") {
       goto("/");
     }
-
-    // await authStore.signOut();
   });
 
   async function checkDarkMode() {
