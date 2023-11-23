@@ -1,14 +1,12 @@
 <script lang="ts">
-  import type { CategoryDto } from "$lib/Models/DTO/Category.DTO.Model";
   import type { CreateItemRequest } from "$lib/Models/Requests/CreateItem.Request";
-  import { categoryStore } from "$lib/Stores/Categories.Store";
   import { itemStore } from "$lib/Stores/Items.Store";
   import { Label, Input } from "flowbite-svelte";
 
   let options: CreateItemRequest = {
     id: null,
     name: "",
-    category: "",
+    categoryId: "",
     price: 0,
     quantity: 0,
     productionDate: new Date(),
@@ -20,15 +18,19 @@
   };
 
   function handleFileChange(event: Event) {
-        const input = event.target as HTMLInputElement;
-        if (!input.files || input.files.length === 0) {
-            return;
-        }
-        const file = input.files[0];
-        options.image.url = file;
-        options.image.localUrl = URL.createObjectURL(file);
+    const input = event.target as HTMLInputElement;
+    if (!input.files || input.files.length === 0) {
+      return;
     }
+    const file = input.files[0];
+    options.image.url = file;
+    options.image.localUrl = URL.createObjectURL(file);
+  }
 
+  async function create(options: CreateItemRequest) {
+    options.userId = "6559e81344d4547079c9";
+    options.categoryId = "655f339544069b7285a4";
+    console.log(options);
 
 
   
@@ -52,10 +54,9 @@
   class="container mx-auto max-w-2xl flex justify-center items-center flex-col gap-3 mt-32 py-12 rounded-xl bg-white dark:bg-[#212121]"
 >
   <img
-
-    src="/images/rice.png"
+    src={options.image.localUrl ?? "/images/rice.png"}
     alt=""
-    class="w-44 h-44 object-cover p-5 rounded-xl flex bg-[#B0AFAF] dark:bg-[#363636]"
+    class="w-52 h-52 object-cover p-1 rounded-xl flex bg-[#B0AFAF] dark:bg-[#363636]"
   />
 
   <input type="file" id="uploadBtn" on:change={handleFileChange} />
@@ -77,7 +78,7 @@
       <div class="w-full flex flex-col">
         <Label for="large-input" class="block mb-2">Category</Label>
         <select
-          bind:value={options.category}
+          bind:value={options.categoryId}
           name="category"
           id=""
           class="rounded-xl dark:bg-[#363636] dark:text-white h-12"
@@ -144,7 +145,7 @@
     />
   </div>
   <button
-  on:click={()=> create(options)}
+    on:click={() => create(options)}
     class="bg-[#f17f18] font-bold text-white py-3 px-8 rounded-xl"
     type="submit">Add Item</button
   >

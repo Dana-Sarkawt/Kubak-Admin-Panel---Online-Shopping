@@ -28,15 +28,17 @@ export class ItemsRepository implements IItemsRepository {
         Environment.appwrite_collection_item,
         ID.unique(),
         {
+          userId: item.userId,
           name: item.name,
-          category: item.category,
           price: item.price,
-          detail: item.detail,
-          quantity: item.quantity,
+          itemImage: item.image.url,
           productionDate: item.productionDate,
           expiredDate: item.expireDate,
-          itemImage: item.image.url,
-          userId: item.userId,
+          quantity: item.quantity,
+          detail: item.detail,
+          category: item.categoryId,
+          popular: 0,
+          deletedAt: null
         }
       );
     } catch (error: any) {

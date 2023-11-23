@@ -4,7 +4,7 @@ import type { Category } from "$lib/Models/Entities/Category.Entity.Model";
 export interface CreateItemRequest {
   id: string | null;
   name: string;
-  category: string | Category;
+  categoryId: string;
   price: number;
   detail?: string | null;
   quantity:number;
