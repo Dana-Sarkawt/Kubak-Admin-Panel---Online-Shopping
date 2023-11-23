@@ -5,6 +5,7 @@ import { Dto } from "$lib/Models/Conversion/Conversion.Model";
 import type { CreateItemRequest } from "$lib/Models/Requests/CreateItem.Request";
 import { ImageToUrl } from "../../utils/ImageToUrl.Utils";
 import { writable } from 'svelte/store';
+import { goto } from "$app/navigation";
 
 const itemsRepository = new ItemsRepository();
 
@@ -67,6 +68,8 @@ const createItemStore = () => {
         console.log(item);
 
         await itemsRepository.createItem(item);
+
+        goto("/items");
       } catch (error: any) {
         console.log(error);
       }
