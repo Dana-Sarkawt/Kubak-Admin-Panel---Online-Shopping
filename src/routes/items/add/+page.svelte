@@ -1,7 +1,5 @@
 <script lang="ts">
-  import type { CategoryDto } from "$lib/Models/DTO/Category.DTO.Model";
   import type { CreateItemRequest } from "$lib/Models/Requests/CreateItem.Request";
-  import { categoryStore } from "$lib/Stores/Categories.Store";
   import { itemStore } from "$lib/Stores/Items.Store";
   import { Label, Input } from "flowbite-svelte";
 
