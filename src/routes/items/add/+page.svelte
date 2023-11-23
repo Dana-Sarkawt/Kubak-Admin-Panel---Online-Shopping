@@ -31,13 +31,6 @@
     options.userId = "6559e81344d4547079c9";
     options.categoryId = "655f339544069b7285a4";
     console.log(options);
-
-
-  
-
-
-  function create(options: CreateItemRequest): any {
-    throw new Error("Function not implemented.");
   }
 </script>
 
