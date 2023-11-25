@@ -40,16 +40,10 @@ export class ItemsRepository implements IItemsRepository {
           expiredDate: item.expireDate,
           quantity: item.quantity,
           detail: item.detail,
-          category: category,
-          popular: 0,
+          popularity: 0,
           deletedAt: null,
-        },
-        [
-          Permission.read(Role.any()),
-          Permission.write(Role.any()),
-          Permission.delete(Role.any()),
-          Permission.update(Role.any()),
-        ]
+          category: category,
+        }
       );
     } catch (error: any) {
       console.log(error);

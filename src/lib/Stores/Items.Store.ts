@@ -1,4 +1,4 @@
-import { ItemsRepository } from "../Repositories/Implementation/Items.Repository";
+import { ItemsRepository } from "$lib/Repositories/Implementation/Items.Repository";
 import type { Store } from "$lib/Models/Response/Store.Response";
 import type { ItemDto } from "$lib/Models/DTO/Item.DTO.Model";
 import { Dto } from "$lib/Models/Conversion/Conversion.Model";
