@@ -1,9 +1,12 @@
 import { Appwrite } from "$lib/Appwrite/Appwrite";
 import { Environment } from "$lib/Env/Environment";
 import type { Item } from "$lib/Models/Entities/Item.Entities.Model";
-import { ID, Permission, Role } from "appwrite";
+import { ID } from "appwrite";
 import type { IItemsRepository } from "../Interface/I.Items.Repository";
-import type { CreateItemRequest } from "$lib/Models/Requests/CreateItem.Request";
+import type {
+  CreateItemRequest,
+  ItemRequest,
+} from "$lib/Models/Requests/CreateItem.Request";
 import { CategoriesRepository } from "./Categories.Repository";
 
 const categoriesRepository = new CategoriesRepository();
@@ -27,23 +30,24 @@ export class ItemsRepository implements IItemsRepository {
   async createItem(item: CreateItemRequest): Promise<void> {
     try {
       const category = await categoriesRepository.getCategory(item.categoryId);
+
+      const itemRequest: ItemRequest = {
+        userId: item.userId,
+        name: item.name,
+        price: item.price,
+        itemImage: item.image.url as string,
+        productionDate: item.productionDate,
+        expiredDate: item.expiredDate,
+        quantity: item.quantity,
+        detail: item.detail!,
+        category: category,
+      };
+
       await Appwrite.databases.createDocument(
         Environment.appwrite_database,
         Environment.appwrite_collection_item,
         ID.unique(),
-        {
-          userId: item.userId,
-          name: item.name,
-          price: item.price,
-          itemImage: item.image.url,
-          productionDate: item.productionDate,
-          expiredDate: item.expireDate,
-          quantity: item.quantity,
-          detail: item.detail,
-          popularity: 0,
-          deletedAt: null,
-          category: category,
-        }
+        itemRequest
       );
     } catch (error: any) {
       console.log(error);

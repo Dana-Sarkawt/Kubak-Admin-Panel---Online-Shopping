@@ -5,7 +5,6 @@ import { Dto } from "$lib/Models/Conversion/Conversion.Model";
 import type { CreateItemRequest } from "$lib/Models/Requests/CreateItem.Request";
 import { ImageToUrl } from "../../utils/ImageToUrl.Utils";
 import { writable } from 'svelte/store';
-import { goto } from "$app/navigation";
 
 const itemsRepository = new ItemsRepository();
 
@@ -54,7 +53,7 @@ const createItemStore = () => {
         if (item.quantity <= 0 && item.quantity > 10000) {
           throw new Error("Item Quantity Is Not Right");
         }
-        if (item.productionDate >= item.expireDate) {
+        if (item.productionDate >= item.expiredDate) {
           throw new Error(
             "Item Production Date Must Be Lesser Than The Expiration Date"
           );

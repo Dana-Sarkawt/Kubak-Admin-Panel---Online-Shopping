@@ -1,4 +1,4 @@
-export interface CreateUpdateCategoryRequest {
+export interface CreateCategoryRequest {
     id: string | null;
     name: string;
     description?: string;
@@ -8,4 +8,11 @@ export interface CreateUpdateCategoryRequest {
     };
     userId: string;
     deletedAt?: Date | null;
+}
+
+export interface CategoryRequest {
+    userId: string;
+    name: string;
+    categoryImage: string;
+    description?: string;
 }

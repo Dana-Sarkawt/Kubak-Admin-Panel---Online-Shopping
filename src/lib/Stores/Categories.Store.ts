@@ -3,7 +3,7 @@ import type {Store} from "$lib/Models/Response/Store.Response";
 import type {CategoryDto} from "$lib/Models/DTO/Category.DTO.Model";
 import {CategoriesRepository} from "$lib/Repositories/Implementation/Categories.Repository";
 import {Dto} from "$lib/Models/Conversion/Conversion.Model";
-import type {CreateUpdateCategoryRequest} from "$lib/Models/Requests/CreateUpdateCategory.Request";
+import type {CreateCategoryRequest} from "$lib/Models/Requests/CreateUpdateCategory.Request";
 import {ImageToUrl} from "../../utils/ImageToUrl.Utils";
 
 const categoriesRepository = new CategoriesRepository();
@@ -40,7 +40,7 @@ const createCategoryStore = () => {
                 console.log("Error:", e);
             }
         },
-        create: async (category: CreateUpdateCategoryRequest) => {
+        create: async (category: CreateCategoryRequest) => {
             try {
                 if (category.name == "") {
                     throw new Error("Category Name is required");
@@ -57,7 +57,7 @@ const createCategoryStore = () => {
                 console.log("Error :", e);
             }
         },
-        update: async (category: CreateUpdateCategoryRequest) => {
+        update: async (category: CreateCategoryRequest) => {
             try {
                 const document = await categoriesRepository.getCategory(
                     category.id as string

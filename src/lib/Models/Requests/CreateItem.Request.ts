@@ -1,4 +1,3 @@
-import type { CategoryDto } from "$lib/Models/DTO/Category.DTO.Model";
 import type { Category } from "$lib/Models/Entities/Category.Entity.Model";
 
 export interface CreateItemRequest {
@@ -7,13 +6,26 @@ export interface CreateItemRequest {
   categoryId: string;
   price: number;
   detail?: string | null;
-  quantity:number;
+  quantity: number;
   productionDate: Date;
-  expireDate: Date;
+  expiredDate: Date;
   image: {
     url: string | File;
     localUrl?: string | null;
   };
   userId: string;
   deletedAt?: Date | null;
+}
+
+
+export interface ItemRequest {
+  userId: string;
+  name: string;
+  price: number;
+  itemImage: string;
+  productionDate: Date;
+  expiredDate: Date;
+  quantity: number;
+  detail: string;
+  category: Category;
 }

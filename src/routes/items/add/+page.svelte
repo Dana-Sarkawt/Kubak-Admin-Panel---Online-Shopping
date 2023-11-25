@@ -11,7 +11,7 @@
     price: 0,
     quantity: 0,
     productionDate: new Date(),
-    expireDate: new Date(),
+    expiredDate: new Date(),
     image: {
       url: "",
     },
@@ -121,7 +121,7 @@
       <div class="w-full flex flex-col">
         <Label for="large-input" class="block mb-2">Expiration Date</Label>
         <Input
-          bind:value={options.expireDate}
+          bind:value={options.expiredDate}
           id="large-input"
           size="lg"
           type="date"

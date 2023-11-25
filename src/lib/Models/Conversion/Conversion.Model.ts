@@ -6,8 +6,11 @@ import type { Item } from '../Entities/Item.Entities.Model';
 import type { ItemDto } from '../DTO/Item.DTO.Model';
 
 export class Dto {
-    static ToCategoriesDto(categories: Category): CategoryDto {
+    static ToCategoriesDto(categories: Category): CategoryDto | null {
         try {
+            if(!categories){
+                return null;
+            }
             return {
                 id: categories.$id,
                 name: categories.name,
@@ -34,6 +37,7 @@ export class Dto {
     static ToItemDto(item:Item): ItemDto{
         try {
             return {
+                id: item.$id,
                 name:item.name,
                 price: item.price,
                 itemImage: item.itemImage,
