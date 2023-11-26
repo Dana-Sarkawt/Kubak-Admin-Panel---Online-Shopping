@@ -25,7 +25,7 @@
 
 
     <div class="mb-6 w-4/5 flex justify-center items-start flex-col">
-        <Label for="large-input" class="block mb-2">Webpage URL</Label>
+        <Label for="large-input" class="block mb-2" >Webpage URL</Label>
         <Input id="large-input" size="lg" placeholder="Webpage URL" class="w-full rounded-xl mb-3 dark:bg-[#363636]"/>
         <Label for="large-input" class="block mb-2">Expiration Date</Label>
         <Input id="large-input" type="DATE" size="lg" placeholder="Expiration Date"
