@@ -5,6 +5,7 @@ import { Dto } from "$lib/Models/Conversion/Conversion.Model";
 import type { CreateItemRequest } from "$lib/Models/Requests/CreateItem.Request";
 import { ImageToUrl } from "../../utils/ImageToUrl.Utils";
 import { writable } from 'svelte/store';
+import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
 
 const itemsRepository = new ItemsRepository();
 
@@ -26,14 +27,16 @@ const createItemStore = () => {
       }
     },
 
-    getAll: async () => {
+    getAll: async (options:GenericListOptions) => {
       try {
-        let { documents, total } = await itemsRepository.getItems();
+        let { documents, total } = await itemsRepository.getItems(options);
         let itemsDto: ItemDto[] = documents.map((document) => {
           return Dto.ToItemDto(document);
         });
 
-        set({ data: itemsDto, total: total });
+        const pages = Math.ceil(total / 7);
+
+        set({ data: itemsDto, total: total, pages: pages });
       } catch (error) {
         console.log(error);
       }

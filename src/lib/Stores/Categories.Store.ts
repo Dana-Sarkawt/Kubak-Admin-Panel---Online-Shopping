@@ -36,7 +36,7 @@ const createCategoryStore = () => {
           return Dto.ToCategoriesDto(document) as CategoryDto;
         });
 
-        const pages = Math.ceil(total / (options.limit ?? 8));        
+        const pages = Math.ceil(total / (options.limit ?? 7));
 
         set({ data: dto, total: total, pages: pages });
         return dto;
