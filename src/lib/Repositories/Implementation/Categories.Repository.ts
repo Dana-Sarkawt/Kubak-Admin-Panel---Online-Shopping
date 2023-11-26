@@ -6,7 +6,7 @@ import { ID } from "appwrite";
 import type {
   CategoryRequest,
   CreateCategoryRequest,
-} from "$lib/Models/Requests/CreateUpdateCategory.Request";
+} from "$lib/Models/Requests/CreateCategory.Request";
 
 export class CategoriesRepository implements ICategoriesRepository {
   async getCategories(): Promise<AppwriteResponse<Category>> {

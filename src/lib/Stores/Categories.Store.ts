@@ -3,7 +3,7 @@ import type {Store} from "$lib/Models/Response/Store.Response";
 import type {CategoryDto} from "$lib/Models/DTO/Category.DTO.Model";
 import {CategoriesRepository} from "$lib/Repositories/Implementation/Categories.Repository";
 import {Dto} from "$lib/Models/Conversion/Conversion.Model";
-import type {CreateCategoryRequest} from "$lib/Models/Requests/CreateUpdateCategory.Request";
+import type {CreateCategoryRequest} from "$lib/Models/Requests/CreateCategory.Request";
 import {ImageToUrl} from "../../utils/ImageToUrl.Utils";
 
 const categoriesRepository = new CategoriesRepository();

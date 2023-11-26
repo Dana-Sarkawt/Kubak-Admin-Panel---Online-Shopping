@@ -1,5 +1,5 @@
 import type {Category} from "$lib/Models/Entities/Category.Entity.Model";
-import type {CreateCategoryRequest} from "$lib/Models/Requests/CreateUpdateCategory.Request";
+import type {CreateCategoryRequest} from "$lib/Models/Requests/CreateCategory.Request";
 
 export interface ICategoriesRepository {
     getCategories(): Promise<AppwriteResponse<Category>>;
