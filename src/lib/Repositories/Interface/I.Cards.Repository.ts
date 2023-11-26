@@ -1,3 +1,5 @@
+import type { Card } from "$lib/Models/Entities/Card.Entity.Model";
+
 export interface ICardsRepository {
     getCards(): Promise<Card[]>;
 

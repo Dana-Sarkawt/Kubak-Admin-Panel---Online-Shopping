@@ -22,16 +22,7 @@
         {name: 5, href: '/components/pagination?page=10'}
     ];
 
-    $: {
-        pages.forEach((page) => {
-            let splitUrl = page.href.split('?');
-            let queryString = splitUrl.slice(1).join('?');
-            const hrefParams = new URLSearchParams(queryString);
-            let hrefValue = hrefParams.get('page');
-            page.active = hrefValue === activeUrl;
-        });
-        pages = pages;
-    }
+    
 
     const previous = () => {
         alert('Previous btn clicked. Make a call to your server to fetch data.');
@@ -39,6 +30,8 @@
     const next = () => {
         alert('Next btn clicked. Make a call to your server to fetch data.');
     };
+
+
 </script>
 
 <div
