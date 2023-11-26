@@ -3,6 +3,7 @@
     import {categoryStore} from "$lib/Stores/Categories.Store";
     import {Pagination, type LinkType} from "flowbite-svelte";
     import {
+  ChartPieSolid,
         ChevronLeftOutline,
         ChevronRightOutline,
     } from "flowbite-svelte-icons";
@@ -61,7 +62,7 @@
     {#each ArrayNumber as array}
         <div
                 class="md:w-28 md:h-36  lg:w-44 lg:h-60 2xl:w-64 2xl:h-96 bg-white dark:bg-[#212121] dark:text-white px-5 flex justify-around items-center flex-col rounded-xl mb-5"
-        >
+>
             <img src="/images/rice.png" alt=""/>
             <p class="text-2xl">Rice</p>
         </div>

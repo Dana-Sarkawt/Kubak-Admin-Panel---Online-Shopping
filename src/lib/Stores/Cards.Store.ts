@@ -96,12 +96,16 @@ const createCardStore = () => {
 
     delete: async (id: string) => {
       try {
+       
         let document = await cardRepository.getCard(id);
+        
 
         if (document === null)
           throw new Error(`Card not found with the following id:${id}`);
 
         await cardRepository.deleteCard(id);
+
+        await cardStore.getAll();
 
         return "Deleted";
       } catch (e) {

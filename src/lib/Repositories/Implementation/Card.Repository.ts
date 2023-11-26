@@ -21,7 +21,7 @@ export class CardRepository implements ICardsRepository {
   async getCard(id: string): Promise<Card> {
     return (await Appwrite.databases.getDocument(
       Environment.appwrite_database,
-      Environment.appwrite_collection_category,
+      Environment.appwrite_collection_card,
       id
     )) as Card;
   }
@@ -52,12 +52,13 @@ export class CardRepository implements ICardsRepository {
   }
 
   async deleteCard(id: string): Promise<void> {
+    console.log(id);
     await Appwrite.databases.updateDocument(
       Environment.appwrite_database,
       Environment.appwrite_collection_card,
       id,
       {
-        deletedAt: Date.now(),
+        deletedAt: new Date(),
       }
     );
   }
