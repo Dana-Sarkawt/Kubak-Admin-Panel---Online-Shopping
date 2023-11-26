@@ -1,6 +1,5 @@
 export interface CreateCardRequest {
-  id: string;
-  name: string;
+  id:string | null;
   userId: string;
   webpageUrl: string;
   expirationDate: Date;

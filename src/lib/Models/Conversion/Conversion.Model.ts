@@ -8,8 +8,20 @@ import type { Card } from "$lib/Models/Entities/Card.Entity.Model";
 import type { CardDto } from "$lib/Models/DTO/Card.DTO.Model";
 
 export class Dto {
-  static ToCardDto(card: Card): CardDto {
-    throw new Error("Method not implemented.");
+  static ToCardDto(card: Card): CardDto | null {
+    if(!card){
+      return null
+    }
+    return {
+      id:card.$id,
+      userId:card.userId,
+      webpageUrl:card.webpageUrl as string,
+      expirationDate:card.expirationDate,
+      cardImage:card.cardImage,
+      createdAt:card.$createdAt as Date,
+      updatedAt:card.$updatedAt as Date,
+      deletedAt:card.deletedAt
+    }
   }
   static ToCategoriesDto(categories: Category): CategoryDto | null {
     try {

@@ -5,6 +5,7 @@ import type { Store } from "$lib/Models/Response/Store.Response";
 import { CardRepository } from "$lib/Repositories/Implementation/Card.Repository";
 import { writable } from "svelte/store";
 import { ImageToUrl } from "../../utils/ImageToUrl.Utils";
+import { goto } from "$app/navigation";
 
 const cardRepository = new CardRepository();
 
@@ -23,7 +24,7 @@ const createCardStore = () => {
 
         return Dto.ToCardDto(document);
       } catch (e) {
-        console.log("Error :", e);
+        console.log(e);
       }
     },
 
@@ -32,19 +33,26 @@ const createCardStore = () => {
         let { documents, total } = await cardRepository.getCards();
 
         let dto: CardDto[] = documents.map((document) => {
-          return Dto.ToCardDto(document);
+          return Dto.ToCardDto(document) as CardDto;
         });
         set({ data: dto, total: total });
         return dto;
       } catch (e) {
-        console.log("Error:", e);
+        console.log(e);
       }
     },
 
     create: async (card: CreateCardRequest) => {
       try {
-        if (card.name == "") {
-          throw new Error("Card Name is required");
+        if (card.webpageUrl == "") {
+          throw new Error("Card Web Url is required");
+        }
+        if (new Date(card.expirationDate) < new Date()) {
+          throw new Error("Expiration date Must be Greater Than Todays Date");
+        }
+        const listCards = (await cardRepository.getCards()).documents;
+        if(listCards.length >= 3){
+          throw new Error("Cards Limit Has Been Reached Please Delete Some Cards");
         }
         if (card.image.url == "") {
           throw new Error("Card Image is required");
@@ -54,8 +62,9 @@ const createCardStore = () => {
         }
 
         await cardRepository.createCard(card);
+        goto("/cards");
       } catch (e) {
-        console.log("Error :", e);
+        console.log(e);
       }
     },
 
@@ -67,8 +76,8 @@ const createCardStore = () => {
           throw new Error(`Card not found with the following id:${card.id}`);
         }
 
-        if (card.name != "") {
-          document.name = card.name;
+        if (card.webpageUrl != "") {
+          document.webpageUrl = card.webpageUrl;
         }
         if (card.image.url != "") {
           if (card.image.url instanceof File) {
@@ -101,6 +110,5 @@ const createCardStore = () => {
     },
   };
 };
-
 
 export const cardStore = createCardStore();

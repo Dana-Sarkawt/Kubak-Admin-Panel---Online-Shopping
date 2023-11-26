@@ -2,14 +2,18 @@ import { Appwrite } from "$lib/Appwrite/Appwrite";
 import { Environment } from "$lib/Env/Environment";
 import type { Card } from "$lib/Models/Entities/Card.Entity.Model";
 import type { CardRequest, CreateCardRequest } from "$lib/Models/Requests/CreateCard.Request";
-import { ID } from "appwrite";
+import { ID, Query } from "appwrite";
 import type { ICardsRepository } from "../Interface/I.Cards.Repository";
 
 export class CardRepository implements ICardsRepository {
   async getCards(): Promise<AppwriteResponse<Card>> {
     let { documents, total } = (await Appwrite.databases.listDocuments(
       Environment.appwrite_database,
-      Environment.appwrite_collection_card
+      Environment.appwrite_collection_card,
+      [
+        Query.isNull("deletedAt"),
+        Query.limit(3)
+      ]
     )) as AppwriteResponse<Card>;
 
     return { documents, total };
