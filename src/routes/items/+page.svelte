@@ -127,7 +127,7 @@
 
 <div class="w-full flex justify-center items-center mt-3">
   <Pagination
-    {pages}
+
     on:previous={previous}
     on:next={next}
     icon
