@@ -2,12 +2,9 @@
   import { cardStore } from "$lib/Stores/Cards.Store";
   import { onMount } from "svelte";
 
-    onMount(async()=>{
-        await cardStore.getAll();
-
-        console.log($cardStore);
-        
-    })
+  onMount(async () => {
+    await cardStore.getAll();
+  });
 </script>
 
 <div
@@ -22,11 +19,11 @@
   </a>
 
   {#each $cardStore.data as card}
-  <img
-    src={card.cardImage ?? "/images/addImage.jpg"}
-    alt=""
-    class="w-11/12 h-[300px] bg-slate-700 rounded-xl object-center object-cover border-black"
-  />
+    <img
+      src={card.cardImage ?? "/images/addImage.jpg"}
+      alt=""
+      class="w-11/12 h-[300px] bg-slate-700 rounded-xl object-center object-cover border-black"
+    />
   {/each}
   <!-- <img
     src="images/wallpaper.jpg"

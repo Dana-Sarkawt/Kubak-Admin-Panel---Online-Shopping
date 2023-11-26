@@ -5,6 +5,7 @@ import { CategoriesRepository } from "$lib/Repositories/Implementation/Categorie
 import { Dto } from "$lib/Models/Conversion/Conversion.Model";
 import type { CreateCategoryRequest } from "$lib/Models/Requests/CreateCategory.Request";
 import { ImageToUrl } from "../../utils/ImageToUrl.Utils";
+import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
 
 const categoriesRepository = new CategoriesRepository();
 
@@ -27,14 +28,17 @@ const createCategoryStore = () => {
         console.log("Error :", e);
       }
     },
-    getAll: async () => {
+    getAll: async (options:GenericListOptions) => {
       try {
-        let { documents, total } = await categoriesRepository.getCategories();
+        let { documents, total } = await categoriesRepository.getCategories(options);
 
         let dto: CategoryDto[] = documents.map((document) => {
           return Dto.ToCategoriesDto(document) as CategoryDto;
         });
-        set({ data: dto, total: total });
+
+        const pages = Math.ceil(total / (options.limit ?? 8));        
+
+        set({ data: dto, total: total, pages: pages });
         return dto;
       } catch (e) {
         console.log("Error:", e);

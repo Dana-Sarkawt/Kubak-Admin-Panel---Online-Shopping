@@ -26,7 +26,7 @@
   async function create() {
     options.userId = "6559e81344d4547079c9";
     await categoryStore.create(options);
-    await goto("/category");
+    goto("/category/1");
   }
 </script>
 

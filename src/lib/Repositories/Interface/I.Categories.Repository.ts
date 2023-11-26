@@ -1,14 +1,17 @@
-import type {Category} from "$lib/Models/Entities/Category.Entity.Model";
-import type {CreateCategoryRequest} from "$lib/Models/Requests/CreateCategory.Request";
+import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
+import type { Category } from "$lib/Models/Entities/Category.Entity.Model";
+import type { CreateCategoryRequest } from "$lib/Models/Requests/CreateCategory.Request";
 
 export interface ICategoriesRepository {
-    getCategories(): Promise<AppwriteResponse<Category>>;
+  getCategories(
+    options: GenericListOptions
+  ): Promise<AppwriteResponse<Category>>;
 
-    getCategory(id: string): Promise<Category>;
+  getCategory(id: string): Promise<Category>;
 
-    createCategory(category: CreateCategoryRequest): Promise<void>;
+  createCategory(category: CreateCategoryRequest): Promise<void>;
 
-    updateCategory(category: Category): Promise<Category>;
+  updateCategory(category: Category): Promise<Category>;
 
-    deleteCategory(id: string): Promise<void>;
+  deleteCategory(id: string): Promise<void>;
 }

@@ -2,17 +2,23 @@ import type { Category } from "$lib/Models/Entities/Category.Entity.Model";
 import type { ICategoriesRepository } from "$lib/Repositories/Interface/I.Categories.Repository";
 import { Appwrite } from "$lib/Appwrite/Appwrite";
 import { Environment } from "$lib/Env/Environment";
-import { ID } from "appwrite";
+import { ID, Query } from "appwrite";
 import type {
   CategoryRequest,
   CreateCategoryRequest,
 } from "$lib/Models/Requests/CreateCategory.Request";
+import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
 
 export class CategoriesRepository implements ICategoriesRepository {
-  async getCategories(): Promise<AppwriteResponse<Category>> {
+  async getCategories(options:GenericListOptions): Promise<AppwriteResponse<Category>> {
     let { documents, total } = (await Appwrite.databases.listDocuments(
       Environment.appwrite_database,
-      Environment.appwrite_collection_category
+      Environment.appwrite_collection_category,
+      [
+        Query.orderDesc(options.sortField ?? "$createdAt"),
+        Query.limit(options.limit ?? 8),
+        Query.offset((options.page! - 1 ?? 0) * (options.limit ?? 8)),
+      ],
     )) as AppwriteResponse<Category>;
 
     return { documents, total };
