@@ -71,6 +71,14 @@ const createAuthStore = () => {
         console.log("Error", error);
       }
     },
+
+    listUsers: async () => {
+      try {
+        await authRepository.listUsers();
+      } catch (error) {
+        console.log("Error", error);
+      }
+    }
   };
 };
 

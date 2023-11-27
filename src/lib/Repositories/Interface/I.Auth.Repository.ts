@@ -8,4 +8,6 @@ export interface IAuthRepository {
     signOut(): Promise<void>;
 
     secret(userId: string, secret: string): Promise<Auth>;
+
+    listUsers(): Promise<any>;
 } 

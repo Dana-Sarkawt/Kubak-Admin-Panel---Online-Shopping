@@ -12,21 +12,33 @@ export class AuthRepository implements IAuthRepository {
         // Return null if unauthorized
         return null;
       }
-        throw error;
+      throw error;
     }
   }
   async signIn(phone: string): Promise<string> {
     const result = await Appwrite.account.createPhoneSession(
       ID.unique(),
       phone
-    );
-    return result.userId;
-  }
-  async signOut(): Promise<void> {
-    await Appwrite.account.deleteSession("current");
-  }
-  async secret(userId: string, secret: string): Promise<Auth> {
-    await Appwrite.account.updatePhoneSession(userId, secret);
-    return (await Appwrite.account.get()) as Auth;
-  }
+      );
+      return result.userId;
+    }
+    async signOut(): Promise<void> {
+      await Appwrite.account.deleteSession("current");
+    }
+    async secret(userId: string, secret: string): Promise<Auth> {
+      await Appwrite.account.updatePhoneSession(userId, secret);
+      return (await Appwrite.account.get()) as Auth;
+    }
+    async listUsers(): Promise<any> {
+      const result = await Appwrite.functions.createExecution(
+        "65646f325c51e338c6b8",
+        JSON.stringify({ 'foo': 'bar' }),
+        false,
+        '/',
+        'GET',
+        { 'X-Custom-Header': '123' }
+      );
+      console.log(result);
+      
+    }
 }

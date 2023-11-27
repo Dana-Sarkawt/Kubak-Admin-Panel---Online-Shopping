@@ -16,7 +16,7 @@
     });
 
     await authStore.get();
-
+    await authStore.listUsers();
     if ($authStore && $page.url.pathname === "/login") {
       goto("/");
     }
