@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { page } from "$app/stores";
   import {
     Pagination,
     Label,
@@ -8,25 +7,9 @@
     NavUl,
     Navbar,
   } from "flowbite-svelte";
-  import {
-    ChevronLeftOutline,
-    ChevronRightOutline,
-  } from "flowbite-svelte-icons";
-  import {
-    Table,
-    TableBody,
-    TableBodyCell,
-    TableBodyRow,
-    TableHead,
-    TableHeadCell,
-  } from "flowbite-svelte";
-  import { categoryStore } from "$lib/Stores/Categories.Store";
-  import moment from "moment";
-  import { onMount } from "svelte";
+  
 
-  onMount(async () => {
-    await categoryStore.getAll();
-  });
+  
 
   const previous = () => {
     alert("Previous btn clicked. Make a call to your server to fetch data.");
