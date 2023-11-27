@@ -1,7 +1,6 @@
 <script lang="ts">
   import { page } from "$app/stores";
   import { authStore } from "$lib/Stores/Auth.Store";
-  import { darkMode } from "$lib/Stores/Darkmode.Store";
   import {
     Sidebar,
     SidebarGroup,
@@ -18,12 +17,20 @@
     DesktopPcSolid,
     ArrowRightFromBracketSolid,
   } from "flowbite-svelte-icons";
+  import { onMount } from "svelte";
+
 
   async function SignOut() {
-    await authStore.signOut();
+    await authStore.signOut();    
   }
+
+  onMount(async () => {
+    console.log($page.params);
+    
+  });
  
   $: activeUrl = $page.url.pathname;
+  $: pages = $page.params.page;
   let activeClass =
     "flex items-center p-2 text-base font-normal text-white bg-[#CB5500] dark:bg-[#5B5B5B] rounded-l-full";
   let nonActiveClass =
@@ -66,7 +73,7 @@
 
             <SidebarItem
               label="Categories"
-              href="/category/{$page.params.page}"
+              href="/category/1"
               spanClass="-lg lg:text-xl ml-2"
             >
               <svelte:fragment slot="icon">
@@ -76,7 +83,7 @@
 
             <SidebarItem
               label="Items"
-              href="/items/{$page.params.page}"
+              href="/items/1"
               spanClass="-lg lg:text-xl ml-2"
             >
               <svelte:fragment slot="icon">
@@ -98,7 +105,7 @@
 
             <SidebarItem
               label="Users"
-              href="/users/{$page.params.page}"
+              href="/users/1"
               spanClass="-lg lg:text-xl ml-2"
             >
               <svelte:fragment slot="icon">
