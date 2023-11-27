@@ -12,7 +12,7 @@
   import moment from "moment";
   import { onMount } from "svelte";
   const filter:GenericListOptions = {
-    page: undefined,
+    page: 1,
     limit: 5,
     sortField: undefined,
   };
