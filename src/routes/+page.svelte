@@ -13,7 +13,7 @@
   import { onMount } from "svelte";
   const filter:GenericListOptions = {
     page: 1,
-    limit: 4,
+    limit: 6,
     sortField: "$createdAt",
   };
 
@@ -114,7 +114,7 @@
       <div class="w-full flex justify-between items-center py-3 px-8">
         <p class="text-lg lg:text-2xl 2xl:text-5xl">Items List</p>
         <!-- svelte-ignore a11y-invalid-attribute -->
-        <a href="/items" class="text-[#f17f18]">See More</a>
+        <a href="/items/1" class="text-[#f17f18]">See More</a>
       </div>
 
       <div

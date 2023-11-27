@@ -66,6 +66,7 @@
       bind:value={options.name}
       id="large-input"
       size="lg"
+      required
       placeholder="Add item"
       class="w-full rounded-xl dark:bg-[#363636] dark:text-white"
     />
@@ -77,6 +78,7 @@
           bind:value={options.categoryId}
           name="category"
           id=""
+          required
           class="rounded-xl dark:bg-[#363636] dark:text-white h-12"
         >
           <option value="Crop">Crop</option>
@@ -89,6 +91,7 @@
           bind:value={options.price}
           id="large-input"
           size="lg"
+          required
           type="number"
           class="w-full rounded-xl dark:bg-[#363636] dark:text-white"
         />
@@ -100,6 +103,7 @@
           bind:value={options.quantity}
           id="large-input"
           size="lg"
+          required
           type="number"
           class="w-full rounded-xl dark:bg-[#363636] dark:text-white"
         />
@@ -113,6 +117,7 @@
           bind:value={options.productionDate}
           id="large-input"
           size="lg"
+          required
           type="date"
           class="w-full rounded-xl dark:bg-[#363636] dark:text-white"
         />
@@ -124,8 +129,10 @@
           bind:value={options.expiredDate}
           id="large-input"
           size="lg"
+          
           type="date"
           class="w-full rounded-xl dark:bg-[#363636] dark:text-white"
+          required
         />
       </div>
     </div>
@@ -161,4 +168,5 @@
     border-radius: 8px;
     cursor: pointer;
   }
+  
 </style>

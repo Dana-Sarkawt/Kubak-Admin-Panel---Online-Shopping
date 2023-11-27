@@ -24,7 +24,7 @@
 
     let filter: GenericListOptions = {
     page: parseInt($page.params.page),
-    limit: 7,
+    limit: 5,
     sortField: undefined,
   };
   let pages: number = 0;
@@ -120,5 +120,5 @@
     </Table>
   </div>
   
-<Pagination name="report/category" {filter} pages={pages} Store={categoryStore}/>
+<Pagination name="report/category" {filter} pages={$categoryStore.pages} Store={categoryStore}/>
   
