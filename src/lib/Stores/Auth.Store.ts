@@ -1,4 +1,5 @@
 import { goto } from "$app/navigation";
+import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
 import { Dto } from "$lib/Models/Conversion/Conversion.Model";
 import type { AuthDto } from "$lib/Models/DTO/Auth.DTO.Model";
 import { Roles } from "$lib/Models/Enums/Roles.Enum.Model";
@@ -72,9 +73,9 @@ const createAuthStore = () => {
       }
     },
 
-    listUsers: async () => {
+    listUsers: async (options:GenericListOptions) => {
       try {
-        await authRepository.listUsers();
+        await authRepository.listUsers(options);
       } catch (error) {
         console.log("Error", error);
       }

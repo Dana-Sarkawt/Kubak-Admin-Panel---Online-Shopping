@@ -1,4 +1,5 @@
 import { Appwrite } from "$lib/Appwrite/Appwrite";
+import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
 import type { Auth } from "$lib/Models/Entities/Auth.Entity.Model";
 import type { IAuthRepository } from "$lib/Repositories/Interface/I.Auth.Repository";
 import { ID } from "appwrite";
@@ -29,14 +30,13 @@ export class AuthRepository implements IAuthRepository {
       await Appwrite.account.updatePhoneSession(userId, secret);
       return (await Appwrite.account.get()) as Auth;
     }
-    async listUsers(): Promise<any> {
+    async listUsers(options:GenericListOptions): Promise<any> {
       const result = await Appwrite.functions.createExecution(
         "65646f325c51e338c6b8",
-        JSON.stringify({ 'foo': 'bar' }),
-        false,
+        JSON.stringify(options),
+        true,
         '/',
-        'GET',
-        { 'X-Custom-Header': '123' }
+        'GET'
       );
       console.log(result);
       
