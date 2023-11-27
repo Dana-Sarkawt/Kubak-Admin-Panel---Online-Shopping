@@ -38,7 +38,7 @@
 </script>
 
 <div class="container mx-auto h-auto">
-  <a href="/items">
+  <a href="/items/1">
     <button
       class="bg-white dark:bg-[#212121] px-5 py-3 rounded-xl m-3 text-[#f17f18] font-bold"
       >Back</button
