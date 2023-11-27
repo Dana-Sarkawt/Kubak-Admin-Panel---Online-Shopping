@@ -13,15 +13,22 @@
   import { onMount } from "svelte";
   import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
   import { page } from "$app/stores";
+  import type { Store } from "$lib/Models/Response/Store.Response";
+  import type { AuthDto } from "$lib/Models/DTO/Auth.DTO.Model";
 
   let filter: GenericListOptions = {
     page: parseInt($page.params.page),
     limit: 7,
     sortField: "$createdAt",
   };
+  let listUsers: Store<AuthDto> = {
+    data: [],
+    total: 0,
+  };
 
   onMount(async () => {
-    const listUser = await authStore.listUsers(filter);
+    listUsers = (await authStore.listUsers(filter)) as Store<AuthDto>;
+    console.log(listUsers);
   });
 </script>
 
@@ -67,46 +74,21 @@
     <TableHead class="bg-[#2D2D2D] text-white text-center dark:bg-[#212121]">
       <TableHeadCell>Image</TableHeadCell>
       <TableHeadCell>Name</TableHeadCell>
-      <TableHeadCell>Time</TableHeadCell>
-      <TableHeadCell>Quantity</TableHeadCell>
-      <TableHeadCell>Cost</TableHeadCell>
-      <TableHeadCell>Total</TableHeadCell>
+      <TableHeadCell>Roles</TableHeadCell>
+      <TableHeadCell>Phone</TableHeadCell>
     </TableHead>
     <TableBody>
-      <TableBodyRow class="text-center dark:bg-[#272727]">
-        <TableBodyCell class="flex justify-center">
-          <img src="/images/rice.png" alt="" class="w-14" />
-        </TableBodyCell>
-        <TableBodyCell>Rice</TableBodyCell>
+      {#each listUsers.data as user}
+        <TableBodyRow class="text-center dark:bg-[#272727]">
+          <TableBodyCell class="flex justify-center">
+            <img src={user.imgUrl ?? "/images/rice.png"} alt="" class="w-14" />
+          </TableBodyCell>
+          <TableBodyCell>{user.name}</TableBodyCell>
 
-        <TableBodyCell>01 April, 2021 | 03:00 PM</TableBodyCell>
-        <TableBodyCell>8</TableBodyCell>
-        <TableBodyCell>4000IQD</TableBodyCell>
-        <TableBodyCell>25000 IQD</TableBodyCell>
-      </TableBodyRow>
-
-      <TableBodyRow class="text-center dark:bg-[#272727]">
-        <TableBodyCell class="flex justify-center">
-          <img src="/images/rice.png" alt="" class="w-14" />
-        </TableBodyCell>
-
-        <TableBodyCell>Rice</TableBodyCell>
-        <TableBodyCell>01 April, 2021 | 03:00 PM</TableBodyCell>
-        <TableBodyCell>3</TableBodyCell>
-        <TableBodyCell>4000IQD</TableBodyCell>
-        <TableBodyCell>25000 IQD</TableBodyCell>
-      </TableBodyRow>
-
-      <TableBodyRow class="text-center dark:bg-[#272727]">
-        <TableBodyCell class="flex justify-center">
-          <img src="/images/rice.png" alt="" class="w-14" />
-        </TableBodyCell>
-        <TableBodyCell>Rice</TableBodyCell>
-        <TableBodyCell>01 April, 2021 | 03:00 PM</TableBodyCell>
-        <TableBodyCell>4</TableBodyCell>
-        <TableBodyCell>4000IQD</TableBodyCell>
-        <TableBodyCell>25000 IQD</TableBodyCell>
-      </TableBodyRow>
+          <TableBodyCell>{user.roles}</TableBodyCell>
+          <TableBodyCell>{user.phone}</TableBodyCell>
+        </TableBodyRow>
+      {/each}
     </TableBody>
   </Table>
 </div>

@@ -73,13 +73,19 @@ const createAuthStore = () => {
       }
     },
 
-    listUsers: async (options:GenericListOptions) => {
+    listUsers: async (options: GenericListOptions) => {
       try {
-        await authRepository.listUsers(options);
+        const { documents, total } = await authRepository.listUsers(options);
+
+        const listUsersDto: AuthDto[] = documents.map(
+          (user) => Dto.ToAuthDto(user) as AuthDto
+        );
+
+        return { data:listUsersDto, total };
       } catch (error) {
         console.log("Error", error);
       }
-    }
+    },
   };
 };
 
