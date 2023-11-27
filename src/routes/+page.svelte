@@ -1,4 +1,5 @@
 <script lang="ts">
+  import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
   import { ItemsRepository } from "$lib/Repositories/Implementation/Items.Repository";
   import { itemStore } from "$lib/Stores/Items.Store";
   import {
@@ -11,9 +12,14 @@
   } from "flowbite-svelte";
   import moment from "moment";
   import { onMount } from "svelte";
+  const filter:GenericListOptions = {
+    page: undefined,
+    limit: 5,
+    sortField: undefined,
+  };
 
   onMount(async () => {
-    await itemStore.getAll();
+    await itemStore.getAll(filter);
   });
 </script>
 
