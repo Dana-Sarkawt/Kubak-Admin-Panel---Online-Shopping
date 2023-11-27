@@ -1,8 +1,9 @@
+import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
 import type { Item } from "$lib/Models/Entities/Item.Entities.Model";
 import type { CreateItemRequest } from "$lib/Models/Requests/CreateItem.Request";
 
 export interface IItemsRepository {
-  getItems(): Promise<AppwriteResponse<Item>>;
+  getItems(options:GenericListOptions): Promise<AppwriteResponse<Item>>;
 
   getItem(id: string): Promise<Item>;
 

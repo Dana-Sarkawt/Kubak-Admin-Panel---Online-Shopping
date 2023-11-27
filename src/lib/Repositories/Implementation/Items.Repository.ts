@@ -1,21 +1,27 @@
 import { Appwrite } from "$lib/Appwrite/Appwrite";
 import { Environment } from "$lib/Env/Environment";
 import type { Item } from "$lib/Models/Entities/Item.Entities.Model";
-import { ID } from "appwrite";
+import { ID, Query } from "appwrite";
 import type { IItemsRepository } from "../Interface/I.Items.Repository";
 import type {
   CreateItemRequest,
   ItemRequest,
 } from "$lib/Models/Requests/CreateItem.Request";
 import { CategoriesRepository } from "./Categories.Repository";
+import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
 
 const categoriesRepository = new CategoriesRepository();
 
 export class ItemsRepository implements IItemsRepository {
-  async getItems(): Promise<AppwriteResponse<Item>> {
+  async getItems(options:GenericListOptions): Promise<AppwriteResponse<Item>> {
     let { documents, total } = (await Appwrite.databases.listDocuments(
       Environment.appwrite_database,
-      Environment.appwrite_collection_item
+      Environment.appwrite_collection_item,
+      [
+        Query.orderDesc(options.sortField ?? "$createdAt"),
+        Query.limit(options.limit ?? 8),
+        Query.offset((options.page! - 1 ?? 0) * (options.limit ?? 8)),
+      ],
     )) as AppwriteResponse<Item>;
 
     return { documents, total };

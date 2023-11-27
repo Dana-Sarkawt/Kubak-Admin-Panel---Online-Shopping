@@ -1,16 +1,9 @@
 <script lang="ts">
-  import { goto } from "$app/navigation";
   import { page } from "$app/stores";
+  import Pagination from "$lib/Components/Pagination.Component.svelte";
   import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
   import { categoryStore } from "$lib/Stores/Categories.Store";
-  import { Pagination, type LinkType } from "flowbite-svelte";
-  import {
-    ChevronLeftOutline,
-    ChevronRightOutline,
-  } from "flowbite-svelte-icons";
   import { onMount } from "svelte";
-
-  let pageCount: LinkType[] = [];
 
   let filter: GenericListOptions = {
     page: parseInt($page.params.page),
@@ -18,48 +11,12 @@
     sortField: undefined,
   };
 
+  let pages: number = 0;
+
   onMount(async () => {
     await categoryStore.getAll(filter);
-    pagination();
+    pages = $categoryStore.pages as number;
   });
-
-  async function pagination() {
-    for (let i = 0; i < $categoryStore.pages!; i++) {
-      pageCount[i] = {
-        name: i + 1 + "",
-        href: `/category/${i + 1}`,
-        active: i + 1 === parseInt($page.params.page),
-      };
-    }
-  }
-
-  const previous = async () => {
-    if (parseInt($page.params.page) === 1) {
-      return;
-    }
-    goto(`/category/${parseInt($page.params.page) - 1}`);
-    filter.page = parseInt($page.params.page) - 1;
-    await categoryStore.getAll(filter);
-    pagination();
-  };
-
-  const next = async () => {
-    if (parseInt($page.params.page) === $categoryStore.pages) {
-      return;
-    }
-    goto(`/category/${parseInt($page.params.page) + 1}`);
-    filter.page = parseInt($page.params.page) + 1;
-    await categoryStore.getAll(filter);
-    pagination();
-  };
-
-  $:{
-    if($page.params.page){
-      filter.page = parseInt($page.params.page);
-      categoryStore.getAll(filter);
-      pagination();
-    }
-  }
 </script>
 
 <div
@@ -84,23 +41,4 @@
   {/each}
 </div>
 
-<div class="w-full flex justify-center items-center mt-3">
-  <Pagination
-    pages={pageCount}
-    on:previous={previous}
-    on:next={next}
-    class="shadow-lg rounded-lg"
-    activeClass="bg-gradient-to-b from-[#f17f17] to-[#ffab65] text-white"
-    normalClass="text-[#f17f18] dark:text-white"
-    icon
-  >
-    <svelte:fragment slot="prev">
-      <span class="sr-only">Previous</span>
-      <ChevronLeftOutline class="w-2.5 h-2.5 text-[#f17f18] dark:text-white" />
-    </svelte:fragment>
-    <svelte:fragment slot="next">
-      <span class="sr-only">Next</span>
-      <ChevronRightOutline class="w-2.5 h-2.5 text-[#f17f18] dark:text-white" />
-    </svelte:fragment>
-  </Pagination>
-</div>
+<Pagination name="category" {pages} {filter} Store={categoryStore} />

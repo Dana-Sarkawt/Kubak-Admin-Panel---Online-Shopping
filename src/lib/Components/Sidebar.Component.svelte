@@ -65,7 +65,7 @@
 
             <SidebarItem
               label="Categories"
-              href="/category"
+              href="/category/{$page.params.page}"
               spanClass="-lg lg:text-xl ml-2"
             >
               <svelte:fragment slot="icon">
@@ -75,7 +75,7 @@
 
             <SidebarItem
               label="Items"
-              href="/items"
+              href="/items/{$page.params.page}"
               spanClass="-lg lg:text-xl ml-2"
             >
               <svelte:fragment slot="icon">
@@ -97,7 +97,7 @@
 
             <SidebarItem
               label="Users"
-              href="/users"
+              href="/users/{$page.params.page}"
               spanClass="-lg lg:text-xl ml-2"
             >
               <svelte:fragment slot="icon">

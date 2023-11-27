@@ -17,7 +17,7 @@ export class CategoriesRepository implements ICategoriesRepository {
         Environment.appwrite_collection_category,
         [
           Query.orderDesc(options.sortField ?? "$createdAt"),
-          Query.limit(options.limit ?? 8),
+          Query.limit(options.limit ?? 7),
           Query.offset((options.page! - 1 ?? 0) * (options.limit ?? 8)),
         ],
       )) as AppwriteResponse<Category>;
