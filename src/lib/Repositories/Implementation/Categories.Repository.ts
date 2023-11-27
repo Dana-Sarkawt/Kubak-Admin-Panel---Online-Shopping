@@ -11,17 +11,22 @@ import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.M
 
 export class CategoriesRepository implements ICategoriesRepository {
   async getCategories(options:GenericListOptions): Promise<AppwriteResponse<Category>> {
-    let { documents, total } = (await Appwrite.databases.listDocuments(
-      Environment.appwrite_database,
-      Environment.appwrite_collection_category,
-      [
-        Query.orderDesc(options.sortField ?? "$createdAt"),
-        Query.limit(options.limit ?? 8),
-        Query.offset((options.page! - 1 ?? 0) * (options.limit ?? 8)),
-      ],
-    )) as AppwriteResponse<Category>;
-
-    return { documents, total };
+    try{
+      let { documents, total } = (await Appwrite.databases.listDocuments(
+        Environment.appwrite_database,
+        Environment.appwrite_collection_category,
+        [
+          Query.orderDesc(options.sortField ?? "$createdAt"),
+          Query.limit(options.limit ?? 8),
+          Query.offset((options.page! - 1 ?? 0) * (options.limit ?? 8)),
+        ],
+      )) as AppwriteResponse<Category>;
+  
+      return { documents, total };
+    }catch(e){
+      console.log(e);
+      throw e;
+    }
   }
 
   async getCategory(id: string): Promise<Category> {
