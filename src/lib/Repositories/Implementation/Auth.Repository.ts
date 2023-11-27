@@ -34,7 +34,7 @@ export class AuthRepository implements IAuthRepository {
       const result = await Appwrite.functions.createExecution(
         "65646f325c51e338c6b8",
         JSON.stringify(options),
-        true,
+        false,
         '/',
         'GET'
       );
