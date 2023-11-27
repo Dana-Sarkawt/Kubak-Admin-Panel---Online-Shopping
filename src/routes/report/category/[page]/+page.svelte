@@ -47,8 +47,8 @@
         activeClass="bg-[#f17f18] w-44 h-12 font-bold text-center rounded-full text-white flex justify-center items-center"
         nonActiveClass="bg-gray-300 dark:bg-[#212121] dark:text-white font-bold w-44 h-12 text-center rounded-full text-black flex justify-center items-center"
       >
-        <NavLi href="/raport/items">Items</NavLi>
-        <NavLi href="/raport/category" class="bg-[#f17f18] text-white dark:bg-[#f17f18]" >Category</NavLi>
+        <NavLi href="/report/items/1">Items</NavLi>
+        <NavLi href="/report/category" class="bg-[#f17f18] text-white dark:bg-[#f17f18]" >Category</NavLi>
         <NavLi href="#">Orders</NavLi>
       </NavUl>
     </Navbar>
