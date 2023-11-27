@@ -16,7 +16,7 @@
 
   $: {
     if ($page.params.page) {
-      filter.page = parseInt($page.params.page);
+      filter.page = parseInt($page.params.page ?? 1);
       fetchData();
     }
   }
