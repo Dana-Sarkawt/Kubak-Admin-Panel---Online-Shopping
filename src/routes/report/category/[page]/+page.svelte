@@ -1,17 +1,13 @@
 <script lang="ts">
     import { page } from "$app/stores";
     import {
-      Pagination,
       Label,
       Input,
       NavLi,
       NavUl,
       Navbar,
     } from "flowbite-svelte";
-    import {
-      ChevronLeftOutline,
-      ChevronRightOutline,
-    } from "flowbite-svelte-icons";
+
     import {
       Table,
       TableBody,
@@ -23,18 +19,20 @@
     import { categoryStore } from "$lib/Stores/Categories.Store";
     import moment from "moment";
     import { onMount } from "svelte";
+  import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
+  import Pagination  from "$lib/Components/Pagination.Component.svelte";
+
+    let filter: GenericListOptions = {
+    page: parseInt($page.params.page),
+    limit: 7,
+    sortField: undefined,
+  };
+  let pages: number = 0;
   
     onMount(async () => {
-      await categoryStore.getAll();
+      await categoryStore.getAll(filter);
+      pages = $categoryStore.pages as number;
     });
-    
-  
-    const previous = () => {
-      alert("Previous btn clicked. Make a call to your server to fetch data.");
-    };
-    const next = () => {
-      alert("Next btn clicked. Make a call to your server to fetch data.");
-    };
   </script>
   
   <div
@@ -122,23 +120,5 @@
     </Table>
   </div>
   
-  <div class="w-full flex justify-center items-center mt-3">
-    <Pagination
-      on:previous={previous}
-      on:next={next}
-      icon
-      class="shadow-lg rounded-lg"
-      activeClass="bg-gradient-to-b from-[#f17f17] to-[#ffab65] text-white"
-      normalClass="text-[#f17f18] dark:text-white"
-    >
-      <svelte:fragment slot="prev">
-        <span class="sr-only">Previous</span>
-        <ChevronLeftOutline class="w-2.5 h-2.5" />
-      </svelte:fragment>
-      <svelte:fragment slot="next">
-        <span class="sr-only">Next</span>
-        <ChevronRightOutline class="w-2.5 h-2.5" />
-      </svelte:fragment>
-    </Pagination>
-  </div>
+<Pagination name="report/category" {filter} pages={pages} Store={categoryStore}/>
   

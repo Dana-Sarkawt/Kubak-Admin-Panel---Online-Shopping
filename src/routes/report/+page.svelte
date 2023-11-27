@@ -1,39 +1,5 @@
 <script lang="ts">
-  import { page } from "$app/stores";
-  import {
-    Pagination,
-    Label,
-    Input,
-    NavLi,
-    NavUl,
-    Navbar,
-  } from "flowbite-svelte";
-  import {
-    ChevronLeftOutline,
-    ChevronRightOutline,
-  } from "flowbite-svelte-icons";
-  import {
-    Table,
-    TableBody,
-    TableBodyCell,
-    TableBodyRow,
-    TableHead,
-    TableHeadCell,
-  } from "flowbite-svelte";
-  import { categoryStore } from "$lib/Stores/Categories.Store";
-  import moment from "moment";
-  import { onMount } from "svelte";
-
-  onMount(async () => {
-    await categoryStore.getAll();
-  });
-
-  const previous = () => {
-    alert("Previous btn clicked. Make a call to your server to fetch data.");
-  };
-  const next = () => {
-    alert("Next btn clicked. Make a call to your server to fetch data.");
-  };
+  import { Label, Input, NavLi, NavUl, Navbar } from "flowbite-svelte";
 </script>
 
 <div
@@ -48,8 +14,8 @@
       activeClass="bg-[#f17f18] w-44 h-12 font-bold text-center rounded-full text-white flex justify-center items-center"
       nonActiveClass="bg-gray-300 dark:bg-[#212121] dark:text-white font-bold w-44 h-12 text-center rounded-full text-black flex justify-center items-center"
     >
-      <NavLi href="/raport/items">Items</NavLi>
-      <NavLi href="/raport/category">Category</NavLi>
+      <NavLi href="/report/items/1">Items</NavLi>
+      <NavLi href="/report/category/1">Category</NavLi>
       <NavLi href="#">Orders</NavLi>
     </NavUl>
   </Navbar>

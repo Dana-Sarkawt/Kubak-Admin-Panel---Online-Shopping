@@ -13,18 +13,26 @@ import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.M
 const categoriesRepository = new CategoriesRepository();
 
 export class ItemsRepository implements IItemsRepository {
-  async getItems(options?:GenericListOptions): Promise<AppwriteResponse<Item>> {
-    let { documents, total } = (await Appwrite.databases.listDocuments(
-      Environment.appwrite_database,
-      Environment.appwrite_collection_item,
-      [
-        Query.orderDesc(options!.sortField ?? "$createdAt"),
-        Query.limit(options!.limit ?? 8),
-        Query.offset((options!.page - 1 ?? 0) * (options!.limit ?? 8)),
-      ],
-    )) as AppwriteResponse<Item>;
+  async getItems(options: GenericListOptions): Promise<AppwriteResponse<Item>> {
+    try {
+    } catch (error) {}
+    try {
+      let query = [
+        Query.orderDesc(options.sortField ?? "$createdAt"),
+        Query.limit(options.limit ?? 8),
+        Query.offset((options.page! - 1 ?? 0) * (options.limit ?? 8)),
+      ];
+      let { documents, total } = (await Appwrite.databases.listDocuments(
+        Environment.appwrite_database,
+        Environment.appwrite_collection_item,
+        query
+      )) as AppwriteResponse<Item>;
 
-    return { documents, total };
+      return { documents, total };
+    } catch (e) {
+      console.log(e);
+      throw e;
+    }
   }
   async getItem(id: string): Promise<Item> {
     return (await Appwrite.databases.getDocument(

@@ -109,7 +109,7 @@
 
             <SidebarItem
               label="Reports"
-              href="/raport"
+              href="/report"
               spanClass="-lg lg:text-xl ml-2"
             >
               <svelte:fragment slot="icon">
