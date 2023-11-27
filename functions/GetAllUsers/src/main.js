@@ -3,31 +3,18 @@ import { Client } from 'node-appwrite';
 // This is your Appwrite function
 // It's executed each time we get a request
 export default async ({ req, res, log, error }) => {
-  // Why not try the Appwrite SDK?
-  //
-  // const client = new Client()
-  //   .setEndpoint('https://cloud.appwrite.io/v1')
-  //   .setProject(process.env.APPWRITE_FUNCTION_PROJECT_ID)
-  //   .setKey(process.env.APPWRITE_API_KEY);
+  // Make Appwrite SDK Client To bring back a List of Users
+  const client = new Client();
+  client
+    .setEndpoint("https://cloud.appwrite.io/v1") // Your API Endpoint
+    .setProject("654a0b9907671ec1d044") // Your project ID
+    .setKey("8fc8c13d235b4e717c2ab437f35e267dcf8a21d8aa4ebcb16ae59eb93fc00331418ef7d38224ff6b54cebc866b45f99fb797c1738ff42c32763fb6726cc05e2992842f64485fe33f171d01a6cd814ecb4d0ef6cfdd9808a58cb6dac0140426948ed3cfbac1dbbf1333806175928684cb140d9ffb189e2716d0e38c96ccd7df58"); // Your API key
 
-  // You can log messages to the console
-  log('Hello, Logs!');
-
-  // If something goes wrong, log an error
-  error('Hello, Errors!');
-
-  // The `req` object contains the request data
-  if (req.method === 'GET') {
-    // Send a response with the res object helpers
-    // `res.send()` dispatches a string back to the client
-    return res.send('Hello, World!');
+  try {
+    const users = await client.users.list();
+    return res.json(users);
   }
-
-  // `res.json()` is a handy helper for sending JSON
-  return res.json({
-    motto: 'Build like a team of hundreds_',
-    learn: 'https://appwrite.io/docs',
-    connect: 'https://appwrite.io/discord',
-    getInspired: 'https://builtwith.appwrite.io',
-  });
+  catch (e) {
+    return error(e);
+  }
 };
