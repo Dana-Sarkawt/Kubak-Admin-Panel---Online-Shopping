@@ -24,13 +24,6 @@
   onMount(async () => {
     await itemStore.getAll(filter);
   });
-
-  const previous = () => {
-    alert("Previous btn clicked. Make a call to your server to fetch data.");
-  };
-  const next = () => {
-    alert("Next btn clicked. Make a call to your server to fetch data.");
-  };
 </script>
 
 <div
