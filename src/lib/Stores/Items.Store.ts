@@ -27,7 +27,7 @@ const createItemStore = () => {
       }
     },
 
-    getAll: async (options:GenericListOptions) => {
+    getAll: async (options?:GenericListOptions) => {
       try {
         let { documents, total } = await itemsRepository.getItems(options);
         let itemsDto: ItemDto[] = documents.map((document) => {

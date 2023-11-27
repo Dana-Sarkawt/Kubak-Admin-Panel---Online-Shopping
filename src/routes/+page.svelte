@@ -13,8 +13,8 @@
   import { onMount } from "svelte";
   const filter:GenericListOptions = {
     page: 1,
-    limit: 5,
-    sortField: undefined,
+    limit: 4,
+    sortField: "$createdAt",
   };
 
   onMount(async () => {
