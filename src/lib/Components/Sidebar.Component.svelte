@@ -1,6 +1,7 @@
 <script lang="ts">
   import { page } from "$app/stores";
   import { authStore } from "$lib/Stores/Auth.Store";
+  import { darkMode } from "$lib/Stores/Darkmode.Store";
   import {
     Sidebar,
     SidebarGroup,
@@ -34,7 +35,7 @@
     <SidebarWrapper class="bg-[#f17f18] dark:bg-[#212121] p-0 h-full">
       <SidebarGroup class="h-full " ulClass="h-full pl-3">
         <div class="w-full h-auto flex justify-center items-center pb-5 mt-5">
-          <img src="/images/kubak.jpg" alt="" width="50px" height="50px" />
+          <img src="/images/kubak-white.png" alt="" width="50px" height="50px" />
         </div>
 
         <div class="w-full h-[90vh] flex justify-between flex-col">
