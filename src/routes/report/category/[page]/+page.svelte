@@ -24,7 +24,7 @@
 
     let filter: GenericListOptions = {
     page: parseInt($page.params.page),
-    limit: 7,
+    limit: 5,
     sortField: undefined,
   };
   let pages: number = 0;
