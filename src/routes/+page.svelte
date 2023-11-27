@@ -1,6 +1,5 @@
 <script lang="ts">
   import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
-  import { ItemsRepository } from "$lib/Repositories/Implementation/Items.Repository";
   import { itemStore } from "$lib/Stores/Items.Store";
   import {
     Table,
