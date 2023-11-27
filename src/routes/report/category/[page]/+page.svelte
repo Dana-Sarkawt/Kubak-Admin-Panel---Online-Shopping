@@ -120,5 +120,5 @@
     </Table>
   </div>
   
-<Pagination name="report/category" {filter} pages={pages} Store={categoryStore}/>
+<Pagination name="report/category" {filter} pages={$categoryStore.pages} Store={categoryStore}/>
   
