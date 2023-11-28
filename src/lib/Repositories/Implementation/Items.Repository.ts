@@ -9,6 +9,7 @@ import type {
 } from "$lib/Models/Requests/CreateItem.Request";
 import { CategoriesRepository } from "./Categories.Repository";
 import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
+import type { Category } from "$lib/Models/Entities/Category.Entity.Model";
 
 const categoriesRepository = new CategoriesRepository();
 
@@ -44,7 +45,7 @@ export class ItemsRepository implements IItemsRepository {
   }
   async createItem(item: CreateItemRequest): Promise<void> {
     try {
-      const category = await categoriesRepository.getCategory(item.categoryId);
+      const category:Category[] = await categoriesRepository.getCategory(item.categoryId);
 
       const itemRequest: ItemRequest = {
         userId: item.userId,
