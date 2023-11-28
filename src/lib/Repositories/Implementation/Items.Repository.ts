@@ -14,7 +14,9 @@ import type { Category } from "$lib/Models/Entities/Category.Entity.Model";
 const categoriesRepository = new CategoriesRepository();
 
 export class ItemsRepository implements IItemsRepository {
-  async getItems(options?: GenericListOptions): Promise<AppwriteResponse<Item>> {
+  async getItems(
+    options?: GenericListOptions
+  ): Promise<AppwriteResponse<Item>> {
     try {
     } catch (error) {}
     try {
@@ -43,9 +45,15 @@ export class ItemsRepository implements IItemsRepository {
       id
     )) as Item;
   }
+
+  async getItemsByIds(ids: string[]): Promise<Item[]> {
+    let items = ids.map((id) => this.getItem(id));
+    return Promise.all(items);
+  }
   async createItem(item: CreateItemRequest): Promise<void> {
     try {
-      const category:Category[] = await categoriesRepository.getCategoriesByIds(item.categoryId);
+      const category: Category[] =
+        await categoriesRepository.getCategoriesByIds(item.categoryId);
 
       const itemRequest: ItemRequest = {
         userId: item.userId,
@@ -58,8 +66,6 @@ export class ItemsRepository implements IItemsRepository {
         detail: item.detail!,
         category: category,
       };
-
-      console.log("itemRequest :", itemRequest);
 
       await Appwrite.databases.createDocument(
         Environment.appwrite_database,
