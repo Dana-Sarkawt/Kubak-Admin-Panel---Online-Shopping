@@ -13,14 +13,15 @@ import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.M
 const categoriesRepository = new CategoriesRepository();
 
 export class ItemsRepository implements IItemsRepository {
-  async getItems(options: GenericListOptions): Promise<AppwriteResponse<Item>> {
+  async getItems(options?: GenericListOptions): Promise<AppwriteResponse<Item>> {
     try {
     } catch (error) {}
     try {
       let query = [
-        Query.orderDesc(options.sortField ?? "$createdAt"),
-        Query.limit(options.limit ?? 8),
-        Query.offset((options.page! - 1 ?? 0) * (options.limit ?? 8)),
+        Query.orderDesc(options?.sortField || "$createdAt"),
+        Query.limit(options?.limit || 8),
+        Query.offset((options?.page! - 1 || 0) * (options?.limit || 8)),
+        Query.isNull("deletedAt"),
       ];
       let { documents, total } = (await Appwrite.databases.listDocuments(
         Environment.appwrite_database,
