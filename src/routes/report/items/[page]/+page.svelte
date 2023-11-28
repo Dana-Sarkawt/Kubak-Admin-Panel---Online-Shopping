@@ -121,6 +121,7 @@
     </TableBody>
   </Table>
 </div>
+
 <Pagination
   name="report/items"
   {filter}
