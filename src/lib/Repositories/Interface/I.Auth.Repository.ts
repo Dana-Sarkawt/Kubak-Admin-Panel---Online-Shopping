@@ -1,3 +1,4 @@
+import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
 import type {Auth} from "$lib/Models/Entities/Auth.Entity.Model";
 
 export interface IAuthRepository {
@@ -8,4 +9,6 @@ export interface IAuthRepository {
     signOut(): Promise<void>;
 
     secret(userId: string, secret: string): Promise<Auth>;
+
+    listUsers(options:GenericListOptions): Promise<AppwriteResponse<Auth>>;
 } 

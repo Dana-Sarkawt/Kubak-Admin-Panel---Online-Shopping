@@ -14,9 +14,7 @@
     darkMode.subscribe(() => {
       checkDarkMode();
     });
-
     await authStore.get();
-
     if ($authStore && $page.url.pathname === "/login") {
       goto("/");
     }

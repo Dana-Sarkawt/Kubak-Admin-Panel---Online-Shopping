@@ -1,4 +1,5 @@
 import { goto } from "$app/navigation";
+import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
 import { Dto } from "$lib/Models/Conversion/Conversion.Model";
 import type { AuthDto } from "$lib/Models/DTO/Auth.DTO.Model";
 import { Roles } from "$lib/Models/Enums/Roles.Enum.Model";
@@ -67,6 +68,20 @@ const createAuthStore = () => {
         await authRepository.signOut();
         set(null);
         goto("/login");
+      } catch (error) {
+        console.log("Error", error);
+      }
+    },
+
+    listUsers: async (options: GenericListOptions) => {
+      try {
+        const { documents, total } = await authRepository.listUsers(options);
+
+        const listUsersDto: AuthDto[] = documents.map(
+          (user) => Dto.ToAuthDto(user) as AuthDto
+        );
+
+        return { data:listUsersDto, total };
       } catch (error) {
         console.log("Error", error);
       }
