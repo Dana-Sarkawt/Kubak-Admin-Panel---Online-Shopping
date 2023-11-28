@@ -53,30 +53,25 @@
     fetchData();
   };
 </script>
-
 {#if pages > 1}
-  <div class="w-full flex justify-center items-center mt-3">
-    <Pagination
-      pages={pageCount}
-      on:previous={previous}
-      on:next={next}
-      class="shadow-lg rounded-lg"
-      activeClass="bg-gradient-to-b from-[#f17f17] to-[#ffab65] text-white"
-      normalClass="text-[#f17f18] dark:text-white"
-      icon
-    >
-      <svelte:fragment slot="prev">
-        <span class="sr-only">Previous</span>
-        <ChevronLeftOutline
-          class="w-2.5 h-2.5 text-[#f17f18] dark:text-white"
-        />
-      </svelte:fragment>
-      <svelte:fragment slot="next">
-        <span class="sr-only">Next</span>
-        <ChevronRightOutline
-          class="w-2.5 h-2.5 text-[#f17f18] dark:text-white"
-        />
-      </svelte:fragment>
-    </Pagination>
-  </div>
+<div class="w-full flex justify-center items-center mt-3">
+  <Pagination
+    pages={pageCount}
+    on:previous={previous}
+    on:next={next}
+    class="shadow-lg rounded-lg"
+    activeClass="bg-gradient-to-b from-[#f17f17] to-[#ffab65] text-white"
+    normalClass="text-[#f17f18] dark:text-white"
+    icon
+  >
+    <svelte:fragment slot="prev">
+      <span class="sr-only">Previous</span>
+      <ChevronLeftOutline class="w-2.5 h-2.5 text-[#f17f18] dark:text-white" />
+    </svelte:fragment>
+    <svelte:fragment slot="next">
+      <span class="sr-only">Next</span>
+      <ChevronRightOutline class="w-2.5 h-2.5 text-[#f17f18] dark:text-white" />
+    </svelte:fragment>
+  </Pagination>
+</div>
 {/if}
