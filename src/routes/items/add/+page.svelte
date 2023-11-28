@@ -9,7 +9,7 @@
   let options: CreateItemRequest = {
     id: null,
     name: "",
-    categoryId: "",
+    categoryId: [],
     price: 0,
     quantity: 0,
     productionDate: new Date(),
@@ -47,11 +47,10 @@
   }
 
   async function create(options: CreateItemRequest) {
-    options.userId = "6559e81344d4547079c9";
-    options.categoryId = "655f3f5826df16e0777b";
-    console.log(options, "options" , selected , "selected");
-
-    // await itemStore.create(options);
+    options.userId = $authStore?.id ?? "";
+    options.categoryId = selected;
+    console.log(options);
+    await itemStore.create(options);
   }
 </script>
 
