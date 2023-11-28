@@ -31,7 +31,7 @@ export class OrdersRepository implements IOrdersRepository {
   }
   async createOrder(order: CreateOrderRequest): Promise<void> {
     try {
-      const items: Item[] = await itemsRepository.getItemsByIds(order.itemIds);
+      const items: Item[] = await itemsRepository.getItemsByIds(order.items);
       const totalPrice = items.reduce((total, item) => total + item.price, 0);
 
       const orderRequest: OrderRequest = {
