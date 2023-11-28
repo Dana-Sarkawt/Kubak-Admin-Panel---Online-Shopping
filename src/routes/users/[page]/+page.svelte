@@ -75,7 +75,7 @@
       <TableHeadCell>Name</TableHeadCell>
       <TableHeadCell>Roles</TableHeadCell>
       <TableHeadCell>Phone</TableHeadCell>
-      <TableHeadCell></TableHeadCell>
+
     </TableHead>
     <TableBody>
       {#each listUsers.data as user}
@@ -92,12 +92,6 @@
           >
           <TableBodyCell>{user.phone}</TableBodyCell>
 
-          <TableBodyCell>
-            <div class="flex justify-center items-center gap-2">
-              <img src="/images/edit.png" alt="" class="bg-green-500 w-8 h-8 p-2 rounded-lg">
-              <img src="/images/bin.png" alt="" class="bg-red-500 w-8 h-8 p-2 rounded-lg">
-            </div>
-          </TableBodyCell>
         </TableBodyRow>
       {/each}
     </TableBody>

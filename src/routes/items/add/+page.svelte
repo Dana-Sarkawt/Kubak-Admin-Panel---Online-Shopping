@@ -96,7 +96,7 @@
       <Label for="large-input" class="block mb-2">Category</Label>
       <MultiSelect class="py-4   dark:bg-[#363636]" dropdownClass="dark:bg-[#363636]" items={categories} bind:value={selected}/>
     </div>
-    <div class="w-full grid grid-cols-3 items-center justify-center gap-2 my-3">
+    <div class="w-full grid grid-cols-2 items-center justify-center gap-2 my-3">
 
       <div class="w-full flex flex-col">
         <Label for="large-input" class="block mb-2">Price</Label>
