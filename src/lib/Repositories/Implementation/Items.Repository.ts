@@ -59,6 +59,8 @@ export class ItemsRepository implements IItemsRepository {
         category: category,
       };
 
+      console.log("itemRequest :", itemRequest);
+
       // await Appwrite.databases.createDocument(
       //   Environment.appwrite_database,
       //   Environment.appwrite_collection_item,
