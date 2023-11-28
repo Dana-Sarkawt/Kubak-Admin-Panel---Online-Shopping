@@ -53,6 +53,9 @@ export class Dto {
 
   static ToItemDto(item: Item): ItemDto {
     try {
+      const categoriesDto:CategoryDto[] = item.category.map((category) =>
+        this.ToCategoriesDto(category) as CategoryDto
+      );
       return {
         id: item.$id,
         name: item.name,
@@ -63,7 +66,7 @@ export class Dto {
         quantity: item.quantity,
         detail: item.detail,
         popularity: item.popularity,
-        category: Dto.ToCategoriesDto(item.category),
+        category: categoriesDto,
         createdAt: item.$createdAt as Date,
         updatedAt: item.$updatedAt as Date,
         deletedAt: item.deletedAt as Date | null,

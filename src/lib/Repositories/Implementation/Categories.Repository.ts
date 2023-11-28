@@ -44,9 +44,8 @@ export class CategoriesRepository implements ICategoriesRepository {
     )) as Category;
   }
 
-  getCategoriesByIds(ids: string[]): Promise<Category[]> {
+  async getCategoriesByIds(ids: string[]): Promise<Category[]> {
     let categories = ids.map((id) => this.getCategory(id));
-    console.log("Categories :", categories);
     return Promise.all(categories);
   }
 
