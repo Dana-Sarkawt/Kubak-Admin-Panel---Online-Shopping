@@ -53,7 +53,7 @@
     fetchData();
   };
 </script>
-
+{#if page > 1}
 <div class="w-full flex justify-center items-center mt-3">
   <Pagination
     pages={pageCount}
@@ -74,3 +74,4 @@
     </svelte:fragment>
   </Pagination>
 </div>
+{/if}
