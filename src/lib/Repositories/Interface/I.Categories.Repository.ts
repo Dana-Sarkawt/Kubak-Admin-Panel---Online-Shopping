@@ -4,7 +4,7 @@ import type { CreateCategoryRequest } from "$lib/Models/Requests/CreateCategory.
 
 export interface ICategoriesRepository {
   getCategories(
-    options: GenericListOptions
+    options?: GenericListOptions
   ): Promise<AppwriteResponse<Category>>;
 
   getCategory(id: string): Promise<Category>;

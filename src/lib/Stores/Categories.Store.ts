@@ -28,7 +28,7 @@ const createCategoryStore = () => {
         console.log("Error :", e);
       }
     },
-    getAll: async (options:GenericListOptions) => {
+    getAll: async (options?:GenericListOptions) => {
       try {
         let { documents, total } = await categoriesRepository.getCategories(options);
 
@@ -36,7 +36,7 @@ const createCategoryStore = () => {
           return Dto.ToCategoriesDto(document) as CategoryDto;
         });
 
-        const pages = Math.ceil(total / (options.limit ?? 7));
+        const pages = Math.ceil(total / (options?.limit ?? 7));
 
         set({ data: dto, total: total, pages: pages });
         return dto;
@@ -102,8 +102,10 @@ const createCategoryStore = () => {
         if (document === null)
           throw new Error(`Category not found with the following id:${id}`);
 
+
         await categoriesRepository.deleteCategory(id);
 
+        categoryStore.getAll({ limit: 7, page: 1});
         return "Deleted";
       } catch (e) {
         console.log("Error :", e);

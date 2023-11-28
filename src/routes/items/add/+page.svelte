@@ -1,9 +1,11 @@
 <script lang="ts">
   import type { CreateItemRequest } from "$lib/Models/Requests/CreateItem.Request";
   import { authStore } from "$lib/Stores/Auth.Store";
+  import { categoryStore } from "$lib/Stores/Categories.Store";
   import { itemStore } from "$lib/Stores/Items.Store";
   import { Label, Input } from "flowbite-svelte";
-
+  import { MultiSelect } from "flowbite-svelte";
+  import { onMount } from "svelte";
   let options: CreateItemRequest = {
     id: null,
     name: "",
@@ -17,6 +19,22 @@
     },
     userId: "",
   };
+  let categories: { value: string; name: string }[] = [];
+  let selected:string[] = [];
+
+  onMount(async () => {
+    await categoryStore.getAll();
+
+    categories = $categoryStore.data.map((category) => {
+      return {
+        value: category.id,
+        name: category.name,
+      };
+    });
+
+    console.log(categories);
+    
+  });
 
   function handleFileChange(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -31,9 +49,9 @@
   async function create(options: CreateItemRequest) {
     options.userId = "6559e81344d4547079c9";
     options.categoryId = "655f3f5826df16e0777b";
-    console.log($authStore);
+    console.log(options, "options" , selected , "selected");
 
-    await itemStore.create(options);
+    // await itemStore.create(options);
   }
 </script>
 
@@ -71,19 +89,11 @@
       class="w-full rounded-xl dark:bg-[#363636] dark:text-white"
     />
 
+    <div class="w-full flex flex-col mt-2">
+      <Label for="large-input" class="block mb-2">Category</Label>
+      <MultiSelect class="py-4   dark:bg-[#363636]" dropdownClass="dark:bg-[#363636]" items={categories} bind:value={selected}/>
+    </div>
     <div class="w-full grid grid-cols-3 items-center justify-center gap-2 my-3">
-      <div class="w-full flex flex-col">
-        <Label for="large-input" class="block mb-2">Category</Label>
-        <select
-          bind:value={options.categoryId}
-          name="category"
-          id=""
-          required
-          class="rounded-xl dark:bg-[#363636] dark:text-white h-12"
-        >
-          <option value="Crop">Crop</option>
-        </select>
-      </div>
 
       <div class="w-full flex flex-col">
         <Label for="large-input" class="block mb-2">Price</Label>
@@ -129,7 +139,6 @@
           bind:value={options.expiredDate}
           id="large-input"
           size="lg"
-          
           type="date"
           class="w-full rounded-xl dark:bg-[#363636] dark:text-white"
           required
@@ -168,5 +177,4 @@
     border-radius: 8px;
     cursor: pointer;
   }
-  
 </style>

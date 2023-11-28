@@ -11,14 +11,18 @@ import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.M
 
 export class CategoriesRepository implements ICategoriesRepository {
   async getCategories(
-    options: GenericListOptions
+    options?: GenericListOptions
   ): Promise<AppwriteResponse<Category>> {
     try {
       let query = [
-        Query.orderDesc(options.sortField ?? "$createdAt"),
-        Query.limit(options.limit ?? 7),
-        Query.offset((options.page! - 1 ?? 0) * (options.limit ?? 8)),
+        Query.orderDesc(options?.sortField || "$createdAt"),
+        Query.limit(options?.limit || 7),
+        Query.offset((options?.page! - 1 || 0) * (options?.limit || 7)),
+        Query.isNull("deletedAt"),
       ];
+
+      console.log("Query :", query);
+      
       let { documents, total } = (await Appwrite.databases.listDocuments(
         Environment.appwrite_database,
         Environment.appwrite_collection_category,
@@ -73,8 +77,10 @@ export class CategoriesRepository implements ICategoriesRepository {
       Environment.appwrite_collection_category,
       id,
       {
-        deletedAt: Date.now(),
+        deletedAt: new Date(),
       }
     );
+    console.log("Deleted");
+    
   }
 }
