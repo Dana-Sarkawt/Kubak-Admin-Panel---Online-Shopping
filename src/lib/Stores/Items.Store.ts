@@ -6,6 +6,7 @@ import type { CreateItemRequest } from "$lib/Models/Requests/CreateItem.Request"
 import { ImageToUrl } from "../../utils/ImageToUrl.Utils";
 import { writable } from 'svelte/store';
 import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
+import { goto } from "$app/navigation";
 
 const itemsRepository = new ItemsRepository();
 
@@ -61,15 +62,15 @@ const createItemStore = () => {
             "Item Production Date Must Be Lesser Than The Expiration Date"
           );
         }
-        // if (item.categoryId == "") {
-        //   throw new Error("Please Add A Category To The Item");
-        // }
+        if (item.categoryId.length == 0) {
+          throw new Error("Please Add A Category To The Item");
+        }
         if (item.image.url instanceof File) {
           item.image.url = (await ImageToUrl(item.image.url as File)) as string;
         }
-        console.log(item);
 
         await itemsRepository.createItem(item);
+        goto("/items");
       } catch (error: any) {
         console.log(error);
       }

@@ -21,8 +21,6 @@ export class CategoriesRepository implements ICategoriesRepository {
         Query.isNull("deletedAt"),
       ];
 
-      console.log("Query :", query);
-
       let { documents, total } = (await Appwrite.databases.listDocuments(
         Environment.appwrite_database,
         Environment.appwrite_collection_category,
@@ -44,9 +42,8 @@ export class CategoriesRepository implements ICategoriesRepository {
     )) as Category;
   }
 
-  getCategoriesByIds(ids: string[]): Promise<Category[]> {
+  async getCategoriesByIds(ids: string[]): Promise<Category[]> {
     let categories = ids.map((id) => this.getCategory(id));
-    console.log("Categories :", categories);
     return Promise.all(categories);
   }
 
@@ -86,6 +83,5 @@ export class CategoriesRepository implements ICategoriesRepository {
         deletedAt: new Date(),
       }
     );
-    console.log("Deleted");
   }
 }

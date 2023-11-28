@@ -1,42 +1,40 @@
 <script lang="ts">
-    import { page } from "$app/stores";
-    import {
-      Label,
-      Input,
-      NavLi,
-      NavUl,
-      Navbar,
-    } from "flowbite-svelte";
+  import { page } from "$app/stores";
+  import { Label, Input, NavLi, NavUl, Navbar } from "flowbite-svelte";
 
-    import {
-      Table,
-      TableBody,
-      TableBodyCell,
-      TableBodyRow,
-      TableHead,
-      TableHeadCell,
-    } from "flowbite-svelte";
-    import { categoryStore } from "$lib/Stores/Categories.Store";
-    import moment from "moment";
-    import { onMount } from "svelte";
+  import {
+    Table,
+    TableBody,
+    TableBodyCell,
+    TableBodyRow,
+    TableHead,
+    TableHeadCell,
+  } from "flowbite-svelte";
+  import { categoryStore } from "$lib/Stores/Categories.Store";
+  import moment from "moment";
+  import { onMount } from "svelte";
   import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
-  import Pagination  from "$lib/Components/Pagination.Component.svelte";
+  import Pagination from "$lib/Components/Pagination.Component.svelte";
+  import ReportsLinks from "$lib/Components/ReportsLinks.Component.svelte";
 
-    let filter: GenericListOptions = {
+  let filter: GenericListOptions = {
     page: parseInt($page.params.page),
     limit: 5,
     sortField: undefined,
   };
   let pages: number = 0;
-  
-    onMount(async () => {
-      await categoryStore.getAll(filter);
-      pages = $categoryStore.pages as number;
-    });
-  </script>
-  
-  <div
-    class="flex justify-center items-center w-full h-24 gap-2 overflow-y-hidden mt-44 px-3"
+
+  onMount(async () => {
+    await categoryStore.getAll(filter);
+    pages = $categoryStore.pages as number;
+  });
+</script>
+
+<ReportsLinks />
+
+<div class="container mx-auto px-12 mt-12">
+  <p
+    class="bg-[#636363] w-44 h-8 flex items-center justify-center text-white text-center rounded-t-lg ml-3"
   >
     <Navbar
       class="bg-[#f5f5f5] dark:bg-[#363636] flex justify-center items-center w-full"

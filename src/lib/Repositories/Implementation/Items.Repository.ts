@@ -61,12 +61,12 @@ export class ItemsRepository implements IItemsRepository {
 
       console.log("itemRequest :", itemRequest);
 
-      // await Appwrite.databases.createDocument(
-      //   Environment.appwrite_database,
-      //   Environment.appwrite_collection_item,
-      //   ID.unique(),
-      //   itemRequest
-      // );
+      await Appwrite.databases.createDocument(
+        Environment.appwrite_database,
+        Environment.appwrite_collection_item,
+        ID.unique(),
+        itemRequest
+      );
     } catch (error: any) {
       console.log(error);
     }
