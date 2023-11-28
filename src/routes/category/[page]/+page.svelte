@@ -68,7 +68,7 @@ async function deleteCategory(id:string) {
         </svg>
       </div>
       
-      <img src={category.categoryImage ?? "/images/rice.png"} alt="" />
+      <img src={category.categoryImage ?? "/images/category.png"} alt="" class="object-cover object-center m-2 h-[130px] rounded-lg " />
       <p class="text-2xl">{category.name ?? "Rice"}</p>
     </div>
   {/each}
