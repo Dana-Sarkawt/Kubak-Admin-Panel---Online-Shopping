@@ -133,7 +133,7 @@
               <TableBodyRow class="dark:bg-[#212121]">
                 <TableBodyCell
                   ><img
-                    src={item.itemImage??"/images/rice.png"}
+                    src={item.itemImage??"/images/item.png"}
                     alt=""
                     class="w-8"
                   /></TableBodyCell

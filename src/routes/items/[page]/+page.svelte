@@ -96,7 +96,7 @@
       {#each $itemStore.data as item}
         <TableBodyRow class="text-center dark:bg-[#272727]">
           <TableBodyCell class="flex justify-center">
-            <img src="/images/rice.png" alt="" class="w-14" />
+            <img src={item.itemImage??"/images/item.png"} alt="" class="w-14" />
           </TableBodyCell>
           <TableBodyCell>{item.name}</TableBodyCell>
 
