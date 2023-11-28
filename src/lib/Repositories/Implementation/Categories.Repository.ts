@@ -22,7 +22,7 @@ export class CategoriesRepository implements ICategoriesRepository {
       ];
 
       console.log("Query :", query);
-      
+
       let { documents, total } = (await Appwrite.databases.listDocuments(
         Environment.appwrite_database,
         Environment.appwrite_collection_category,
@@ -42,6 +42,12 @@ export class CategoriesRepository implements ICategoriesRepository {
       Environment.appwrite_collection_category,
       id
     )) as Category;
+  }
+
+  getCategoriesByIds(ids: string[]): Promise<Category[]> {
+    let categories = ids.map((id) => this.getCategory(id));
+    console.log("Categories :", categories);
+    return Promise.all(categories);
   }
 
   async createCategory(category: CreateCategoryRequest): Promise<void> {
@@ -81,6 +87,5 @@ export class CategoriesRepository implements ICategoriesRepository {
       }
     );
     console.log("Deleted");
-    
   }
 }

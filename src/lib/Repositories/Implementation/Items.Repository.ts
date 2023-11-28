@@ -45,7 +45,7 @@ export class ItemsRepository implements IItemsRepository {
   }
   async createItem(item: CreateItemRequest): Promise<void> {
     try {
-      const category:Category[] = await categoriesRepository.getCategory(item.categoryId);
+      const category:Category[] = await categoriesRepository.getCategoriesByIds(item.categoryId);
 
       const itemRequest: ItemRequest = {
         userId: item.userId,
@@ -59,12 +59,12 @@ export class ItemsRepository implements IItemsRepository {
         category: category,
       };
 
-      await Appwrite.databases.createDocument(
-        Environment.appwrite_database,
-        Environment.appwrite_collection_item,
-        ID.unique(),
-        itemRequest
-      );
+      // await Appwrite.databases.createDocument(
+      //   Environment.appwrite_database,
+      //   Environment.appwrite_collection_item,
+      //   ID.unique(),
+      //   itemRequest
+      // );
     } catch (error: any) {
       console.log(error);
     }

@@ -9,6 +9,8 @@ export interface ICategoriesRepository {
 
   getCategory(id: string): Promise<Category>;
 
+  getCategoriesByIds(ids: string[]): Promise<Category[]>; // get categories by ids
+
   createCategory(category: CreateCategoryRequest): Promise<void>;
 
   updateCategory(category: Category): Promise<Category>;
