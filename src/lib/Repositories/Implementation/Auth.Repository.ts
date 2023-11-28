@@ -31,7 +31,7 @@ export class AuthRepository implements IAuthRepository {
     return (await Appwrite.account.get()) as Auth;
   }
   async listUsers(
-    options: GenericListOptions
+    options?: GenericListOptions
   ): Promise<AppwriteResponse<Auth>> {
     const result = await Appwrite.functions.createExecution(
       "65646f325c51e338c6b8",

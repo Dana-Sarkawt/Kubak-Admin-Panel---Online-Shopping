@@ -18,8 +18,7 @@
 
   let filter: GenericListOptions = {
     page: parseInt($page.params.page),
-    limit: 7,
-    sortField: "$createdAt",
+    limit: 7
   };
   let listUsers: Store<AuthDto> = {
     data: [],
@@ -28,7 +27,7 @@
 
   onMount(async () => {
     listUsers = (await authStore.listUsers(filter)) as Store<AuthDto>;
-    console.log(listUsers);
+    console.log("List Users ", listUsers);
   });
 </script>
 
@@ -83,9 +82,13 @@
           <TableBodyCell class="flex justify-center">
             <img src={user.imgUrl ?? "/images/rice.png"} alt="" class="w-14" />
           </TableBodyCell>
-          <TableBodyCell>{user.name}</TableBodyCell>
+          <TableBodyCell
+            >{user.name.length > 0 ? user.name : "No Name"}</TableBodyCell
+          >
 
-          <TableBodyCell>{user.roles}</TableBodyCell>
+          <TableBodyCell
+            >{user.roles.length > 0 ? user.roles : "Client"}</TableBodyCell
+          >
           <TableBodyCell>{user.phone}</TableBodyCell>
         </TableBodyRow>
       {/each}
