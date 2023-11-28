@@ -15,7 +15,7 @@
     <img
       src={ $authStore?.imgUrl || "/images/user.png"}
       alt=""
-      class="w-16 h-16 rounded-full bg-cover bg-no-repeat bg-center"
+      class="w-16 h-16 rounded-full object-cover bg-no-repeat object-center"
     />
   </div>
   <DarkMode class="text-lg mr-5">
