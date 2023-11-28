@@ -2,10 +2,10 @@ import type { Item } from "$lib/Models/Entities/Item.Entities.Model";
 
 export interface CreateOrderRequest {
     userId: string;
-    items: SelectedItems[];
+    items: RequestSelectedItems[];
 }
 
-interface SelectedItems{
+export interface RequestSelectedItems{
     itemId: string;
     quantity: number;
 }

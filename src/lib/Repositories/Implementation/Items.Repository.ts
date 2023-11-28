@@ -10,6 +10,7 @@ import type {
 import { CategoriesRepository } from "./Categories.Repository";
 import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
 import type { Category } from "$lib/Models/Entities/Category.Entity.Model";
+import type { RequestSelectedItems } from "$lib/Models/Requests/CreateOrder.Request";
 
 const categoriesRepository = new CategoriesRepository();
 
@@ -46,9 +47,52 @@ export class ItemsRepository implements IItemsRepository {
     )) as Item;
   }
 
-  async getItemsByIds(ids: string[]): Promise<Item[]> {
-    let items = ids.map((id) => this.getItem(id));
-    return Promise.all(items);
+  async getItemsByIdsAndUpdateQuantity(
+    selectedItems: RequestSelectedItems[]
+  ): Promise<Item[]> {
+    const { documents, total } = (await Appwrite.databases.listDocuments(
+      Environment.appwrite_database,
+      Environment.appwrite_collection_item,
+      [
+        Query.equal(
+          "$id",
+          selectedItems.map((item) => item.itemId)
+        ),
+        Query.limit(selectedItems.length),
+        Query.offset(0),
+        Query.isNull("deletedAt"),
+      ]
+    )) as AppwriteResponse<Item>;
+    let items = documents as Item[];
+
+    items.forEach(async (item) => {
+      // check if item quantity is enough
+      if (
+        item.quantity <
+        selectedItems.find((i) => i.itemId === item.$id)!.quantity
+      ) {
+        throw new Error("Item quantity is not enough");
+      }
+      await Appwrite.databases.updateDocument(
+        Environment.appwrite_database,
+        Environment.appwrite_collection_item,
+        item.$id,
+        {
+          quantity:
+            item.quantity -
+            selectedItems.find((i) => i.itemId === item.$id)!.quantity,
+        }
+      );
+    });
+
+    items = items.map((item) => {
+      item.quantity = selectedItems.find(
+        (i) => i.itemId === item.$id
+      )!.quantity;
+      return item;
+    });
+
+    return items;
   }
   async createItem(item: CreateItemRequest): Promise<void> {
     try {

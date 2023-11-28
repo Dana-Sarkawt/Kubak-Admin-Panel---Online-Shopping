@@ -31,8 +31,15 @@ export class OrdersRepository implements IOrdersRepository {
   }
   async createOrder(order: CreateOrderRequest): Promise<void> {
     try {
-      const items: Item[] = await itemsRepository.getItemsByIds(order.items);
-      const totalPrice = items.reduce((total, item) => total + item.price, 0);
+      const items: Item[] =
+        await itemsRepository.getItemsByIdsAndUpdateQuantity(order.items);
+      let totalPrice = 0;
+      items.forEach((item) => {
+        const selectedItem = order.items.find((i) => i.itemId === item.$id);
+        if (selectedItem) {
+          totalPrice += item.price * selectedItem.quantity;
+        }
+      });
 
       const orderRequest: OrderRequest = {
         userId: order.userId,
