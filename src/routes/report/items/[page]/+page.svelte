@@ -105,7 +105,7 @@
             <img
               src={item.itemImage ?? "/images/item.png"}
               alt=""
-              class="w-14"
+              class="w-14 h-14 object-cover object-center rounded-lg"
             />
           </TableBodyCell>
           <TableBodyCell>{item.name}</TableBodyCell>

@@ -23,7 +23,10 @@
   }
 
   $: activeUrl = $page.url.pathname;
-  $: pages = $page.params.page;
+
+
+
+
   let activeClass =
     "flex items-center p-2 text-base font-normal text-white bg-[#CB5500] dark:bg-[#5B5B5B] rounded-l-full";
   let nonActiveClass =
@@ -71,7 +74,7 @@
 
             <SidebarItem
               label="Categories"
-              href="/category/1"
+              href={$page.url.pathname.includes("category/add") ? "/category/add" : `/category/${$page.params.page}`}
               spanClass="-lg lg:text-xl ml-2"
             >
               <svelte:fragment slot="icon">
@@ -81,7 +84,7 @@
 
             <SidebarItem
               label="Items"
-              href="/items/1"
+              href={$page.url.pathname.includes("items/add") ? "/items/add" : `/items/${$page.params.page}`}
               spanClass="-lg lg:text-xl ml-2"
             >
               <svelte:fragment slot="icon">
@@ -93,7 +96,7 @@
 
             <SidebarItem
               label="Cards"
-              href="/cards"
+              href={$page.url.pathname.includes("/cards") ? "/cards" : `/cards/add`}
               spanClass="-lg lg:text-xl ml-2"
             >
               <svelte:fragment slot="icon">

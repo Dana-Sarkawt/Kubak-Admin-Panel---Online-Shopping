@@ -108,7 +108,7 @@
         {#each $categoryStore.data as category}
           <TableBodyRow class="text-center dark:bg-[#272727]">
             <TableBodyCell class="flex justify-center">
-              <img src={category.categoryImage ?? "/images/rice.png"} alt="" class="w-14" />
+              <img src={category.categoryImage ?? "/images/rice.png"} alt="" class="w-14 h-14 object-cover object-center rounded-lg" />
             </TableBodyCell>
             <TableBodyCell>{category.name}</TableBodyCell>
   
