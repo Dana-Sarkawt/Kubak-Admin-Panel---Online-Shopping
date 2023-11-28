@@ -24,7 +24,6 @@
   async function fetchData() {
     await Store.getAll(filter);
     updatePageCount();
-    console.log($page.url.pathname);
   }
 
   function updatePageCount() {

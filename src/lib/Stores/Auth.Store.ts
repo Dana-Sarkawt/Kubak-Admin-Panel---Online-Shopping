@@ -47,17 +47,20 @@ const createAuthStore = () => {
     secret: async (userId: string, secret: string) => {
       try {
         const user = await authRepository.secret(userId, secret);
-        if (user.labels.includes(Roles[Roles.Client])) {
+        if (
+          user.labels.includes(Roles[Roles.SuperAdmin]) ||
+          user.labels.includes(Roles[Roles.Admin])
+        ) {
+          const userDto: AuthDto = Dto.ToAuthDto(user);
+
+          set(userDto);
+          goto("/");
+        } else {
           await authRepository.signOut();
           throw new Error(
             "This User Does Not have The right Permission To Login"
           );
         }
-
-        const userDto: AuthDto = Dto.ToAuthDto(user);
-
-        set(userDto);
-        goto("/");
       } catch (error) {
         console.log("Error", error);
       }
@@ -81,7 +84,7 @@ const createAuthStore = () => {
           (user) => Dto.ToAuthDto(user) as AuthDto
         );
 
-        return { data:listUsersDto, total };
+        return { data: listUsersDto, total };
       } catch (error) {
         console.log("Error", error);
       }
