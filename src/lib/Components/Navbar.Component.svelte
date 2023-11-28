@@ -11,9 +11,9 @@
   class="w-4/5 h-20 bg-white dark:bg-[#252525] flex flex-row float-right justify-end items-center"
 >
   <div class="w-3/4 flex justify-center items-center gap-3 mr-12">
-    <p class="font-bold dark:text-white">{"Your name"}</p>
+    <p class="font-bold dark:text-white">{$authStore?.name??"Your name"}</p>
     <img
-      src={"/images/user.jpg"}
+      src={ $authStore?.imgUrl || "/images/user.png"}
       alt=""
       class="w-16 h-16 rounded-full bg-cover bg-no-repeat bg-center"
     />

@@ -103,7 +103,7 @@
         <TableBodyRow class="text-center dark:bg-[#272727]">
           <TableBodyCell class="flex justify-center">
             <img
-              src={item.itemImage ?? "/images/rice.png"}
+              src={item.itemImage ?? "/images/item.png"}
               alt=""
               class="w-14"
             />

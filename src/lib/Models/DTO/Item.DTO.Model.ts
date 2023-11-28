@@ -11,5 +11,5 @@ export interface ItemDto extends Datetime {
     quantity: number;
     detail: string;
     popularity: number;
-    category: CategoryDto | null;
+    category: CategoryDto[] | null;
 }

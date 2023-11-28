@@ -80,7 +80,7 @@
       {#each listUsers.data as user}
         <TableBodyRow class="text-center dark:bg-[#272727]">
           <TableBodyCell class="flex justify-center">
-            <img src={user.imgUrl ?? "/images/rice.png"} alt="" class="w-14" />
+            <img src={user.imgUrl ?? "/images/user.png"} alt="" class="w-14" />
           </TableBodyCell>
           <TableBodyCell
             >{user.name.length > 0 ? user.name : "No Name"}</TableBodyCell

@@ -65,13 +65,16 @@
 </div>
 
 <div
-  class="container mx-auto max-w-2xl flex justify-center items-center flex-col gap-3 mt-32 py-12 rounded-xl bg-white dark:bg-[#212121]"
+  class="container mx-auto max-w-2xl flex justify-center items-center flex-col gap-3 mt-23 py-12 rounded-xl bg-white dark:bg-[#212121]"
 >
+<div class="w-60 h-60 bg-[#e9e9e9] dark:bg-[#363636] flex justify-center items-center rounded-lg">
+
   <img
-    src={options.image.localUrl ?? "/images/rice.png"}
+    src={options.image.localUrl ?? "/images/item.png"}
     alt=""
-    class="w-52 h-52 object-cover p-1 rounded-xl flex bg-[#B0AFAF] dark:bg-[#363636]"
+    class="object-cover w-44 h-44 object-center p-1 rounded-xl flex"
   />
+</div>
 
   <input type="file" id="uploadBtn" on:change={handleFileChange} />
   <label for="uploadBtn" class=" bg-[#f0f0f0] dark:bg-[#363636]"

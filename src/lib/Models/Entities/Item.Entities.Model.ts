@@ -11,6 +11,6 @@ export interface Item extends Database {
   quantity: number;
   detail: string;
   popularity: number;
-  category: Category;
+  category: Category[];
   deletedAt: Date | null;
 }
