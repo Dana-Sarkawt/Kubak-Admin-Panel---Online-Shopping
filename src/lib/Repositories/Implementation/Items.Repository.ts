@@ -47,17 +47,12 @@ export class ItemsRepository implements IItemsRepository {
     )) as Item;
   }
 
-  async getItemsByIds(
-    ids: string[]
-  ): Promise<Item[]> {
+  async getItemsByIds(ids: string[]): Promise<Item[]> {
     const { documents, total } = (await Appwrite.databases.listDocuments(
       Environment.appwrite_database,
       Environment.appwrite_collection_item,
       [
-        Query.equal(
-          "$id",
-          ids
-        ),
+        Query.equal("$id", ids),
         Query.limit(ids.length),
         Query.offset(0),
         Query.isNull("deletedAt"),
@@ -108,7 +103,9 @@ export class ItemsRepository implements IItemsRepository {
         expiredDate: item.expiredDate,
         quantity: item.quantity,
         detail: item.detail!,
-        category: category,
+        category: category.map((c) => {
+          return c.$id;
+        }),
       };
 
       await Appwrite.databases.createDocument(

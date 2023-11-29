@@ -27,5 +27,5 @@ export interface ItemRequest {
   expiredDate: Date;
   quantity: number;
   detail: string;
-  category: Category[];
+  category: string[];
 }
