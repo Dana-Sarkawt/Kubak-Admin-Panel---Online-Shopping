@@ -8,9 +8,7 @@ export interface IOrdersRepository {
 
     createOrder(order: CreateOrderRequest): Promise<void>;
 
-    updateOrder(order: CreateOrderRequest): Promise<Order>;
+    updateOrder(order: Order): Promise<Order>;
 
     updateOrderStatus(id: string, status: number): Promise<Order>;
-
-    deleteOrder(id: string): Promise<void>;
 }

@@ -8,7 +8,7 @@ export interface IItemsRepository {
 
   getItem(id: string): Promise<Item>;
 
-  getItemsByIdsAndUpdateQuantity(selectedItems:RequestSelectedItems[]): Promise<Item[]> 
+  getItemsByIds(ids:string[]): Promise<Item[]> 
 
   createItem(item: CreateItemRequest): Promise<void>;
 

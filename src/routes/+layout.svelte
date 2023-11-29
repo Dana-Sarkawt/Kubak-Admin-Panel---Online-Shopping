@@ -24,6 +24,7 @@
     }
 
     const order:CreateOrderRequest = {
+      id:null,
       userId: $authStore!.id,
       items: [
         {

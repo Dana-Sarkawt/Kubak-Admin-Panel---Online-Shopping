@@ -1,6 +1,7 @@
 import type { Item } from "$lib/Models/Entities/Item.Entities.Model";
 
 export interface CreateOrderRequest {
+    id: string | null;
     userId: string;
     items: RequestSelectedItems[];
 }

@@ -31,15 +31,15 @@ export class OrdersRepository implements IOrdersRepository {
   }
   async createOrder(order: CreateOrderRequest): Promise<void> {
     try {
-      const items: Item[] =
-        await itemsRepository.getItemsByIdsAndUpdateQuantity(order.items);
-      let totalPrice = 0;
-      items.forEach((item) => {
-        const selectedItem = order.items.find((i) => i.itemId === item.$id);
-        if (selectedItem) {
-          totalPrice += item.price * selectedItem.quantity;
-        }
-      });
+      // const items: Item[] =
+      //   await itemsRepository.getItemsByIds(order.items);
+      // let totalPrice = 0;
+      // items.forEach((item) => {
+      //   const selectedItem = order.items.find((i) => i.itemId === item.$id);
+      //   if (selectedItem) {
+      //     totalPrice += item.price * selectedItem.quantity;
+      //   }
+      // });
 
       const orderRequest: OrderRequest = {
         userId: order.userId,
@@ -59,13 +59,10 @@ export class OrdersRepository implements IOrdersRepository {
       throw e;
     }
   }
-  async updateOrder(order: CreateOrderRequest): Promise<Order> {
+  async updateOrder(order: Order): Promise<Order> {
     throw new Error("Method not implemented.");
   }
   async updateOrderStatus(id: string, status: number): Promise<Order> {
-    throw new Error("Method not implemented.");
-  }
-  async deleteOrder(id: string): Promise<void> {
     throw new Error("Method not implemented.");
   }
 }
