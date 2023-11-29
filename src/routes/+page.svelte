@@ -139,7 +139,7 @@
                   /></TableBodyCell
                 >
                 <TableBodyCell>{item.name}</TableBodyCell>
-                <TableBodyCell>2{moment(item.productionDate).format("DD-MMM-YYYY")}</TableBodyCell>
+                <TableBodyCell>{moment(item.productionDate).format("DD-MMM-YYYY")}</TableBodyCell>
                 <TableBodyCell class="text-gray-400">{moment(item.expiredDate).format("DD-MMM-YYYY")}</TableBodyCell>
                 <TableBodyCell>{item.price}</TableBodyCell>
               </TableBodyRow>
