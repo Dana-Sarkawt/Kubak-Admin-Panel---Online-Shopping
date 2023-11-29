@@ -73,7 +73,7 @@ const createItemStore = () => {
         }
 
         await itemsRepository.createItem(item);
-        goto("/items");
+        goto("/items/1");
       } catch (error: any) {
         console.log(error);
       }

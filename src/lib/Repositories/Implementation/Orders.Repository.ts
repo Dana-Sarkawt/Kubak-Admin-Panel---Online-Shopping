@@ -41,19 +41,25 @@ export class OrdersRepository implements IOrdersRepository {
       //   }
       // });
 
-      const orderRequest: OrderRequest = {
-        userId: order.userId,
-        items: items,
-        totalPrice: totalPrice,
-        status: 0,
-      };
+      // const orderRequest: OrderRequest = {
+      //   userId: order.userId,
+      //   items: items,
+      //   totalPrice: totalPrice,
+      //   status: 0,
+      // };
 
-      await Appwrite.databases.createDocument(
-        Environment.appwrite_database,
-        Environment.appwrite_collection_order,
-        ID.unique(),
-        orderRequest
-      );
+      const result = await Appwrite.functions.createExecution(
+        "6566e3017ed5ff75b429",
+        JSON.stringify(order),
+        false,
+        "/",
+        "POST"
+      )
+
+      console.log("Executed");
+      console.log(result);
+      
+      
     } catch (e) {
       console.log(e);
       throw e;

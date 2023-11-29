@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { OrdersRepository } from '$lib/Repositories/Implementation/Orders.Repository';
+  import { OrdersRepository } from "$lib/Repositories/Implementation/Orders.Repository";
   import "../app.postcss";
   import Sidebar from "$lib/Components/Sidebar.Component.svelte";
   import Navbar from "$lib/Components/Navbar.Component.svelte";
@@ -8,7 +8,7 @@
   import { onMount } from "svelte";
   import { authStore } from "$lib/Stores/Auth.Store";
   import { goto } from "$app/navigation";
-  import type { CreateOrderRequest } from '$lib/Models/Requests/CreateOrder.Request';
+  import type { CreateOrderRequest } from "$lib/Models/Requests/CreateOrder.Request";
 
   $: pathUrl = $page.url.pathname;
 
@@ -23,22 +23,20 @@
       goto("/");
     }
 
-    const order:CreateOrderRequest = {
-      id:null,
+    const order: CreateOrderRequest = {
       userId: $authStore!.id,
       items: [
         {
-          itemId:"6565e81e63a13ad3a10b",
-          quantity: 5
+          itemId: "6565e81e63a13ad3a10b",
+          quantity: 5,
         },
         {
-          itemId:"6565c3aea1355e24ec82",
-          quantity: 3
-        }
-      ]
-    }
+          itemId: "65671b57f2759839a34d",
+          quantity: 3,
+        },
+      ],
+    };
     await ordersRepository.createOrder(order);
-
   });
 
   async function checkDarkMode() {
