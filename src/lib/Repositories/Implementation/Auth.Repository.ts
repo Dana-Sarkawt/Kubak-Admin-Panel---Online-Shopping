@@ -20,17 +20,20 @@ export class AuthRepository implements IAuthRepository {
     const result = await Appwrite.account.createPhoneSession(
       ID.unique(),
       phone
-    );
-    return result.userId;
-  }
-  async signOut(): Promise<void> {
-    await Appwrite.account.deleteSession("current");
-  }
-  async secret(userId: string, secret: string): Promise<Auth> {
-    await Appwrite.account.updatePhoneSession(userId, secret);
-    return (await Appwrite.account.get()) as Auth;
-  }
-  async listUsers(
+      );
+      return result.userId;
+    }
+    async signOut(): Promise<void> {
+      await Appwrite.account.deleteSession("current");
+    }
+    async secret(userId: string, secret: string): Promise<Auth> {
+      await Appwrite.account.updatePhoneSession(userId, secret);
+      return (await Appwrite.account.get()) as Auth;
+    }
+    async update(auth: CreateAuthRequest): Promise<Auth> {
+      throw new Error("Method not implemented.");
+    }
+    async listUsers(
     options?: GenericListOptions
   ): Promise<AppwriteResponse<Auth>> {
     const result = await Appwrite.functions.createExecution(
@@ -45,5 +48,15 @@ export class AuthRepository implements IAuthRepository {
 
     const users: AppwriteResponse<Auth> = { documents, total };
     return users;
+  }
+
+  private async filterUpdatingOptions(options: CreateAuthRequest): Promise<void>{
+
+    if(options.name != ""){
+      await Appwrite.account.updateName(options.name);
+    }
+    if(options.prefs.image === ""){
+      options.prefs.image = (await Appwrite.account.getPrefs()).image;
+    }
   }
 }

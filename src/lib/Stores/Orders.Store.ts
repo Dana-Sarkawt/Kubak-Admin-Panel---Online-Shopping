@@ -1,15 +1,12 @@
 import { goto } from "$app/navigation";
 import { Dto } from "$lib/Models/Conversion/Conversion.Model";
 import type { OrderDto } from "$lib/Models/DTO/Order.DTO.Model";
-import type { Item } from "$lib/Models/Entities/Item.Entities.Model";
 import type { CreateOrderRequest } from "$lib/Models/Requests/CreateOrder.Request";
 import type { Store } from "$lib/Models/Response/Store.Response";
-import { ItemsRepository } from "$lib/Repositories/Implementation/Items.Repository";
 import { OrdersRepository } from "$lib/Repositories/Implementation/Orders.Repository";
 import { writable } from "svelte/store";
 
 const ordersRepository = new OrdersRepository();
-const itemsRepository = new ItemsRepository();
 
 const createOrdersStore = () => {
   const { subscribe, set, update } = writable<Store<OrderDto>>({
@@ -47,13 +44,11 @@ const createOrdersStore = () => {
         if (order.items.length == 0) {
           throw new Error("Order Items is required");
         }
-        const items: Item[] = await Promise.all(
-          order.items.map((item) => {
-            return itemsRepository.getItem(item.itemId);
-          })
-        );
+        if (order.addressId == "") {
+          throw new Error("Address is required");
+        }
         await ordersRepository.createOrder(order);
-        goto("/orders");
+        goto("/monitoring");
       } catch (error) {
         console.log(error);
       }

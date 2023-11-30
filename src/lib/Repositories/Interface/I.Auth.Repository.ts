@@ -10,5 +10,7 @@ export interface IAuthRepository {
 
     secret(userId: string, secret: string): Promise<Auth>;
 
+    update(auth: Auth): Promise<Auth>;
+
     listUsers(options:GenericListOptions): Promise<AppwriteResponse<Auth>>;
 } 
