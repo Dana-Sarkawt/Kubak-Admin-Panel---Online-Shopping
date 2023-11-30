@@ -74,7 +74,7 @@
 
             <SidebarItem
               label="Categories"
-              href={$page.url.pathname.includes("category/add") ? "/category/add" : `/category/${$page.params.page}`}
+              href={$page.url.pathname.includes("category/add") ? "/category/add" : `/category/1`}
               spanClass="-lg lg:text-xl ml-2"
             >
               <svelte:fragment slot="icon">
@@ -84,7 +84,7 @@
 
             <SidebarItem
               label="Items"
-              href={$page.url.pathname.includes("items/add") ? "/items/add" : `/items/${$page.params.page}`}
+              href={$page.url.pathname.includes("items/add") ? "/items/add" : `/items/1`}
               spanClass="-lg lg:text-xl ml-2"
             >
               <svelte:fragment slot="icon">

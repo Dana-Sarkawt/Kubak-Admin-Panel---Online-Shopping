@@ -10,11 +10,14 @@ import type {
 import { CategoriesRepository } from "./Categories.Repository";
 import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
 import type { Category } from "$lib/Models/Entities/Category.Entity.Model";
+import type { RequestSelectedItems as string } from "$lib/Models/Requests/CreateOrder.Request";
 
 const categoriesRepository = new CategoriesRepository();
 
 export class ItemsRepository implements IItemsRepository {
-  async getItems(options?: GenericListOptions): Promise<AppwriteResponse<Item>> {
+  async getItems(
+    options?: GenericListOptions
+  ): Promise<AppwriteResponse<Item>> {
     try {
     } catch (error) {}
     try {
@@ -43,10 +46,51 @@ export class ItemsRepository implements IItemsRepository {
       id
     )) as Item;
   }
+
+  async getItemsByIds(ids: string[]): Promise<Item[]> {
+    const { documents, total } = (await Appwrite.databases.listDocuments(
+      Environment.appwrite_database,
+      Environment.appwrite_collection_item,
+      [
+        Query.equal("$id", ids),
+        Query.limit(ids.length),
+        Query.offset(0),
+        Query.isNull("deletedAt"),
+      ]
+    )) as AppwriteResponse<Item>;
+    let items = documents as Item[];
+
+    // items.forEach(async (item) => {
+    //   // check if item quantity is enough
+    //   if (
+    //     item.quantity <
+    //     ids.find((i) => i.itemId === item.$id)!.quantity
+    //   ) {
+    //     throw new Error("Item quantity is not enough");
+    //   }
+    //   await Appwrite.databases.updateDocument(
+    //     Environment.appwrite_database,
+    //     Environment.appwrite_collection_item,
+    //     item.$id,
+    //     {
+    //       quantity:
+    //         item.quantity -
+    //         ids.find((i) => i.itemId === item.$id)!.quantity,
+    //     }
+    //   );
+    // });
+
+    // items = items.map((item) => {
+    //   item.quantity = ids.find(
+    //     (i) => i.itemId === item.$id
+    //   )!.quantity;
+    //   return item;
+    // });
+
+    return items;
+  }
   async createItem(item: CreateItemRequest): Promise<void> {
     try {
-      const category:Category[] = await categoriesRepository.getCategoriesByIds(item.categoryId);
-
       const itemRequest: ItemRequest = {
         userId: item.userId,
         name: item.name,
@@ -56,10 +100,8 @@ export class ItemsRepository implements IItemsRepository {
         expiredDate: item.expiredDate,
         quantity: item.quantity,
         detail: item.detail!,
-        category: category,
+        category: item.categoryId,
       };
-
-      console.log("itemRequest :", itemRequest);
 
       await Appwrite.databases.createDocument(
         Environment.appwrite_database,

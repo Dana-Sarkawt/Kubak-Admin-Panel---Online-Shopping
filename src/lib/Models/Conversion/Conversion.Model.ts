@@ -6,6 +6,8 @@ import type { Item } from "$lib/Models/Entities/Item.Entities.Model";
 import type { ItemDto } from "$lib/Models/DTO/Item.DTO.Model";
 import type { Card } from "$lib/Models/Entities/Card.Entity.Model";
 import type { CardDto } from "$lib/Models/DTO/Card.DTO.Model";
+import type { Order } from "../Entities/Order.Entities.Model";
+import type { OrderDto } from "../DTO/Order.DTO.Model";
 
 export class Dto {
   static ToCardDto(card: Card): CardDto | null {
@@ -70,6 +72,26 @@ export class Dto {
         createdAt: item.$createdAt as Date,
         updatedAt: item.$updatedAt as Date,
         deletedAt: item.deletedAt as Date | null,
+      };
+    } catch (error: any) {
+      throw new Error(error);
+    }
+  }
+
+  static ToOrderDto(order: Order): OrderDto | null {
+    try {
+      const itemsDto: ItemDto[] = order.items.map((item) =>
+        this.ToItemDto(item) as ItemDto
+      );
+      return {
+        id: order.$id,
+        userId: order.userId,
+        status: order.status,
+        items: itemsDto,
+        totalPrice: order.totalPrice,
+        createdAt: order.$createdAt as Date,
+        updatedAt: order.$updatedAt as Date,
+        deletedAt: order.deletedAt as Date | null,
       };
     } catch (error: any) {
       throw new Error(error);
