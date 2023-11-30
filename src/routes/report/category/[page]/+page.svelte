@@ -16,7 +16,7 @@
   import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
   import Pagination from "$lib/Components/Pagination.Component.svelte";
   import ReportsLinks from "$lib/Components/ReportsLinks.Component.svelte";
-
+  import { ListPlaceholder } from 'flowbite-svelte';
   let filter: GenericListOptions = {
     page: parseInt($page.params.page),
     limit: 5,
@@ -28,9 +28,25 @@
     await categoryStore.getAll(filter);
     pages = $categoryStore.pages as number;
   });
+
+  let loading = true; 
+  onMount(async () => {
+    try {
+      await categoryStore.getAll(filter);
+      pages = $categoryStore.pages as number;
+    } finally {
+      loading = false; // Set loading to false once data is loaded or if there's an error
+    }
+  });
 </script>
 
 <ReportsLinks />
+{#if loading}
+<div class="w-full flex justify-center mt-12">
+
+  <ListPlaceholder class="w-full" divClass="mx-16 border-2 rounded-lg p-2"/>
+</div>
+{:else}
   <div class="container mx-auto px-12 mt-12">
     <p
       class="bg-[#636363] w-44 h-8 flex items-center justify-center text-white text-center rounded-t-lg ml-3"
@@ -59,6 +75,6 @@
       </TableBody>
     </Table>
   </div>
-  
-<Pagination name="report/category" {filter} pages={$categoryStore.pages} Store={categoryStore}/>
+  {/if}
+  <Pagination name="report/category" {filter} pages={$categoryStore.pages} Store={categoryStore}/>
   

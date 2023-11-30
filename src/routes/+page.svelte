@@ -109,7 +109,7 @@
   <div class="w-full h-auto flex justify-center items-center gap-2">
     <!--  START ITEMS LIST TABLE  -->
     <div
-      class="w-[60.6%] h-[300px] 2xl:h-[500px] flex flex-col justify-center items-center bg-white dark:bg-[#212121] dark:text-white rounded-2xl"
+      class="w-[60.6%] h-[300px] 2xl:h-[500px] flex flex-col justify-start items-center bg-white dark:bg-[#212121] dark:text-white rounded-2xl"
     >
       <div class="w-full flex justify-between items-center py-3 px-8">
         <p class="text-lg lg:text-2xl 2xl:text-5xl">Items List</p>
