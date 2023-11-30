@@ -44,7 +44,7 @@
 {#if loading}
 <div class="w-full flex justify-center mt-12">
 
-  <ListPlaceholder class="w-full" divClass="mx-16 border-2 rounded-lg p-2"/>
+  <ListPlaceholder class="w-full bg-[#fff]" divClass="mx-16 dark:bg-[#212121] rounded-lg p-2"/>
 </div>
 {:else}
   <div class="container mx-auto px-12 mt-12">
