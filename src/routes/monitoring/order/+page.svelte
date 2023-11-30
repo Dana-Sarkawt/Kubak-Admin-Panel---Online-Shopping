@@ -57,6 +57,9 @@
     var add_button = 0;
     function addInput(){
         add_button++;
+        if(add_button == 5){
+            add_button = 4;
+        }
         var newInput = document.createElement('div');
         newInput.innerHTML = "<div class='w-full flex flex-col h-auto'><Label for='large-input' class='block mb-2'>Items</Label><select name='' id='' class='w-full pt-2 rounded-lg h-12  border-gray-300'><option value=''></option></select></div><div class='w-full flex flex-col'><Label for='large-input' class='block mb-2'>Quantity</Label><Input bind:value={options.quantity} id='large-input' size='lg' required type='number' class='w-full rounded-xl dark:bg-[#363636] dark:text-white'/></div>";
         
@@ -109,15 +112,17 @@
         
         <div class="w-full flex flex-col h-auto">
             <Label for="large-input" class="block mb-2">Items</Label>
-            <select name="" id="" class="w-full pt-2 rounded-lg h-12  border-gray-300">
-                <option value=""></option>
+            <select name="" id="" class="w-full pt-2 rounded-lg h-12 border-gray-300">
+               
+                <option value="">rerer</option>
+                <option value="">گگگگ</option>
+                
             </select>    
         </div>
         
         <div class="w-full flex flex-col">
             <Label for="large-input" class="block mb-2">Quantity</Label>
             <Input
-              bind:value={options.quantity}
               id="large-input"
               size="lg"
               required
@@ -132,19 +137,22 @@
       {#each Array(add_button) as _, i}
       <div class="w-full h-auto flex justify-center items-end  mt-2 gap-2">
      
-<button class="w-24 h-12 flex justify-center items-center text-lg text-white bg-red-600 rounded-lg" on:click={deleteInput}>-</button>
+<button class="w-24 h-12 flex justify-center items-center text-lg font-bold text-white bg-red-600 rounded-lg" on:click={deleteInput}>-</button>
 
 <div class="w-full flex flex-col h-auto">
     <Label for="large-input" class="block mb-2">Items</Label>
     <select name="" id="" class="w-full pt-2 rounded-lg h-12  border-gray-300">
-        <option value=""></option>
+   
+        <option value="">rerer</option>
+        <option value="">گگگگ</option>
+    
+    
     </select>    
 </div>
 
 <div class="w-full flex flex-col">
     <Label for="large-input" class="block mb-2">Quantity</Label>
     <Input
-      bind:value={options.quantity}
       id="large-input"
       size="lg"
       required
