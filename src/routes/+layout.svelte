@@ -23,21 +23,21 @@
       goto("/");
     }
 
-    // const order: CreateOrderRequest = {
-    //   userId: $authStore!.id,
-    //   items: [
-    //     {
-    //       itemId: "6565e81e63a13ad3a10b",
-    //       quantity: 5,
-    //     },
-    //     {
-    //       itemId: "65671b57f2759839a34d",
-    //       quantity: 3,
-    //     },
-    //   ],
-    //   addressId: "65672699cb03105ab2a7",
-    // };
-    // await ordersRepository.createOrder(order);
+    const order: CreateOrderRequest = {
+      userId: $authStore!.id,
+      items: [
+        {
+          itemId: "6565e81e63a13ad3a10b",
+          quantity: 5,
+        },
+        {
+          itemId: "656739d6e765a81dff7d",
+          quantity: 3,
+        },
+      ],
+      addressId: "65672699cb03105ab2a7",
+    };
+    await ordersRepository.createOrder(order);
   });
 
   async function checkDarkMode() {
