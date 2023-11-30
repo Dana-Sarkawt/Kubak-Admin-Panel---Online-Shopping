@@ -17,5 +17,5 @@ export interface OrderRequest {
     userId: string;
     status: number;
     totalPrice: number;
-    items: Item[];
+    items: string[];
 }

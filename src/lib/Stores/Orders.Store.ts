@@ -64,25 +64,6 @@ const createOrdersStore = () => {
         if (document === null) {
           throw new Error("Order Not Found");
         }
-        if (order.items.length !== 0) {
-          const existingItems = document.items;
-          const updatedItems = order.items.filter((newItem) => {
-            const existingItem = existingItems.find(
-              (item) => item.$id === newItem.itemId
-            );
-            return !existingItem || existingItem.quantity !== newItem.quantity;
-          });
-          if (updatedItems.length !== 0) {
-            // Items have changed
-            // Update the items inside the order
-            document.items = await itemsRepository.getItemsByIds(updatedItems);
-            return updatedItems;
-          } else {
-            // Items have not changed
-            // Return the items that are already inside the order
-            return existingItems;
-          }
-        }
         await ordersRepository.updateOrder(document);
       } catch (error) {
         console.log(error);

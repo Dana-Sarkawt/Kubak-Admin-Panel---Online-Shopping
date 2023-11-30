@@ -91,9 +91,6 @@ export class ItemsRepository implements IItemsRepository {
   }
   async createItem(item: CreateItemRequest): Promise<void> {
     try {
-      const category: Category[] =
-        await categoriesRepository.getCategoriesByIds(item.categoryId);
-
       const itemRequest: ItemRequest = {
         userId: item.userId,
         name: item.name,
@@ -103,9 +100,7 @@ export class ItemsRepository implements IItemsRepository {
         expiredDate: item.expiredDate,
         quantity: item.quantity,
         detail: item.detail!,
-        category: category.map((c) => {
-          return c.$id;
-        }),
+        category: item.categoryId,
       };
 
       await Appwrite.databases.createDocument(

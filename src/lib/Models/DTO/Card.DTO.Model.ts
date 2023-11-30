@@ -1,4 +1,4 @@
-import type { Datetime } from "../Extensions/Datetime.Extention.Model";
+import type { Datetime } from "$lib/Models/Extensions/Datetime.Extention.Model";
 
 export interface CardDto extends Datetime{
     id:string,
