@@ -1,4 +1,3 @@
-import type { Item } from "$lib/Models/Entities/Item.Entities.Model";
 
 export interface CreateOrderRequest {
     id?: string | null;
@@ -6,7 +5,7 @@ export interface CreateOrderRequest {
     items: RequestSelectedItems[];
 }
 
-export interface RequestSelectedItems{
+interface RequestSelectedItems{
     itemId: string;
     quantity: number;
 }
