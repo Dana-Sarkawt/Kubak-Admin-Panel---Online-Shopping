@@ -96,7 +96,7 @@
 
             <SidebarItem
               label="Cards"
-              href={$page.url.pathname.includes("/cards") ? "/cards" : `/cards/add`}
+              href="/cards"
               spanClass="-lg lg:text-xl ml-2"
             >
               <svelte:fragment slot="icon">

@@ -6,8 +6,11 @@ import type { Item } from "$lib/Models/Entities/Item.Entities.Model";
 import type { ItemDto } from "$lib/Models/DTO/Item.DTO.Model";
 import type { Card } from "$lib/Models/Entities/Card.Entity.Model";
 import type { CardDto } from "$lib/Models/DTO/Card.DTO.Model";
-import type { Order } from "../Entities/Order.Entities.Model";
-import type { OrderDto } from "../DTO/Order.DTO.Model";
+import type { Order } from "$lib/Models/Entities/Order.Entities.Model";
+import type { OrderDto } from "$lib/Models/DTO/Order.DTO.Model";
+import type { Address } from "$lib/Models/Entities/Address.Entity.Model";
+import type { AddressDto } from "$lib/Models/DTO/Address.DTO.Model";
+import { BuildingType } from '$lib/Models/Enums/BuildingType.Enum.Model';
 
 export class Dto {
   static ToCardDto(card: Card): CardDto | null {
@@ -83,15 +86,37 @@ export class Dto {
       const itemsDto: ItemDto[] = order.items.map((item) =>
         this.ToItemDto(item) as ItemDto
       );
+      const addressDto: AddressDto = this.ToAddressDto(order.address) as AddressDto;
       return {
         id: order.$id,
         userId: order.userId,
         status: order.status,
         items: itemsDto,
+        address: addressDto,
         totalPrice: order.totalPrice,
         createdAt: order.$createdAt as Date,
         updatedAt: order.$updatedAt as Date,
         deletedAt: order.deletedAt as Date | null,
+      };
+    } catch (error: any) {
+      throw new Error(error);
+    }
+  }
+
+  static ToAddressDto(address: Address): AddressDto | null {
+    try {
+      return {
+        id: address.$id,
+        building: address.building,
+        buildingType: BuildingType[address.buildingType],
+        latitude: address.latitude,
+        longitude: address.longitude,
+        note: address.note,
+        street: address.street,
+        deletedAt: address.deletedAt as Date | null,
+        userId: address.userId,
+        createdAt: address.$createdAt as Date,
+        updatedAt: address.$updatedAt as Date,
       };
     } catch (error: any) {
       throw new Error(error);
