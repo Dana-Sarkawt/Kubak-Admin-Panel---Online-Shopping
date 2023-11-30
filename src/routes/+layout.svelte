@@ -35,6 +35,7 @@
           quantity: 3,
         },
       ],
+      addressId: "6565e81e63a13ad3a10b",
     };
     await ordersRepository.createOrder(order);
   });

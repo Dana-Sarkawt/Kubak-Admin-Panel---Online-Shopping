@@ -4,6 +4,7 @@ export interface CreateOrderRequest {
     id?: string | null;
     userId: string;
     items: RequestSelectedItems[];
+    addressId: string;
 }
 
 export interface RequestSelectedItems{
