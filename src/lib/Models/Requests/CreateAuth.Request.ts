@@ -15,6 +15,14 @@ interface Prefs {
   };
 }
 
+interface RequestPrefs {
+    gender: Gender;
+    birthday: Date;
+    image: string
+  }
+
 export interface AuthRequest {
-    
+    id?: string | null;
+    name: string;
+    prefs: RequestPrefs;
 }
