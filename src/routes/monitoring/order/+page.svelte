@@ -91,7 +91,7 @@
   
     <div class="mb-6 w-4/5 flex justify-center items-start flex-col">
       <Label for="large-input" class="block mb-2">User</Label>
-      <select name="" id="" class="w-full pt-2 rounded-lg border-gray-300">
+      <select name="" id="" class="w-full pt-2 rounded-lg dark:bg-[#2c2c2c] dark:border-[#3b3b3b] dark:text-white border-gray-300">
 
         <option value=""></option>
       </select>
@@ -112,7 +112,7 @@
         
         <div class="w-full flex flex-col h-auto">
             <Label for="large-input" class="block mb-2">Items</Label>
-            <select name="" id="" class="w-full pt-2 rounded-lg h-12 border-gray-300">
+            <select name="" id="" class="w-full pt-2 rounded-lg h-12 border-gray-300 dark:bg-[#2c2c2c] dark:border-[#3b3b3b] dark:text-white">
                
                 <option value="">rerer</option>
                 <option value="">گگگگ</option>
@@ -141,7 +141,7 @@
 
 <div class="w-full flex flex-col h-auto">
     <Label for="large-input" class="block mb-2">Items</Label>
-    <select name="" id="" class="w-full pt-2 rounded-lg h-12  border-gray-300">
+    <select name="" id="" class="w-full pt-2 rounded-lg h-12  border-gray-300  dark:bg-[#2c2c2c] dark:border-[#3b3b3b] dark:text-white">
    
         <option value="">rerer</option>
         <option value="">گگگگ</option>
@@ -169,7 +169,7 @@
 
      
       <Label for="large-input" class="block mb-2 mt-2">Address</Label>
-      <select name="" id="" class="w-full pt-2 rounded-lg h-12  border-gray-300">
+      <select name="" id="" class="w-full pt-2 rounded-lg h-12  border-gray-300  dark:bg-[#2c2c2c] dark:border-[#3b3b3b] dark:text-white">
         <option value=""></option>
     </select>  
       
