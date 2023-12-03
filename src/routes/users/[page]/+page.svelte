@@ -9,6 +9,8 @@
     TableHeadCell,
     Label,
     Input,
+    ListPlaceholder,
+    Spinner,
   } from "flowbite-svelte";
   import { onMount } from "svelte";
   import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
@@ -25,9 +27,12 @@
     total: 0,
   };
 
+  let loading = true; 
   onMount(async () => {
-    listUsers = (await authStore.listUsers(filter)) as Store<AuthDto>;
-    console.log("List Users ", listUsers);
+    try{listUsers = (await authStore.listUsers(filter)) as Store<AuthDto>;
+    }finally{
+      loading = false;
+    }
   });
 </script>
 
@@ -68,6 +73,16 @@
   </a>
 </div>
 
+
+
+
+
+{#if loading}
+<div class="w-full flex justify-center mt-12">
+
+  <Spinner />
+</div>
+{:else}
 <div class="container mx-auto px-12 mt-12">
   <Table shadow>
     <TableHead class="bg-[#2D2D2D] text-white text-center dark:bg-[#212121]">
@@ -97,3 +112,4 @@
     </TableBody>
   </Table>
 </div>
+{/if}

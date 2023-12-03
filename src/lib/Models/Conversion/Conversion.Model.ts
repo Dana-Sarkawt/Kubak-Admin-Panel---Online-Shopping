@@ -58,7 +58,7 @@ export class Dto {
 
   static ToItemDto(item: Item): ItemDto {
     try {
-      const categoriesDto:CategoryDto[] = item.category.map((category) =>
+      const categoriesDto = item.category.map((category) =>
         this.ToCategoriesDto(category) as CategoryDto
       );
       return {
