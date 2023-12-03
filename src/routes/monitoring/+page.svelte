@@ -1,5 +1,8 @@
 <script lang="ts">
+  import { Appwrite } from "$lib/Appwrite/Appwrite";
+  import { Environment } from "$lib/Env/Environment";
   import { darkMode } from "$lib/Stores/Darkmode.Store";
+  import { ordersStore } from "$lib/Stores/Orders.Store";
   import { onMount } from "svelte";
 
   let L: any;
@@ -8,13 +11,32 @@
 
   onMount(async () => {
     await loadMap();
+    await ordersStore.getAll();
     darkMode.subscribe((value) => {
       if (map) {
         map.removeLayer(tileLayer);
         tileLayer = createTileLayer(value);
         tileLayer.addTo(map);
       }
+
+      Appwrite.appwrite.subscribe(
+        `databases.*.collections.*.documents.*`,
+        (response) => {
+          ordersStore.getAll();
+          console.log("Orders: ", $ordersStore);
+          console.log(response);
+          const lnglat = $ordersStore.data.map((order) => {
+            return [order.address?.longitude, order.address?.latitude];
+          });
+          console.log("LngLat",lnglat);
+
+          let marker = L.marker(lnglat);
+          marker.addTo(map);
+        }
+      );
     });
+
+    console.log("Orders: ", $ordersStore);
   });
 
   async function loadMap() {
