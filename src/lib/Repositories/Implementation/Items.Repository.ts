@@ -9,8 +9,6 @@ import type {
 } from "$lib/Models/Requests/CreateItem.Request";
 import { CategoriesRepository } from "./Categories.Repository";
 import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
-import type { Category } from "$lib/Models/Entities/Category.Entity.Model";
-import type { RequestSelectedItems as string } from "$lib/Models/Requests/CreateOrder.Request";
 
 const categoriesRepository = new CategoriesRepository();
 
