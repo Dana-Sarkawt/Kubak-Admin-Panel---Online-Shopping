@@ -10,23 +10,23 @@ import type { Order } from "$lib/Models/Entities/Order.Entities.Model";
 import type { OrderDto } from "$lib/Models/DTO/Order.DTO.Model";
 import type { Address } from "$lib/Models/Entities/Address.Entity.Model";
 import type { AddressDto } from "$lib/Models/DTO/Address.DTO.Model";
-import { BuildingType } from '$lib/Models/Enums/BuildingType.Enum.Model';
+import { BuildingType } from "$lib/Models/Enums/BuildingType.Enum.Model";
 
 export class Dto {
   static ToCardDto(card: Card): CardDto | null {
-    if(!card){
-      return null
+    if (!card) {
+      return null;
     }
     return {
-      id:card.$id,
-      userId:card.userId,
-      webpageUrl:card.webpageUrl as string,
-      expirationDate:card.expirationDate,
-      cardImage:card.cardImage,
-      createdAt:card.$createdAt as Date,
-      updatedAt:card.$updatedAt as Date,
-      deletedAt:card.deletedAt
-    }
+      id: card.$id,
+      userId: card.userId,
+      webpageUrl: card.webpageUrl as string,
+      expirationDate: card.expirationDate,
+      cardImage: card.cardImage,
+      createdAt: card.$createdAt as Date,
+      updatedAt: card.$updatedAt as Date,
+      deletedAt: card.deletedAt,
+    };
   }
   static ToCategoriesDto(categories: Category): CategoryDto | null {
     try {
@@ -58,9 +58,12 @@ export class Dto {
 
   static ToItemDto(item: Item): ItemDto {
     try {
-      const categoriesDto = item.category.map((category) =>
-        this.ToCategoriesDto(category) as CategoryDto
-      );
+      let categoriesDto: CategoryDto[] = [];
+      if (item.category) {
+        categoriesDto = item.category.map(
+          (category) => this.ToCategoriesDto(category) as CategoryDto
+        );
+      }
       return {
         id: item.$id,
         name: item.name,
@@ -83,10 +86,12 @@ export class Dto {
 
   static ToOrderDto(order: Order): OrderDto | null {
     try {
-      const itemsDto: ItemDto[] = order.items.map((item) =>
-        this.ToItemDto(item) as ItemDto
+      const itemsDto: ItemDto[] = order.items.map(
+        (item) => this.ToItemDto(item) as ItemDto
       );
-      const addressDto: AddressDto = this.ToAddressDto(order.address) as AddressDto;
+      const addressDto: AddressDto = this.ToAddressDto(
+        order.address
+      ) as AddressDto;
       return {
         id: order.$id,
         userId: order.userId,

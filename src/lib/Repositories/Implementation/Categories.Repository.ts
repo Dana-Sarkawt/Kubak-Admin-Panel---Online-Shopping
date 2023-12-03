@@ -19,6 +19,15 @@ export class CategoriesRepository implements ICategoriesRepository {
         Query.limit(options?.limit || 7),
         Query.offset((options?.page! - 1 || 0) * (options?.limit || 7)),
         Query.isNull("deletedAt"),
+        Query.select([
+          "$id",
+          "name",
+          "categoryImage",
+          "description",
+          "$createdAt",
+          "$updatedAt",
+          "deletedAt",
+        ]),
       ];
 
       let { documents, total } = (await Appwrite.databases.listDocuments(
