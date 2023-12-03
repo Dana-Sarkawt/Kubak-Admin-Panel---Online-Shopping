@@ -7,10 +7,8 @@ import type {
   CreateItemRequest,
   ItemRequest,
 } from "$lib/Models/Requests/CreateItem.Request";
-import { CategoriesRepository } from "./Categories.Repository";
 import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
 
-const categoriesRepository = new CategoriesRepository();
 
 export class ItemsRepository implements IItemsRepository {
   async getItems(
