@@ -57,32 +57,7 @@ export class ItemsRepository implements IItemsRepository {
     )) as AppwriteResponse<Item>;
     let items = documents as Item[];
 
-    // items.forEach(async (item) => {
-    //   // check if item quantity is enough
-    //   if (
-    //     item.quantity <
-    //     ids.find((i) => i.itemId === item.$id)!.quantity
-    //   ) {
-    //     throw new Error("Item quantity is not enough");
-    //   }
-    //   await Appwrite.databases.updateDocument(
-    //     Environment.appwrite_database,
-    //     Environment.appwrite_collection_item,
-    //     item.$id,
-    //     {
-    //       quantity:
-    //         item.quantity -
-    //         ids.find((i) => i.itemId === item.$id)!.quantity,
-    //     }
-    //   );
-    // });
 
-    // items = items.map((item) => {
-    //   item.quantity = ids.find(
-    //     (i) => i.itemId === item.$id
-    //   )!.quantity;
-    //   return item;
-    // });
 
     return items;
   }

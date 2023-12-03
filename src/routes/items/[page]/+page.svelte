@@ -1,6 +1,7 @@
 <script lang="ts">
   import moment from "moment";
   import {
+  Spinner,
     Table,
     TableBody,
     TableBodyCell,
@@ -22,10 +23,13 @@
   };
 
   let pages: number;
-
+  let loading = true; 
   onMount(async () => {
-    await itemStore.getAll(filter);
-    pages = $itemStore.pages as number;
+    try {
+      await itemStore.getAll(filter);
+    } finally {
+      loading = false;
+    }
   });
 </script>
 
@@ -82,6 +86,15 @@
   </a>
 </div>
 
+
+
+
+{#if loading}
+<div class="w-full flex justify-center mt-12">
+
+  <Spinner />
+</div>
+{:else}
 <div class="container mx-auto px-12 mt-12">
   <Table shadow>
     <TableHead class="bg-[#2D2D2D] dark:bg-[#212121] text-white text-center">
@@ -113,5 +126,5 @@
     </TableBody>
   </Table>
 </div>
-
+{/if}
 <Pagination name="items" {pages} {filter} Store={itemStore} />

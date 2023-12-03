@@ -2,6 +2,7 @@
   import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
   import { itemStore } from "$lib/Stores/Items.Store";
   import {
+  Spinner,
     Table,
     TableBody,
     TableBodyCell,
@@ -17,8 +18,13 @@
     sortField: "$createdAt",
   };
 
+  let loading = true; 
   onMount(async () => {
-    await itemStore.getAll(filter);
+    try {
+      await itemStore.getAll(filter);
+    } finally {
+      loading = false;
+    }
   });
 </script>
 
@@ -118,8 +124,14 @@
       </div>
 
       <div
-        class="w-full height-auto flex justify-center items-center overflow-x-auto"
+        class="w-full h-auto flex justify-center items-center overflow-x-auto"
       >
+      {#if loading}
+      <div class="w-full flex justify-center mt-12">
+
+        <Spinner />
+      </div>
+      {:else}
         <Table divClass="w-full h-full  ">
           <TableHead class="w-full dark:bg-[#363636] dark:text-white">
             <TableHeadCell>Image</TableHeadCell>
@@ -146,6 +158,7 @@
             {/each}
           </TableBody>
         </Table>
+        {/if}
       </div>
     </div>
 
