@@ -1,10 +1,20 @@
 <script lang="ts">
   import { cardStore } from "$lib/Stores/Cards.Store";
+  import { Spinner } from "flowbite-svelte";
   import { onMount } from "svelte";
 
   onMount(async () => {
     await cardStore.getAll();
     console.log($cardStore);
+  });
+
+  let loading = true;
+  onMount(async () => {
+    try {
+      await cardStore.getAll();
+    } finally {
+      loading = false;
+    }
   });
 
   async function deleteCard(id:string) {
@@ -25,6 +35,10 @@
     </button>
   </a>
 
+
+  {#if loading}
+  <Spinner />
+  {:else}
   {#each $cardStore.data as card}
     <div  class="w-11/12 h-[300px] flex justify-end ">
       <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -58,14 +72,6 @@
 </a>
     </div>
   {/each}
-  <!-- <img
-    src="images/wallpaper.jpg"
-    alt=""
-    class="w-11/12 h-[300px] bg-slate-700 rounded-xl object-center object-cover border-black"
-  />
-  <img
-    src="images/wallpaper.jpg"
-    alt=""
-    class="w-11/12 h-[300px] bg-slate-700 rounded-xl object-center object-cover border-black"
-  /> -->
+ 
+  {/if}
 </div>
