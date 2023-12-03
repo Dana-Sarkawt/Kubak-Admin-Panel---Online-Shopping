@@ -19,24 +19,38 @@
         tileLayer.addTo(map);
       }
 
+      $ordersStore.data.map((order) => {
+        let marker = L.marker([
+          order.address?.latitude,
+          order.address?.longitude,
+        ]);
+        marker.addTo(map);
+      });
+
       Appwrite.appwrite.subscribe(
-        `databases.*.collections.*.documents.*`,
+        `databases.${Environment.appwrite_database}.collections.${Environment.appwrite_collection_order}.documents`,
         (response) => {
           ordersStore.getAll();
-          console.log("Orders: ", $ordersStore);
-          console.log(response);
-          const lnglat = $ordersStore.data.map((order) => {
-            return [order.address?.longitude, order.address?.latitude];
-          });
-          console.log("LngLat",lnglat);
+          // $ordersStore.data.map((order) => {
+          //   let marker = L.marker([
+          //     order.address?.latitude,
+          //     order.address?.longitude,
+          //   ]);
+          //   marker.addTo(map);
+          // });
 
-          let marker = L.marker(lnglat);
+          let marker = L.marker([
+            response.payload!.address.latitude,
+            response.payload!.address.longitude,
+          ]);
           marker.addTo(map);
+          console.log("Response: ", response.payload);
+          
         }
       );
     });
 
-    console.log("Orders: ", $ordersStore);
+    // console.log("Orders: ", $ordersStore);
   });
 
   async function loadMap() {
