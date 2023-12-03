@@ -24,16 +24,13 @@ export class OrdersRepository implements IOrdersRepository {
   }
   async createOrder(order: CreateOrderRequest): Promise<void> {
     try {
-      const result = await Appwrite.functions.createExecution(
-        "6566e3017ed5ff75b429",
+      await Appwrite.functions.createExecution(
+        Environment.appwrite_function_create_order,
         JSON.stringify(order),
         false,
         "/",
         "POST"
       );
-
-      console.log("Executed");
-      console.log(result);
     } catch (e) {
       console.log(e);
       throw e;

@@ -1,5 +1,5 @@
 export interface Datetime {
-    createdAt: Date;
-    updatedAt: Date;
-    deletedAt: Date | null;
+    createdAt: Date,
+    updatedAt: Date,
+    deletedAt: Date | null,
 }

@@ -1,4 +1,5 @@
 import { Appwrite } from "$lib/Appwrite/Appwrite";
+import { Environment } from "$lib/Env/Environment";
 import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
 import type { Auth } from "$lib/Models/Entities/Auth.Entity.Model";
 import type { AuthRequest, CreateAuthRequest } from "$lib/Models/Requests/CreateAuth.Request";
@@ -48,7 +49,7 @@ export class AuthRepository implements IAuthRepository {
     options?: GenericListOptions
   ): Promise<AppwriteResponse<Auth>> {
     const result = await Appwrite.functions.createExecution(
-      "65646f325c51e338c6b8",
+      Environment.appwrite_function_get_all_users,
       JSON.stringify(options),
       false,
       "/",

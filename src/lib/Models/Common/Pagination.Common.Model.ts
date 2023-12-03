@@ -1,9 +1,9 @@
 interface Pagination<T> {
-  count: number;
-  page: number;
-  limit: number;
-  data: T[];
-  offset: number;
+  count: number,
+  page: number,
+  limit: number,
+  data: T[],
+  offset: number,
 }
 
 export function Pagination<T>(

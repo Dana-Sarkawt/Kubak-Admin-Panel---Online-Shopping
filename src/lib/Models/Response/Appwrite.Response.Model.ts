@@ -1,4 +1,4 @@
 interface AppwriteResponse<T> {
-    documents: T[];
-    total: number;
+    documents: T[],
+    total: number,
 }

@@ -17,8 +17,7 @@
 
   let filter: GenericListOptions = {
     page: parseInt($page.params.page),
-    limit: 7,
-    sortField: undefined,
+    limit: 7
   };
 
   let pages: number;
@@ -27,14 +26,29 @@
     await itemStore.getAll(filter);
     pages = $itemStore.pages as number;
   });
+
+  async function filterOptions() {
+    await itemStore.getAll(filter);
+  }
+
+  async function resetDate() {
+    filter.search = "";
+    filter.from = "";
+    filter.to = "";
+    await itemStore.getAll(filter);
+  }
 </script>
 
+<!-- svelte-ignore a11y-no-static-element-interactions -->
+<!-- svelte-ignore a11y-click-events-have-key-events -->
+<!-- svelte-ignore a11y-missing-attribute -->
 <div
   class="container mx-auto h-auto px-12 flex justify-center items-center gap-3 mt-44"
 >
   <div class="mb-6">
     <Label for="large-input" class="block mb-2">Search</Label>
     <Input
+      bind:value={filter.search}
       id="large-input"
       placeholder="Search for Items"
       class="dark:bg-[#212121] dark:text-white"
@@ -44,6 +58,7 @@
   <div class="mb-6">
     <Label for="large-input" class="block mb-2">From</Label>
     <Input
+      bind:value={filter.from}
       id="large-input"
       type="date"
       class="dark:bg-[#212121] dark:text-white"
@@ -53,19 +68,24 @@
   <div class="mb-6">
     <Label for="large-input" class="block mb-2">To</Label>
     <Input
+      bind:value={filter.to}
       id="large-input"
       type="date"
       class="dark:bg-[#212121] dark:text-white"
     />
   </div>
-  <a href="#">
+  <!-- svelte-ignore a11y-click-events-have-key-events -->
+  <a on:click={resetDate} class="cursor-pointer">
     <button
       class="bg-white dark:bg-[#212121] dark:text-white text-xs lg:text-lg h-12 p-3 rounded-xl text-center flex justify-center items-center"
       >Reset Date
     </button>
   </a>
 
-  <a href="#">
+  <!-- svelte-ignore a11y-click-events-have-key-events -->
+  <!-- svelte-ignore a11y-no-static-element-interactions -->
+  <!-- svelte-ignore a11y-missing-attribute -->
+  <a on:click={filterOptions} class="cursor-pointer">
     <img
       src="/images/search.png"
       alt=""
