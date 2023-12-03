@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Label, Input, NavLi, NavUl, Navbar } from "flowbite-svelte";
+  import { Label, Input, NavLi, NavUl, Navbar, Spinner } from "flowbite-svelte";
 
   import {
     Table,
@@ -17,11 +17,11 @@
   import Pagination from "$lib/Components/Pagination.Component.svelte";
   import ReportsLinks from "$lib/Components/ReportsLinks.Component.svelte";
   import { ListPlaceholder } from 'flowbite-svelte';
-  let loading = true; // Loading state variable
+  let loading = true; 
 
   let filter: GenericListOptions = {
     page: parseInt($page.params.page),
-    limit: 8,
+    limit: 5,
     sortField: undefined,
   };
 
@@ -29,7 +29,7 @@
     try {
       await itemStore.getAll(filter);
     } finally {
-      loading = false; // Set loading to false once data is loaded or if there's an error
+      loading = false;
     }
   });
 </script>
@@ -39,7 +39,7 @@
 {#if loading}
 <div class="w-full flex justify-center mt-12">
 
-  <ListPlaceholder class="w-full bg-[#fff]" divClass="mx-16 dark:bg-[#212121] rounded-lg p-2"/>
+  <Spinner />
 </div>
 {:else}
   <div class="container mx-auto px-12 mt-12">

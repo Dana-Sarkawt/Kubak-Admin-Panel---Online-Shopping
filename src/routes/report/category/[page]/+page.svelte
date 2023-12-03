@@ -1,6 +1,6 @@
 <script lang="ts">
   import { page } from "$app/stores";
-  import { Label, Input, NavLi, NavUl, Navbar } from "flowbite-svelte";
+  import { Label, Input, NavLi, NavUl, Navbar, Spinner } from "flowbite-svelte";
 
   import {
     Table,
@@ -35,7 +35,7 @@
       await categoryStore.getAll(filter);
       pages = $categoryStore.pages as number;
     } finally {
-      loading = false; // Set loading to false once data is loaded or if there's an error
+      loading = false; 
     }
   });
 </script>
@@ -44,7 +44,7 @@
 {#if loading}
 <div class="w-full flex justify-center mt-12">
 
-  <ListPlaceholder class="w-full bg-[#fff]" divClass="mx-16 dark:bg-[#212121] rounded-lg p-2"/>
+  <Spinner />
 </div>
 {:else}
   <div class="container mx-auto px-12 mt-12">

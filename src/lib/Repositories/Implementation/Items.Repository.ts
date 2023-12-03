@@ -26,6 +26,7 @@ export class ItemsRepository implements IItemsRepository {
         Query.limit(options?.limit || 8),
         Query.offset((options?.page! - 1 || 0) * (options?.limit || 8)),
         Query.isNull("deletedAt"),
+        Query.select(["$id" ,"name", "price", "itemImage", "quantity"]),
       ];
       let { documents, total } = (await Appwrite.databases.listDocuments(
         Environment.appwrite_database,

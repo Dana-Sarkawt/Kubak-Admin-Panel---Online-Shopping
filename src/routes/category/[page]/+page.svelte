@@ -4,6 +4,7 @@
   import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
   import { categoryStore } from "$lib/Stores/Categories.Store";
   import { onMount } from "svelte";
+  import { Spinner} from 'flowbite-svelte';
 
   let filter: GenericListOptions = {
     page: parseInt($page.params.page),
@@ -13,9 +14,16 @@
 
   let pages: number = 0;
 
+  let loading = true; 
   onMount(async () => {
-    await categoryStore.getAll(filter);
-    pages = $categoryStore.pages as number;
+    try{
+      pages = $categoryStore.pages as number;
+      await categoryStore.getAll(filter);
+
+    }finally{
+      loading = false;
+    }
+    
   }
   
   );
@@ -38,8 +46,18 @@ async function deleteCategory(id:string) {
       </p>
     </div>
   </a>
+
+
+{#if loading}
+<div class="w-full h- flex justify-center mt-12 items-center">
+  <Spinner />
+</div>
+
+{:else}
+
+
   {#each $categoryStore.data as category}
-  
+
     <div
       class="md:w-28 md:h-36 lg:w-44 lg:h-60 2xl:w-64 2xl:h-96 bg-white dark:bg-[#212121] dark:text-white px-5 flex justify-around items-center flex-col rounded-xl mb-5 relative top-0"
     >
@@ -71,7 +89,9 @@ async function deleteCategory(id:string) {
       <img src={category.categoryImage ?? "/images/category.png"} alt="" class="object-cover object-center m-2 h-[130px] rounded-lg " />
       <p class="text-2xl">{category.name ?? "Rice"}</p>
     </div>
-  {/each}
-</div>
-
-<Pagination name="category" {pages} {filter} Store={categoryStore} />
+    
+  
+    {/each}
+    {/if}
+  </div>
+  <Pagination name="category" {pages} {filter} Store={categoryStore} />
