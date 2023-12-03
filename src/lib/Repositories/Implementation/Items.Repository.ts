@@ -75,10 +75,28 @@ export class ItemsRepository implements IItemsRepository {
     }
   }
   updateItem(item: Item): Promise<Item> {
-    throw new Error("Method not implemented.");
+    const itemResult = Appwrite.databases.updateDocument(
+      Environment.appwrite_database,
+      Environment.appwrite_collection_item,
+      item.$id,
+      item
+    ) as Promise<Item>;
+
+    return itemResult;
+  }
+  
+  async deleteItem(id: string): Promise<void> {
+    await Appwrite.databases.updateDocument(
+      Environment.appwrite_database,
+      Environment.appwrite_collection_item,
+      id,
+      {
+        deletedAt: new Date(),
+      }
+    );
   }
 
-  filterQuery(query: string[], options?: GenericListOptions): string[] {
+  private filterQuery(query: string[], options?: GenericListOptions): string[] {
     query = [
       Query.orderDesc(options?.sortField || "$createdAt"),
       Query.limit(options?.limit || 8),

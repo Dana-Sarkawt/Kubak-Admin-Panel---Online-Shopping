@@ -4,7 +4,7 @@ import type { Address } from "$lib/Models/Entities/Address.Entity.Model";
 
 export interface Order extends Database {
   status: number,
-  totalPrice: number,
+  totalAmount: number,
   userId: string,
   deletedAt: Date | string | null,
   items: Item[],

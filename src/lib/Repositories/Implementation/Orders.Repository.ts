@@ -10,7 +10,7 @@ export class OrdersRepository implements IOrdersRepository {
     const { documents, total } = (await Appwrite.databases.listDocuments(
       Environment.appwrite_database,
       Environment.appwrite_collection_order,
-      [Query.limit(8), Query.offset(0), Query.isNull("deletedAt")]
+      [Query.isNull("deletedAt")]
     )) as AppwriteResponse<Order>;
 
     return { documents, total };
@@ -37,9 +37,23 @@ export class OrdersRepository implements IOrdersRepository {
     }
   }
   async updateOrder(order: Order): Promise<Order> {
-    throw new Error("Method not implemented.");
+    const orderResult = await Appwrite.databases.updateDocument(
+      Environment.appwrite_database,
+      Environment.appwrite_collection_order,
+      order.$id,
+      order
+    );
+    return orderResult as Order;
   }
   async updateOrderStatus(id: string, status: number): Promise<Order> {
-    throw new Error("Method not implemented.");
+    const orderResult = await Appwrite.databases.updateDocument(
+      Environment.appwrite_database,
+      Environment.appwrite_collection_order,
+      id,
+      {
+        status,
+      }
+    );
+    return orderResult as Order;
   }
 }

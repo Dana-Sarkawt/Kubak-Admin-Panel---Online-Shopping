@@ -1,5 +1,8 @@
 <script lang="ts">
+  import { Appwrite } from "$lib/Appwrite/Appwrite";
+  import { Environment } from "$lib/Env/Environment";
   import { darkMode } from "$lib/Stores/Darkmode.Store";
+  import { ordersStore } from "$lib/Stores/Orders.Store";
   import { Badge } from "flowbite-svelte";
   import { onMount } from "svelte";
 
@@ -9,13 +12,46 @@
 
   onMount(async () => {
     await loadMap();
+    await ordersStore.getAll();
     darkMode.subscribe((value) => {
       if (map) {
         map.removeLayer(tileLayer);
         tileLayer = createTileLayer(value);
         tileLayer.addTo(map);
       }
+
+      $ordersStore.data.map((order) => {
+        let marker = L.marker([
+          order.address?.latitude,
+          order.address?.longitude,
+        ]);
+        marker.addTo(map);
+      });
+
+      Appwrite.appwrite.subscribe(
+        `databases.${Environment.appwrite_database}.collections.${Environment.appwrite_collection_order}.documents`,
+        (response) => {
+          ordersStore.getAll();
+          // $ordersStore.data.map((order) => {
+          //   let marker = L.marker([
+          //     order.address?.latitude,
+          //     order.address?.longitude,
+          //   ]);
+          //   marker.addTo(map);
+          // });
+
+          let marker = L.marker([
+            response.payload!.address.latitude,
+            response.payload!.address.longitude,
+          ]);
+          marker.addTo(map);
+          console.log("Response: ", response.payload);
+          
+        }
+      );
     });
+
+    // console.log("Orders: ", $ordersStore);
   });
 
   async function loadMap() {

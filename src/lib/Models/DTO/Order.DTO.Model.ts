@@ -6,7 +6,7 @@ export interface OrderDto extends Datetime {
     id: string,
     userId: string,
     status: number,
-    totalPrice: number,
+    totalAmount: number,
     items: ItemDto[],
-    address: AddressDto
+    address: AddressDto | null
 }

@@ -14,12 +14,8 @@ export class CategoriesRepository implements ICategoriesRepository {
     options?: GenericListOptions
   ): Promise<AppwriteResponse<Category>> {
     try {
-      let query = [
-        Query.orderDesc(options?.sortField || "$createdAt"),
-        Query.limit(options?.limit || 7),
-        Query.offset((options?.page! - 1 || 0) * (options?.limit || 7)),
-        Query.isNull("deletedAt")
-      ];
+       
+      const query = this.filterQuery([], options);
 
       let { documents, total } = (await Appwrite.databases.listDocuments(
         Environment.appwrite_database,
@@ -83,5 +79,21 @@ export class CategoriesRepository implements ICategoriesRepository {
         deletedAt: new Date(),
       }
     );
+  }
+
+  private filterQuery(query: string[], options?: GenericListOptions): string[] {
+    query = [
+      Query.orderDesc(options?.sortField || "$createdAt"),
+      Query.limit(options?.limit || 7),
+      Query.offset((options?.page! - 1 || 0) * (options?.limit || 7)),
+      Query.isNull("deletedAt")
+    ];
+    if (options?.search) {
+      query.push(Query.startsWith("name",options?.search));
+    }
+    if(options?.from && options?.to){
+      query.push(Query.between("$createdAt",options?.from,options?.to))
+    }
+    return query;
   }
 }

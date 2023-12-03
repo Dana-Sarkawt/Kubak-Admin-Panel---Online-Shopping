@@ -88,19 +88,18 @@ export class Dto {
 
   static ToOrderDto(order: Order): OrderDto | null {
     try {
-      const itemsDto: ItemDto[] = order.items.map(
-        (item) => this.ToItemDto(item) as ItemDto
-      );
-      const addressDto: AddressDto = this.ToAddressDto(
-        order.address
-      ) as AddressDto;
+      let itemsDto: ItemDto[] = [];
+      if (order.items) {
+        itemsDto = order.items.map((item) => this.ToItemDto(item) as ItemDto);
+      }
+      const addressDto: AddressDto | null = this.ToAddressDto(order.address);
       return {
         id: order.$id,
         userId: order.userId,
         status: order.status,
         items: itemsDto,
         address: addressDto,
-        totalPrice: order.totalPrice,
+        totalAmount: order.totalAmount,
         createdAt: order.$createdAt as Date,
         updatedAt: order.$updatedAt as Date,
         deletedAt: order.deletedAt as Date | null,
@@ -112,6 +111,9 @@ export class Dto {
 
   static ToAddressDto(address: Address): AddressDto | null {
     try {
+      if (!address) {
+        return null;
+      }
       return {
         id: address.$id,
         building: address.building,
