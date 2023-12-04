@@ -12,7 +12,7 @@
   let L: any;
   let map: any;
   let tileLayer: any;
-  let items:ItemDto[] = [];
+  let items: ItemDto[] = [];
 
   onMount(async () => {
     await loadMap();
@@ -132,217 +132,55 @@
         </div>
       {/each}
     </div>
-    
 
-
-
-
-
-
-
-
-
-
-
-    <div class="bg-black w-full h-1/2 rounded-xl p-2 flex justify-between flex-col gap-2 overflow-y-auto">
-      <div class="bg-[#363636] w-full rounded-lg h-24 flex items-center justify-start gap-2 px-2 py-2">
-        <Img src="images/rice.png" alt="" class="w-16 bg-[#212121] object-cover p-2 rounded-lg"/>
-
-      <div>
-        <p class="text-white font-bold text-sm"><b class="text-gray-400 font-medium text-sm">Name: </b>Rice</p>
-        <p class="text-white font-bold text-sm"><b class="text-gray-400 font-medium text-sm">Quantity: </b>5</p>
-        <p class="text-white font-bold text-sm"><b class="text-gray-400 font-medium text-sm">Price: </b>40 000</p>
-
-      </div>
-         
-      
-      </div>
-
-
-
-
-
-
-
-
-
-
-
-      <div class="bg-[#363636] w-full rounded-lg h-24 flex items-center justify-start gap-2 px-2">
-        <Img src="images/rice.png" alt="" class="w-16 bg-[#212121] object-cover p-2 rounded-lg"/>
-
-      <div>
-        <p class="text-white font-bold text-sm"><b class="text-gray-400 font-medium text-sm">Name: </b>Rice</p>
-        <p class="text-white font-bold text-sm"><b class="text-gray-400 font-medium text-sm">Quantity: </b>5</p>
-        <p class="text-white font-bold text-sm"><b class="text-gray-400 font-medium text-sm">Price: </b>40 000</p>
-
-      </div>
-         
-      
-      </div>
-
-
-
-
-
-
-
-
-
-
-
-
-      <div class="bg-[#363636] w-full rounded-lg h-24 flex items-center justify-start gap-2 px-2">
-        <Img src="images/rice.png" alt="" class="w-16 bg-[#212121] object-cover p-2 rounded-lg"/>
-
-      <div>
-        <p class="text-white font-bold text-sm"><b class="text-gray-400 font-medium text-sm">Name: </b>Rice</p>
-        <p class="text-white font-bold text-sm"><b class="text-gray-400 font-medium text-sm">Quantity: </b>5</p>
-        <p class="text-white font-bold text-sm"><b class="text-gray-400 font-medium text-sm">Price: </b>40 000</p>
-
-      </div>
-         
-      
-      </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      <div class="bg-[#363636] w-full rounded-lg h-24 flex items-center justify-start gap-2 px-2">
-        <Img src="images/rice.png" alt="" class="w-16 bg-[#212121] object-cover p-2 rounded-lg"/>
-
-      <div>
-        <p class="text-white font-bold text-sm"><b class="text-gray-400 font-medium text-sm">Name: </b>Rice</p>
-        <p class="text-white font-bold text-sm"><b class="text-gray-400 font-medium text-sm">Quantity: </b>5</p>
-        <p class="text-white font-bold text-sm"><b class="text-gray-400 font-medium text-sm">Price: </b>40 000</p>
-
-      </div>
-         
-      
-      </div>
-
-
-
-
-
-
-
-
-
-
-
-
-      <div class="bg-[#363636] w-full rounded-lg h-24 flex items-center justify-start gap-2 px-2">
-        <Img src="images/rice.png" alt="" class="w-16 bg-[#212121] object-cover p-2 rounded-lg"/>
-
-      <div>
-        <p class="text-white font-bold text-sm"><b class="text-gray-400 font-medium text-sm">Name: </b>Rice</p>
-        <p class="text-white font-bold text-sm"><b class="text-gray-400 font-medium text-sm">Quantity: </b>5</p>
-        <p class="text-white font-bold text-sm"><b class="text-gray-400 font-medium text-sm">Price: </b>40 000</p>
-
-      </div>
-         
-      
-      </div>
-
-
-
-
-
-
-
-
-      <div class="bg-[#363636] w-full rounded-lg h-24 flex items-center justify-start gap-2 px-2">
-        <Img src="images/rice.png" alt="" class="w-16 bg-[#212121] object-cover p-2 rounded-lg"/>
-
-      <div>
-        <p class="text-white font-bold text-sm"><b class="text-gray-400 font-medium text-sm">Name: </b>Rice</p>
-        <p class="text-white font-bold text-sm"><b class="text-gray-400 font-medium text-sm">Quantity: </b>5</p>
-        <p class="text-white font-bold text-sm"><b class="text-gray-400 font-medium text-sm">Price: </b>40 000</p>
-
-      </div>
-         
-      
-      </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      
-      <div class="bg-[#363636] w-full rounded-lg h-24 flex items-center justify-start gap-2 px-2">
-        <Img src="images/rice.png" alt="" class="w-16 bg-[#212121] object-cover p-2 rounded-lg"/>
-
-      <div>
-        <p class="text-white font-bold text-sm"><b class="text-gray-400 font-medium text-sm">Name: </b>Rice</p>
-        <p class="text-white font-bold text-sm"><b class="text-gray-400 font-medium text-sm">Quantity: </b>5</p>
-        <p class="text-white font-bold text-sm"><b class="text-gray-400 font-medium text-sm">Price: </b>40 000</p>
-
-      </div>
-         
-      
-      </div>
-
-
-
-
-        
-
-
-
-
-      <div class="fixed bottom-0 left-0 w-full h-auto flex flex-col gap-2 justify-center bg-black p-2 rounded-lg">
-
-        <div class="flex justify-center items-center">
-
-          <p class="text-white font-bold text-md"><b class="text-gray-400 font-medium text-md">Total Price: </b>40 000</p>
+    <div
+      class="bg-black w-full h-1/2 rounded-xl p-2 flex justify-between flex-col gap-2 overflow-y-auto"
+    >
+    {#each items as item}
+      <div
+        class="bg-[#363636] w-full rounded-lg h-24 flex items-center justify-start gap-2 px-2 py-2"
+      >
+        <Img
+          src={item.itemImage ?? "images/rice.png"}
+          alt=""
+          class="w-16 bg-[#212121] object-cover p-2 rounded-lg"
+        />
+
+        <div>
+          <p class="text-white font-bold text-sm">
+            <b class="text-gray-400 font-medium text-sm">Name: </b>{item.name ?? "Rice"}
+          </p>
+          <p class="text-white font-bold text-sm">
+            <b class="text-gray-400 font-medium text-sm">Quantity: </b>{item.quantity ?? "0"}
+          </p>
+          <p class="text-white font-bold text-sm">
+            <b class="text-gray-400 font-medium text-sm">Price: </b>{item.price ?? "3000"}
+          </p>
         </div>
+      </div>
+    {/each}
 
+      <div
+        class="fixed bottom-0 left-0 w-full h-auto flex flex-col gap-2 justify-center bg-black p-2 rounded-lg"
+      >
+        <div class="flex justify-center items-center">
+          <p class="text-white font-bold text-md">
+            <b class="text-gray-400 font-medium text-md">Total Price: </b>40 000
+          </p>
+        </div>
 
         <div class="flex justify-center gap-2">
-
-          <button class="bg-green-500  text-white font-bold w-full h-12 rounded-lg">Accept</button>
-          <button class="bg-red-600   w-full text-white font-bold rounded-lg">Reject</button>
+          <button
+            class="bg-green-500 text-white font-bold w-full h-12 rounded-lg"
+            >Accept</button
+          >
+          <button class="bg-red-600 w-full text-white font-bold rounded-lg"
+            >Reject</button
+          >
         </div>
-
-
       </div>
     </div>
-
-        
-      </div>
-
-
-   
-
+  </div>
 </div>
 
 {#if typeof window !== "undefined"}
