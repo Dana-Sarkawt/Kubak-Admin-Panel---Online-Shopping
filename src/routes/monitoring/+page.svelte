@@ -14,7 +14,7 @@
   let map: any;
   let tileLayer: any;
   let items: ItemDto[] = [];
-  let totalAmount:number = 0;
+  let totalAmount: number = 0;
 
   onMount(async () => {
     await loadMap();
@@ -207,7 +207,9 @@
       >
         <div class="flex justify-center items-center">
           <p class="text-white font-bold text-md">
-            <b class="text-gray-400 font-medium text-md">Total Price: </b>{totalAmount ?? "40 000"}
+            <b class="text-gray-400 font-medium text-md"
+              >Total Price:
+            </b>{totalAmount ?? "40 000"}
           </p>
         </div>
 
