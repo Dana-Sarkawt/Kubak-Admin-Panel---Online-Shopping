@@ -335,18 +335,6 @@
 
 
       </div>
-<<<<<<< HEAD
-=======
-      {/each}
-
-      <div class="relative w-full h-auto flex flex-row gap-2 ">
-
-        <button class="bg-green-500 text-white font-bold w-full h-12 rounded-lg">Accept</button>
-        <button class="bg-red-600 w-full text-white font-bold rounded-lg">Reject</button>
-      </div>
-
-     
->>>>>>> 72e46daa102139aa40bd33caf72b6fef5e8b01d4
     </div>
 
         
