@@ -134,11 +134,11 @@
     </div>
 
     <div
-      class="bg-black w-full h-1/2 rounded-xl p-2 flex justify-between flex-col gap-2 overflow-y-auto"
+      class="bg-black w-full h-1/2 rounded-xl p-2 flex justify-start flex-col gap-2 overflow-y-auto"
     >
     {#each items as item}
       <div
-        class="bg-[#363636] w-full rounded-lg h-24 flex items-center justify-start gap-2 px-2 py-2"
+        class="bg-[#363636] w-full rounded-lg h-24 flex items-start justify-start gap-2 px-2 py-2"
       >
         <Img
           src={item.itemImage ?? "images/rice.png"}
