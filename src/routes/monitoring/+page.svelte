@@ -1,15 +1,18 @@
 <script lang="ts">
-	import type { Order } from '$lib/Models/Entities/Order.Entities.Model.ts';
+  import type { Order } from "$lib/Models/Entities/Order.Entities.Model.ts";
   import { Appwrite } from "$lib/Appwrite/Appwrite";
   import { Environment } from "$lib/Env/Environment";
   import { darkMode } from "$lib/Stores/Darkmode.Store";
   import { ordersStore } from "$lib/Stores/Orders.Store";
   import { Badge, Img } from "flowbite-svelte";
   import { onMount } from "svelte";
+  import { OrderStatus } from "$lib/Models/Enums/Order-Status.Enum.Model";
+  import type { ItemDto } from "$lib/Models/DTO/Item.DTO.Model";
 
   let L: any;
   let map: any;
   let tileLayer: any;
+  let items:ItemDto[] = [];
 
   onMount(async () => {
     await loadMap();
@@ -29,6 +32,8 @@
         marker.addTo(map);
       });
 
+      items = $ordersStore.data[0].items;
+
       Appwrite.appwrite.subscribe(
         `databases.${Environment.appwrite_database}.collections.${Environment.appwrite_collection_order}.documents`,
         (response) => {
@@ -41,7 +46,7 @@
           //   marker.addTo(map);
           // });
 
-          const payload:Order = response.payload as Order;
+          const payload: Order = response.payload as Order;
 
           let marker = L.marker([
             payload.address.latitude,
@@ -49,7 +54,6 @@
           ]);
           marker.addTo(map);
           console.log("Response: ", response.payload);
-          
         }
       );
     });
@@ -100,7 +104,7 @@
 
     <div class="bg-black w-full h-1/2 rounded-xl flex flex-col gap-2 px-2">
       <div
-        class="bg-[#363636] w-full h-12 rounded-xl flex gap-3 mt-2  justify-center items-center"
+        class="bg-[#363636] w-full h-12 rounded-xl flex gap-3 mt-2 justify-center items-center"
       >
         <div class="bg-[#009860] w-4 h-4 rounded-full" />
         <div class="bg-white w-4 h-4 rounded-full" />
@@ -109,16 +113,24 @@
         <div class="bg-[#FFC01F] w-4 h-4 rounded-full" />
       </div>
 
-      <div class="bg-[#363636] rounded-lg h-12 flex justify-between px-2 items-center overflow-y-auto">
-        <div class="flex justify-center items-center gap-2 overflow-hidden">
-
-          <img src="images/user.png" alt="" class="w-8">
-          <p class="text-white text-sm text-ellipsis overflow-hidden truncate cursor-default" title="muhammed salah">muhammed salah</p>
-
+      {#each $ordersStore.data as order}
+        <div
+          class="bg-[#363636] rounded-lg h-12 flex justify-between px-2 items-center overflow-y-auto"
+        >
+          <div class="flex justify-center items-center gap-2 overflow-hidden">
+            <img src="images/user.png" alt="" class="w-8" />
+            <p
+              class="text-white text-sm text-ellipsis overflow-hidden truncate cursor-default"
+              title="muhammed salah"
+            >
+              muhammed salah
+            </p>
+          </div>
+          <Badge large class="bg-blue-600 text-white text-xs"
+            >{OrderStatus[order.status]}</Badge
+          >
         </div>
-        <Badge large class="bg-blue-600 text-white text-xs">Accepted</Badge>
-
-      </div>
+      {/each}
     </div>
     
 
@@ -323,6 +335,18 @@
 
 
       </div>
+<<<<<<< HEAD
+=======
+      {/each}
+
+      <div class="relative w-full h-auto flex flex-row gap-2 ">
+
+        <button class="bg-green-500 text-white font-bold w-full h-12 rounded-lg">Accept</button>
+        <button class="bg-red-600 w-full text-white font-bold rounded-lg">Reject</button>
+      </div>
+
+     
+>>>>>>> 72e46daa102139aa40bd33caf72b6fef5e8b01d4
     </div>
 
         
