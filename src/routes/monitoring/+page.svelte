@@ -124,10 +124,10 @@ tileLayer.addTo(map);
         class="bg-[#363636] w-full h-12 rounded-xl flex gap-3 mt-2 justify-center items-center"
       >
         <div class="bg-[#009860] w-4 h-4 rounded-full" />
-        <div class="bg-white w-4 h-4 rounded-full" />
+        <div class="bg-gray-800 w-4 h-4 rounded-full" />
         <div class="bg-[#F02525] w-4 h-4 rounded-full" />
         <div class="bg-[#5570FF] w-4 h-4 rounded-full" />
-        <div class="bg-[#FFC01F] w-4 h-4 rounded-full" />
+        <div class="bg-yellow-600 w-4 h-4 rounded-full" />
       </div>
 
       {#each $ordersStore.data as order}
@@ -147,21 +147,21 @@ tileLayer.addTo(map);
               {order.user.name ?? "No Name"}
             </p>
           </div>
-          <Badge
-            large
-            class="bg-blue-600 text-white text-xs"
-            color={order.status === -1
-              ? "red"
+        
+
+          <div class="h-8 w-20 rounded-lg flex justify-center items-center px-2 text-sm
+          {order.status === -1
+              ? " bg-red-600 text-red-200"
               : order.status === 0
-                ? "dark"
+                ? "bg-gray-800 text-white"
                 : order.status === 1
-                  ? "blue"
+                  ? "bg-blue-600 text-white"
                   : order.status === 2
-                    ? "yellow"
+                    ? "bg-yellow-600 text-white"
                     : order.status == 3
-                      ? "green"
-                      : "dark"}>{OrderStatus[order.status]}</Badge
-          >
+                      ? "bg-green-600 text-white"
+                      : "text-gray-400"}
+          ">{OrderStatus[order.status]}</div>
         </div>
       {/each}
     </div>
