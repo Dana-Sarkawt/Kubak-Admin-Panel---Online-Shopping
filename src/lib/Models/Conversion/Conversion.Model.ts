@@ -60,7 +60,7 @@ export class Dto {
     };
   }
 
-  static ToItemDto(item: Item): ItemDto | null {
+  static ToItemDto(item: Item): ItemDto {
     try {
       let categoriesDto: CategoryDto[] = [];
       if (item.category) {
@@ -68,6 +68,9 @@ export class Dto {
           (category) => this.ToCategoriesDto(category) as CategoryDto
         );
       }
+      // if (!item) {
+      //   return null;
+      // }
       return {
         id: item.$id,
         name: item.name,
@@ -119,7 +122,7 @@ export class Dto {
       return {
         id: address.$id,
         building: address.building,
-        buildingType: BuildingType[address.buildingType],
+        buildingType: address.buildingType,
         latitude: address.latitude,
         longitude: address.longitude,
         note: address.note,

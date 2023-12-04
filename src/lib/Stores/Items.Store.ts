@@ -49,10 +49,10 @@ const createItemStore = () => {
     create: async (item: CreateItemRequest) => {
       try {
         if (item.name == "") {
-          throw new Error("Category Name is required");
+          throw new Error("Item Name is required");
         }
         if (item.image.url == "") {
-          throw new Error("Category Image is required");
+          throw new Error("Item Image is required");
         }
         if (item.price <= 0) {
           throw new Error("Item Price Hast to Be Greater Than Zero");

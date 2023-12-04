@@ -78,7 +78,7 @@ const createAuthStore = () => {
       }
     },
 
-    listUsers: async (options: GenericListOptions) => {
+    listUsers: async (options?: GenericListOptions) => {
       try {
         const { documents, total } = await authRepository.listUsers(options);
 
