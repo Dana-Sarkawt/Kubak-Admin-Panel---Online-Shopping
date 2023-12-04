@@ -4,7 +4,7 @@
   import { Environment } from "$lib/Env/Environment";
   import { darkMode } from "$lib/Stores/Darkmode.Store";
   import { ordersStore } from "$lib/Stores/Orders.Store";
-  import { Badge, Img } from "flowbite-svelte";
+  import { Badge, Img, Spinner } from "flowbite-svelte";
   import { onMount } from "svelte";
   import { OrderStatus } from "$lib/Models/Enums/Order-Status.Enum.Model";
   import type { ItemDto } from "$lib/Models/DTO/Item.DTO.Model";
@@ -13,9 +13,15 @@
   let map: any;
   let tileLayer: any;
   let items: ItemDto[] = [];
+ 
+
+
+
+
 
   onMount(async () => {
-    await loadMap();
+      await loadMap();
+
     await ordersStore.getAll();
     darkMode.subscribe((value) => {
       if (map) {
@@ -59,32 +65,49 @@
     });
 
     // console.log("Orders: ", $ordersStore);
+  
   });
+    
 
+
+  
   async function loadMap() {
-    // @ts-ignore
-    L = await import("leaflet");
 
-    map = L.map("map", {
-      fullscreenControl: true,
-    }).setView([35.5558, 45.4351], 13);
+      // @ts-ignore
+      L = await import("leaflet");
 
-    tileLayer = createTileLayer($darkMode);
-    tileLayer.addTo(map);
-  }
+map = L.map("map", {
+  fullscreenControl: true,
+}).setView([35.5558, 45.4351], 13);
+
+tileLayer = createTileLayer($darkMode);
+tileLayer.addTo(map);
+    
+    }
+    
+  
+
 
   function createTileLayer(darkMode: string) {
-    return L.tileLayer(
-      `https://tiles.stadiamaps.com/tiles/alidade_smooth${
-        darkMode == "dark" ? "_dark" : ""
-      }/{z}/{x}/{y}{r}.png`,
-      {
-        maxZoom: 25,
-        attribution:
-          '© <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> © <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-      }
-    );
+
+      return L.tileLayer(
+        `https://tiles.stadiamaps.com/tiles/alidade_smooth${
+          darkMode == "dark" ? "_dark" : ""
+        }/{z}/{x}/{y}{r}.png`,
+        {
+          maxZoom: 25,
+          attribution:
+            '© <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> © <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        }
+      );
+    
   }
+    
+   
+  
+
+  
+    
 </script>
 
 <div class="w-full flex justify-end">
@@ -146,7 +169,7 @@
           class="w-[80px] h-[80px] bg-[#212121] object-cover p-2 rounded-lg"
         />
 
-        <div class="flex flex-col text-ellipsis overflow-hidden truncate cursor-default ">
+        <div class="flex flex-col text-ellipsis overflow-hidden truncate cursor-default mt-2">
           <p class="text-white font-bold text-sm " title={item.name ?? "have not Quantity"}>
             <b class="text-gray-400 font-medium text-sm">Name: </b>{item.name ?? "no name"}
           </p>
@@ -187,8 +210,13 @@
   <div id="map" class="w-full h-[93.2vh]" />
 {/if}
 
+
+
 <style>
   #request-box {
     backdrop-filter: blur(5px);
   }
+
+  
 </style>
+
