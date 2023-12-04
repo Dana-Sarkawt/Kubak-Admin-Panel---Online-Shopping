@@ -8,7 +8,6 @@
   import { onMount } from "svelte";
   import { OrderStatus } from "$lib/Models/Enums/Order-Status.Enum.Model";
   import type { ItemDto } from "$lib/Models/DTO/Item.DTO.Model";
-  import type { AuthDto } from "$lib/Models/DTO/Auth.DTO.Model";
 
   let L: any;
   let map: any;
@@ -32,9 +31,6 @@
         ]);
         marker.addTo(map);
       });
-
-      items = $ordersStore.data[0].items;
-
       Appwrite.appwrite.subscribe(
         `databases.${Environment.appwrite_database}.collections.${Environment.appwrite_collection_order}.documents`,
         (response) => {
@@ -51,14 +47,14 @@
         }
       );
     });
-
-    // console.log("Orders: ", $ordersStore);
   });
 
   async function loadMap() {
     // @ts-ignore
     L = await import("leaflet");
-
+    if(map){
+      map.remove();
+    }
     map = L.map("map", {
       fullscreenControl: true,
     }).setView([35.5558, 45.4351], 13);
@@ -78,6 +74,15 @@
           '© <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> © <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       }
     );
+  }
+
+  function getItemsOrder(id: string) {
+    items = [];
+    $ordersStore.data.map((order) => {
+      if (order.id === id) {
+        items = order.items;
+      }
+    });
   }
 </script>
 
@@ -109,7 +114,8 @@
 
       {#each $ordersStore.data as order}
         <div
-          class="bg-[#363636] rounded-lg h-12 flex justify-between px-2 items-center overflow-y-auto"
+          class="bg-[#363636] rounded-lg h-12 flex justify-between px-2 items-center overflow-y-auto hover:bg-slate-800 cursor-pointer"
+          on:click={()=>getItemsOrder(order.id)}
         >
           <div class="flex justify-center items-center gap-2 overflow-hidden">
             <img

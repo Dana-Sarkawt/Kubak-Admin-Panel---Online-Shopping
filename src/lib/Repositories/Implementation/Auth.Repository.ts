@@ -73,7 +73,6 @@ export class AuthRepository implements IAuthRepository {
       "GET"
     );
     const user: Auth = JSON.parse(result.responseBody) as Auth;
-    console.log(user);
     return user;
   }
 

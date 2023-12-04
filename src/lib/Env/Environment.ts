@@ -24,6 +24,8 @@ export namespace Environment {
     ENVIRONMENT.VITE_APPWRITE_ADDRESS_ID;
   export const appwrite_collection_order: string =
     ENVIRONMENT.VITE_APPWRITE_ORDER_ID;
+  export const appwrite_collection_item_blocker: string =
+    ENVIRONMENT.VITE_APPWRITE_ITEMBLOCKER_ID;
 
   // Appwrite Storage
   export const appwrite_storage: string = ENVIRONMENT.VITE_APPWRITE_STORAGE_ID;

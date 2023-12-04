@@ -11,6 +11,8 @@ import type { OrderDto } from "$lib/Models/DTO/Order.DTO.Model";
 import type { Address } from "$lib/Models/Entities/Address.Entity.Model";
 import type { AddressDto } from "$lib/Models/DTO/Address.DTO.Model";
 import { BuildingType } from "$lib/Models/Enums/BuildingType.Enum.Model";
+import type { ItemsBlocker } from "../Entities/ItemBlocker.Entity.Model";
+import type { ItemsBlockerDto } from "../DTO/ItemBlocker.DTO.Model";
 
 export class Dto {
   static ToCardDto(card: Card): CardDto | null {
@@ -58,7 +60,7 @@ export class Dto {
     };
   }
 
-  static ToItemDto(item: Item): ItemDto {
+  static ToItemDto(item: Item): ItemDto | null {
     try {
       let categoriesDto: CategoryDto[] = [];
       if (item.category) {
@@ -126,6 +128,30 @@ export class Dto {
         userId: address.userId,
         createdAt: address.$createdAt as Date,
         updatedAt: address.$updatedAt as Date,
+      };
+    } catch (error: any) {
+      throw new Error(error);
+    }
+  }
+
+  static ToItemsBlockerDto(itemBlocker: ItemsBlocker): ItemsBlockerDto | null {
+    try {
+      let itemsDto: ItemDto | null = null;
+      let orderDto: OrderDto | null =  null;
+      if (itemBlocker.items) {
+        itemsDto = this.ToItemDto(itemBlocker.items) as ItemDto;
+      }
+      if (itemBlocker.order) {
+        orderDto = this.ToOrderDto(itemBlocker.order) as OrderDto;
+      }
+      if (!itemBlocker) {
+        return null;
+      }
+      return {
+        id: itemBlocker.$id,
+        quantity: itemBlocker.quantity,
+        items: itemsDto,
+        order: orderDto,
       };
     } catch (error: any) {
       throw new Error(error);
