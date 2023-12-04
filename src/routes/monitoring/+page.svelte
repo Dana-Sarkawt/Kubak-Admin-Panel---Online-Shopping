@@ -128,8 +128,30 @@
         </div>
       {/each}
     </div>
+    
+    <div class="bg-black w-full h-1/2 rounded-xl p-2 flex justify-between flex-col">
+      <div class="bg-[#363636] w-full rounded-lg h-24 flex items-center justify-between px-2">
+        <img src="images/rice.png" alt="" class="w-20 bg-[#212121] object-cover p-2 rounded-lg">
 
-    <div class="bg-black w-full h-1/2 rounded-xl" />
+        <div>
+          <p class="text-white font-bold"><b class="text-gray-400 font-medium">Name: </b>Rice</p>
+          <p class="text-white font-bold"><b class="text-gray-400 font-medium">Quantity: </b>5</p>
+          <p class="text-white font-bold"><b class="text-gray-400 font-medium">Price: </b>40 00000</p>
+         
+        </div>
+      </div>
+
+      <div class="relative w-full h-auto flex flex-row gap-2 ">
+
+        <button class="bg-green-500 text-white font-bold w-full h-12 rounded-lg">Accept</button>
+        <button class="bg-red-600 w-full text-white font-bold rounded-lg">Reject</button>
+      </div>
+
+     
+    </div>
+
+   
+
   </div>
 </div>
 
