@@ -146,7 +146,7 @@
           class="w-[80px] h-[80px] bg-[#212121] object-cover p-2 rounded-lg"
         />
 
-        <div class="flex flex-col text-ellipsis overflow-hidden truncate cursor-default mt-2">
+        <div class="flex flex-col text-ellipsis overflow-hidden truncate cursor-default ">
           <p class="text-white font-bold text-sm " title={item.name ?? "have not Quantity"}>
             <b class="text-gray-400 font-medium text-sm">Name: </b>{item.name ?? "no name"}
           </p>
