@@ -10,7 +10,10 @@
   import { onMount } from "svelte";
   let options: CreateOrderRequest = {
     id: null,
-    items: [],
+    items: [{
+      itemId: "",
+      quantity: 0,
+    }],
     userId: "",
     addressId: "",
   };
