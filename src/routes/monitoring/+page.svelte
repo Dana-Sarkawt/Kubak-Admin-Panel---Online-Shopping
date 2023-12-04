@@ -28,10 +28,17 @@
       }
 
       $ordersStore.data.map((order) => {
-        let marker = L.marker([
-          order.address?.latitude,
-          order.address?.longitude,
-        ]);
+        const myIcon = L.icon({
+          iconUrl: `images/${OrderStatus[order.status]}.png`,
+          iconSize: [38, 38],
+     
+        
+        });
+
+        let marker = L.marker(
+          [order.address?.latitude, order.address?.longitude],
+          { icon: myIcon }
+        );
         marker.addTo(map);
       });
       Appwrite.appwrite.subscribe(
@@ -93,7 +100,6 @@
     }, 0);
     console.log("Items From order", items);
   }
-
 </script>
 
 <div class="w-full flex justify-end">
@@ -128,7 +134,6 @@
         <!-- svelte-ignore a11y-click-events-have-key-events -->
         <div
           class="bg-[#363636] rounded-lg h-12 flex justify-between px-2 items-center overflow-y-auto hover:bg-gray-500 cursor-pointer duration-300 ease"
-          
           on:click={() => getItemsOrder(order.id)}
         >
           <div class="flex justify-center items-center gap-2 overflow-hidden">
@@ -220,7 +225,8 @@
             class="bg-green-500 text-white font-bold w-full h-12 rounded-lg hover:bg-green-600"
             >Accept</button
           >
-          <button class="bg-red-600 w-full text-white font-bold rounded-lg hover:bg-red-700"
+          <button
+            class="bg-red-600 w-full text-white font-bold rounded-lg hover:bg-red-700"
             >Reject</button
           >
         </div>
