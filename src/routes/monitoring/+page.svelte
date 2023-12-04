@@ -4,6 +4,7 @@
   import { Environment } from "$lib/Env/Environment";
   import { darkMode } from "$lib/Stores/Darkmode.Store";
   import { ordersStore } from "$lib/Stores/Orders.Store";
+  import { Badge } from "flowbite-svelte";
   import { onMount } from "svelte";
 
   let L: any;
@@ -97,9 +98,9 @@
       </a>
     </div>
 
-    <div class="bg-black w-full h-1/2 rounded-xl flex">
+    <div class="bg-black w-full h-1/2 rounded-xl flex flex-col gap-2 px-2">
       <div
-        class="bg-gray-700 w-full h-12 rounded-xl flex gap-3 mt-2 mx-2 justify-center items-center"
+        class="bg-[#363636] w-full h-12 rounded-xl flex gap-3 mt-2  justify-center items-center"
       >
         <div class="bg-[#009860] w-4 h-4 rounded-full" />
         <div class="bg-white w-4 h-4 rounded-full" />
@@ -107,7 +108,19 @@
         <div class="bg-[#5570FF] w-4 h-4 rounded-full" />
         <div class="bg-[#FFC01F] w-4 h-4 rounded-full" />
       </div>
+
+      <div class="bg-[#363636] rounded-lg h-12 flex justify-between px-2 items-center overflow-y-auto">
+        <div class="flex justify-center items-center gap-2 overflow-hidden">
+
+          <img src="images/user.png" alt="" class="w-8">
+          <p class="text-white text-sm text-ellipsis overflow-hidden truncate cursor-default" title="muhammed salah">muhammed salah</p>
+
+        </div>
+        <Badge large class="bg-blue-600 text-white text-xs">Accepted</Badge>
+
+      </div>
     </div>
+    
     <div class="bg-black w-full h-1/2 rounded-xl" />
   </div>
 </div>

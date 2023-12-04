@@ -3,8 +3,10 @@ import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.M
 import { Dto } from "$lib/Models/Conversion/Conversion.Model";
 import type { AuthDto } from "$lib/Models/DTO/Auth.DTO.Model";
 import { Roles } from "$lib/Models/Enums/Roles.Enum.Model";
+import type { CreateAuthRequest } from "$lib/Models/Requests/CreateAuth.Request";
 import { AuthRepository } from "$lib/Repositories/Implementation/Auth.Repository";
 import { writable } from "svelte/store";
+import { ImageToUrl } from "../../utils/ImageToUrl.Utils";
 
 const authRepository = new AuthRepository();
 
@@ -87,6 +89,26 @@ const createAuthStore = () => {
         return { data: listUsersDto, total };
       } catch (error) {
         console.log("Error", error);
+      }
+    },
+
+    update: async (auth: CreateAuthRequest) => {
+      try {
+        console.log("auth", auth);
+        
+        if (auth.name === "") {
+          throw new Error("Name is Required");
+        }
+        if (auth.prefs?.image.url) {
+          if (auth.prefs?.image.url instanceof File) {
+            auth.prefs.image.url = (await ImageToUrl(
+              auth.prefs.image.url as File
+            )) as string;
+          }
+        }
+        await authRepository.update(auth);
+      } catch (e) {
+        console.log("Error :", e);
       }
     },
   };
