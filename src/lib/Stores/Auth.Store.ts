@@ -92,10 +92,21 @@ const createAuthStore = () => {
       }
     },
 
+    getUser: async (userId: string) => {
+      try {
+        const user = await authRepository.getUser(userId);
+        const userDto: AuthDto = Dto.ToAuthDto(user);
+
+        return userDto;
+      } catch (error) {
+        console.log("Error", error);
+      }
+    },
+
     update: async (auth: CreateAuthRequest) => {
       try {
         console.log("auth", auth);
-        
+
         if (auth.name === "") {
           throw new Error("Name is Required");
         }

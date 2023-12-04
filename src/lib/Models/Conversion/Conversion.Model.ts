@@ -86,7 +86,7 @@ export class Dto {
     }
   }
 
-  static ToOrderDto(order: Order): OrderDto | null {
+  static ToOrderDto(order: Order,user?:AuthDto): OrderDto | null {
     try {
       let itemsDto: ItemDto[] = [];
       if (order.items) {
@@ -95,7 +95,7 @@ export class Dto {
       const addressDto: AddressDto | null = this.ToAddressDto(order.address);
       return {
         id: order.$id,
-        userId: order.userId,
+        user: user ?? order.userId,
         status: order.status,
         items: itemsDto,
         address: addressDto,

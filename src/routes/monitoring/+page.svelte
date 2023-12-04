@@ -8,6 +8,7 @@
   import { onMount } from "svelte";
   import { OrderStatus } from "$lib/Models/Enums/Order-Status.Enum.Model";
   import type { ItemDto } from "$lib/Models/DTO/Item.DTO.Model";
+  import type { AuthDto } from "$lib/Models/DTO/Auth.DTO.Model";
 
   let L: any;
   let map: any;
@@ -44,13 +45,6 @@
         `databases.${Environment.appwrite_database}.collections.${Environment.appwrite_collection_order}.documents`,
         (response) => {
           ordersStore.getAll();
-          // $ordersStore.data.map((order) => {
-          //   let marker = L.marker([
-          //     order.address?.latitude,
-          //     order.address?.longitude,
-          //   ]);
-          //   marker.addTo(map);
-          // });
 
           const payload: Order = response.payload as Order;
 
@@ -141,16 +135,32 @@ tileLayer.addTo(map);
           class="bg-[#363636] rounded-lg h-12 flex justify-between px-2 items-center overflow-y-auto"
         >
           <div class="flex justify-center items-center gap-2 overflow-hidden">
-            <img src="images/user.png" alt="" class="w-8" />
+            <img
+              src={order.user.imgUrl ?? "images/user.png"}
+              alt=""
+              class="w-8"
+            />
             <p
               class="text-white text-sm text-ellipsis overflow-hidden truncate cursor-default"
-              title="muhammed salah"
+              title={order.user.name ?? "No Name"}
             >
-              muhammed salah
+              {order.user.name ?? "No Name"}
             </p>
           </div>
-          <Badge large class="bg-blue-600 text-white text-xs"
-            >{OrderStatus[order.status]}</Badge
+          <Badge
+            large
+            class="bg-blue-600 text-white text-xs"
+            color={order.status === -1
+              ? "red"
+              : order.status === 0
+                ? "dark"
+                : order.status === 1
+                  ? "blue"
+                  : order.status === 2
+                    ? "yellow"
+                    : order.status == 3
+                      ? "green"
+                      : "dark"}>{OrderStatus[order.status]}</Badge
           >
         </div>
       {/each}
@@ -159,15 +169,15 @@ tileLayer.addTo(map);
     <div
       class="bg-black w-full h-1/2 rounded-xl p-2 flex justify-start flex-col gap-2 overflow-y-auto"
     >
-    {#each items as item}
-      <div
-        class="bg-[#363636] w-full rounded-lg h-24 flex items-start justify-start gap-2 px-2 py-2"
-      >
-        <Img
-          src={item.itemImage ?? "images/rice.png"}
-          alt=""
-          class="w-[80px] h-[80px] bg-[#212121] object-cover p-2 rounded-lg"
-        />
+      {#each items as item}
+        <div
+          class="bg-[#363636] w-full rounded-lg h-24 flex items-start justify-start gap-2 px-2 py-2"
+        >
+          <Img
+            src={item.itemImage ?? "images/rice.png"}
+            alt=""
+            class="w-[80px] h-[80px] bg-[#212121] object-contain p-2 rounded-lg"
+          />
 
         <div class="flex flex-col text-ellipsis overflow-hidden truncate cursor-default mt-2">
           <p class="text-white font-bold text-sm " title={item.name ?? "have not Quantity"}>
@@ -180,8 +190,8 @@ tileLayer.addTo(map);
             <b class="text-gray-400 font-medium text-sm">Price: </b>{item.price ?? "have not Price"}
           </p>
         </div>
-      </div>
-    {/each}
+        </div>
+      {/each}
 
       <div
         class="fixed bottom-0 left-0 w-full h-auto flex flex-col gap-2 justify-center bg-black p-2 rounded-lg"
