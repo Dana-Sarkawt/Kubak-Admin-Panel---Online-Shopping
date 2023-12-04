@@ -4,7 +4,7 @@
   import { Environment } from "$lib/Env/Environment";
   import { darkMode } from "$lib/Stores/Darkmode.Store";
   import { ordersStore } from "$lib/Stores/Orders.Store";
-  import { Badge, Img, Spinner } from "flowbite-svelte";
+  import { Img } from "flowbite-svelte";
   import { onMount } from "svelte";
   import { OrderStatus } from "$lib/Models/Enums/Order-Status.Enum.Model";
   import type { ItemDto } from "$lib/Models/DTO/Item.DTO.Model";
