@@ -99,6 +99,7 @@
       }
     });
   }
+
 </script>
 
 <div class="w-full flex justify-end">
@@ -129,7 +130,8 @@
 
       {#each $ordersStore.data as order}
         <div
-          class="bg-[#363636] rounded-lg h-12 flex justify-between px-2 items-center overflow-y-auto hover:bg-slate-800 cursor-pointer"
+          class="bg-[#363636] rounded-lg h-12 flex justify-between px-2 items-center overflow-y-auto hover:bg-gray-500 cursor-pointer duration-300 ease"
+          
           on:click={() => getItemsOrder(order.id)}
         >
           <div class="flex justify-center items-center gap-2 overflow-hidden">
@@ -216,10 +218,10 @@
 
         <div class="flex justify-center gap-2">
           <button
-            class="bg-green-500 text-white font-bold w-full h-12 rounded-lg"
+            class="bg-green-500 text-white font-bold w-full h-12 rounded-lg hover:bg-green-600"
             >Accept</button
           >
-          <button class="bg-red-600 w-full text-white font-bold rounded-lg"
+          <button class="bg-red-600 w-full text-white font-bold rounded-lg hover:bg-red-700"
             >Reject</button
           >
         </div>
