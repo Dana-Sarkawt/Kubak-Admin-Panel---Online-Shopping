@@ -5,6 +5,8 @@ import type { CreateOrderRequest } from "$lib/Models/Requests/CreateOrder.Reques
 import type { Store } from "$lib/Models/Response/Store.Response";
 import { OrdersRepository } from "$lib/Repositories/Implementation/Orders.Repository";
 import { writable } from "svelte/store";
+import { authStore } from "./Auth.Store";
+import type { AuthDto } from "$lib/Models/DTO/Auth.DTO.Model";
 
 const ordersRepository = new OrdersRepository();
 
@@ -28,9 +30,14 @@ const createOrdersStore = () => {
     getAll: async () => {
       try {
         let { documents, total } = await ordersRepository.getOrders();
-        let ordersDto: OrderDto[] = documents.map((document) => {
-          return Dto.ToOrderDto(document) as OrderDto;
-        });
+        let ordersDto: OrderDto[] = await Promise.all(
+          documents.map(async (document) => {
+            const userDto = (await authStore.getUser(
+              document.userId
+            )) as AuthDto;
+            return Dto.ToOrderDto(document, userDto) as OrderDto;
+          })
+        );
 
         const pages = Math.ceil(total / 8);
 

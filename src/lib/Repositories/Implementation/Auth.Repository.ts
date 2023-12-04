@@ -64,6 +64,18 @@ export class AuthRepository implements IAuthRepository {
     const users: AppwriteResponse<Auth> = { documents, total };
     return users;
   }
+  async getUser(userId: string): Promise<Auth> {
+    const result = await Appwrite.functions.createExecution(
+      Environment.appwrite_function_get_user,
+      JSON.stringify({ userId }),
+      false,
+      "/",
+      "GET"
+    );
+    const user: Auth = JSON.parse(result.responseBody) as Auth;
+    console.log(user);
+    return user;
+  }
 
   private async filterUpdatingOptions(options?: AuthRequest): Promise<void> {
     if (options?.name === "") {
