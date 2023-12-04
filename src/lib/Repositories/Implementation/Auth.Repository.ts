@@ -53,7 +53,7 @@ export class AuthRepository implements IAuthRepository {
   ): Promise<AppwriteResponse<Auth>> {
     const result = await Appwrite.functions.createExecution(
       Environment.appwrite_function_get_all_users,
-      JSON.stringify(options),
+      JSON.stringify(options ?? {}),
       false,
       "/",
       "GET"

@@ -1,59 +1,34 @@
 <script lang="ts">
-  import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
   import type { AuthDto } from "$lib/Models/DTO/Auth.DTO.Model";
-  import type { CreateItemRequest } from "$lib/Models/Requests/CreateItem.Request";
-  import type { Store } from "$lib/Models/Response/Store.Response";
+  import type { CreateOrderRequest } from "$lib/Models/Requests/CreateOrder.Request";
+  import { addressStore } from "$lib/Stores/Address.Store";
 
   import { authStore } from "$lib/Stores/Auth.Store";
-  import { categoryStore } from "$lib/Stores/Categories.Store";
   import { itemStore } from "$lib/Stores/Items.Store";
+  import { ordersStore } from "$lib/Stores/Orders.Store";
   import { Label, Input } from "flowbite-svelte";
   import { onMount } from "svelte";
-  let options: CreateItemRequest = {
+  let options: CreateOrderRequest = {
     id: null,
-    name: "",
-    categoryId: [],
-    price: 0,
-    quantity: 0,
-    productionDate: new Date(),
-    expiredDate: new Date(),
-    image: {
-      url: "",
-    },
+    items: [{
+      itemId: "",
+      quantity: 0,
+    }],
     userId: "",
+    addressId: "",
   };
 
-  let filter: GenericListOptions = {
-    limit: 7,
-    sortField: undefined,
-  };
-
- 
   let listUsers: AuthDto[] = [];
 
   onMount(async () => {
-    listUsers = (await authStore.listUsers(filter))?.data as AuthDto[];
-    console.log("List Users ", listUsers);
+    listUsers = (await authStore.listUsers())?.data as AuthDto[];
+    await itemStore.getAll();
+    await addressStore.getAll();
   });
 
-  onMount(async () => {
-    await itemStore.getAll(filter);
-  
-  });
-
-  function handleFileChange(event: Event) {
-    const input = event.target as HTMLInputElement;
-    if (!input.files || input.files.length === 0) {
-      return;
-    }
-    
-  }
-
-  async function create(options: CreateItemRequest) {
+  async function create(options: CreateOrderRequest) {
     options.userId = $authStore?.id ?? "";
-    options.categoryId = selected;
-    console.log(options);
-    await itemStore.create(options);
+    await ordersStore.create(options);
   }
 
   var add_button = 0;
@@ -92,12 +67,13 @@
     <select
       name=""
       id=""
-      class="w-full pt-2 rounded-lg dark:bg-[#2c2c2c] dark:border-[#3b3b3b] dark:text-white border-gray-300"
+      class="w-full pt-2 rounded-lg dark:bg-[#2c2c2c] dark:border-[#3b3b3b] dark:text-white border-gray-300" bind:value={options.userId}
     >
-
-{#each listUsers as user}
-      <option value={user.name.length > 0 ? user.name : "No Name"}>{user.name.length > 0 ? user.name : "No Name"}</option>
-    {/each}
+      {#each listUsers as user}
+        <option value={user.id}
+          >{user.name.length > 0 ? user.name : "No Name"}</option
+        >
+      {/each}
     </select>
 
     <div class="w-full h-auto flex justify-center items-end mt-2 gap-2">
@@ -112,9 +88,10 @@
           name=""
           id=""
           class="w-full pt-2 rounded-lg h-12 border-gray-300 dark:bg-[#2c2c2c] dark:border-[#3b3b3b] dark:text-white"
+          bind:value={options.items[0].itemId}
         >
           {#each $itemStore.data as item}
-            <option value={item.name}>{item.name}</option>
+            <option value={item.id}>{item.name}</option>
           {/each}
         </select>
       </div>
@@ -127,12 +104,13 @@
           required
           type="number"
           class="w-full rounded-xl dark:bg-[#363636] dark:text-white"
+          bind:value={options.items[0].quantity}
         />
       </div>
     </div>
 
     {#if add_button > 0}
-      {#each Array(add_button) as _, i}
+      {#each Array(add_button) as _, index}
         <div class="w-full h-auto flex justify-center items-end mt-2 gap-2">
           <button
             class="w-28 h-12 flex justify-center items-center text-lg font-bold text-white bg-red-600 rounded-lg"
@@ -145,9 +123,10 @@
               name=""
               id=""
               class="w-full pt-2 rounded-lg h-12 border-gray-300 dark:bg-[#2c2c2c] dark:border-[#3b3b3b] dark:text-white"
+              bind:value={options.items[index + 1].itemId}
             >
               {#each $itemStore.data as item}
-                <option value={item.name}>{item.name}</option>
+                <option value={item.id}>{item.name}</option>
               {/each}
             </select>
           </div>
@@ -160,6 +139,7 @@
               required
               type="number"
               class="w-full rounded-xl dark:bg-[#363636] dark:text-white"
+              bind:value={options.items[index + 1].quantity}
             />
           </div>
         </div>
@@ -172,7 +152,13 @@
       id=""
       class="w-full pt-2 rounded-lg h-12 border-gray-300 dark:bg-[#2c2c2c] dark:border-[#3b3b3b] dark:text-white"
     >
-      <option value=""></option>
+      {#if $addressStore}
+        {#each $addressStore.data as address}
+          <option value={address.id}
+            >{address.street} / {address.building} / {address.buildingType}</option
+          >
+        {/each}
+      {/if}
     </select>
   </div>
   <button
