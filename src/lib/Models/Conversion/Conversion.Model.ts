@@ -141,8 +141,8 @@ export class Dto {
       if (itemBlocker.items) {
         itemsDto = this.ToItemDto(itemBlocker.items) as ItemDto;
       }
-      if (itemBlocker.order) {
-        orderDto = this.ToOrderDto(itemBlocker.order) as OrderDto;
+      if (itemBlocker.orders) {
+        orderDto = this.ToOrderDto(itemBlocker.orders) as OrderDto;
       }
       if (!itemBlocker) {
         return null;
