@@ -143,18 +143,18 @@
         <Img
           src={item.itemImage ?? "images/rice.png"}
           alt=""
-          class="w-16 bg-[#212121] object-cover p-2 rounded-lg"
+          class="w-[80px] h-[80px] bg-[#212121] object-cover p-2 rounded-lg"
         />
 
-        <div>
-          <p class="text-white font-bold text-sm">
-            <b class="text-gray-400 font-medium text-sm">Name: </b>{item.name ?? "Rice"}
+        <div class="flex flex-col text-ellipsis overflow-hidden truncate cursor-default mt-2">
+          <p class="text-white font-bold text-sm " title={item.name ?? "have not Quantity"}>
+            <b class="text-gray-400 font-medium text-sm">Name: </b>{item.name ?? "no name"}
           </p>
           <p class="text-white font-bold text-sm">
-            <b class="text-gray-400 font-medium text-sm">Quantity: </b>{item.quantity ?? "0"}
+            <b class="text-gray-400 font-medium text-sm">Quantity: </b>{item.quantity ?? "have not Quantity"}
           </p>
           <p class="text-white font-bold text-sm">
-            <b class="text-gray-400 font-medium text-sm">Price: </b>{item.price ?? "3000"}
+            <b class="text-gray-400 font-medium text-sm">Price: </b>{item.price ?? "have not Price"}
           </p>
         </div>
       </div>
