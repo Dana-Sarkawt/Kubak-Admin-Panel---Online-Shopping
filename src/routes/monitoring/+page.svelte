@@ -4,23 +4,20 @@
   import { Environment } from "$lib/Env/Environment";
   import { darkMode } from "$lib/Stores/Darkmode.Store";
   import { ordersStore } from "$lib/Stores/Orders.Store";
-  import { Badge, Img, Spinner } from "flowbite-svelte";
+  import { Img } from "flowbite-svelte";
   import { onMount } from "svelte";
   import { OrderStatus } from "$lib/Models/Enums/Order-Status.Enum.Model";
   import type { ItemDto } from "$lib/Models/DTO/Item.DTO.Model";
+  import { itemsBlockerStore } from "$lib/Stores/ItemsBlocker.Store";
 
   let L: any;
   let map: any;
   let tileLayer: any;
   let items: ItemDto[] = [];
- 
-
-
-
-
+  let totalAmount: number = 0;
 
   onMount(async () => {
-      await loadMap();
+    await loadMap();
 
     await ordersStore.getAll();
     darkMode.subscribe((value) => {
@@ -54,14 +51,11 @@
       );
     });
   });
-    
 
-
-  
   async function loadMap() {
     // @ts-ignore
     L = await import("leaflet");
-    if(map){
+    if (map) {
       map.remove();
     }
     map = L.map("map", {
@@ -70,34 +64,34 @@
 
     tileLayer = createTileLayer($darkMode);
     tileLayer.addTo(map);
-    
-    }
-    
-  
-
-
-  function createTileLayer(darkMode: string) {
-
-      return L.tileLayer(
-        `https://tiles.stadiamaps.com/tiles/alidade_smooth${
-          darkMode == "dark" ? "_dark" : ""
-        }/{z}/{x}/{y}{r}.png`,
-        {
-          maxZoom: 25,
-          attribution:
-            '© <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> © <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        }
-      );
-    
   }
 
-  function getItemsOrder(id: string) {
-    items = [];
-    $ordersStore.data.map((order) => {
-      if (order.id === id) {
-        items = order.items;
+  function createTileLayer(darkMode: string) {
+    return L.tileLayer(
+      `https://tiles.stadiamaps.com/tiles/alidade_smooth${
+        darkMode == "dark" ? "_dark" : ""
+      }/{z}/{x}/{y}{r}.png`,
+      {
+        maxZoom: 25,
+        attribution:
+          '© <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> © <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       }
-    });
+    );
+  }
+
+  async function getItemsOrder(orderId: string) {
+    const itemsBlocker = await itemsBlockerStore.getAll(orderId);
+    items =
+      itemsBlocker?.map((item) => {
+        return {
+          ...item.items,
+          quantity: item.quantity,
+        } as ItemDto;
+      }) ?? [];
+    totalAmount = items.reduce((acc, item) => {
+      return acc + item.price * item.quantity;
+    }, 0);
+    console.log("Items From order", items);
   }
 
 </script>
@@ -128,7 +122,10 @@
         <div class="bg-yellow-600 w-4 h-4 rounded-full" />
       </div>
 
+      <!-- svelte-ignore a11y-click-events-have-key-events -->
+      <!-- svelte-ignore a11y-no-static-element-interactions -->
       {#each $ordersStore.data as order}
+        <!-- svelte-ignore a11y-click-events-have-key-events -->
         <div
           class="bg-[#363636] rounded-lg h-12 flex justify-between px-2 items-center overflow-y-auto hover:bg-gray-500 cursor-pointer duration-300 ease"
           
@@ -212,7 +209,9 @@
       >
         <div class="flex justify-center items-center">
           <p class="text-white font-bold text-md">
-            <b class="text-gray-400 font-medium text-md">Total Price: </b>40 000
+            <b class="text-gray-400 font-medium text-md"
+              >Total Price:
+            </b>{totalAmount ?? "40 000"}
           </p>
         </div>
 

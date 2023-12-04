@@ -31,6 +31,8 @@ const createItemsBlockerStore = () => {
         const pages = Math.ceil(total / 8);
 
         set({ data: itemsBlockerDto, total: total, pages: pages });
+
+        return itemsBlockerDto;
       } catch (error) {
         console.log(error);
       }
