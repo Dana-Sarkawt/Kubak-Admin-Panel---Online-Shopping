@@ -4,7 +4,7 @@
   import { Environment } from "$lib/Env/Environment";
   import { darkMode } from "$lib/Stores/Darkmode.Store";
   import { ordersStore } from "$lib/Stores/Orders.Store";
-  import { Badge, Img } from "flowbite-svelte";
+  import { Badge, Img, Spinner } from "flowbite-svelte";
   import { onMount } from "svelte";
   import { OrderStatus } from "$lib/Models/Enums/Order-Status.Enum.Model";
   import type { ItemDto } from "$lib/Models/DTO/Item.DTO.Model";
@@ -13,9 +13,15 @@
   let map: any;
   let tileLayer: any;
   let items: ItemDto[] = [];
+ 
+
+
+
+
 
   onMount(async () => {
-    await loadMap();
+      await loadMap();
+
     await ordersStore.getAll();
     darkMode.subscribe((value) => {
       if (map) {
@@ -48,7 +54,10 @@
       );
     });
   });
+    
 
+
+  
   async function loadMap() {
     // @ts-ignore
     L = await import("leaflet");
@@ -61,19 +70,25 @@
 
     tileLayer = createTileLayer($darkMode);
     tileLayer.addTo(map);
-  }
+    
+    }
+    
+  
+
 
   function createTileLayer(darkMode: string) {
-    return L.tileLayer(
-      `https://tiles.stadiamaps.com/tiles/alidade_smooth${
-        darkMode == "dark" ? "_dark" : ""
-      }/{z}/{x}/{y}{r}.png`,
-      {
-        maxZoom: 25,
-        attribution:
-          '© <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> © <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-      }
-    );
+
+      return L.tileLayer(
+        `https://tiles.stadiamaps.com/tiles/alidade_smooth${
+          darkMode == "dark" ? "_dark" : ""
+        }/{z}/{x}/{y}{r}.png`,
+        {
+          maxZoom: 25,
+          attribution:
+            '© <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> © <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        }
+      );
+    
   }
 
   function getItemsOrder(id: string) {
@@ -106,16 +121,16 @@
         class="bg-[#363636] w-full h-12 rounded-xl flex gap-3 mt-2 justify-center items-center"
       >
         <div class="bg-[#009860] w-4 h-4 rounded-full" />
-        <div class="bg-white w-4 h-4 rounded-full" />
+        <div class="bg-gray-800 w-4 h-4 rounded-full" />
         <div class="bg-[#F02525] w-4 h-4 rounded-full" />
         <div class="bg-[#5570FF] w-4 h-4 rounded-full" />
-        <div class="bg-[#FFC01F] w-4 h-4 rounded-full" />
+        <div class="bg-yellow-600 w-4 h-4 rounded-full" />
       </div>
 
       {#each $ordersStore.data as order}
         <div
           class="bg-[#363636] rounded-lg h-12 flex justify-between px-2 items-center overflow-y-auto hover:bg-slate-800 cursor-pointer"
-          on:click={()=>getItemsOrder(order.id)}
+          on:click={() => getItemsOrder(order.id)}
         >
           <div class="flex justify-center items-center gap-2 overflow-hidden">
             <img
@@ -130,21 +145,24 @@
               {order.user.name ?? "No Name"}
             </p>
           </div>
-          <Badge
-            large
-            class="bg-blue-600 text-white text-xs"
-            color={order.status === -1
-              ? "red"
+
+          <div
+            class="h-8 w-20 rounded-lg flex justify-center items-center px-2 text-sm
+          {order.status === -1
+              ? ' bg-red-600 text-red-200'
               : order.status === 0
-                ? "dark"
+                ? 'bg-gray-800 text-white'
                 : order.status === 1
-                  ? "blue"
+                  ? 'bg-blue-600 text-white'
                   : order.status === 2
-                    ? "yellow"
+                    ? 'bg-yellow-600 text-white'
                     : order.status == 3
-                      ? "green"
-                      : "dark"}>{OrderStatus[order.status]}</Badge
+                      ? 'bg-green-600 text-white'
+                      : 'text-gray-400'}
+          "
           >
+            {OrderStatus[order.status]}
+          </div>
         </div>
       {/each}
     </div>
@@ -159,24 +177,29 @@
           <Img
             src={item.itemImage ?? "images/rice.png"}
             alt=""
-            class="w-16 bg-[#212121] object-cover p-2 rounded-lg"
+            class="w-[80px] h-[80px] bg-[#212121] object-contain p-2 rounded-lg"
           />
 
-          <div>
-            <p class="text-white font-bold text-sm">
+          <div
+            class="flex flex-col text-ellipsis overflow-hidden truncate cursor-default mt-2"
+          >
+            <p
+              class="text-white font-bold text-sm"
+              title={item.name ?? "have not Quantity"}
+            >
               <b class="text-gray-400 font-medium text-sm"
                 >Name:
-              </b>{item.name ?? "Rice"}
+              </b>{item.name ?? "no name"}
             </p>
             <p class="text-white font-bold text-sm">
               <b class="text-gray-400 font-medium text-sm"
                 >Quantity:
-              </b>{item.quantity ?? "0"}
+              </b>{item.quantity ?? "have not Quantity"}
             </p>
             <p class="text-white font-bold text-sm">
               <b class="text-gray-400 font-medium text-sm"
                 >Price:
-              </b>{item.price ?? "3000"}
+              </b>{item.price ?? "have not Price"}
             </p>
           </div>
         </div>
