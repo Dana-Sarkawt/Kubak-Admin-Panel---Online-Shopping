@@ -1,4 +1,5 @@
 <script lang="ts">
+	import type { Order } from '$lib/Models/Entities/Order.Entities.Model.ts';
   import { Appwrite } from "$lib/Appwrite/Appwrite";
   import { Environment } from "$lib/Env/Environment";
   import { darkMode } from "$lib/Stores/Darkmode.Store";
@@ -40,9 +41,11 @@
           //   marker.addTo(map);
           // });
 
+          const payload:Order = response.payload as Order;
+
           let marker = L.marker([
-            response.payload!.address.latitude,
-            response.payload!.address.longitude,
+            payload.address.latitude,
+            payload.address.longitude,
           ]);
           marker.addTo(map);
           console.log("Response: ", response.payload);
