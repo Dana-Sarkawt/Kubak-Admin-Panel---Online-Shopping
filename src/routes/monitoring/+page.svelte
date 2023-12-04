@@ -7,10 +7,12 @@
   import { Badge } from "flowbite-svelte";
   import { onMount } from "svelte";
   import { OrderStatus } from "$lib/Models/Enums/Order-Status.Enum.Model";
+  import type { ItemDto } from "$lib/Models/DTO/Item.DTO.Model";
 
   let L: any;
   let map: any;
   let tileLayer: any;
+  let items:ItemDto[] = [];
 
   onMount(async () => {
     await loadMap();
@@ -29,6 +31,8 @@
         ]);
         marker.addTo(map);
       });
+
+      items = $ordersStore.data[0].items;
 
       Appwrite.appwrite.subscribe(
         `databases.${Environment.appwrite_database}.collections.${Environment.appwrite_collection_order}.documents`,
@@ -130,16 +134,18 @@
     </div>
     
     <div class="bg-black w-full h-1/2 rounded-xl p-2 flex justify-between flex-col">
+      {#each items as item}    
       <div class="bg-[#363636] w-full rounded-lg h-24 flex items-center justify-between px-2">
-        <img src="images/rice.png" alt="" class="w-20 bg-[#212121] object-cover p-2 rounded-lg">
+        <img src={item.itemImage ?? "images/rice.png"} alt="" class="w-20 bg-[#212121] object-cover p-2 rounded-lg">
 
         <div>
-          <p class="text-white font-bold"><b class="text-gray-400 font-medium">Name: </b>Rice</p>
-          <p class="text-white font-bold"><b class="text-gray-400 font-medium">Quantity: </b>5</p>
-          <p class="text-white font-bold"><b class="text-gray-400 font-medium">Price: </b>40 00000</p>
+          <p class="text-white font-bold"><b class="text-gray-400 font-medium">Name: </b>{item.name}</p>
+          <p class="text-white font-bold"><b class="text-gray-400 font-medium">Quantity: </b>{item.quantity}</p>
+          <p class="text-white font-bold"><b class="text-gray-400 font-medium">Price: </b>{item.price}</p>
          
         </div>
       </div>
+      {/each}
 
       <div class="relative w-full h-auto flex flex-row gap-2 ">
 
