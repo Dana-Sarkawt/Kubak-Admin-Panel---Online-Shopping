@@ -20,7 +20,7 @@
     userId: "",
   };
   let categories: { value: string; name: string }[] = [];
-  let selected:string[] = [];
+  let selected: string[] = [];
 
   onMount(async () => {
     await categoryStore.getAll();
@@ -33,7 +33,6 @@
     });
 
     console.log(categories);
-    
   });
 
   function handleFileChange(event: Event) {
@@ -53,13 +52,11 @@
     await itemStore.create(options);
   }
 
+  let inputValue = "";
 
-  let inputValue = '';
-
-function handleInputChange(activEvent:any) {
-  inputValue = activEvent.target.value;
-}
-
+  function handleInputChange(activEvent: any) {
+    inputValue = activEvent.target.value;
+  }
 </script>
 
 <div class="container mx-auto h-auto">
@@ -74,16 +71,22 @@ function handleInputChange(activEvent:any) {
 <div
   class="container mx-auto max-w-2xl flex justify-center items-center flex-col gap-3 mt-23 py-12 rounded-xl bg-white dark:bg-[#212121]"
 >
-<div class="w-60 h-60 bg-[#e9e9e9] dark:bg-[#363636] flex justify-center items-center rounded-lg">
+  <div
+    class="w-60 h-60 bg-[#e9e9e9] dark:bg-[#363636] flex justify-center items-center rounded-lg"
+  >
+    <img
+      src={options.image.localUrl ?? "/images/item.png"}
+      alt=""
+      class="object-cover w-44 h-44 object-center p-1 rounded-xl flex"
+    />
+  </div>
 
-  <img
-    src={options.image.localUrl ?? "/images/item.png"}
-    alt=""
-    class="object-cover w-44 h-44 object-center p-1 rounded-xl flex"
+  <input
+    type="file"
+    id="uploadBtn"
+    on:input={handleInputChange}
+    on:change={handleFileChange}
   />
-</div>
-
-  <input type="file" id="uploadBtn"  on:input={handleInputChange} on:change={handleFileChange} />
   <label for="uploadBtn" class=" bg-[#f0f0f0] dark:bg-[#363636]"
     >Add Image</label
   >
@@ -101,10 +104,14 @@ function handleInputChange(activEvent:any) {
 
     <div class="w-full flex flex-col mt-2">
       <Label for="large-input" class="block mb-2">Category</Label>
-      <MultiSelect class="py-4 on:input={handleInputChange}   dark:bg-[#363636]" dropdownClass="dark:bg-[#363636]" items={categories} bind:value={selected}/>
+      <MultiSelect
+        class="py-4 on:input={handleInputChange}   dark:bg-[#363636]"
+        dropdownClass="dark:bg-[#363636]"
+        items={categories}
+        bind:value={selected}
+      />
     </div>
     <div class="w-full grid grid-cols-2 items-center justify-center gap-2 my-3">
-
       <div class="w-full flex flex-col">
         <Label for="large-input" class="block mb-2">Price</Label>
         <Input
@@ -137,7 +144,6 @@ function handleInputChange(activEvent:any) {
         <Label for="large-input" class="block mb-2">Production Date</Label>
         <Input
           bind:value={options.productionDate}
-      
           id="large-input"
           size="lg"
           required
@@ -150,7 +156,6 @@ function handleInputChange(activEvent:any) {
         <Label for="large-input" class="block mb-2">Expiration Date</Label>
         <Input
           bind:value={options.expiredDate}
-        
           id="large-input"
           size="lg"
           type="date"
@@ -172,7 +177,12 @@ function handleInputChange(activEvent:any) {
   </div>
   <button
     on:click={() => create(options)}
-    disabled={!options.name || !options.image.url || !options.price || !options.quantity || !options.productionDate || !options.expiredDate}
+    disabled={!options.name ||
+      !options.image.url ||
+      !options.price ||
+      !options.quantity ||
+      !options.productionDate ||
+      !options.expiredDate}
     class="bg-[#f17f18] font-bold text-white py-3 px-8 rounded-xl"
     type="submit">Add Item</button
   >
@@ -196,6 +206,5 @@ function handleInputChange(activEvent:any) {
   button:disabled {
     opacity: 0.5;
     transition: ease-in-out 0.3s;
-    
   }
 </style>
