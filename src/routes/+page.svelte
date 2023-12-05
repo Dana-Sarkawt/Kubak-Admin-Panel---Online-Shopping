@@ -1,8 +1,9 @@
 <script lang="ts">
   import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
   import { itemStore } from "$lib/Stores/Items.Store";
+  import { itemsBlockerStore } from "$lib/Stores/ItemsBlocker.Store";
   import {
-  Spinner,
+    Spinner,
     Table,
     TableBody,
     TableBodyCell,
@@ -12,13 +13,15 @@
   } from "flowbite-svelte";
   import moment from "moment";
   import { onMount } from "svelte";
-  const filter:GenericListOptions = {
+  const filter: GenericListOptions = {
     page: 1,
     limit: 6,
     sortField: "$createdAt",
   };
 
-  let loading = true; 
+  let mostOrdered = [];
+
+  let loading = true;
   onMount(async () => {
     try {
       await itemStore.getAll(filter);
@@ -26,6 +29,8 @@
       loading = false;
     }
   });
+
+  
 </script>
 
 <div class="w-full h-auto flex flex-col justify-center items-center gap-2">
@@ -83,17 +88,25 @@
 
       <!--  START FIRST MOST ORDER CARD  -->
 
-      <div
-        class="w-11/12 h-12 2xl:h-20 bg-[#e8e8e8] dark:bg-[#363636] dark:text-white rounded-xl flex justify-center items-center px-3 md:text-[8px] lg:text-lg"
-      >
-        <img src="/images/rice.png" alt="" class="w-8" />
-        <p class="w-1/2 text-center">Rice</p>
-        <p class="w-1/2">2000 IQD</p>
-      </div>
+      {#each $itemsBlockerStore.data as itemsBlocker}
+        <div
+          class="w-11/12 h-12 2xl:h-20 bg-[#e8e8e8] dark:bg-[#363636] dark:text-white rounded-xl flex justify-center items-center px-3 md:text-[8px] lg:text-lg"
+        >
+          <img
+            src={itemsBlocker.items?.itemImage ?? "/images/rice.png"}
+            alt=""
+            class="w-8"
+          />
+          <p class="w-1/2 text-center">
+            {itemsBlocker.items?.name ?? "No Name"}
+          </p>
+          <p class="w-1/2">{itemsBlocker.items?.price ?? "0"} IQD</p>
+        </div>
+      {/each}
 
       <!--  END FIRST MOST ORDER CARD  -->
       <!--  AND DELETE ANOTHER MOST ORDER CARD  -->
-
+      <!-- 
       <div
         class="w-11/12 h-12 2xl:h-20 bg-[#e8e8e8] dark:bg-[#363636] rounded-xl"
       />
@@ -104,7 +117,7 @@
 
       <div
         class="w-11/12 h-12 2xl:h-20 bg-[#e8e8e8] dark:bg-[#363636] rounded-xl"
-      />
+      /> -->
 
       <!-- svelte-ignore a11y-invalid-attribute -->
       <a href="#" class="text-[#f17f18]">See More</a>
@@ -126,38 +139,45 @@
       <div
         class="w-full h-auto flex justify-center items-center overflow-x-auto"
       >
-      {#if loading}
-      <div class="w-full flex justify-center mt-12">
-
-        <Spinner />
-      </div>
-      {:else}
-        <Table divClass="w-full h-full  ">
-          <TableHead class="w-full dark:bg-[#363636] dark:text-white">
-            <TableHeadCell>Image</TableHeadCell>
-            <TableHeadCell>Name</TableHeadCell>
-            <TableHeadCell>Production Date</TableHeadCell>
-            <TableHeadCell>Expiration Date</TableHeadCell>
-            <TableHeadCell>Price</TableHeadCell>
-          </TableHead>
-          <TableBody>
-            {#each $itemStore.data as item}
-              <TableBodyRow class="dark:bg-[#212121]">
-                <TableBodyCell
-                  ><img
-                    src={item.itemImage??"/images/item.png"}
-                    alt=""
-                    class="w-8"
-                  /></TableBodyCell
-                >
-                <TableBodyCell>{item.name}</TableBodyCell>
-                <TableBodyCell>{moment(item.productionDate).format("DD-MMM-YYYY")}</TableBodyCell>
-                <TableBodyCell class="text-gray-400">{moment(item.expiredDate).format("DD-MMM-YYYY")}</TableBodyCell>
-                <TableBodyCell>{item.price}</TableBodyCell>
-              </TableBodyRow>
-            {/each}
-          </TableBody>
-        </Table>
+        {#if loading}
+          <div class="w-full flex justify-center mt-12">
+            <Spinner />
+          </div>
+        {:else}
+          <Table divClass="w-full h-full  ">
+            <TableHead class="w-full dark:bg-[#363636] dark:text-white">
+              <TableHeadCell>Image</TableHeadCell>
+              <TableHeadCell>Name</TableHeadCell>
+              <TableHeadCell>Production Date</TableHeadCell>
+              <TableHeadCell>Expiration Date</TableHeadCell>
+              <TableHeadCell>Price</TableHeadCell>
+            </TableHead>
+            <TableBody>
+              {#each $itemStore.data as item}
+                <TableBodyRow class="dark:bg-[#212121]">
+                  <TableBodyCell
+                    ><img
+                      src={item.itemImage ?? "/images/item.png"}
+                      alt=""
+                      class="w-8"
+                    /></TableBodyCell
+                  >
+                  <TableBodyCell>{item.name}</TableBodyCell>
+                  <TableBodyCell
+                    >{moment(item.productionDate).format(
+                      "DD-MMM-YYYY"
+                    )}</TableBodyCell
+                  >
+                  <TableBodyCell class="text-gray-400"
+                    >{moment(item.expiredDate).format(
+                      "DD-MMM-YYYY"
+                    )}</TableBodyCell
+                  >
+                  <TableBodyCell>{item.price}</TableBodyCell>
+                </TableBodyRow>
+              {/each}
+            </TableBody>
+          </Table>
         {/if}
       </div>
     </div>
