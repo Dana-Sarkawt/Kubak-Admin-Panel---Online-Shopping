@@ -135,8 +135,7 @@ const createItemStore = () => {
           throw new Error("Item Not Found");
         }
 
-        document.deletedAt = new Date();
-        await itemsRepository.updateItem(document);
+        await itemsRepository.deleteItem(id);
         itemStore.getAll();
       } catch (error) {
         console.log(error);

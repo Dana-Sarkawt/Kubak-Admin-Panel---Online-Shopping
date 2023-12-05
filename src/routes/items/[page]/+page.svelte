@@ -41,6 +41,11 @@
     filter.to = "";
     await itemStore.getAll(filter);
   }
+
+  async function deleteItem(id:string) {
+
+await itemStore.delete(id);
+}
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
@@ -124,6 +129,7 @@
       <TableHeadCell>Expiration Date</TableHeadCell>
       <TableHeadCell>Quantity</TableHeadCell>
       <TableHeadCell>Cost</TableHeadCell>
+      <TableHeadCell></TableHeadCell>
     </TableHead>
     <TableBody>
       {#each $itemStore.data as item}
@@ -141,6 +147,27 @@
           >
           <TableBodyCell>{item.quantity}</TableBodyCell>
           <TableBodyCell>{item.price}</TableBodyCell>
+          <TableBodyCell tdClass="w-16 h-24 flex gap-2 justify-center items-center mr-4" class="flex justify-center items-center">
+            <a href="/items/edit/{item.id}" class="flex items-center justify-center h-12">
+              <div class="flex items-center justify-center h-12">
+                <img
+                  src="/images/edit.png"
+                  alt=""
+                  class="w-12 bg-green-500  hover:bg-green-400 ease-in-out duration-300  p-1 rounded-md "
+                />
+              </div>
+            </a>
+
+            <a href="#" class="flex items-center justify-center h-12" on:click={()=>deleteItem(item.id)}>
+              <div class="flex items-center justify-center h-12">
+                <img
+                  src="/images/trash-bin.png"
+                  alt=""
+                  class="w-12 bg-red-600  hover:bg-red-500 ease-in-out duration-300  p-1 rounded-md"
+                />
+              </div>
+            </a>
+          </TableBodyCell>
         </TableBodyRow>
       {/each}
     </TableBody>
