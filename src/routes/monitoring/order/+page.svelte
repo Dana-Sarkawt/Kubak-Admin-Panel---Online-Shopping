@@ -10,10 +10,8 @@
   import { onMount } from "svelte";
   let options: CreateOrderRequest = {
     id: null,
-    items: [{
-      itemId: "",
-      quantity: 0,
-    }],
+    // items: Array.from({ length: 5 }, () => ({ itemId: "", quantity: 0 })),
+    items: [{ itemId: "", quantity: 0 }],
     userId: "",
     addressId: "",
   };
@@ -27,8 +25,8 @@
   });
 
   async function create(options: CreateOrderRequest) {
-    options.userId = $authStore?.id ?? "";
-    await ordersStore.create(options);
+    console.log("Options :", options);
+    // await ordersStore.create(options);
   }
 
   var add_button = 0;
@@ -36,17 +34,23 @@
     add_button++;
     if (add_button == 5) {
       add_button = 4;
+      return;
     }
+    options.items.push({ itemId: "", quantity: 0 });
     var newInput = document.createElement("div");
     newInput.innerHTML =
-      "<div class='w-full flex flex-col h-auto'><Label for='large-input' class='block mb-2'>Items</Label><select name='' id='' class='w-full pt-2 rounded-lg h-12  border-gray-300'><option value=''></option></select></div><div class='w-full flex flex-col'><Label for='large-input' class='block mb-2'>Quantity</Label><Input bind:value={options.quantity} id='large-input' size='lg' required type='number' class='w-full rounded-xl dark:bg-[#363636] dark:text-white'/></div>";
+      "<div class='w-full flex flex-col h-auto'><Label for='large-input' class='block mb-2'>Items</Label><select name='' id='' class='w-full pt-2 rounded-lg h-12  border-gray-300'><option value=''></option></select></div><div class='w-full flex flex-col'><Label for='large-input' class='block mb-2'>Quantity</Label><Input id='large-input' size='lg' required type='number' class='w-full rounded-xl dark:bg-[#363636] dark:text-white'/></div>";
   }
 
   function deleteInput() {
     add_button--;
+    if (add_button == -1) {
+      add_button = 0;
+    }
+    options.items.pop();
     var newInput = document.createElement("div");
     newInput.innerHTML =
-      "<div class='w-full flex flex-col h-auto'><Label for='large-input' class='block mb-2'>Items</Label><select name='' id='' class='w-full pt-2 rounded-lg h-12  border-gray-300'><option value=''></option></select></div><div class='w-full flex flex-col'><Label for='large-input' class='block mb-2'>Quantity</Label><Input bind:value={options.quantity} id='large-input' size='lg' required type='number' class='w-full rounded-xl dark:bg-[#363636] dark:text-white'/></div>";
+      "<div class='w-full flex flex-col h-auto'><Label for='large-input' class='block mb-2'>Items</Label><select name='' id='' class='w-full pt-2 rounded-lg h-12  border-gray-300'><option value=''></option></select></div><div class='w-full flex flex-col'><Label for='large-input' class='block mb-2'>Quantity</Label><Input id='large-input' size='lg' required type='number' class='w-full rounded-xl dark:bg-[#363636] dark:text-white'/></div>";
   }
 </script>
 
@@ -67,7 +71,8 @@
     <select
       name=""
       id=""
-      class="w-full pt-2 rounded-lg dark:bg-[#2c2c2c] dark:border-[#3b3b3b] dark:text-white border-gray-300" bind:value={options.userId}
+      class="w-full pt-2 rounded-lg dark:bg-[#2c2c2c] dark:border-[#3b3b3b] dark:text-white border-gray-300"
+      bind:value={options.userId}
     >
       {#each listUsers as user}
         <option value={user.id}
@@ -151,6 +156,7 @@
       name=""
       id=""
       class="w-full pt-2 rounded-lg h-12 border-gray-300 dark:bg-[#2c2c2c] dark:border-[#3b3b3b] dark:text-white"
+      bind:value={options.addressId}
     >
       {#if $addressStore}
         {#each $addressStore.data as address}

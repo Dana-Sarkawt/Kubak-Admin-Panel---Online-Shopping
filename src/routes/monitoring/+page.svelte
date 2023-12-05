@@ -9,6 +9,8 @@
   import { OrderStatus } from "$lib/Models/Enums/Order-Status.Enum.Model";
   import type { ItemDto } from "$lib/Models/DTO/Item.DTO.Model";
   import { itemsBlockerStore } from "$lib/Stores/ItemsBlocker.Store";
+  import type { OrderDto } from "$lib/Models/DTO/Order.DTO.Model";
+  import { Dto } from "$lib/Models/Conversion/Conversion.Model";
 
   let L: any;
   let map: any;
@@ -37,7 +39,9 @@
           [order.address?.latitude, order.address?.longitude],
           { icon: myIcon }
         );
-        marker.addTo(map);
+        marker.addTo(map).on("click", function (e: any) {
+          getItemsOrder(order);
+        });
       });
       Appwrite.appwrite.subscribe(
         `databases.${Environment.appwrite_database}.collections.${Environment.appwrite_collection_order}.documents`,
@@ -45,18 +49,21 @@
           ordersStore.getAll();
 
           const payload: Order = response.payload as Order;
+          const orderDto: OrderDto = Dto.ToOrderDto(payload) as OrderDto;
 
           const myIcon = L.icon({
-          iconUrl: `images/${OrderStatus[payload.status]}.png`,
-          iconSize: [38, 38],
-        });
+            iconUrl: `images/${OrderStatus[payload.status]}.png`,
+            iconSize: [38, 38],
+          });
 
           let marker = L.marker([
             payload.address.latitude,
             payload.address.longitude,
-            { icon: myIcon}
+            { icon: myIcon },
           ]);
-          marker.addTo(map);
+          marker.addTo(map).on("click", function (e: any) {
+            getItemsOrder(orderDto);
+          });
         }
       );
     });
@@ -89,8 +96,9 @@
     );
   }
 
-  async function getItemsOrder(orderId: string) {
-    const itemsBlocker = await itemsBlockerStore.getAll(orderId);
+  async function getItemsOrder(order: OrderDto) {
+    map.setView([order.address?.latitude, order.address?.longitude], 14);
+    const itemsBlocker = await itemsBlockerStore.getAll(order.id);
     items =
       itemsBlocker?.map((item) => {
         return {
@@ -137,7 +145,7 @@
         <!-- svelte-ignore a11y-click-events-have-key-events -->
         <div
           class="bg-[#363636] rounded-lg h-12 flex justify-between px-2 items-center overflow-y-auto hover:bg-gray-500 cursor-pointer duration-300 ease"
-          on:click={() => getItemsOrder(order.id)}
+          on:click={() => getItemsOrder(order)}
         >
           <div class="flex justify-center items-center gap-2 overflow-hidden">
             <img
