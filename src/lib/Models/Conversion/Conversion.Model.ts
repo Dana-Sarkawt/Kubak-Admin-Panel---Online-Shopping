@@ -81,6 +81,7 @@ export class Dto {
         quantity: item.quantity,
         detail: item.detail,
         popularity: item.popularity,
+        numberOfSales: item.numberOfSales,
         category: categoriesDto,
         createdAt: item.$createdAt as Date,
         updatedAt: item.$updatedAt as Date,

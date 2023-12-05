@@ -12,5 +12,6 @@ export interface Item extends Database {
   detail: string,
   popularity: number,
   category: Category[],
+  numberOfSales: number,
   deletedAt: Date | null,
 }
