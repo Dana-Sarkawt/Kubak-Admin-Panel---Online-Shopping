@@ -31,8 +31,6 @@
         const myIcon = L.icon({
           iconUrl: `images/${OrderStatus[order.status]}.png`,
           iconSize: [38, 38],
-     
-        
         });
 
         let marker = L.marker(
@@ -48,12 +46,17 @@
 
           const payload: Order = response.payload as Order;
 
+          const myIcon = L.icon({
+          iconUrl: `images/${OrderStatus[payload.status]}.png`,
+          iconSize: [38, 38],
+        });
+
           let marker = L.marker([
             payload.address.latitude,
             payload.address.longitude,
+            { icon: myIcon}
           ]);
           marker.addTo(map);
-          console.log("Response: ", response.payload);
         }
       );
     });
