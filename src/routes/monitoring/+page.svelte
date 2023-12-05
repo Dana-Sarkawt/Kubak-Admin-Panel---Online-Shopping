@@ -56,6 +56,9 @@
             iconSize: [38, 38],
           });
 
+          console.log("Icon ",myIcon);
+          
+
           let marker = L.marker([
             payload.address.latitude,
             payload.address.longitude,
@@ -97,10 +100,8 @@
     );
   }
 
-
-
   async function getItemsOrder(order: OrderDto) {
-    map.setView([order.address?.latitude, order.address?.longitude],16);
+    map.setView([order.address?.latitude, order.address?.longitude], 16);
     const itemsBlocker = await itemsBlockerStore.getAll(order.id);
     items =
       itemsBlocker?.map((item) => {
@@ -120,19 +121,17 @@
   }
 </script>
 
-
-
 <div class="w-full flex justify-end">
- 
-
-  
   <div
     class="w-60 h-[90vh] rounded-xl my-5 mr-3 flex-col gap-2 opacity-80 absolute flex justify-center items-center z-[5000]"
     id="request-box"
   >
-  <button class="w-full h-12 bg-gray-500 flex rounded-lg items-center" on:click={resetZoom}>
+    <button
+      class="w-full h-12 bg-gray-500 flex rounded-lg items-center"
+      on:click={resetZoom}
+    >
       <p class="text-white text-center w-full">Reset Zoom</p>
-  </button>
+    </button>
     <div class="w-full h-auto fle">
       <a href="/monitoring/order">
         <div
@@ -258,7 +257,6 @@
         </div>
       </div>
     </div>
-    
   </div>
 </div>
 
@@ -270,5 +268,4 @@
   #request-box {
     backdrop-filter: blur(5px);
   }
-
 </style>
