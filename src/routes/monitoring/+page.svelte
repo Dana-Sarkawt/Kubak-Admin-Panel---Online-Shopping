@@ -133,7 +133,7 @@
         class="bg-[#363636] w-full h-12 rounded-xl flex gap-3 mt-2 justify-center items-center"
       >
         <div class="bg-[#009860] w-4 h-4 rounded-full" />
-        <div class="bg-gray-800 w-4 h-4 rounded-full" />
+        <div class="bg-gray-400 w-4 h-4 rounded-full" />
         <div class="bg-[#F02525] w-4 h-4 rounded-full" />
         <div class="bg-[#5570FF] w-4 h-4 rounded-full" />
         <div class="bg-yellow-600 w-4 h-4 rounded-full" />
@@ -166,7 +166,7 @@
           {order.status === -1
               ? ' bg-red-600 text-red-200'
               : order.status === 0
-                ? 'bg-gray-800 text-white'
+                ? 'bg-gray-400 text-white'
                 : order.status === 1
                   ? 'bg-blue-600 text-white'
                   : order.status === 2

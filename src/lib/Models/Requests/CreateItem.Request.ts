@@ -11,7 +11,7 @@ export interface CreateItemRequest {
     url: string | File,
     localUrl?: string | null,
   },
-  userId: string,
+  userId?: string,
   deletedAt?: Date | null,
 }
 

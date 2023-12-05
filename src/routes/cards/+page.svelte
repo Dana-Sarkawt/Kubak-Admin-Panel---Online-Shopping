@@ -62,12 +62,12 @@
           />
         </svg>
       </div>
-<a href="/cards/{card.id}" class="w-full">
+<a href="/cards/{card.id}" class="w-full hover:bg-slate-900 dark:hover:bg-black hover:opacity-60 dark:hover:opacity-40 rounded-lg ease-in-out duration-300">
 
 <img
   src={card.cardImage ?? "/images/addImage.jpg"}
   alt=""
-  class="w-full h-[300px] bg-slate-700 rounded-xl object-center object-cover border-black relative z-[-1]"
+  class="w-full h-[300px] bg-slate-700  rounded-xl object-center object-cover border-black relative z-[-1]"
 />
 </a>
     </div>
