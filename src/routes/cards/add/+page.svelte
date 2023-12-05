@@ -71,7 +71,9 @@
   </div>
   <button
     class="bg-[#f17f18] font-bold text-white py-3 px-8 rounded-xl"
-    type="submit" on:click={()=>create(options)}>Add Card</button
+    type="submit" on:click={()=>create(options)}
+    disabled={!options.webpageUrl || !options.expirationDate || !options.image.url}
+    >Add Card</button
   >
 </div>
 
@@ -88,5 +90,11 @@
     padding: 5px;
     border-radius: 8px;
     cursor: pointer;
+  }
+
+  button:disabled {
+    opacity: 0.5;
+    transition: ease-in-out 0.3s;
+    
   }
 </style>

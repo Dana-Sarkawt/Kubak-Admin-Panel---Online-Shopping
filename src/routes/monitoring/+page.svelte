@@ -254,4 +254,5 @@
   #request-box {
     backdrop-filter: blur(5px);
   }
+
 </style>

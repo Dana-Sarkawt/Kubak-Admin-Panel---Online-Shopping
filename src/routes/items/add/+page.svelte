@@ -60,10 +60,6 @@ function handleInputChange(activEvent:any) {
   inputValue = activEvent.target.value;
 }
 
-function handleButtonClick() {
-  // Your logic when the button is clicked
-  console.log('Button clicked with value:', inputValue);
-}
 </script>
 
 <div class="container mx-auto h-auto">
@@ -176,7 +172,7 @@ function handleButtonClick() {
   </div>
   <button
     on:click={() => create(options)}
-    on:click={handleButtonClick} disabled={!inputValue.trim()}
+    disabled={!options.name || !options.image.url || !options.price || !options.quantity || !options.productionDate || !options.expiredDate}
     class="bg-[#f17f18] font-bold text-white py-3 px-8 rounded-xl"
     type="submit">Add Item</button
   >
