@@ -116,7 +116,6 @@
         <Label for="large-input" class="block mb-2">Price</Label>
         <Input
           bind:value={options.price}
-          on:input={handleInputChange}
           id="large-input"
           size="lg"
           required
@@ -129,7 +128,6 @@
         <Label for="large-input" class="block mb-2">Quantity</Label>
         <Input
           bind:value={options.quantity}
-          on:input={handleInputChange}
           id="large-input"
           size="lg"
           required

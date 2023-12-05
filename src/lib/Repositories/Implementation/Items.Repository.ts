@@ -53,7 +53,7 @@ export class ItemsRepository implements IItemsRepository {
   async createItem(item: CreateItemRequest): Promise<void> {
     try {
       const itemRequest: ItemRequest = {
-        userId: item.userId,
+        userId: item.userId as string,
         name: item.name,
         price: item.price,
         itemImage: item.image.url as string,
