@@ -52,6 +52,18 @@
     console.log(options);
     await itemStore.create(options);
   }
+
+
+  let inputValue = '';
+
+function handleInputChange(activEvent:any) {
+  inputValue = activEvent.target.value;
+}
+
+function handleButtonClick() {
+  // Your logic when the button is clicked
+  console.log('Button clicked with value:', inputValue);
+}
 </script>
 
 <div class="container mx-auto h-auto">
@@ -75,7 +87,7 @@
   />
 </div>
 
-  <input type="file" id="uploadBtn" on:change={handleFileChange} />
+  <input type="file" id="uploadBtn"  on:input={handleInputChange} on:change={handleFileChange} />
   <label for="uploadBtn" class=" bg-[#f0f0f0] dark:bg-[#363636]"
     >Add Image</label
   >
@@ -93,7 +105,7 @@
 
     <div class="w-full flex flex-col mt-2">
       <Label for="large-input" class="block mb-2">Category</Label>
-      <MultiSelect class="py-4   dark:bg-[#363636]" dropdownClass="dark:bg-[#363636]" items={categories} bind:value={selected}/>
+      <MultiSelect class="py-4 on:input={handleInputChange}   dark:bg-[#363636]" dropdownClass="dark:bg-[#363636]" items={categories} bind:value={selected}/>
     </div>
     <div class="w-full grid grid-cols-2 items-center justify-center gap-2 my-3">
 
@@ -101,6 +113,7 @@
         <Label for="large-input" class="block mb-2">Price</Label>
         <Input
           bind:value={options.price}
+          on:input={handleInputChange}
           id="large-input"
           size="lg"
           required
@@ -113,6 +126,7 @@
         <Label for="large-input" class="block mb-2">Quantity</Label>
         <Input
           bind:value={options.quantity}
+          on:input={handleInputChange}
           id="large-input"
           size="lg"
           required
@@ -127,6 +141,7 @@
         <Label for="large-input" class="block mb-2">Production Date</Label>
         <Input
           bind:value={options.productionDate}
+      
           id="large-input"
           size="lg"
           required
@@ -139,6 +154,7 @@
         <Label for="large-input" class="block mb-2">Expiration Date</Label>
         <Input
           bind:value={options.expiredDate}
+        
           id="large-input"
           size="lg"
           type="date"
@@ -160,6 +176,7 @@
   </div>
   <button
     on:click={() => create(options)}
+    on:click={handleButtonClick} disabled={!inputValue.trim()}
     class="bg-[#f17f18] font-bold text-white py-3 px-8 rounded-xl"
     type="submit">Add Item</button
   >
@@ -178,5 +195,11 @@
     padding: 5px;
     border-radius: 8px;
     cursor: pointer;
+  }
+
+  button:disabled {
+    opacity: 0.5;
+    transition: ease-in-out 0.3s;
+    
   }
 </style>
