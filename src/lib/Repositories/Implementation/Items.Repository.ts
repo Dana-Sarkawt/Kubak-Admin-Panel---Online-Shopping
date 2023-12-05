@@ -111,6 +111,7 @@ export class ItemsRepository implements IItemsRepository {
         "$createdAt",
         "$updatedAt",
         "deletedAt",
+        "numberOfSales"
       ]),
     ];
     if (options?.search) {

@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
+  import type { ItemDto } from "$lib/Models/DTO/Item.DTO.Model";
   import { itemStore } from "$lib/Stores/Items.Store";
   import { itemsBlockerStore } from "$lib/Stores/ItemsBlocker.Store";
   import {
@@ -16,15 +17,20 @@
   const filter: GenericListOptions = {
     page: 1,
     limit: 6,
-    sortField: "$createdAt",
+    sortField: "numberOfSales",
   };
 
-  let mostOrdered = [];
+  let lowestItems: ItemDto[] = [];
+  let mostItems: ItemDto[] = [];
 
   let loading = true;
   onMount(async () => {
     try {
       await itemStore.getAll(filter);
+      lowestItems = $itemStore.data.slice().reverse().slice(0,4);
+      mostItems = $itemStore.data.slice(0,4);
+      console.log(lowestItems);
+      
     } finally {
       loading = false;
     }
@@ -52,73 +58,45 @@
 
       <!--  START FIRST LOWEST ORDER CARD  -->
 
-      <div
-        class="w-11/12 h-12 2xl:h-20 bg-[#e8e8e8] dark:bg-[#363636] rounded-xl flex justify-center items-center px-3 md:text-[8px] lg:text-lg"
-      >
-        <img src="/images/rice.png" alt="" class="w-8" />
-        <p class="w-1/2 text-center">Rice</p>
-        <p class="w-1/2">2000 IQD</p>
-      </div>
-
-      <!--  END FIRST LOWEST ORDER CARD  -->
-      <!--  AND DELETE ANOTHER LOWEST ORDER CARD  -->
-
-      <div
-        class="w-11/12 h-12 2xl:h-20 bg-[#e8e8e8] dark:bg-[#363636] rounded-xl"
-      />
-
-      <div
-        class="w-11/12 h-12 2xl:h-20 bg-[#e8e8e8] dark:bg-[#363636] rounded-xl"
-      />
-
-      <div
-        class="w-11/12 h-12 2xl:h-20 bg-[#e8e8e8] dark:bg-[#363636] rounded-xl"
-      />
-
+      {#each lowestItems as items}
+        <div
+          class="w-11/12 h-12 2xl:h-20 bg-[#e8e8e8] dark:bg-[#363636] dark:text-white rounded-xl flex justify-center items-center px-3 md:text-[8px] lg:text-lg"
+        >
+          <img
+            src={items.itemImage ?? "/images/rice.png"}
+            alt=""
+            class="w-8"
+          />
+          <p class="w-1/2 text-center">
+            {items.name ?? "No Name"}
+          </p>
+          <p class="w-1/2">{items.price ?? "0"} IQD</p>
+        </div>
+      {/each}
       <!-- svelte-ignore a11y-invalid-attribute -->
       <a href="#" class="text-[#f17f18]">See More</a>
     </div>
     <!--  END LOWEST ORDER CARD  -->
-
-    <!--  START MOST ORDER CARD  -->
     <div
       class="w-[30%] h-[300px] 2xl:h-[500px] flex flex-col justify-center items-center bg-white dark:bg-[#212121] dark:text-white rounded-2xl gap-2"
     >
       <p class="text-lg lg:text-2xl 2xl:text-5xl">Most Order</p>
 
-      <!--  START FIRST MOST ORDER CARD  -->
-
-      {#each $itemsBlockerStore.data as itemsBlocker}
+      {#each mostItems as items}
         <div
           class="w-11/12 h-12 2xl:h-20 bg-[#e8e8e8] dark:bg-[#363636] dark:text-white rounded-xl flex justify-center items-center px-3 md:text-[8px] lg:text-lg"
         >
           <img
-            src={itemsBlocker.items?.itemImage ?? "/images/rice.png"}
+            src={items.itemImage ?? "/images/rice.png"}
             alt=""
             class="w-8"
           />
           <p class="w-1/2 text-center">
-            {itemsBlocker.items?.name ?? "No Name"}
+            {items.name ?? "No Name"}
           </p>
-          <p class="w-1/2">{itemsBlocker.items?.price ?? "0"} IQD</p>
+          <p class="w-1/2">{items.price ?? "0"} IQD</p>
         </div>
       {/each}
-
-      <!--  END FIRST MOST ORDER CARD  -->
-      <!--  AND DELETE ANOTHER MOST ORDER CARD  -->
-      <!-- 
-      <div
-        class="w-11/12 h-12 2xl:h-20 bg-[#e8e8e8] dark:bg-[#363636] rounded-xl"
-      />
-
-      <div
-        class="w-11/12 h-12 2xl:h-20 bg-[#e8e8e8] dark:bg-[#363636] rounded-xl"
-      />
-
-      <div
-        class="w-11/12 h-12 2xl:h-20 bg-[#e8e8e8] dark:bg-[#363636] rounded-xl"
-      /> -->
-
       <!-- svelte-ignore a11y-invalid-attribute -->
       <a href="#" class="text-[#f17f18]">See More</a>
     </div>
