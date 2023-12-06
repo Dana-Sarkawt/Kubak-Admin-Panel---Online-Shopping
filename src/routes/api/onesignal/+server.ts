@@ -4,11 +4,13 @@ import { Environment } from "$lib/Env/Environment";
 
 const configuration = OneSignal.createConfiguration({
   userKey: Environment.onesignal_user_auth_key,
-  appKey: Environment.onesignal_app_id,
+  appKey: Environment.onesignal_rest_api_key,
 });
 const client = new OneSignal.DefaultApi(configuration);
 
 export const POST = (async ({ locals, params, request }) => {
+  console.log("Configuration",configuration);
+  
   const notification = new OneSignal.Notification();
   notification.app_id = Environment.onesignal_app_id;
   // Name property may be required in some case, for instance when sending an SMS.
@@ -25,9 +27,9 @@ export const POST = (async ({ locals, params, request }) => {
 //   console.log(notification);
   
 
-  const notificationResponse = await client.createNotification(notification);
+  // const notificationResponse = await client.createNotification(notification);
 
-  console.log("Notification ",notificationResponse);
+  // console.log("Notification ",notificationResponse);
   
 
 const apps = await client.getApps();
