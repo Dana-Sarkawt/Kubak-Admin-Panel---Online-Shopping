@@ -139,8 +139,28 @@
             <TableBodyCell
               >{order.user.name}</TableBodyCell
             >
-            <TableBodyCell>{OrderStatus[order.status]}</TableBodyCell>
-            <TableBodyCell>{order.createdAt}</TableBodyCell>
+            <TableBodyCell tdClass="flex justify-center items-center">
+
+             <div
+            class="h-8 w-20 rounded-lg flex justify-center  text-center items-center px-2 text-sm mt-3
+          {order.status === -1
+              ? ' bg-red-600 text-red-200'
+              : order.status === 0
+                ? 'bg-gray-400 text-white'
+                : order.status === 1
+                  ? 'bg-blue-600 text-white'
+                  : order.status === 2
+                    ? 'bg-yellow-600 text-white'
+                    : order.status == 3
+                      ? 'bg-green-600 text-white'
+                      : 'text-gray-400'}
+          "
+          >
+            {OrderStatus[order.status]}
+          </div>
+            
+            </TableBodyCell>
+            <TableBodyCell>{moment(order.createdAt).format("DD-MMM-YYYY")}</TableBodyCell>
           </TableBodyRow>
           {/each}
       </TableBody>
