@@ -49,7 +49,9 @@
       image: {
         url: "",
         localUrl: category.categoryImage,
-      }
+      },
+        userId: "",
+      
     };
   
 
