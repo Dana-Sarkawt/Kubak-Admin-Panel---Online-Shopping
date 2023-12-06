@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { Dto } from "$lib/Models/Conversion/Conversion.Model";
   import { Appwrite } from "$lib/Appwrite/Appwrite";
   import { Environment } from "$lib/Env/Environment";
   import { darkMode } from "$lib/Stores/Darkmode.Store";
@@ -9,12 +10,14 @@
   import type { ItemDto } from "$lib/Models/DTO/Item.DTO.Model";
   import { itemsBlockerStore } from "$lib/Stores/ItemsBlocker.Store";
   import type { OrderDto } from "$lib/Models/DTO/Order.DTO.Model";
+  import type { Order } from "$lib/Models/Entities/Order.Entities.Model";
 
   let L: any;
   let map: any;
   let tileLayer: any;
   let items: ItemDto[] = [];
   let totalAmount: number = 0;
+  let markers: any[] = [];
 
   onMount(async () => {
     await loadMap();
@@ -27,13 +30,33 @@
         tileLayer.addTo(map);
       }
 
-      addMarkers();
+      $ordersStore.data.map((order) => {
+        const myIcon = L.icon({
+          iconUrl: `images/${OrderStatus[order.status]}.png`,
+          iconSize: [38, 38],
+        });
+
+        markers.push({
+          marker: L.marker(
+            [order.address?.latitude, order.address?.longitude],
+            { icon: myIcon }
+          )
+            .addTo(map)
+            .on("click", function (e: any) {
+              getItemsOrder(order);
+            }),
+          id: order.id,
+        });
+      });
 
       Appwrite.appwrite.subscribe(
         `databases.${Environment.appwrite_database}.collections.${Environment.appwrite_collection_order}.documents`,
-        async () => {
+        async (response) => {
           await ordersStore.getAll();
-          addMarkers();
+          const orderDto: OrderDto = Dto.ToOrderDto(
+            response.payload as Order
+          ) as OrderDto;
+          addMarkers(orderDto);
         }
       );
     });
@@ -67,26 +90,29 @@
     );
   }
 
-  function addMarkers() {
-    $ordersStore.data.map((order) => {
-      const myIcon = L.icon({
-        iconUrl: `images/${OrderStatus[order.status]}.png`,
-        iconSize: [38, 38],
-      });
-
-      let marker = L.marker(
-        [order.address?.latitude, order.address?.longitude],
-        { icon: myIcon }
-      );
-
-      // Check if marker already exists
-      if (map.hasLayer(marker)) {
-        map.removeLayer(marker);
+  function addMarkers(newOrder: OrderDto) {
+    if (!newOrder) return;
+    console.log(newOrder.id);
+    const myIcon = L.icon({
+      iconUrl: `images/${OrderStatus[newOrder.status]}.png`,
+      iconSize: [38, 38],
+    });
+    markers.forEach((marker) => {
+      if (marker.id == newOrder.id) {
+        map.removeLayer(marker.marker);
+        markers.splice(markers.indexOf(marker), 1);
       }
-
-      marker.addTo(map).on("click", function (e: any) {
-        getItemsOrder(order);
-      });
+    });
+    markers.push({
+      marker: L.marker(
+        [newOrder.address?.latitude, newOrder.address?.longitude],
+        { icon: myIcon }
+      )
+        .addTo(map)
+        .on("click", function (e: any) {
+          getItemsOrder(newOrder);
+        }),
+      id: newOrder.id,
     });
   }
 
@@ -103,7 +129,6 @@
     totalAmount = items.reduce((acc, item) => {
       return acc + item.price * item.quantity;
     }, 0);
-    console.log("Items From order", items);
   }
 
   function resetZoom() {
@@ -116,11 +141,13 @@
     class="w-60 h-[90vh] rounded-xl my-5 mr-3 flex-col gap-2 opacity-80 absolute flex justify-center items-center z-[5000]"
     id="request-box"
   >
- 
-    <div class="w-full h-auto flex gap-2 ">
-      <button class="w-16 h-12 bg-gray-500 flex rounded-lg items-center justify-center" on:click={resetZoom}>
-        <img src="/images/reset-map.png" alt="" class="w-7 h-7 object-cover">
-    </button>
+    <div class="w-full h-auto flex gap-2">
+      <button
+        class="w-16 h-12 bg-gray-500 flex rounded-lg items-center justify-center"
+        on:click={resetZoom}
+      >
+        <img src="/images/reset-map.png" alt="" class="w-7 h-7 object-cover" />
+      </button>
       <a href="/monitoring/order" class="w-full">
         <div
           class="w-full h-12 bg-[#f17f18] hover:bg-[#212121] duration-300 ease flex justify-center items-center text-2xl text-white rounded-lg"
@@ -229,19 +256,8 @@
           <p class="text-white font-bold text-md">
             <b class="text-gray-400 font-medium text-md"
               >Total Price:
-            </b>{totalAmount ?? "40 000"}
+            </b>{totalAmount ?? "0"} IQD
           </p>
-        </div>
-
-        <div class="flex justify-center gap-2">
-          <button
-            class="bg-green-500 text-white font-bold w-full h-12 rounded-lg hover:bg-green-600"
-            >Accept</button
-          >
-          <button
-            class="bg-red-600 w-full text-white font-bold rounded-lg hover:bg-red-700"
-            >Reject</button
-          >
         </div>
       </div>
     </div>
