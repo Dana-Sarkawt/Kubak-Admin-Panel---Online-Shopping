@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { OrderStatus } from '$lib/Models/Enums/Order-Status.Enum.Model';
+  import { OrderStatus } from "$lib/Models/Enums/Order-Status.Enum.Model";
   import { Label, Input, NavLi, NavUl, Navbar, Spinner } from "flowbite-svelte";
 
   import {
@@ -40,11 +40,10 @@
         return {
           ...order,
           auth: (await authStore.getUser(order.user as string)) as AuthDto,
-        }
+        };
       });
-      
+
       console.log($ordersStore.data);
-      
     } finally {
       loading = false;
     }
@@ -129,40 +128,48 @@
     </p>
     <Table shadow>
       <TableHead class="bg-[#2D2D2D] dark:bg-[#212121] text-white text-center">
+        <TableHeadCell>Image</TableHeadCell>
         <TableHeadCell>Name</TableHeadCell>
         <TableHeadCell>Status</TableHeadCell>
         <TableHeadCell>Ordered At</TableHeadCell>
+        <TableHeadCell>Updated At</TableHeadCell>
       </TableHead>
       <TableBody>
         {#each $ordersStore.data as order}
-        <TableBodyRow class="text-center dark:bg-[#272727]">
-            <TableBodyCell
-              >{order.user.name}</TableBodyCell
-            >
+          <TableBodyRow class="text-center dark:bg-[#272727]">
             <TableBodyCell tdClass="flex justify-center items-center">
+              <img
+                src={order.user.imgUrl ?? "/images/user.png"}
+                class="w-12 h-12 flex justify-center items-center object-cover"
+                alt=""
+              /></TableBodyCell
+            >
 
-             <div
-            class="h-8 w-20 rounded-lg flex justify-center  text-center items-center px-2 text-sm mt-3
+            <TableBodyCell>{order.user.name}</TableBodyCell>
+            <TableBodyCell tdClass="flex justify-center items-center">
+              <div
+                class="h-8 w-20 rounded-lg flex justify-center text-center items-center px-2 text-sm
           {order.status === -1
-              ? ' bg-red-600 text-red-200'
-              : order.status === 0
-                ? 'bg-gray-400 text-white'
-                : order.status === 1
-                  ? 'bg-blue-600 text-white'
-                  : order.status === 2
-                    ? 'bg-yellow-600 text-white'
-                    : order.status == 3
-                      ? 'bg-green-600 text-white'
-                      : 'text-gray-400'}
+                  ? ' bg-red-600 text-red-200'
+                  : order.status === 0
+                    ? 'bg-gray-400 text-white'
+                    : order.status === 1
+                      ? 'bg-blue-600 text-white'
+                      : order.status === 2
+                        ? 'bg-yellow-600 text-white'
+                        : order.status == 3
+                          ? 'bg-green-600 text-white'
+                          : 'text-gray-400'}
           "
-          >
-            {OrderStatus[order.status]}
-          </div>
-            
+              >
+                {OrderStatus[order.status]}
+              </div>
             </TableBodyCell>
-            <TableBodyCell>{moment(order.createdAt).format("DD-MMM-YYYY")}</TableBodyCell>
+            <TableBodyCell
+              >{moment(order.createdAt).format("DD-MMM-YYYY")}</TableBodyCell
+            >
           </TableBodyRow>
-          {/each}
+        {/each}
       </TableBody>
     </Table>
   </div>
