@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { Order } from "$lib/Models/Entities/Order.Entities.Model.ts";
   import { Appwrite } from "$lib/Appwrite/Appwrite";
   import { Environment } from "$lib/Env/Environment";
   import { darkMode } from "$lib/Stores/Darkmode.Store";
@@ -10,7 +9,6 @@
   import type { ItemDto } from "$lib/Models/DTO/Item.DTO.Model";
   import { itemsBlockerStore } from "$lib/Stores/ItemsBlocker.Store";
   import type { OrderDto } from "$lib/Models/DTO/Order.DTO.Model";
-  import { Dto } from "$lib/Models/Conversion/Conversion.Model";
 
   let L: any;
   let map: any;
@@ -29,44 +27,13 @@
         tileLayer.addTo(map);
       }
 
-      $ordersStore.data.map((order) => {
-        const myIcon = L.icon({
-          iconUrl: `images/${OrderStatus[order.status]}.png`,
-          iconSize: [38, 38],
-        });
+      addMarkers();
 
-        let marker = L.marker(
-          [order.address?.latitude, order.address?.longitude],
-          { icon: myIcon }
-        );
-        marker.addTo(map).on("click", function (e: any) {
-          getItemsOrder(order);
-        });
-      });
       Appwrite.appwrite.subscribe(
         `databases.${Environment.appwrite_database}.collections.${Environment.appwrite_collection_order}.documents`,
-        (response) => {
-          ordersStore.getAll();
-
-          const payload: Order = response.payload as Order;
-          const orderDto: OrderDto = Dto.ToOrderDto(payload) as OrderDto;
-
-          const myIcon = L.icon({
-            iconUrl: `images/${OrderStatus[payload.status]}.png`,
-            iconSize: [38, 38],
-          });
-
-          console.log("Icon ",myIcon);
-          
-
-          let marker = L.marker([
-            payload.address.latitude,
-            payload.address.longitude,
-            { icon: myIcon },
-          ]);
-          marker.addTo(map).on("click", function (e: any) {
-            getItemsOrder(orderDto);
-          });
+        async () => {
+          await ordersStore.getAll();
+          addMarkers();
         }
       );
     });
@@ -98,6 +65,29 @@
           '© <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> © <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       }
     );
+  }
+
+  function addMarkers() {
+    $ordersStore.data.map((order) => {
+      const myIcon = L.icon({
+        iconUrl: `images/${OrderStatus[order.status]}.png`,
+        iconSize: [38, 38],
+      });
+
+      let marker = L.marker(
+        [order.address?.latitude, order.address?.longitude],
+        { icon: myIcon }
+      );
+
+      // Check if marker already exists
+      if (map.hasLayer(marker)) {
+        map.removeLayer(marker);
+      }
+
+      marker.addTo(map).on("click", function (e: any) {
+        getItemsOrder(order);
+      });
+    });
   }
 
   async function getItemsOrder(order: OrderDto) {
