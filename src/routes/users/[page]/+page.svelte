@@ -26,7 +26,7 @@
     data: [],
     total: 0,
   };
-
+  let pages: number;
   let loading = true; 
   onMount(async () => {
     try{listUsers = (await authStore.listUsers(filter)) as Store<AuthDto>;
@@ -34,6 +34,19 @@
       loading = false;
     }
   });
+
+  async function filterOptions() {
+    await authStore.get();
+  }
+
+  async function resetDate() {
+    filter.search = "";
+    filter.from = "";
+    filter.to = "";
+    await authStore.get();
+  }
+
+ 
 </script>
 
 <div
@@ -42,6 +55,7 @@
   <div class="mb-6">
     <Label for="large-input" class="block mb-2">Search</Label>
     <Input
+      bind:value={filter.search}
       id="large-input"
       placeholder="Search for Items"
       class="dark:bg-[#212121]"
@@ -50,21 +64,21 @@
 
   <div class="mb-6">
     <Label for="large-input" class="block mb-2">From</Label>
-    <Input id="large-input" type="date" class="dark:bg-[#212121]" />
+    <Input id="large-input" type="date" class="dark:bg-[#212121]" bind:value={filter.from}/>
   </div>
 
   <div class="mb-6">
     <Label for="large-input" class="block mb-2">To</Label>
-    <Input id="large-input" type="date" class="dark:bg-[#212121]" />
+    <Input id="large-input" type="date" class="dark:bg-[#212121]" bind:value={filter.to}/>
   </div>
   <a href="#">
     <button
-      class="bg-white dark:bg-[#212121] dark:text-white text-xs lg:text-lg h-12 p-3 rounded-xl text-center flex justify-center items-center dark:hover:bg-[#f17f18] duration-300 ease-in-out"
+      class="bg-white on:click={resetDate} dark:bg-[#212121] dark:text-white text-xs lg:text-lg h-12 p-3 rounded-xl text-center flex justify-center items-center dark:hover:bg-[#f17f18] duration-300 ease-in-out"
       >Reset Date
     </button>
   </a>
 
-  <a href="#">
+  <a href="#" on:click={filterOptions}>
     <img
       src="/images/search.png"
       alt=""
