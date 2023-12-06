@@ -6,6 +6,7 @@
   import { authStore } from "$lib/Stores/Auth.Store";
   import { cardStore } from "$lib/Stores/Cards.Store";
   import type { CardDto } from "$lib/Models/DTO/Card.DTO.Model";
+  import moment from "moment";
 
   onMount(async () => {
     console.log($page.params.id);
@@ -48,7 +49,7 @@
     options = {
       id: card.id,
       webpageUrl: card.webpageUrl,
-      expirationDate: new Date(card.expirationDate),
+      expirationDate: moment(card.expirationDate).format("YYYY-MM-DD"),
       image: {
         url: "",
         localUrl: card.cardImage,
@@ -108,7 +109,7 @@
     class="bg-[#f17f18] font-bold text-white py-3 px-8 rounded-xl"
     type="submit" on:click={()=>create(options)}
     
-    >Update Card</button
+    >Add Card</button
   >
 </div>
 

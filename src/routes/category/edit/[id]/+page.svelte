@@ -6,6 +6,7 @@
     import { Label, Input } from "flowbite-svelte";
   import { onMount } from 'svelte';
   import { page } from '$app/stores';
+
   
     let options: CreateCategoryRequest = {
       id: "",
@@ -59,7 +60,6 @@
   });
   
   </script>
-  
   <div class="container mx-auto h-auto">
     <a href="/category/1">
       <button
@@ -105,7 +105,7 @@
       type="submit"
       on:click={create}
      
-      >Add Category
+      >Update Category
     </button>
   </div>
   

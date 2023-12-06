@@ -1,9 +1,14 @@
 <script lang="ts">
   import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
+  import type { AuthDto } from "$lib/Models/DTO/Auth.DTO.Model";
   import type { ItemDto } from "$lib/Models/DTO/Item.DTO.Model";
+  import { OrderStatus } from "$lib/Models/Enums/Order-Status.Enum.Model";
+  import { authStore } from "$lib/Stores/Auth.Store";
   import { itemStore } from "$lib/Stores/Items.Store";
   import { itemsBlockerStore } from "$lib/Stores/ItemsBlocker.Store";
+  import { ordersStore } from "$lib/Stores/Orders.Store";
   import {
+    P,
     Spinner,
     Table,
     TableBody,
@@ -36,6 +41,25 @@
     }
   });
 
+
+
+  onMount(async () => {
+    try {
+      await ordersStore.getAll();
+      $ordersStore.data.map(async (order) => {
+        return {
+          ...order,
+          auth: (await authStore.getUser(order.user as string)) as AuthDto,
+        }
+      });
+      
+      console.log($ordersStore.data);
+      
+    } finally {
+      loading = false;
+    }
+  });
+
   
 </script>
 
@@ -49,12 +73,12 @@
       <img src="/images/categories.png" alt="" class="px-2 w-72" />
     </div>
     <!--  END CATEGORIES CARD  -->
-
+  
     <!--  START LOWEST ORDER CARD  -->
     <div
       class="w-[30%] h-[300px] 2xl:h-[500px] flex flex-col justify-center items-center bg-white dark:text-white dark:bg-[#212121] rounded-2xl gap-2 px-2"
     >
-      <p class="text-lg lg:text-2xl 2xl:text-5xl">Lowest Order</p>
+      <p class="text-lg lg:text-2xl 2xl:text-5xl">Lowest Order Items</p>
 
       <!--  START FIRST LOWEST ORDER CARD  -->
 
@@ -70,7 +94,7 @@
           <p class="w-full text-center">
             {items.name ?? "No Name"}
           </p>
-          <p class="w-full tex-center">{items.price ?? "0"} IQD</p>
+          <p class="w-full tex-center flex justify-center ">{items.price ?? "0"} IQD</p>
         </div>
       {/each}
       <!-- svelte-ignore a11y-invalid-attribute -->
@@ -80,7 +104,7 @@
     <div
       class="w-[30%] h-[300px] 2xl:h-[500px] flex flex-col justify-center items-center bg-white dark:bg-[#212121] dark:text-white rounded-2xl gap-2 px-2"
     >
-      <p class="text-lg lg:text-2xl 2xl:text-5xl">Most Order</p>
+      <p class="text-lg lg:text-2xl 2xl:text-5xl">Most Order Items</p>
 
       {#each mostItems as items}
         <div
@@ -94,7 +118,7 @@
           <p class="w-full text-center">
             {items.name ?? "No Name"}
           </p>
-          <p class="w-full">{items.price ?? "0"} IQD</p>
+          <p class="w-full text-center">{items.price ?? "0"} IQD</p>
         </div>
       {/each}
       <!-- svelte-ignore a11y-invalid-attribute -->
@@ -159,12 +183,12 @@
         {/if}
       </div>
     </div>
-
+  
     <!--  END ITEMS LIST TABLE  -->
 
     <!--  START ORDER CARD  -->
     <div
-      class="w-[30%] h-[300px] 2xl:h-[500px] flex flex-col justify-center items-center bg-white dark:bg-[#212121] dark:text-white rounded-2xl gap-2"
+      class="w-[30%] h-[300px] 2xl:h-[500px] flex flex-col justify-start pt-3 items-center bg-white dark:bg-[#212121] dark:text-white rounded-2xl gap-2"
     >
       <div class="w-full flex justify-around items-center">
         <p class="text-lg lg:text-2xl 2xl:text-5xl">Order</p>
@@ -175,29 +199,35 @@
 
       <!--  START FIRST ORDER CARD  -->
 
+      {#each $ordersStore.data as order}
       <div
-        class="w-11/12 h-12 2xl:h-20 bg-[#e8e8e8] dark:bg-[#363636] rounded-xl flex justify-around items-center px-3 md:text-[8px] lg:text-lg"
+      class="w-11/12 h-12 2xl:h-20 bg-[#e8e8e8] dark:bg-[#363636] rounded-xl flex justify-around items-center px-3 md:text-[8px] lg:text-lg"
       >
-        <img src="/images/rice.png" alt="" class="w-8" />
-        <p class="w-1/2 text-center">Rice</p>
-        <p class="w-1/2">2000 IQD</p>
+        <p class="flex justify-center items-center text-center">{order.user.name}</p>
+        <div class="w-1/2 text-center flex justify-center items-center">
+          <div
+          class="h-8 w-20 rounded-lg flex justify-center  text-center items-center px-2 text-sm
+        {order.status === -1
+            ? ' bg-red-600 text-red-200'
+            : order.status === 0
+              ? 'bg-gray-400 text-white'
+              : order.status === 1
+                ? 'bg-blue-600 text-white'
+                : order.status === 2
+                  ? 'bg-yellow-600 text-white'
+                  : order.status == 3
+                    ? 'bg-green-600 text-white'
+                    : 'text-gray-400'}
+        "
+        >
+          {OrderStatus[order.status]}
+        </div>
       </div>
-
-      <!--  END FIRST ORDER CARD  -->
-      <!--  AND DELETE ANOTHER ORDER CARD  -->
-
-      <div
-        class="w-11/12 h-12 2xl:h-20 bg-[#e8e8e8] dark:bg-[#363636] rounded-xl"
-      />
-
-      <div
-        class="w-11/12 h-12 2xl:h-20 bg-[#e8e8e8] dark:bg-[#363636] rounded-xl"
-      />
-
-      <div
-        class="w-11/12 h-12 2xl:h-20 bg-[#e8e8e8] dark:bg-[#363636] rounded-xl"
-      />
+      
     </div>
-    <!--  END ORDER CARD  -->
-  </div>
+    {/each}
+      
+      <!--  END ORDER CARD  -->
+    </div>
+</div>
 </div>

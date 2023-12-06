@@ -5,6 +5,7 @@
   import { categoryStore } from "$lib/Stores/Categories.Store";
   import { onMount } from "svelte";
   import { Spinner} from 'flowbite-svelte';
+  import Success from '$lib/Components/Toast Notification/Success.Notify.svelte';
 
   let filter: GenericListOptions = {
     page: parseInt($page.params.page),
@@ -98,3 +99,8 @@ async function deleteCategory(id:string) {
     {/if}
   </div>
   <Pagination name="category" {pages} {filter} Store={categoryStore} />
+
+
+  <div class="w-full flex justify-center items-center mt-5 ">
+    <Success />
+  </div>
