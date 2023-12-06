@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { Environment } from "$lib/Env/Environment";
+  import OneSignal from "@nolanx/svelte-onesignal";
   import "../app.postcss";
   import Sidebar from "$lib/Components/Sidebar.Component.svelte";
   import Navbar from "$lib/Components/Navbar.Component.svelte";
@@ -7,7 +9,6 @@
   import { onMount } from "svelte";
   import { authStore } from "$lib/Stores/Auth.Store";
   import { goto } from "$app/navigation";
-  import OneSignal from "@nolanx/svelte-onesignal";
 
   $: pathUrl = $page.url.pathname;
 
@@ -15,6 +16,11 @@
   // let OneSignalDeferred: any = [];
 
   onMount(async () => {
+    OneSignal.init({
+      appId: Environment.onesignal_app_id,
+      allowLocalhostAsSecureOrigin: true,
+    });
+
     darkMode.subscribe(() => {
       checkDarkMode();
     });
@@ -23,11 +29,23 @@
       goto("/");
     }
 
-    await OneSignal.init({
-      appId: "fcb163e5-c7b1-4340-8597-ce7d0f757e85",
-      allowLocalhostAsSecureOrigin: true,
-    });
+    sendEmail();
   });
+
+  function sendEmail() {
+		fetch('/api/onesignal', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+		})
+			.then((res) => {
+				if (res.status === 200) {
+				} else {
+				}
+			})
+			.catch((err) => {});
+	}
 
   async function checkDarkMode() {
     const htmlTag = document.documentElement;

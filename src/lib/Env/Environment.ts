@@ -39,4 +39,9 @@ export namespace Environment {
     ENVIRONMENT.VITE_APPWRITE_FUNCTION_CHECKCARDSEXPIRATION_ID;
   export const appwrite_function_get_user: string =
     ENVIRONMENT.VITE_APPWRITE_FUNCTION_GETUSERBYID_ID;
+
+  // Onesignal Config
+  export const onesignal_app_id: string = ENVIRONMENT.VITE_ONESIGNAL_APP_ID;
+  export const onesignal_rest_api_key: string = ENVIRONMENT.VITE_ONESIGNAL_REST_API_KEY;
+  export const onesignal_user_auth_key: string = ENVIRONMENT.VITE_ONESIGNAL_USER_AUTH_KEY;
 }
