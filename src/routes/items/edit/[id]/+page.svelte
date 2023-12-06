@@ -1,5 +1,4 @@
 <script lang="ts">
-	
   import { page } from "$app/stores";
   import type { CreateItemRequest } from "$lib/Models/Requests/CreateItem.Request";
   import { authStore } from "$lib/Stores/Auth.Store";
@@ -9,23 +8,29 @@
   import { MultiSelect } from "flowbite-svelte";
   import { onMount } from "svelte";
   import type { ItemDto } from "$lib/Models/DTO/Item.DTO.Model.js";
+  import moment from "moment";
   let options: CreateItemRequest = {
     id: "",
     name: "",
     categoryId: [],
     price: 0,
     quantity: 0,
-    productionDate:new Date(),
-    expiredDate:new Date(),
+    productionDate: new Date(),
+    expiredDate: new Date(),
     image: {
       url: "",
-    }
+    },
   };
   let categories: { value: string; name: string }[] = [];
-  let selected: string[] = [];
+  let selected: string[];
 
   onMount(async () => {
+    const item: ItemDto = (await itemStore.get($page.params.id)) as ItemDto;
     await categoryStore.getAll();
+
+    selected = item.category?.map((category) => {
+      return category.id;
+    }) as string[];
 
     categories = $categoryStore.data.map((category) => {
       return {
@@ -34,7 +39,19 @@
       };
     });
 
- 
+    options = {
+      id: item.id,
+      name: item.name,
+      categoryId: selected,
+      price: item.price,
+      quantity: item.quantity,
+      productionDate: moment(item.productionDate).format("YYYY-MM-DD"),
+      expiredDate: moment(item.expiredDate).format("YYYY-MM-DD"),
+      image: {
+        url: "",
+        localUrl: item.itemImage,
+      },
+    };
   });
 
   function handleFileChange(event: Event) {
@@ -59,31 +76,6 @@
   function handleInputChange(activEvent: any) {
     inputValue = activEvent.target.value;
   }
-
- 
-  onMount(async () => {
-    const item: ItemDto = (await itemStore.get($page.params.id)) as ItemDto;
-    options = {
-      id: item.id,
-      name: item.name,
-      categoryId: item.category?.map((category) => {
-        return category.id;
-      }) as string[],
-      price: item.price,
-      quantity: item.quantity,
-      productionDate: new Date(item.productionDate),
-      expiredDate: new Date(item.expiredDate),
-      image: {
-        url: "",
-        localUrl: item.itemImage,
-      }
-    };
-    selected = item.category?.map((category) => {
-      return category.id;
-    }) as string[];
-
-    console.log(options, selected);
-  });
 </script>
 
 <div class="container mx-auto h-auto">
@@ -131,12 +123,14 @@
 
     <div class="w-full flex flex-col mt-2">
       <Label for="large-input" class="block mb-2">Category</Label>
-      <MultiSelect
-        class="py-4 on:input={handleInputChange}   dark:bg-[#363636]"
-        dropdownClass="dark:bg-[#363636]"
-        items={categories}
-        bind:value={selected}
-      />
+      {#if selected}
+        <MultiSelect
+          class="py-4 on:input={handleInputChange}   dark:bg-[#363636]"
+          dropdownClass="dark:bg-[#363636]"
+          items={categories}
+          bind:value={selected}
+        />
+      {/if}
     </div>
     <div class="w-full grid grid-cols-2 items-center justify-center gap-2 my-3">
       <div class="w-full flex flex-col">
@@ -156,7 +150,6 @@
         <Label for="large-input" class="block mb-2">Quantity</Label>
         <Input
           bind:value={options.quantity}
-          
           on:input={handleInputChange}
           id="large-input"
           size="lg"
@@ -167,6 +160,33 @@
       </div>
     </div>
 
+    <div class="w-full flex justify-center items-center gap-2 my-2">
+      <div class="w-full flex flex-col">
+        <Label for="large-input" class="block mb-2">Production Date</Label>
+        {#if options.productionDate}
+        <Input
+          bind:value={options.productionDate}
+          id="large-input"
+          size="lg"
+          required
+          type="date"
+          class="w-full rounded-xl dark:bg-[#363636] dark:text-white"
+        />
+        {/if}
+      </div>
+
+      <div class="w-full flex flex-col">
+        <Label for="large-input" class="block mb-2">Expiration Date</Label>
+        <Input
+          bind:value={options.expiredDate}
+          id="large-input"
+          size="lg"
+          type="date"
+          class="w-full rounded-xl dark:bg-[#363636] dark:text-white"
+          required
+        />
+      </div>
+    </div>
 
     <Label for="large-input" class="block mb-2">Detail</Label>
     <textarea

@@ -28,6 +28,7 @@
   "dependencies": {
     "@k4ung/svelte-otp": "^0.0.9",
     "appwrite": "^13.0.1",
+    "date-picker-svelte": "^2.10.1",
     "flowbite-svelte-icons": "^0.4.5",
     "leaflet": "^1.9.4",
     "moment": "^2.29.4",

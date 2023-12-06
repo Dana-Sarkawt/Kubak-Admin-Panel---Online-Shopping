@@ -5,8 +5,8 @@ export interface CreateItemRequest {
   price: number,
   detail?: string | null,
   quantity: number,
-  productionDate: Date,
-  expiredDate: Date,
+  productionDate: Date | string,
+  expiredDate: Date | string,
   image: {
     url: string | File,
     localUrl?: string | null,
