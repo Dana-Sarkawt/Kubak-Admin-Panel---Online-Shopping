@@ -7,7 +7,7 @@
   import { onMount } from "svelte";
   import { authStore } from "$lib/Stores/Auth.Store";
   import { goto } from "$app/navigation";
-  import OneSignal from "react-onesignal";
+  import OneSignal from "@nolanx/svelte-onesignal";
 
   $: pathUrl = $page.url.pathname;
 
@@ -23,11 +23,10 @@
       goto("/");
     }
 
-    // await OneSignal.init({
-    //   appId: "fcb163e5-c7b1-4340-8597-ce7d0f757e85",
-    //   allowLocalhostAsSecureOrigin: true,
-    // });
-    // OneSignal.Slidedown.promptPush();
+    await OneSignal.init({
+      appId: "fcb163e5-c7b1-4340-8597-ce7d0f757e85",
+      allowLocalhostAsSecureOrigin: true,
+    });
   });
 
   async function checkDarkMode() {

@@ -27,6 +27,7 @@
   "type": "module",
   "dependencies": {
     "@k4ung/svelte-otp": "^0.0.9",
+    "@nolanx/svelte-onesignal": "^2.0.5",
     "appwrite": "^13.0.1",
     "date-picker-svelte": "^2.10.1",
     "flowbite-svelte-icons": "^0.4.5",
@@ -34,7 +35,6 @@
     "moment": "^2.29.4",
     "particles.js": "^2.0.0",
     "phone": "^3.1.41",
-    "react-onesignal": "^3.0.1",
     "ts-mapper": "^1.2.4"
   }
 }
