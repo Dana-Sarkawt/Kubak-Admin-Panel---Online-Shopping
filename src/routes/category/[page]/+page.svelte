@@ -58,6 +58,8 @@ async function deleteCategory(id:string) {
 
   {#each $categoryStore.data as category}
 
+  <a href="/category/edit/{category.id}">
+
     <div
       class="md:w-28 md:h-36 lg:w-44 lg:h-60 2xl:w-64 2xl:h-96 bg-white dark:bg-[#212121] dark:text-white px-5 flex justify-around items-center flex-col rounded-xl mb-5 relative top-0 hover:border-[#f17f18] hover:border ease-in-out duration-100 cursor-pointer"
     >
@@ -90,6 +92,7 @@ async function deleteCategory(id:string) {
       <p class="text-2xl">{category.name ?? "Rice"}</p>
     </div>
     
+  </a>
   
     {/each}
     {/if}

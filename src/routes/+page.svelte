@@ -52,7 +52,7 @@
 
     <!--  START LOWEST ORDER CARD  -->
     <div
-      class="w-[30%] h-[300px] 2xl:h-[500px] flex flex-col justify-center items-center bg-white dark:text-white dark:bg-[#212121] rounded-2xl gap-2"
+      class="w-[30%] h-[300px] 2xl:h-[500px] flex flex-col justify-center items-center bg-white dark:text-white dark:bg-[#212121] rounded-2xl gap-2 px-2"
     >
       <p class="text-lg lg:text-2xl 2xl:text-5xl">Lowest Order</p>
 
@@ -60,17 +60,17 @@
 
       {#each lowestItems as items}
         <div
-          class="w-11/12 h-12 2xl:h-20 bg-[#e8e8e8] dark:bg-[#363636] dark:text-white rounded-xl flex justify-center items-center px-3 md:text-[8px] lg:text-lg"
+          class="w-full h-12 2xl:h-20 bg-[#e8e8e8] dark:bg-[#363636] dark:text-white rounded-xl flex justify-center items-center text-center px-2 md:text-[8px] lg:text-lg"
         >
           <img
-            src={items.itemImage ?? "/images/rice.png"}
+            src={items.itemImage ?? "/images/item.png"}
             alt=""
-            class="w-8"
+            class="w-[30px] h-[30px] 2xl:w-[50px] 2xl:h-[50px] object-contain"
           />
-          <p class="w-1/2 text-center">
+          <p class="w-full text-center">
             {items.name ?? "No Name"}
           </p>
-          <p class="w-1/2">{items.price ?? "0"} IQD</p>
+          <p class="w-full tex-center">{items.price ?? "0"} IQD</p>
         </div>
       {/each}
       <!-- svelte-ignore a11y-invalid-attribute -->
@@ -78,23 +78,23 @@
     </div>
     <!--  END LOWEST ORDER CARD  -->
     <div
-      class="w-[30%] h-[300px] 2xl:h-[500px] flex flex-col justify-center items-center bg-white dark:bg-[#212121] dark:text-white rounded-2xl gap-2"
+      class="w-[30%] h-[300px] 2xl:h-[500px] flex flex-col justify-center items-center bg-white dark:bg-[#212121] dark:text-white rounded-2xl gap-2 px-2"
     >
       <p class="text-lg lg:text-2xl 2xl:text-5xl">Most Order</p>
 
       {#each mostItems as items}
         <div
-          class="w-11/12 h-12 2xl:h-20 bg-[#e8e8e8] dark:bg-[#363636] dark:text-white rounded-xl flex justify-center items-center px-3 md:text-[8px] lg:text-lg"
+          class="w-full h-12 2xl:h-20 bg-[#e8e8e8] dark:bg-[#363636] dark:text-white rounded-xl flex justify-center items-center px-3 md:text-[8px] lg:text-lg"
         >
           <img
             src={items.itemImage ?? "/images/rice.png"}
             alt=""
-            class="w-8"
+            class="w-[30px] h-[30px] 2xl:w-[50px] 2xl:h-[50px] object-contain"
           />
-          <p class="w-1/2 text-center">
+          <p class="w-full text-center">
             {items.name ?? "No Name"}
           </p>
-          <p class="w-1/2">{items.price ?? "0"} IQD</p>
+          <p class="w-full">{items.price ?? "0"} IQD</p>
         </div>
       {/each}
       <!-- svelte-ignore a11y-invalid-attribute -->
