@@ -73,7 +73,7 @@
       <img src="/images/categories.png" alt="" class="px-2 w-72" />
     </div>
     <!--  END CATEGORIES CARD  -->
-
+  
     <!--  START LOWEST ORDER CARD  -->
     <div
       class="w-[30%] h-[300px] 2xl:h-[500px] flex flex-col justify-center items-center bg-white dark:text-white dark:bg-[#212121] rounded-2xl gap-2 px-2"
@@ -183,12 +183,12 @@
         {/if}
       </div>
     </div>
-
+  
     <!--  END ITEMS LIST TABLE  -->
 
     <!--  START ORDER CARD  -->
     <div
-      class="w-[30%] h-[300px] 2xl:h-[500px] flex flex-col justify-center items-center bg-white dark:bg-[#212121] dark:text-white rounded-2xl gap-2"
+      class="w-[30%] h-[300px] 2xl:h-[500px] flex flex-col justify-start pt-3 items-center bg-white dark:bg-[#212121] dark:text-white rounded-2xl gap-2"
     >
       <div class="w-full flex justify-around items-center">
         <p class="text-lg lg:text-2xl 2xl:text-5xl">Order</p>
@@ -199,10 +199,10 @@
 
       <!--  START FIRST ORDER CARD  -->
 
-      <div
-        class="w-11/12 h-12 2xl:h-20 bg-[#e8e8e8] dark:bg-[#363636] rounded-xl flex justify-around items-center px-3 md:text-[8px] lg:text-lg"
-      >
       {#each $ordersStore.data as order}
+      <div
+      class="w-11/12 h-12 2xl:h-20 bg-[#e8e8e8] dark:bg-[#363636] rounded-xl flex justify-around items-center px-3 md:text-[8px] lg:text-lg"
+      >
         <p class="flex justify-center items-center text-center">{order.user.name}</p>
         <div class="w-1/2 text-center flex justify-center items-center">
           <div
@@ -222,26 +222,12 @@
         >
           {OrderStatus[order.status]}
         </div>
-        </div>
-       
-        {/each}
       </div>
-
-      <!--  END FIRST ORDER CARD  -->
-      <!--  AND DELETE ANOTHER ORDER CARD  -->
-
-      <div
-        class="w-11/12 h-12 2xl:h-20 bg-[#e8e8e8] dark:bg-[#363636] rounded-xl"
-      />
-
-      <div
-        class="w-11/12 h-12 2xl:h-20 bg-[#e8e8e8] dark:bg-[#363636] rounded-xl"
-      />
-
-      <div
-        class="w-11/12 h-12 2xl:h-20 bg-[#e8e8e8] dark:bg-[#363636] rounded-xl"
-      />
+      
     </div>
-    <!--  END ORDER CARD  -->
-  </div>
+    {/each}
+      
+      <!--  END ORDER CARD  -->
+    </div>
+</div>
 </div>
