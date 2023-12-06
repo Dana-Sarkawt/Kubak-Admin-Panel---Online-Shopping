@@ -187,7 +187,7 @@
       !options.productionDate ||
       !options.expiredDate}
     class="bg-[#f17f18] font-bold text-white py-3 px-8 rounded-xl"
-    type="submit">Add Item</button
+    type="submit">Update Item</button
   >
 </div>
 
