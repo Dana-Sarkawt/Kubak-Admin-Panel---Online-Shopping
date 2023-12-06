@@ -7,11 +7,12 @@
   import { onMount } from "svelte";
   import { authStore } from "$lib/Stores/Auth.Store";
   import { goto } from "$app/navigation";
-  import { AuthRepository } from "$lib/Repositories/Implementation/Auth.Repository";
+  import OneSignal from "react-onesignal";
 
   $: pathUrl = $page.url.pathname;
 
-  const authRepo = new AuthRepository();
+  // let window: any;
+  // let OneSignalDeferred: any = [];
 
   onMount(async () => {
     darkMode.subscribe(() => {
@@ -21,6 +22,12 @@
     if ($authStore && $page.url.pathname === "/login") {
       goto("/");
     }
+
+    // await OneSignal.init({
+    //   appId: "fcb163e5-c7b1-4340-8597-ce7d0f757e85",
+    //   allowLocalhostAsSecureOrigin: true,
+    // });
+    // OneSignal.Slidedown.promptPush();
   });
 
   async function checkDarkMode() {

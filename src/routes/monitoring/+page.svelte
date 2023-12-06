@@ -1,4 +1,5 @@
 <script lang="ts">
+  import OrderStatusButtons from "./../../lib/Components/OrderStatusButtons.Component.svelte";
   import { Dto } from "$lib/Models/Conversion/Conversion.Model";
   import { Appwrite } from "$lib/Appwrite/Appwrite";
   import { Environment } from "$lib/Env/Environment";
@@ -18,6 +19,7 @@
   let items: ItemDto[] = [];
   let totalAmount: number = 0;
   let markers: any[] = [];
+  let order_status: number = -2;
 
   onMount(async () => {
     await loadMap();
@@ -92,7 +94,6 @@
 
   function addMarkers(newOrder: OrderDto) {
     if (!newOrder) return;
-    console.log(newOrder.id);
     const myIcon = L.icon({
       iconUrl: `images/${OrderStatus[newOrder.status]}.png`,
       iconSize: [38, 38],
@@ -117,6 +118,7 @@
   }
 
   async function getItemsOrder(order: OrderDto) {
+    order_status = order.status;
     map.setView([order.address?.latitude, order.address?.longitude], 16);
     const itemsBlocker = await itemsBlockerStore.getAll(order.id);
     items =
@@ -133,6 +135,11 @@
 
   function resetZoom() {
     map.setView([35.5558, 45.4351], 13);
+  }
+
+  $: {
+    console.log('Order status changed to', order_status);
+    // any other logic you want to execute when order_status changes
   }
 </script>
 
@@ -259,6 +266,7 @@
             </b>{totalAmount ?? "0"} IQD
           </p>
         </div>
+        <OrderStatusButtons {order_status} />
       </div>
     </div>
   </div>
