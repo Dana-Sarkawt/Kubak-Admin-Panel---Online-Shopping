@@ -27,7 +27,11 @@
           ? "bg-[#f17f18] text-white dark:bg-[#f17f18]"
           : ""}>Category</NavLi
       >
-      <NavLi href="#">Orders</NavLi>
+      <NavLi href="/report/order/1"
+      class={$page.url.pathname === `/report/order/${$page.params.page}`
+          ? "bg-[#f17f18] text-white dark:bg-[#f17f18]"
+          : ""}
+      >Orders</NavLi>
     </NavUl>
   </Navbar>
 </div>
