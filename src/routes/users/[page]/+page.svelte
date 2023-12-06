@@ -36,17 +36,19 @@
   });
 
   async function filterOptions(filter: GenericListOptions) {
-    listUsers = await authStore.listUsers(filter) as Store<AuthDto>;
+    listUsers = (await authStore.listUsers(filter)) as Store<AuthDto>;
   }
 
   async function resetDate() {
     filter.search = "";
     filter.from = "";
     filter.to = "";
-    listUsers = await authStore.listUsers() as Store<AuthDto>;
+    listUsers = (await authStore.listUsers(filter)) as Store<AuthDto>;
   }
 </script>
 
+<!-- svelte-ignore a11y-no-static-element-interactions -->
+<!-- svelte-ignore a11y-missing-attribute -->
 <div
   class="container mx-auto h-auto px-12 flex justify-center items-center gap-3 mt-44"
 >
@@ -79,9 +81,10 @@
       bind:value={filter.to}
     />
   </div>
-  <a href="#">
+  <!-- svelte-ignore a11y-click-events-have-key-events -->
+  <a on:click={resetDate}>
     <button
-      class="bg-white on:click={resetDate} dark:bg-[#212121] dark:text-white text-xs lg:text-lg h-12 p-3 rounded-xl text-center flex justify-center items-center dark:hover:bg-[#f17f18] duration-300 ease-in-out"
+      class="bg-white dark:bg-[#212121] dark:text-white text-xs lg:text-lg h-12 p-3 rounded-xl text-center flex justify-center items-center dark:hover:bg-[#f17f18] duration-300 ease-in-out"
       >Reset Date
     </button>
   </a>
