@@ -116,14 +116,12 @@
     class="w-60 h-[90vh] rounded-xl my-5 mr-3 flex-col gap-2 opacity-80 absolute flex justify-center items-center z-[5000]"
     id="request-box"
   >
-    <button
-      class="w-full h-12 bg-gray-500 flex rounded-lg items-center"
-      on:click={resetZoom}
-    >
-      <p class="text-white text-center w-full">Reset Zoom</p>
+ 
+    <div class="w-full h-auto flex gap-2 ">
+      <button class="w-16 h-12 bg-gray-500 flex rounded-lg items-center justify-center" on:click={resetZoom}>
+        <img src="/images/reset-map.png" alt="" class="w-7 h-7 object-cover">
     </button>
-    <div class="w-full h-auto fle">
-      <a href="/monitoring/order">
+      <a href="/monitoring/order" class="w-full">
         <div
           class="w-full h-12 bg-[#f17f18] hover:bg-[#212121] duration-300 ease flex justify-center items-center text-2xl text-white rounded-lg"
         >
