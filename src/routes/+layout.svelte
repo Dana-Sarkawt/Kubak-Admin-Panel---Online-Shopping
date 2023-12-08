@@ -16,10 +16,10 @@
   // let OneSignalDeferred: any = [];
 
   onMount(async () => {
-    OneSignal.init({
-      appId: Environment.onesignal_app_id,
-      allowLocalhostAsSecureOrigin: true,
-    });
+    // OneSignal.init({
+    //   appId: Environment.onesignal_app_id,
+    //   allowLocalhostAsSecureOrigin: true,
+    // });
 
     darkMode.subscribe(() => {
       checkDarkMode();
@@ -29,7 +29,7 @@
       goto("/");
     }
 
-    sendEmail();
+    // sendEmail();
   });
 
   function sendEmail() {
