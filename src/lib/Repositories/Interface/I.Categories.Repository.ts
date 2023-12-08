@@ -13,7 +13,7 @@ export interface ICategoriesRepository {
 
   createCategory(category: CreateCategoryRequest): Promise<void>;
 
-  updateCategory(category: Category): Promise<Category>;
+  updateCategory(category: CreateCategoryRequest): Promise<Category>;
 
   deleteCategory(id: string): Promise<void>;
 }

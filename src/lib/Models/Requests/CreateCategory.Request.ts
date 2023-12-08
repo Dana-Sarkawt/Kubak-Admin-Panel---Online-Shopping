@@ -6,12 +6,12 @@ export interface CreateCategoryRequest {
         url: string | File,
         localUrl?: string | null
     },
-    userId: string,
+    userId?: string,
     deletedAt?: Date | null,
 }
 
 export interface CategoryRequest {
-    userId: string,
+    userId?: string,
     name: string,
     categoryImage: string,
     description?: string,

@@ -28,9 +28,11 @@ const createCategoryStore = () => {
         console.log("Error :", e);
       }
     },
-    getAll: async (options?:GenericListOptions) => {
+    getAll: async (options?: GenericListOptions) => {
       try {
-        let { documents, total } = await categoriesRepository.getCategories(options);
+        let { documents, total } = await categoriesRepository.getCategories(
+          options
+        );
 
         let dto: CategoryDto[] = documents.map((document) => {
           return Dto.ToCategoriesDto(document) as CategoryDto;
@@ -68,15 +70,13 @@ const createCategoryStore = () => {
         const document = await categoriesRepository.getCategory(
           category.id as string
         );
-
         if (document === null) {
           throw new Error(
             `Category not found with the following id:${category.id}`
           );
         }
-
-        if (category.name != "") {
-          document.name = category.name;
+        if (category.name == "") {
+          category.name = document.name;
         }
         if (category.image.url != "") {
           if (category.image.url instanceof File) {
@@ -84,13 +84,15 @@ const createCategoryStore = () => {
               category.image.url as File
             )) as string;
           }
-          document.categoryImage = category.image.url;
+        }else{
+          category.image.url = document.categoryImage;
         }
-        if (category.description != "") {
-          document.description = category.description!;
+        if (category.description == "") {
+          category.description = document.description as string;
         }
 
-        await categoriesRepository.updateCategory(document);
+        await categoriesRepository.updateCategory(category);
+        await categoryStore.getAll();
       } catch (e) {
         console.log("Error :", e);
       }
@@ -102,10 +104,9 @@ const createCategoryStore = () => {
         if (document === null)
           throw new Error(`Category not found with the following id:${id}`);
 
-
         await categoriesRepository.deleteCategory(id);
 
-        categoryStore.getAll({ limit: 7, page: 1});
+        categoryStore.getAll({ limit: 7, page: 1 });
         return "Deleted";
       } catch (e) {
         console.log("Error :", e);
