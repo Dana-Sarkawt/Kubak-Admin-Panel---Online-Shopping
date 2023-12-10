@@ -10,7 +10,8 @@
   });
 
   function showNotification() {
-    const toast: HTMLElement = document.getElementById("toast") as HTMLElement;
+    const toast: HTMLElement | null = document.getElementById("toast") as HTMLElement | null;
+    if(!toast) return;
     toast.classList.remove("hidden");
 
     setTimeout(() => {

@@ -21,6 +21,8 @@
     try {
       pages = $categoryStore.pages as number;
       await categoryStore.getAll(filter);
+
+      console.log($categoryStore);
     } finally {
       loading = false;
     }
@@ -56,7 +58,7 @@
       >
         <!-- svelte-ignore a11y-click-events-have-key-events -->
         <!-- svelte-ignore a11y-no-static-element-interactions -->
-        
+
         <div
           class="absolute top-0 right-0 z-30 m-2 bg-red-600 text-white p-2 rounded-lg hover:bg-red-500 duration-300 ease-in-out"
           on:click={() => deleteCategory(category.id)}
@@ -90,16 +92,8 @@
         </a>
       </div>
     {/each}
-    {/if}
-  </div>
-  <Pagination name="category" {pages} {filter} Store={categoryStore} />
-  
-{#if $toastStore === 1}
-    <Notification status={$toastStore} name="Category" />
-    {:else if $toastStore === 2}
-    <Notification status={$toastStore} name="Category" />
-    {:else if $toastStore === 3}
-    <Notification status={$toastStore} name="Category" />
+  {/if}
+</div>
+<Pagination name="category" {pages} {filter} Store={categoryStore} />
 
-{/if}
-  
+<Notification status={$toastStore} name="Category" />

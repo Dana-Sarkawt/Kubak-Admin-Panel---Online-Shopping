@@ -63,9 +63,6 @@ const createCategoryStore = () => {
 
         await categoriesRepository.createCategory(category);
         toastStore.set(3);
-        console.log(toastStore);
-        
-        
       } catch (e) {
         console.log("Error :", e);
       }
@@ -89,7 +86,7 @@ const createCategoryStore = () => {
               category.image.url as File
             )) as string;
           }
-        }else{
+        } else {
           category.image.url = document.categoryImage;
         }
         if (category.description == "") {
