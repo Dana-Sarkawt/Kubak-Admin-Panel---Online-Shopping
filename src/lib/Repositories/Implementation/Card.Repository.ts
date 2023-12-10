@@ -42,7 +42,6 @@ export class CardRepository implements ICardsRepository {
   }
   async updateCard(card: CreateCardRequest): Promise<Card> {
     const cardRequest: CardRequest = {
-      id: card.id as string,
       userId: card.userId,
       webpageUrl: card.webpageUrl as string,
       cardImage: card.image.url as string,
@@ -51,7 +50,7 @@ export class CardRepository implements ICardsRepository {
     const result = await Appwrite.databases.updateDocument(
       Environment.appwrite_database,
       Environment.appwrite_collection_card,
-      cardRequest.id as string,
+      card.id as string,
       cardRequest
     );
 

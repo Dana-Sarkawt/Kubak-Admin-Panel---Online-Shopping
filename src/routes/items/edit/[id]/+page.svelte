@@ -10,8 +10,8 @@
   import type { ItemDto } from "$lib/Models/DTO/Item.DTO.Model.js";
   import moment from "moment";
 
-  import { Button, Modal } from 'flowbite-svelte';
-  import { ExclamationCircleOutline } from 'flowbite-svelte-icons';
+  import { Button, Modal } from "flowbite-svelte";
+  import { ExclamationCircleOutline } from "flowbite-svelte-icons";
   import { goto } from "$app/navigation";
   let popupModal = false;
   let options: CreateItemRequest = {
@@ -55,7 +55,7 @@
       image: {
         url: "",
         localUrl: item.itemImage,
-      },
+      }
     };
   });
 
@@ -69,24 +69,16 @@
     options.image.localUrl = URL.createObjectURL(file);
   }
 
-  async function create(options: CreateItemRequest) {
-    options.userId = $authStore?.id ?? "";
-    options.categoryId = selected;
-    console.log(options);
-    await itemStore.create(options);
-    goto("/items/1");
+  let inputValue = "";
+
+  function handleInputChange(activeEvent: any) {
+    inputValue = activeEvent.target.value;
   }
 
-  let inputValue = "";
-  
-  function handleInputChange(activEvent: any) {
-    inputValue = activEvent.target.value;
-  }
-  
   async function update() {
+    console.log(options);
     await itemStore.update(options);
     goto("/items/1");
-    console.log(options);
   }
 </script>
 
@@ -176,14 +168,14 @@
       <div class="w-full flex flex-col">
         <Label for="large-input" class="block mb-2">Production Date</Label>
         {#if options.productionDate}
-        <Input
-          bind:value={options.productionDate}
-          id="large-input"
-          size="lg"
-          required
-          type="date"
-          class="w-full rounded-xl dark:bg-[#363636] dark:text-white"
-        />
+          <Input
+            bind:value={options.productionDate}
+            id="large-input"
+            size="lg"
+            required
+            type="date"
+            class="w-full rounded-xl dark:bg-[#363636] dark:text-white"
+          />
         {/if}
       </div>
 
@@ -224,9 +216,15 @@
 
   <Modal bind:open={popupModal} size="xs" autoclose>
     <div class="text-center">
-      <ExclamationCircleOutline class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" />
-      <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to Update this Item?</h3>
-      <Button color="primary" class="me-2" on:click={update}>Yes, I'm sure</Button>
+      <ExclamationCircleOutline
+        class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200"
+      />
+      <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+        Are you sure you want to Update this Item?
+      </h3>
+      <Button color="primary" class="me-2" on:click={update}
+        >Yes, I'm sure</Button
+      >
       <Button color="alternative">No, cancel</Button>
     </div>
   </Modal>

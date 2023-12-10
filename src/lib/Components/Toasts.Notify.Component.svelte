@@ -1,12 +1,16 @@
 <script lang="ts">
   import { ToastMessages } from "$lib/Models/Enums/Toast-Messages.Enum.Model";
   import { toastStore } from "$lib/Stores/Toast.Store";
-  import { onMount } from "svelte";
+  import { onMount, afterUpdate } from "svelte";
 
   export let status: number;
   export let name: string;
 
   onMount(async () => {
+    showNotification();
+  });
+
+  afterUpdate(() => {
     showNotification();
   });
 

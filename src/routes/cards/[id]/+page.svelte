@@ -3,12 +3,11 @@
   import { onMount } from "svelte";
   import { Label, Input, Modal, Button } from "flowbite-svelte";
   import type { CreateCardRequest } from "$lib/Models/Requests/CreateCard.Request";
-  import { authStore } from "$lib/Stores/Auth.Store";
   import { cardStore } from "$lib/Stores/Cards.Store";
   import type { CardDto } from "$lib/Models/DTO/Card.DTO.Model";
   import moment from "moment";
   import { ExclamationCircleOutline } from "flowbite-svelte-icons";
-  import { goto } from "$app/navigation";
+
   let popupModal = false;
   onMount(async () => {
     console.log($page.params.id);
@@ -33,10 +32,8 @@
     options.image.localUrl = URL.createObjectURL(file);
   }
 
-  async function create(options: CreateCardRequest) {
-    options.userId = $authStore?.id as string;
-    await cardStore.create(options);
-    goto("/cards");
+  async function updateCard(options: CreateCardRequest) {
+    await cardStore.update(options);
   }
 
   onMount(async () => {
@@ -115,7 +112,7 @@
     <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
       Are you sure you want to Update this Card?
     </h3>
-    <Button class="me-2 bg-[#f17f18] p-2 w-auto h-10" on:click={update}
+    <Button color="primary" class="me-2" on:click={() => updateCard(options)}
       >Yes, I'm sure</Button
     >
     <Button color="alternative">No, cancel</Button>

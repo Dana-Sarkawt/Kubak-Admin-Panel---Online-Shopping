@@ -90,6 +90,7 @@ const createCardStore = () => {
         }
 
         await cardRepository.updateCard(card);
+        goto("/cards");
       } catch (e) {
         console.log("Error :", e);
       }
