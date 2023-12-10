@@ -20,6 +20,7 @@
   let totalAmount: number = 0;
   let markers: any[] = [];
   let order_status: number = -2;
+  let orderId:string = "";
 
   onMount(async () => {
     await loadMap();
@@ -119,6 +120,7 @@
 
   async function getItemsOrder(order: OrderDto) {
     order_status = order.status;
+    orderId = order.id;
     map.setView([order.address?.latitude, order.address?.longitude], 16);
     const itemsBlocker = await itemsBlockerStore.getAll(order.id);
     items =
@@ -137,10 +139,25 @@
     map.setView([35.5558, 45.4351], 13);
   }
 
-  $: {
-    console.log('Order status changed to', order_status);
-    // any other logic you want to execute when order_status changes
-  }
+  function sendEmail(userId:string, name:string, status: number ) {
+		fetch('/api/onesignal', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+      body: JSON.stringify({
+        userId: userId,
+        name: name,
+        status: OrderStatus[status]
+      })
+		})
+			.then((res) => {
+				if (res.status === 200) {
+				} else {
+				}
+			})
+			.catch((err) => {});
+	}
 </script>
 
 <div class="w-full flex justify-end">
@@ -266,7 +283,7 @@
             </b>{totalAmount ?? "0"} IQD
           </p>
         </div>
-        <OrderStatusButtons {order_status} />
+        <OrderStatusButtons {order_status} {orderId} />
       </div>
     </div>
   </div>

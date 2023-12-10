@@ -22,6 +22,8 @@
     try {
       pages = $categoryStore.pages as number;
       await categoryStore.getAll(filter);
+
+      console.log($categoryStore);
     } finally {
       loading = false;
     }

@@ -9,32 +9,27 @@ const configuration = OneSignal.createConfiguration({
 const client = new OneSignal.DefaultApi(configuration);
 
 export const POST = (async ({ locals, params, request }) => {
-  console.log("Configuration",configuration);
-  
+  const { userId, status, name } = await request.json();
+
   const notification = new OneSignal.Notification();
   notification.app_id = Environment.onesignal_app_id;
+
+  // console.log("Created User: ", createdUser);
   // Name property may be required in some case, for instance when sending an SMS.
-  notification.name = "test_notification_name";
+  notification.name = "order_status_update";
   notification.contents = {
-    en: "Gig'em Ags",
+    en: `Order Status Updated of User: ${name} to: ${status}`,
   };
 
   // required for Huawei
   notification.headings = {
-    en: "Gig'em Ags",
+    en: "Order Status Updated",
   };
 
-//   console.log(notification);
-  
+  //   console.log(notification);
+  notification.included_segments = ["Total Subscriptions"];
 
-  // const notificationResponse = await client.createNotification(notification);
+  const notificationResponse = await client.createNotification(notification);
 
-  // console.log("Notification ",notificationResponse);
-  
-
-const apps = await client.getApps();
-
-// console.log(apps);
-
-  return new Response(JSON.stringify(apps));
+  return new Response(JSON.stringify(notificationResponse));
 }) satisfies RequestHandler;
