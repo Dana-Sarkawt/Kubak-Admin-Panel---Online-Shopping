@@ -6,7 +6,11 @@
   import { page } from "$app/stores";
   import { goto } from "$app/navigation";
   import type { CategoryDto } from "$lib/Models/DTO/Category.DTO.Model";
-
+  import { Button, Modal } from "flowbite-svelte";
+  import { ExclamationCircleOutline } from "flowbite-svelte-icons";
+  let open:boolean = false;
+  let color:string;
+  let popupModal:boolean = false;
   let options: CreateCategoryRequest = {
     id: "",
     name: "",
