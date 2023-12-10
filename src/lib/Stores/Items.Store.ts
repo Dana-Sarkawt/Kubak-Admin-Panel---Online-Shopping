@@ -94,10 +94,10 @@ const createItemStore = () => {
         document.quantity = item.quantity;
       }
       if (item.productionDate <= item.expiredDate) {
-        document.productionDate = item.productionDate;
+        document.productionDate = item.productionDate as Date;
       }
       if (item.expiredDate >= item.productionDate) {
-        document.expiredDate = item.expiredDate;
+        document.expiredDate = item.expiredDate as Date;
       }
       if (item.categoryId.length != 0) {
         if (
