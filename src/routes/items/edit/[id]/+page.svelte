@@ -9,6 +9,11 @@
   import { onMount } from "svelte";
   import type { ItemDto } from "$lib/Models/DTO/Item.DTO.Model.js";
   import moment from "moment";
+
+  import { Button, Modal } from 'flowbite-svelte';
+  import { ExclamationCircleOutline } from 'flowbite-svelte-icons';
+  import { goto } from "$app/navigation";
+  let popupModal = false;
   let options: CreateItemRequest = {
     id: "",
     name: "",
@@ -69,6 +74,7 @@
     options.categoryId = selected;
     console.log(options);
     await itemStore.create(options);
+    goto("/items/1");
   }
 
   let inputValue = "";
@@ -199,7 +205,7 @@
     />
   </div>
   <button
-    on:click={() => create(options)}
+    on:click={() => (popupModal = true)}
     disabled={!options.name ||
       !options.image.localUrl ||
       !options.price ||
@@ -209,6 +215,15 @@
     class="bg-[#f17f18] font-bold text-white py-3 px-8 rounded-xl"
     type="submit">Update Item</button
   >
+
+  <Modal bind:open={popupModal} size="xs" autoclose>
+    <div class="text-center">
+      <ExclamationCircleOutline class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" />
+      <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to Update this Item?</h3>
+      <Button color="primary" class="me-2" on:click={() => create(options)}>Yes, I'm sure</Button>
+      <Button color="alternative">No, cancel</Button>
+    </div>
+  </Modal>
 </div>
 
 <style>

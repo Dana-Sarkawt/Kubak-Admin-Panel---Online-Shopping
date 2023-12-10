@@ -91,6 +91,7 @@ const createCategoryStore = () => {
         }
 
         await categoriesRepository.updateCategory(document);
+        await categoryStore.getAll();
       } catch (e) {
         console.log("Error :", e);
       }

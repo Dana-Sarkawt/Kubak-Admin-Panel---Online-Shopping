@@ -7,6 +7,13 @@
   import { onMount } from 'svelte';
   import { page } from '$app/stores';
 
+  import { Button, Modal } from 'flowbite-svelte';
+  import { ExclamationCircleOutline } from 'flowbite-svelte-icons';
+  let open = false;
+  let color;
+
+  let popupModal = false;
+
   
     let options: CreateCategoryRequest = {
       id: "",
@@ -16,6 +23,7 @@
       },
       userId: "",
     };
+    
   
     function handleFileChange(event: Event) {
       const input = event.target as HTMLInputElement;
@@ -27,19 +35,10 @@
       options.image.localUrl = URL.createObjectURL(file);
     }
   
-    async function create() {
-      options.userId = "6559e81344d4547079c9";
-      await categoryStore.create(options);
-      goto("/category/1");
-    }
 
 
+    
 
-    let inputValue = "";
-
-  function handleInputChange(activEvent: any) {
-    inputValue = activEvent.target.value;
-  }
 
  
   onMount(async () => {
@@ -57,8 +56,32 @@
   
 
     console.log(options);
+
+
   });
+
+ 
   
+
+
+
+
+
+
+
+
+
+
+
+
+    function storeText() {
+    localStorage.setItem('myText', 'This is the text to display');
+}
+
+   
+
+
+ 
   </script>
   <div class="container mx-auto h-auto">
     <a href="/category/1">
@@ -103,10 +126,23 @@
     <button
       class="bg-[#f17f18] font-bold text-white py-3 px-8 rounded-xl duration-300"
       type="submit"
-      on:click={create}
-     
+      on:click={() => (popupModal = true)}
       >Update Category
     </button>
+
+<Modal bind:open={popupModal} size="xs" autoclose>
+  <div class="text-center">
+    <ExclamationCircleOutline class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" />
+    <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to Update this Category?</h3>
+    <Button color="primary" class="me-2"  >Yes, I'm sure</Button>
+    <Button color="alternative">No, cancel</Button>
+  </div>
+</Modal>
+
+
+
+
+
   </div>
   
   <style>

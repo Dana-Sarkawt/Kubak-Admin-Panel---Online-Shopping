@@ -14,7 +14,7 @@
   import moment from "moment";
   import { onMount } from "svelte";
   import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
-  import { page } from "$app/stores";
+  import { page, updated } from "$app/stores";
   import Pagination from "$lib/Components/Pagination.Component.svelte";
   import ReportsLinks from "$lib/Components/ReportsLinks.Component.svelte";
   import { ordersStore } from "$lib/Stores/Orders.Store";
@@ -137,38 +137,49 @@
       <TableBody>
         {#each $ordersStore.data as order}
           <TableBodyRow class="text-center dark:bg-[#272727]">
-            <TableBodyCell tdClass="flex justify-center items-center">
-              <img
-                src={order.user.imgUrl ?? "/images/user.png"}
-                class="w-12 h-12 flex justify-center items-center object-cover"
-                alt=""
-              /></TableBodyCell
+            <TableBodyCell tdClass="h-auto w-full flex justify-center items-center">
+              <div class="w-full h-24 mt-3 flex justify-center items-center">
+
+                <img
+                  src={order.user.imgUrl ?? "/images/user.png"}
+                  class="w-12 h-12 flex justify-center items-center  object-cover"
+                  alt=""
+                /></div></TableBodyCell
+              
             >
 
             <TableBodyCell>{order.user.name}</TableBodyCell>
             <TableBodyCell tdClass="flex justify-center items-center">
-              <div
-                class="h-8 w-20 rounded-lg flex justify-center text-center items-center px-2 text-sm
-          {order.status === -1
-                  ? ' bg-red-600 text-red-200'
-                  : order.status === 0
-                    ? 'bg-gray-400 text-white'
-                    : order.status === 1
-                      ? 'bg-blue-600 text-white'
-                      : order.status === 2
-                        ? 'bg-yellow-600 text-white'
-                        : order.status == 3
-                          ? 'bg-green-600 text-white'
-                          : 'text-gray-400'}
-          "
-              >
-                {OrderStatus[order.status]}
+              <div class="flex w-full h-24 items-center justify-center ">
+
+                <div
+                  class="h-8 w-20 rounded-lg flex justify-center text-center items-center mb-8  px-2 text-sm
+            {order.status === -1
+                    ? ' bg-red-600 text-red-200'
+                    : order.status === 0
+                      ? 'bg-gray-400 text-white'
+                      : order.status === 1
+                        ? 'bg-blue-600 text-white'
+                        : order.status === 2
+                          ? 'bg-yellow-600 text-white'
+                          : order.status == 3
+                            ? 'bg-green-600 text-white'
+                            : 'text-gray-400'}
+            "
+                >
+                  {OrderStatus[order.status]}
+                </div>
               </div>
             </TableBodyCell>
             <TableBodyCell
               >{moment(order.createdAt).format("DD-MMM-YYYY")}</TableBodyCell
             >
-          </TableBodyRow>
+       
+
+          <TableBodyCell
+          >{moment(order.updatedAt).format("DD-MMM-YYYY")}</TableBodyCell
+        >
+      </TableBodyRow>
         {/each}
       </TableBody>
     </Table>

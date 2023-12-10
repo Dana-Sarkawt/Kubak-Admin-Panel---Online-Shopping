@@ -16,7 +16,7 @@
 {:else if order_status === 1}
   <div class="flex justify-center gap-2">
     <button
-      class="bg-blue-500 text-white font-bold w-full h-12 rounded-lg hover:bg-blue-600"
+      class="bg-blue-500 text-white  font-bold w-full text-sm h-12 rounded-lg hover:bg-blue-600"
       >Prepare for Delivering</button
     >
     <button

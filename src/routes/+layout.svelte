@@ -8,7 +8,6 @@
   import { authStore } from "$lib/Stores/Auth.Store";
   import { goto } from "$app/navigation";
   import OneSignal from "@nolanx/svelte-onesignal";
-
   $: pathUrl = $page.url.pathname;
 
   // let window: any;
@@ -34,6 +33,8 @@
     const classList = htmlTag.classList;
     classList.contains("dark") ? darkMode.set("dark") : darkMode.set("");
   }
+
+
 </script>
 
 <main class="bg-slate-100 dark:bg-gray-950 w-full h-full">
