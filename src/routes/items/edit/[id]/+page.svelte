@@ -78,9 +78,15 @@
   }
 
   let inputValue = "";
-
+  
   function handleInputChange(activEvent: any) {
     inputValue = activEvent.target.value;
+  }
+  
+  async function update() {
+    await itemStore.update(options);
+    goto("/items/1");
+    console.log(options);
   }
 </script>
 
@@ -220,7 +226,7 @@
     <div class="text-center">
       <ExclamationCircleOutline class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" />
       <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to Update this Item?</h3>
-      <Button color="primary" class="me-2" on:click={() => create(options)}>Yes, I'm sure</Button>
+      <Button color="primary" class="me-2" on:click={update}>Yes, I'm sure</Button>
       <Button color="alternative">No, cancel</Button>
     </div>
   </Modal>

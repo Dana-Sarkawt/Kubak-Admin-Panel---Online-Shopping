@@ -117,4 +117,4 @@
 
 <Pagination name="category" {pages} {filter} Store={categoryStore} />
 
-  <Notification status={$toastStore} name="Category" />
+<Notification status={$toastStore} name="Category" />
