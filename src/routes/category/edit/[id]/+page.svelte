@@ -1,51 +1,11 @@
 <script lang="ts">
-  import { goto } from "$app/navigation";
-  import type { CategoryDto } from "$lib/Models/DTO/Category.DTO.Model";
-    import type { CreateCategoryRequest } from "$lib/Models/Requests/CreateCategory.Request";
-    import { categoryStore } from "$lib/Stores/Categories.Store";
-    import { Label, Input } from "flowbite-svelte";
-  import { onMount } from 'svelte';
-  import { page } from '$app/stores';
-
-  import { Button, Modal } from 'flowbite-svelte';
-  import { ExclamationCircleOutline } from 'flowbite-svelte-icons';
-  let open = false;
-  let color;
-
-  let popupModal = false;
-
-  
-    let options: CreateCategoryRequest = {
-      id: "",
-      name: "",
-      image: {
-        url: "",
-      },
-      userId: "",
-    };
-    
-  
-    function handleFileChange(event: Event) {
-      const input = event.target as HTMLInputElement;
-      if (!input.files || input.files.length === 0) {
-        return;
-      }
-      const file = input.files[0];
-      options.image.url = file;
-      options.image.localUrl = URL.createObjectURL(file);
-    }
-  
-
-
-    
-
-
- 
   import type { CreateCategoryRequest } from "$lib/Models/Requests/CreateCategory.Request";
   import { categoryStore } from "$lib/Stores/Categories.Store";
   import { Label, Input } from "flowbite-svelte";
   import { onMount } from "svelte";
   import { page } from "$app/stores";
+  import { goto } from "$app/navigation";
+  import type { CategoryDto } from "$lib/Models/DTO/Category.DTO.Model";
 
   let options: CreateCategoryRequest = {
     id: "",
