@@ -28,6 +28,7 @@
   "dependencies": {
     "@k4ung/svelte-otp": "^0.0.9",
     "@nolanx/svelte-onesignal": "^2.0.5",
+    "@onesignal/node-onesignal": "^2.0.1-beta2",
     "appwrite": "^13.0.1",
     "date-picker-svelte": "^2.10.1",
     "flowbite-svelte-icons": "^0.4.5",

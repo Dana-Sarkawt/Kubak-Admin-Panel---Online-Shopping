@@ -14,7 +14,6 @@ export class CategoriesRepository implements ICategoriesRepository {
     options?: GenericListOptions
   ): Promise<AppwriteResponse<Category>> {
     try {
-       
       const query = this.filterQuery([], options);
 
       let { documents, total } = (await Appwrite.databases.listDocuments(
@@ -45,7 +44,7 @@ export class CategoriesRepository implements ICategoriesRepository {
 
   async createCategory(category: CreateCategoryRequest): Promise<void> {
     const categoryRequest: CategoryRequest = {
-      userId: category.userId,
+      userId: category.userId as string,
       name: category.name,
       categoryImage: category.image.url as string,
       description: category.description,
@@ -59,15 +58,25 @@ export class CategoriesRepository implements ICategoriesRepository {
     );
   }
 
-  async updateCategory(category: Category): Promise<Category> {
-    const result = await Appwrite.databases.updateDocument(
-      Environment.appwrite_database,
-      Environment.appwrite_collection_category,
-      category.$id,
-      category
-    );
+  async updateCategory(category: CreateCategoryRequest): Promise<Category> {
+    try {
 
-    return result as Category;
+      const categoryRequest: CategoryRequest = {
+        name: category.name,
+        categoryImage: category.image.url as string,
+        description: category.description,
+      };
+      const result = await Appwrite.databases.updateDocument(
+        Environment.appwrite_database,
+        Environment.appwrite_collection_category,
+        category.id as string,
+        categoryRequest
+      );
+
+      return result as Category;
+    } catch (error) {
+      throw error;
+    }
   }
 
   async deleteCategory(id: string): Promise<void> {
@@ -86,13 +95,13 @@ export class CategoriesRepository implements ICategoriesRepository {
       Query.orderDesc(options?.sortField || "$createdAt"),
       Query.limit(options?.limit || 7),
       Query.offset((options?.page! - 1 || 0) * (options?.limit || 7)),
-      Query.isNull("deletedAt")
+      Query.isNull("deletedAt"),
     ];
     if (options?.search) {
-      query.push(Query.startsWith("name",options?.search));
+      query.push(Query.startsWith("name", options?.search));
     }
-    if(options?.from && options?.to){
-      query.push(Query.between("$createdAt",options?.from,options?.to))
+    if (options?.from && options?.to) {
+      query.push(Query.between("$createdAt", options?.from, options?.to));
     }
     return query;
   }

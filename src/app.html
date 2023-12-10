@@ -28,14 +28,18 @@
       src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js"
       defer
     ></script>
-    <!-- <script>
+    <script>
       window.OneSignalDeferred = window.OneSignalDeferred || [];
       OneSignalDeferred.push(function (OneSignal) {
         OneSignal.init({
           appId: "fcb163e5-c7b1-4340-8597-ce7d0f757e85",
+          notifyButton: {
+            enable: true,
+          },
+          allowLocalhostAsSecureOrigin: true
         });
       });
-    </script> -->
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     %sveltekit.head%
 
