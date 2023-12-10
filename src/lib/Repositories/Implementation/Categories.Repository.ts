@@ -8,6 +8,7 @@ import type {
   CreateCategoryRequest,
 } from "$lib/Models/Requests/CreateCategory.Request";
 import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
+import { toastStore } from "$lib/Stores/Toast.Store";
 
 export class CategoriesRepository implements ICategoriesRepository {
   async getCategories(
@@ -30,11 +31,19 @@ export class CategoriesRepository implements ICategoriesRepository {
   }
 
   async getCategory(id: string): Promise<Category> {
-    return (await Appwrite.databases.getDocument(
-      Environment.appwrite_database,
-      Environment.appwrite_collection_category,
-      id
-    )) as Category;
+    try{
+      const category = await Appwrite.databases.getDocument(
+        Environment.appwrite_database,
+        Environment.appwrite_collection_category,
+        id
+      ) as Category;
+
+      return category;
+    } catch (e) {
+      console.log(e);
+      toastStore.set(2);
+      throw e;
+    }
   }
 
   async getCategoriesByIds(ids: string[]): Promise<Category[]> {

@@ -6,6 +6,7 @@ import { Dto } from "$lib/Models/Conversion/Conversion.Model";
 import type { CreateCategoryRequest } from "$lib/Models/Requests/CreateCategory.Request";
 import { ImageToUrl } from "../../utils/ImageToUrl.Utils";
 import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
+import { toastStore } from "./Toast.Store";
 
 const categoriesRepository = new CategoriesRepository();
 
@@ -61,6 +62,10 @@ const createCategoryStore = () => {
         }
 
         await categoriesRepository.createCategory(category);
+        toastStore.set(3);
+        console.log(toastStore);
+        
+        
       } catch (e) {
         console.log("Error :", e);
       }
@@ -93,8 +98,10 @@ const createCategoryStore = () => {
 
         await categoriesRepository.updateCategory(category);
         await categoryStore.getAll();
+        toastStore.set(1);
       } catch (e) {
         console.log("Error :", e);
+        toastStore.set(4);
       }
     },
     delete: async (id: string) => {
