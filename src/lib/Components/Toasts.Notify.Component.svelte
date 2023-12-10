@@ -15,7 +15,7 @@
 
     setTimeout(() => {
       toast.classList.add("hidden");
-      toastStore.set(0);  
+      toastStore.set(0);
     }, 5000);
   }
 </script>
@@ -49,12 +49,11 @@
   >
     Warning: your {name} process maybe having a problem
   </div>
-
-  {:else if status === 3}
+{:else if status === 3}
   <div
     id="toast"
     class="hidden fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-green-600 text-white px-4 py-2 rounded"
   >
-  {name} Added successfully!
-</div>
+    {name} Added successfully!
+  </div>
 {/if}

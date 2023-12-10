@@ -4,10 +4,11 @@
   import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
   import { categoryStore } from "$lib/Stores/Categories.Store";
   import { onMount } from "svelte";
-  import { Spinner } from "flowbite-svelte";
+  import { Button, Modal, Spinner } from "flowbite-svelte";
   import { toastStore } from "$lib/Stores/Toast.Store";
   import Notification from "$lib/Components/Toasts.Notify.Component.svelte";
-
+  import { ExclamationCircleOutline } from "flowbite-svelte-icons";
+  let popupModal: boolean = false;
   let filter: GenericListOptions = {
     page: parseInt($page.params.page),
     limit: 7,
@@ -29,6 +30,7 @@
   async function deleteCategory(id: string) {
     await categoryStore.delete(id);
     toastStore.set(2);
+    popupModal = false;
   }
 </script>
 
@@ -56,10 +58,10 @@
       >
         <!-- svelte-ignore a11y-click-events-have-key-events -->
         <!-- svelte-ignore a11y-no-static-element-interactions -->
-        
+
         <div
           class="absolute top-0 right-0 z-30 m-2 bg-red-600 text-white p-2 rounded-lg hover:bg-red-500 duration-300 ease-in-out"
-          on:click={() => deleteCategory(category.id)}
+          on:click={() => (popupModal = true)}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -89,17 +91,25 @@
           <p class="text-2xl">{category.name ?? "Rice"}</p>
         </a>
       </div>
+      <Modal bind:open={popupModal} size="xs" autoclose>
+        <div class="text-center">
+          <ExclamationCircleOutline
+            class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200"
+          />
+          <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+            Are you sure you want to Delete this Category?
+          </h3>
+          <Button
+            class="me-2 bg-red-500 p-2 w-auto h-10"
+            on:click={() => deleteCategory(category.id)}>Yes, I'm sure</Button
+          >
+          <Button color="alternative">No, cancel</Button>
+        </div>
+      </Modal>
     {/each}
-    {/if}
-  </div>
-  <Pagination name="category" {pages} {filter} Store={categoryStore} />
-  
-{#if $toastStore === 1}
-    <Notification status={$toastStore} name="Category" />
-    {:else if $toastStore === 2}
-    <Notification status={$toastStore} name="Category" />
-    {:else if $toastStore === 3}
-    <Notification status={$toastStore} name="Category" />
+  {/if}
+</div>
 
-{/if}
-  
+<Pagination name="category" {pages} {filter} Store={categoryStore} />
+
+  <Notification status={$toastStore} name="Category" />
