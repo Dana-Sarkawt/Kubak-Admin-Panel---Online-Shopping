@@ -7,7 +7,7 @@
   import { Button, Modal, Spinner } from "flowbite-svelte";
   import { toastStore } from "$lib/Stores/Toast.Store";
   import Notification from "$lib/Components/Toasts.Notify.Component.svelte";
-  import { ToastMessages } from "$lib/Models/Enums/Toast-Messages.Enum.Model";
+  import { ExclamationCircleOutline } from "flowbite-svelte-icons";
 
   let filter: GenericListOptions = {
     page: parseInt($page.params.page),
@@ -16,6 +16,7 @@
   };
 
   let pages: number = 0;
+  let popupModal:boolean = false;
 
   let loading = true;
   onMount(async () => {
