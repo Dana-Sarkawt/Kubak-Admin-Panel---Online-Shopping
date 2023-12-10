@@ -7,6 +7,7 @@
   import { Spinner } from "flowbite-svelte";
   import { toastStore } from "$lib/Stores/Toast.Store";
   import Notification from "$lib/Components/Toasts.Notify.Component.svelte";
+  import { ToastMessages } from "$lib/Models/Enums/Toast-Messages.Enum.Model";
 
   let filter: GenericListOptions = {
     page: parseInt($page.params.page),
@@ -19,18 +20,22 @@
   let loading = true;
   onMount(async () => {
     try {
-      pages = $categoryStore.pages as number;
       await categoryStore.getAll(filter);
-
-      console.log($categoryStore);
     } finally {
       loading = false;
     }
+    $toastStore;
+    console.log("Update Status", $toastStore);
   });
+
+  $: {
+    if ($categoryStore) {
+      pages = $categoryStore.pages as number;
+    }
+  }
 
   async function deleteCategory(id: string) {
     await categoryStore.delete(id);
-    toastStore.set(2);
   }
 </script>
 

@@ -84,20 +84,20 @@ const createItemStore = () => {
       if (document === null) {
         throw new Error("Item Not Found");
       }
-      if (item.name != "") {
-        document.name = item.name;
+      if (item.name == "") {
+        item.name = document.name;
       }
-      if (item.price != 0) {
-        document.price = item.price;
+      if (item.price == 0) {
+        item.price = document.price;
       }
-      if (item.quantity != 0 && item.quantity <= 10000) {
-        document.quantity = item.quantity;
+      if (item.quantity == 0 && item.quantity <= 10000) {
+        item.quantity = document.quantity;
       }
       if (item.productionDate <= item.expiredDate) {
-        document.productionDate = item.productionDate;
+        item.productionDate = document.productionDate;
       }
       if (item.expiredDate >= item.productionDate) {
-        document.expiredDate = item.expiredDate;
+        item.expiredDate = document.expiredDate;
       }
       if (item.categoryId.length != 0) {
         if (
@@ -107,25 +107,21 @@ const createItemStore = () => {
           )
         ) {
           // Categories have the same id, change nothing
-        } else {
-          document.category = await Promise.all(
-            item.categoryId.map(async (id) => {
-              return (await categoriesRepository.getCategory(id)) as Category;
-            })
-          );
+          item.categoryId = document.category.map((category) => category.$id);
         }
       }
-      if (item.image.url != "") {
+      if (item.image.url == "") {
+        item.image.url = document.itemImage;
+      }else{
         if (item.image.url instanceof File) {
           item.image.url = (await ImageToUrl(item.image.url as File)) as string;
         }
-        document.itemImage = item.image.url;
       }
-      if (item.detail != "") {
-        document.detail = item.detail as string;
+      if (item.detail == "") {
+        item.detail = document.detail;
       }
 
-      await itemsRepository.updateItem(document);
+      await itemsRepository.updateItem(item);
       goto("/items");
     },
     delete: async (id: string) => {

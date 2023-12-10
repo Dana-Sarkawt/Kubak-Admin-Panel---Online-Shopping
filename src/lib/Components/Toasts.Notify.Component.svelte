@@ -1,61 +1,58 @@
 <script lang="ts">
+  import { ToastMessages } from "$lib/Models/Enums/Toast-Messages.Enum.Model";
   import { toastStore } from "$lib/Stores/Toast.Store";
   import { onMount } from "svelte";
 
   export let status: number;
   export let name: string;
 
-  onMount(() => {
+  onMount(async () => {
     showNotification();
   });
 
   function showNotification() {
-    const toast: HTMLElement | null = document.getElementById("toast") as HTMLElement | null;
-    if(!toast) return;
+    const toast: HTMLElement | null = document.getElementById(
+      "toast"
+    ) as HTMLElement | null;
+    if (!toast) return;
+    if (status === ToastMessages.DEFAULT) return;
     toast.classList.remove("hidden");
 
     setTimeout(() => {
       toast.classList.add("hidden");
-      toastStore.set(0);  
-    }, 5000);
+      toastStore.set(ToastMessages.DEFAULT);
+    }, 3000);
   }
 </script>
 
-{#if status === 0}
-  <div class="popup" id="updatePopup">
-    <!-- Your update item form goes here -->
-    <!-- <button
-    on:click={showNotification}
-    class="bg-blue-500 text-white px-4 py-2 rounded">Update {name}</button
-  > -->
-  </div>
-{:else if status === 1}
+{#if status === ToastMessages.DEFAULT}
+  <div class="popup" id="toast"></div>
+{:else if status === ToastMessages.SUCCESS}
   <div
     id="toast"
     class="hidden fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-4 py-2 rounded"
   >
     {name} updated successfully!
   </div>
-{:else if status === 2}
+{:else if status === ToastMessages.ERROR}
   <div
     id="toast"
     class="hidden fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-red-500 text-white px-4 py-2 rounded"
   >
     {name} Deleted successfully!
   </div>
-{:else if status === 4}
+{:else if status === ToastMessages.CREATE}
+  <div
+    id="toast"
+    class="hidden fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-green-600 text-white px-4 py-2 rounded"
+  >
+    {name} Added successfully!
+  </div>
+{:else if status === ToastMessages.WARNING}
   <div
     id="toast"
     class="hidden fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-yellow-500 text-white px-4 py-2 rounded"
   >
     Warning: your {name} process maybe having a problem
   </div>
-
-  {:else if status === 3}
-  <div
-    id="toast"
-    class="hidden fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-green-600 text-white px-4 py-2 rounded"
-  >
-  {name} Added successfully!
-</div>
 {/if}

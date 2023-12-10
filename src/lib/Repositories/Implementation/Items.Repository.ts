@@ -33,7 +33,7 @@ export class ItemsRepository implements IItemsRepository {
     return (await Appwrite.databases.getDocument(
       Environment.appwrite_database,
       Environment.appwrite_collection_item,
-      id,
+      id
     )) as Item;
   }
 
@@ -74,17 +74,29 @@ export class ItemsRepository implements IItemsRepository {
       console.log(error);
     }
   }
-  updateItem(item: Item): Promise<Item> {
+  updateItem(item: CreateItemRequest): Promise<Item> {
+    const itemRequest: ItemRequest = {
+      id: item.id as string,
+      userId: item.userId as string,
+      name: item.name,
+      price: item.price,
+      itemImage: item.image.url as string,
+      productionDate: item.productionDate as Date,
+      expiredDate: item.expiredDate as Date,
+      quantity: item.quantity,
+      detail: item.detail!,
+      category: item.categoryId,
+    };
     const itemResult = Appwrite.databases.updateDocument(
       Environment.appwrite_database,
       Environment.appwrite_collection_item,
-      item.$id,
-      item
+      itemRequest.id as string,
+      itemRequest
     ) as Promise<Item>;
 
     return itemResult;
   }
-  
+
   async deleteItem(id: string): Promise<void> {
     await Appwrite.databases.updateDocument(
       Environment.appwrite_database,
@@ -111,14 +123,14 @@ export class ItemsRepository implements IItemsRepository {
         "$createdAt",
         "$updatedAt",
         "deletedAt",
-        "numberOfSales"
+        "numberOfSales",
       ]),
     ];
     if (options?.search) {
-      query.push(Query.startsWith("name",options?.search));
+      query.push(Query.startsWith("name", options?.search));
     }
-    if(options?.from && options?.to){
-      query.push(Query.between("$createdAt",options?.from,options?.to))
+    if (options?.from && options?.to) {
+      query.push(Query.between("$createdAt", options?.from, options?.to));
     }
     return query;
   }

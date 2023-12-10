@@ -11,7 +11,7 @@ export interface IItemsRepository {
 
   createItem(item: CreateItemRequest): Promise<void>;
 
-  updateItem(item: Item): Promise<Item>;
+  updateItem(item: CreateItemRequest): Promise<Item>;
 
   deleteItem(id: string): Promise<void>;
 }

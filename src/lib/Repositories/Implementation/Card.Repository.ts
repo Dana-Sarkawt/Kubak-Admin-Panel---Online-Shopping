@@ -15,7 +15,7 @@ export class CardRepository implements ICardsRepository {
         Query.limit(3)
       ]
     )) as AppwriteResponse<Card>;
-
+      
     return { documents, total };
   }
   async getCard(id: string): Promise<Card> {
@@ -30,7 +30,7 @@ export class CardRepository implements ICardsRepository {
       userId: card.userId,
       webpageUrl: card.webpageUrl as string,
       cardImage: card.image.url as string,
-      expirationDate: card.expirationDate,
+      expirationDate: card.expirationDate as Date,
     };
 
     await Appwrite.databases.createDocument(
@@ -40,12 +40,19 @@ export class CardRepository implements ICardsRepository {
       cardRequest
     );
   }
-  async updateCard(card: Card): Promise<Card> {
+  async updateCard(card: CreateCardRequest): Promise<Card> {
+    const cardRequest: CardRequest = {
+      id: card.id as string,
+      userId: card.userId,
+      webpageUrl: card.webpageUrl as string,
+      cardImage: card.image.url as string,
+      expirationDate: card.expirationDate as Date,
+    };
     const result = await Appwrite.databases.updateDocument(
       Environment.appwrite_database,
       Environment.appwrite_collection_card,
-      card.$id,
-      card
+      cardRequest.id as string,
+      cardRequest
     );
 
     return result as Card;

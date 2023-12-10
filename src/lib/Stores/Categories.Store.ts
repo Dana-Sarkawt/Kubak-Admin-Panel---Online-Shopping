@@ -7,6 +7,7 @@ import type { CreateCategoryRequest } from "$lib/Models/Requests/CreateCategory.
 import { ImageToUrl } from "../../utils/ImageToUrl.Utils";
 import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
 import { toastStore } from "./Toast.Store";
+import { ToastMessages } from "$lib/Models/Enums/Toast-Messages.Enum.Model";
 
 const categoriesRepository = new CategoriesRepository();
 
@@ -95,7 +96,7 @@ const createCategoryStore = () => {
 
         await categoriesRepository.updateCategory(category);
         await categoryStore.getAll();
-        toastStore.set(1);
+        toastStore.set(ToastMessages.SUCCESS);
       } catch (e) {
         console.log("Error :", e);
         toastStore.set(4);
@@ -111,6 +112,7 @@ const createCategoryStore = () => {
         await categoriesRepository.deleteCategory(id);
 
         categoryStore.getAll({ limit: 7, page: 1 });
+        toastStore.set(ToastMessages.ERROR);
         return "Deleted";
       } catch (e) {
         console.log("Error :", e);

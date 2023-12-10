@@ -17,6 +17,7 @@ export interface CreateItemRequest {
 
 
 export interface ItemRequest {
+  id?: string,
   userId: string,
   name: string,
   price: number,

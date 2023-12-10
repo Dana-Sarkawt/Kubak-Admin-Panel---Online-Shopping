@@ -8,7 +8,7 @@ export interface ICardsRepository {
 
     createCard(card: CreateCardRequest): Promise<void>;
 
-    updateCard(card: Card): Promise<Card>;
+    updateCard(card: CreateCardRequest): Promise<Card>;
 
     deleteCard(id: string): Promise<void>;
 }

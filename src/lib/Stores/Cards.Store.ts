@@ -76,8 +76,8 @@ const createCardStore = () => {
           throw new Error(`Card not found with the following id:${card.id}`);
         }
 
-        if (card.webpageUrl != "") {
-          document.webpageUrl = card.webpageUrl;
+        if (card.webpageUrl == "") {
+          card.webpageUrl = document.webpageUrl as string;
         }
         if (card.image.url != "") {
           if (card.image.url instanceof File) {
@@ -85,10 +85,11 @@ const createCardStore = () => {
               card.image.url as File
             )) as string;
           }
-          document.cardImage = card.image.url;
+        }else{
+          card.image.url = document.cardImage;
         }
 
-        await cardRepository.updateCard(document);
+        await cardRepository.updateCard(card);
       } catch (e) {
         console.log("Error :", e);
       }
