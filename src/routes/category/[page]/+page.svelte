@@ -16,17 +16,17 @@
   };
 
   let pages: number = 0;
-  let popupModal:boolean = false;
+  let popupModal: boolean = false;
+  let categoryId: string = "";
 
   let loading = true;
   onMount(async () => {
     try {
       await categoryStore.getAll(filter);
+      console.log($categoryStore.data);
     } finally {
       loading = false;
     }
-    $toastStore;
-    console.log("Update Status", $toastStore);
   });
 
   $: {
@@ -36,7 +36,8 @@
   }
 
   async function deleteCategory(id: string) {
-    await categoryStore.delete(id);
+    console.log("Delete Category", id);
+    // await categoryStore.delete(id);
   }
 </script>
 
@@ -67,7 +68,7 @@
 
         <div
           class="absolute top-0 right-0 z-30 m-2 bg-red-600 text-white p-2 rounded-lg hover:bg-red-500 duration-300 ease-in-out"
-          on:click={() => (popupModal = true)}
+          on:click={() => {(popupModal = true); categoryId = category.id;}}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -97,24 +98,25 @@
           <p class="text-2xl">{category.name ?? "Rice"}</p>
         </a>
       </div>
-      <Modal bind:open={popupModal} size="xs" autoclose>
-        <div class="text-center">
-          <ExclamationCircleOutline
-            class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200"
-          />
-          <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-            Are you sure you want to Delete this Category?
-          </h3>
-          <Button
-            class="me-2 bg-red-500 p-2 w-auto h-10"
-            on:click={() => deleteCategory(category.id)}>Yes, I'm sure</Button
-          >
-          <Button color="alternative">No, cancel</Button>
-        </div>
-      </Modal>
     {/each}
   {/if}
 </div>
+
+<Modal bind:open={popupModal} size="xs" autoclose>
+  <div class="text-center">
+    <ExclamationCircleOutline
+      class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200"
+    />
+    <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+      Are you sure you want to Delete this Category?
+    </h3>
+    <Button
+      class="me-2 bg-red-500 p-2 w-auto h-10"
+      on:click={() => deleteCategory(categoryId)}>Yes, I'm sure</Button
+    >
+    <Button color="alternative">No, cancel</Button>
+  </div>
+</Modal>
 
 <Pagination name="category" {pages} {filter} Store={categoryStore} />
 

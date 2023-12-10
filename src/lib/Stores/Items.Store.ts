@@ -93,10 +93,10 @@ const createItemStore = () => {
       if (item.quantity == 0 && item.quantity <= 10000) {
         item.quantity = document.quantity;
       }
-      if (item.productionDate <= item.expiredDate) {
+      if (item.productionDate >= item.expiredDate) {
         item.productionDate = document.productionDate;
       }
-      if (item.expiredDate >= item.productionDate) {
+      if (item.expiredDate <= item.productionDate) {
         item.expiredDate = document.expiredDate;
       }
       if (item.categoryId.length != 0) {
@@ -112,7 +112,7 @@ const createItemStore = () => {
       }
       if (item.image.url == "") {
         item.image.url = document.itemImage;
-      }else{
+      } else {
         if (item.image.url instanceof File) {
           item.image.url = (await ImageToUrl(item.image.url as File)) as string;
         }
@@ -120,9 +120,11 @@ const createItemStore = () => {
       if (item.detail == "") {
         item.detail = document.detail;
       }
+      if(item.userId == ""){
+        item.userId = document.userId;
+      }
 
       await itemsRepository.updateItem(item);
-      goto("/items");
     },
     delete: async (id: string) => {
       try {

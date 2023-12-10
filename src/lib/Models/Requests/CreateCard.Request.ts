@@ -10,7 +10,6 @@ export interface CreateCardRequest {
 }
 
 export interface CardRequest {
-  id?: string,
   userId: string,
   webpageUrl: string,
   expirationDate: Date,

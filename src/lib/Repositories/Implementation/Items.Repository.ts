@@ -74,27 +74,32 @@ export class ItemsRepository implements IItemsRepository {
       console.log(error);
     }
   }
-  updateItem(item: CreateItemRequest): Promise<Item> {
+  async updateItem(item: CreateItemRequest): Promise<Item> {
     const itemRequest: ItemRequest = {
-      id: item.id as string,
-      userId: item.userId as string,
       name: item.name,
       price: item.price,
-      itemImage: item.image.url as string,
       productionDate: item.productionDate as Date,
       expiredDate: item.expiredDate as Date,
       quantity: item.quantity,
-      detail: item.detail!,
+      detail: item.detail as string,
+      itemImage: item.image.url as string,
+      userId: item.userId as string,
       category: item.categoryId,
     };
-    const itemResult = Appwrite.databases.updateDocument(
-      Environment.appwrite_database,
-      Environment.appwrite_collection_item,
-      itemRequest.id as string,
-      itemRequest
-    ) as Promise<Item>;
+    try {
+      const itemResult = (await Appwrite.databases.updateDocument(
+        Environment.appwrite_database,
+        Environment.appwrite_collection_item,
+        item.id as string,
+        itemRequest
+      )) as Item;
 
-    return itemResult;
+      console.log("Item In repository", itemResult);
+
+      return itemResult;
+    } catch (e) {
+      throw e;
+    }
   }
 
   async deleteItem(id: string): Promise<void> {
