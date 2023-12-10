@@ -1,6 +1,4 @@
 <script lang="ts">
-  import { Environment } from "$lib/Env/Environment";
-  import OneSignal from "@nolanx/svelte-onesignal";
   import "../app.postcss";
   import Sidebar from "$lib/Components/Sidebar.Component.svelte";
   import Navbar from "$lib/Components/Navbar.Component.svelte";
@@ -15,10 +13,7 @@
   // let OneSignalDeferred: any = [];
 
   onMount(async () => {
-    // OneSignal.init({
-    //   appId: Environment.onesignal_app_id,
-    //   allowLocalhostAsSecureOrigin: true,
-    // });
+
 
     darkMode.subscribe(() => {
       checkDarkMode();
@@ -27,24 +22,7 @@
     if ($authStore && $page.url.pathname === "/login") {
       goto("/");
     }
-
-    // sendEmail();
   });
-
-  function sendEmail() {
-		fetch('/api/onesignal', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-		})
-			.then((res) => {
-				if (res.status === 200) {
-				} else {
-				}
-			})
-			.catch((err) => {});
-	}
 
   async function checkDarkMode() {
     const htmlTag = document.documentElement;

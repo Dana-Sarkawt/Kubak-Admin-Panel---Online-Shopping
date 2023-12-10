@@ -1,5 +1,12 @@
 <script lang="ts">
+  import { onMount } from "svelte";
+
   export let order_status: number;
+  export let orderId:string;
+
+  onMount(async () => {
+    console.log(orderId);
+  });
 </script>
 
 {#if order_status === 0}
