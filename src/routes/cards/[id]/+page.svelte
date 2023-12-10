@@ -49,12 +49,6 @@
       userId: card.userId,
     };
   });
-
-  async function update() {
-    await cardStore.update(options);
-    goto("/cards");
-    console.log(options);
-  }
 </script>
 
 <div class="container mx-auto h-auto">
