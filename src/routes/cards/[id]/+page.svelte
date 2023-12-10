@@ -52,6 +52,12 @@
       userId: card.userId,
     };
   });
+
+  async function update() {
+    await cardStore.update(options);
+    goto("/cards");
+    console.log(options);
+  }
 </script>
 
 <div class="container mx-auto h-auto">
@@ -109,7 +115,7 @@
     <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
       Are you sure you want to Update this Card?
     </h3>
-    <Button color="primary" class="me-2" on:click={() => create(options)}
+    <Button class="me-2 bg-[#f17f18] p-2 w-auto h-10" on:click={update}
       >Yes, I'm sure</Button
     >
     <Button color="alternative">No, cancel</Button>
