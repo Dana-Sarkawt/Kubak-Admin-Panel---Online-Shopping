@@ -8,9 +8,9 @@
   import type { CategoryDto } from "$lib/Models/DTO/Category.DTO.Model";
   import { Button, Modal } from "flowbite-svelte";
   import { ExclamationCircleOutline } from "flowbite-svelte-icons";
-  let open:boolean = false;
-  let color:string;
-  let popupModal:boolean = false;
+  let open: boolean = false;
+  let color: string;
+  let popupModal: boolean = false;
   let options: CreateCategoryRequest = {
     id: "",
     name: "",
@@ -94,10 +94,25 @@
   <button
     class="bg-[#f17f18] font-bold text-white py-3 px-8 rounded-xl duration-300"
     type="submit"
-    on:click={update}
+    on:click={() => (popupModal = true)}
     >Update Category
   </button>
 </div>
+
+<Modal bind:open={popupModal} size="xs" autoclose>
+  <div class="text-center">
+    <ExclamationCircleOutline
+      class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200"
+    />
+    <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+      Are you sure you want to Update this Category?
+    </h3>
+    <Button class="me-2 bg-[#f17f18] p-2 w-auto h-10" on:click={update}
+      >Yes, I'm sure</Button
+    >
+    <Button color="alternative">No, cancel</Button>
+  </div>
+</Modal>
 
 <style>
   input[type="file"] {
