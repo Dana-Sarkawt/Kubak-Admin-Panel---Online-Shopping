@@ -9,6 +9,8 @@ import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.M
 import { goto } from "$app/navigation";
 import type { Category } from "$lib/Models/Entities/Category.Entity.Model";
 import { CategoriesRepository } from "$lib/Repositories/Implementation/Categories.Repository";
+import { toastStore } from "./Toast.Store";
+import { ToastMessages } from "$lib/Models/Enums/Toast-Messages.Enum.Model";
 
 const itemsRepository = new ItemsRepository();
 const categoriesRepository = new CategoriesRepository();
@@ -73,58 +75,68 @@ const createItemStore = () => {
         }
 
         await itemsRepository.createItem(item);
+        toastStore.set(3);
         goto("/items/1");
       } catch (error: any) {
         console.log(error);
+        toastStore.set(ToastMessages.WARNING);
       }
     },
     update: async (item: CreateItemRequest) => {
-      const document = await itemsRepository.getItem(item.id as string);
-
-      if (document === null) {
-        throw new Error("Item Not Found");
-      }
-      if (item.name == "") {
-        item.name = document.name;
-      }
-      if (item.price == 0) {
-        item.price = document.price;
-      }
-      if (item.quantity == 0 && item.quantity <= 10000) {
-        item.quantity = document.quantity;
-      }
-      if (item.productionDate >= item.expiredDate) {
-        item.productionDate = document.productionDate;
-      }
-      if (item.expiredDate <= item.productionDate) {
-        item.expiredDate = document.expiredDate;
-      }
-      if (item.categoryId.length != 0) {
-        if (
-          document.category.length === item.categoryId.length &&
-          document.category.every(
-            (category, index) => category.$id === item.categoryId[index]
-          )
-        ) {
-          // Categories have the same id, change nothing
-          item.categoryId = document.category.map((category) => category.$id);
+      try {
+        
+        const document = await itemsRepository.getItem(item.id as string);
+  
+        if (document === null) {
+          throw new Error("Item Not Found");
         }
-      }
-      if (item.image.url == "") {
-        item.image.url = document.itemImage;
-      } else {
-        if (item.image.url instanceof File) {
-          item.image.url = (await ImageToUrl(item.image.url as File)) as string;
+        if (item.name == "") {
+          item.name = document.name;
         }
+        if (item.price == 0) {
+          item.price = document.price;
+        }
+        if (item.quantity == 0 && item.quantity <= 10000) {
+          item.quantity = document.quantity;
+        }
+        if (item.productionDate >= item.expiredDate) {
+          item.productionDate = document.productionDate;
+        }
+        if (item.expiredDate <= item.productionDate) {
+          item.expiredDate = document.expiredDate;
+        }
+        if (item.categoryId.length != 0) {
+          if (
+            document.category.length === item.categoryId.length &&
+            document.category.every(
+              (category, index) => category.$id === item.categoryId[index]
+            )
+          ) {
+            // Categories have the same id, change nothing
+            item.categoryId = document.category.map((category) => category.$id);
+          }
+        }
+        if (item.image.url == "") {
+          item.image.url = document.itemImage;
+        } else {
+          if (item.image.url instanceof File) {
+            item.image.url = (await ImageToUrl(item.image.url as File)) as string;
+          }
+        }
+        if (item.detail == "") {
+          item.detail = document.detail;
+        }
+        if(item.userId == ""){
+          item.userId = document.userId;
+        }
+  
+        await itemsRepository.updateItem(item);
+        toastStore.set(ToastMessages.SUCCESS);
+        goto("/items/1");
+      } catch (error) {
+        console.log("Error: ",error);
+        
       }
-      if (item.detail == "") {
-        item.detail = document.detail;
-      }
-      if(item.userId == ""){
-        item.userId = document.userId;
-      }
-
-      await itemsRepository.updateItem(item);
     },
     delete: async (id: string) => {
       try {
@@ -135,8 +147,10 @@ const createItemStore = () => {
 
         await itemsRepository.deleteItem(id);
         itemStore.getAll();
+        toastStore.set(ToastMessages.ERROR);
       } catch (error) {
         console.log(error);
+        toastStore.set(ToastMessages.WARNING);
       }
     },
   };

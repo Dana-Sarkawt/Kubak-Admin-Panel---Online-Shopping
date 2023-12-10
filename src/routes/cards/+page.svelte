@@ -1,8 +1,13 @@
 <script lang="ts">
   import { cardStore } from "$lib/Stores/Cards.Store";
-  import { Spinner } from "flowbite-svelte";
+  import { Button, Modal, Spinner } from "flowbite-svelte";
   import { onMount } from "svelte";
+  import Notification from "$lib/Components/Toasts.Notify.Component.svelte";
+  import { toastStore } from "$lib/Stores/Toast.Store";
+  import { ExclamationCircleOutline } from "flowbite-svelte-icons";
 
+  let popupModal: boolean = false;
+  let cardId: string = "";
   onMount(async () => {
     await cardStore.getAll();
     console.log($cardStore);
@@ -45,7 +50,7 @@
       <!-- svelte-ignore a11y-no-static-element-interactions -->
       <div
         class="absolute z-30 m-2 bg-red-600 text-white p-2 rounded-lg hover:bg-red-500 duration-300 ease-in-out"
-        on:click={()=>deleteCard(card.id)}
+        on:click={() => {(popupModal = true); cardId = card.id;}}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -75,3 +80,21 @@
  
   {/if}
 </div>
+
+
+<Modal bind:open={popupModal} size="xs" autoclose>
+  <div class="text-center">
+    <ExclamationCircleOutline
+      class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200"
+    />
+    <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+      Are you sure you want to Delete this Card?
+    </h3>
+    <Button
+      class="me-2 bg-red-500 p-2 w-auto h-10"
+      on:click={() => deleteCard(cardId)}>Yes, I'm sure</Button
+    >
+    <Button color="alternative">No, cancel</Button>
+  </div>
+</Modal>
+<Notification status={$toastStore} name="Card" />

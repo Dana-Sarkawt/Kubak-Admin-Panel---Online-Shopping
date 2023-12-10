@@ -1,6 +1,8 @@
 <script lang="ts">
   import moment from "moment";
   import {
+  Button,
+  Modal,
   Spinner,
     Table,
     TableBody,
@@ -15,12 +17,16 @@
   import { itemStore } from "$lib/Stores/Items.Store";
   import { page } from "$app/stores";
   import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
-
+  import Notification from "$lib/Components/Toasts.Notify.Component.svelte";
+  import { toastStore } from "$lib/Stores/Toast.Store";
+  import { ExclamationCircleOutline } from "flowbite-svelte-icons";
   let filter: GenericListOptions = {
     page: parseInt($page.params.page),
     limit: 7
   };
 
+  let popupModal: boolean = false;
+  let itemId: string = "";
   let pages: number;
   let loading = true; 
   onMount(async () => {
@@ -158,7 +164,7 @@ await itemStore.delete(id);
               </div>
             </a>
 
-            <a href="#" class="flex items-center justify-center h-12" on:click={()=>deleteItem(item.id)}>
+            <a href="#" class="flex items-center justify-center h-12" on:click={() => {(popupModal = true); itemId = item.id;}}>
               <div class="flex items-center justify-center h-12">
                 <img
                   src="/images/trash-bin.png"
@@ -174,4 +180,23 @@ await itemStore.delete(id);
   </Table>
 </div>
 {/if}
+
+<Modal bind:open={popupModal} size="xs" autoclose>
+  <div class="text-center">
+    <ExclamationCircleOutline
+      class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200"
+    />
+    <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+      Are you sure you want to Delete this Item?
+    </h3>
+    <Button
+      class="me-2 bg-red-500 p-2 w-auto h-10"
+      on:click={()=>deleteItem(itemId)}>Yes, I'm sure</Button
+    >
+    <Button color="alternative">No, cancel</Button>
+  </div>
+</Modal>
+
 <Pagination name="items" {pages} {filter} Store={itemStore} />
+
+<Notification status={$toastStore} name="Item" />

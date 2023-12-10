@@ -6,6 +6,8 @@ import { CardRepository } from "$lib/Repositories/Implementation/Card.Repository
 import { writable } from "svelte/store";
 import { ImageToUrl } from "../../utils/ImageToUrl.Utils";
 import { goto } from "$app/navigation";
+import { toastStore } from "./Toast.Store";
+import { ToastMessages } from "$lib/Models/Enums/Toast-Messages.Enum.Model";
 
 const cardRepository = new CardRepository();
 
@@ -62,6 +64,7 @@ const createCardStore = () => {
         }
 
         await cardRepository.createCard(card);
+        toastStore.set(3);
         goto("/cards");
       } catch (e) {
         console.log(e);
@@ -90,9 +93,11 @@ const createCardStore = () => {
         }
 
         await cardRepository.updateCard(card);
+        toastStore.set(ToastMessages.SUCCESS);
         goto("/cards");
       } catch (e) {
         console.log("Error :", e);
+        toastStore.set(ToastMessages.WARNING);
       }
     },
 
@@ -109,9 +114,11 @@ const createCardStore = () => {
 
         await cardStore.getAll();
 
+        toastStore.set(ToastMessages.ERROR);
         return "Deleted";
       } catch (e) {
         console.log("Error :", e);
+        toastStore.set(ToastMessages.WARNING);
       }
     },
   };
