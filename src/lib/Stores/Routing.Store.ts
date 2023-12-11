@@ -36,12 +36,12 @@ const createRoutingStore = () => {
         };
 
         let json:string =  JSON.stringify(requestJson);
-        const concateUrl = url.concat(json);
+        url = url.concat(json);
 
-        console.log(concateUrl);
+        console.log(url);
         
 
-        let requestUrl:string = baseUrl + concateUrl;
+        let requestUrl:string = baseUrl + url;
 
         const response = await fetch(requestUrl, {
           method: "GET",
