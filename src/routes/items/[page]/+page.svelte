@@ -1,9 +1,9 @@
 <script lang="ts">
   import moment from "moment";
   import {
-  Button,
-  Modal,
-  Spinner,
+    Button,
+    Modal,
+    Spinner,
     Table,
     TableBody,
     TableBodyCell,
@@ -20,15 +20,18 @@
   import Notification from "$lib/Components/Toasts.Notify.Component.svelte";
   import { toastStore } from "$lib/Stores/Toast.Store";
   import { ExclamationCircleOutline } from "flowbite-svelte-icons";
+  import type { ItemDto } from "$lib/Models/DTO/Item.DTO.Model";
   let filter: GenericListOptions = {
     page: parseInt($page.params.page),
-    limit: 7
+    limit: 7,
   };
+
+
 
   let popupModal: boolean = false;
   let itemId: string = "";
   let pages: number;
-  let loading = true; 
+  let loading = true;
   onMount(async () => {
     try {
       await itemStore.getAll(filter);
@@ -48,10 +51,15 @@
     await itemStore.getAll(filter);
   }
 
-  async function deleteItem(id:string) {
+  async function deleteItem(id: string) {
+    await itemStore.delete(id);
+  }
 
-await itemStore.delete(id);
-}
+  let isAscending = true; // Initially set to ascending order
+
+  function toggleSortOrder() {
+    isAscending = !isAscending;
+  }
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
@@ -68,6 +76,15 @@ await itemStore.delete(id);
       placeholder="Search for Items"
       class="dark:bg-[#212121] dark:text-white"
     />
+  </div>
+
+  <div class=" h-auto flex justify-center items-center">
+    <button
+      class="bg-white dark:bg-[#212121]  flex items-center justify-center dark:text-white text-gray-600 font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline border dark:border-gray-600"
+      on:click={toggleSortOrder}
+    >
+      Sort {isAscending ? "Low to High" : "High to Low"}
+    </button>
   </div>
 
   <div class="mb-6">
@@ -117,68 +134,83 @@ await itemStore.delete(id);
   </a>
 </div>
 
-
-
-
 {#if loading}
-<div class="w-full flex justify-center mt-12">
-
-  <Spinner />
-</div>
+  <div class="w-full flex justify-center mt-12">
+    <Spinner />
+  </div>
 {:else}
-<div class="container mx-auto px-12 mt-12">
-  <Table shadow>
-    <TableHead class="bg-[#2D2D2D] dark:bg-[#212121] text-white text-center">
-      <TableHeadCell>Image</TableHeadCell>
-      <TableHeadCell>Name</TableHeadCell>
-      <TableHeadCell>Production Date</TableHeadCell>
-      <TableHeadCell>Expiration Date</TableHeadCell>
-      <TableHeadCell>Quantity</TableHeadCell>
-      <TableHeadCell>Cost</TableHeadCell>
-      <TableHeadCell></TableHeadCell>
-    </TableHead>
-    <TableBody>
-      {#each $itemStore.data as item}
-        <TableBodyRow class="text-center dark:bg-[#272727]">
-          <TableBodyCell class="flex justify-center">
-            <img src={item.itemImage??"/images/item.png"} alt="" class="w-14" />
-          </TableBodyCell>
-          <TableBodyCell>{item.name}</TableBodyCell>
+  <div class="container mx-auto px-12 mt-12">
+    <Table shadow>
+      <TableHead class="bg-[#2D2D2D] dark:bg-[#212121] text-white text-center">
+        <TableHeadCell>Image</TableHeadCell>
+        <TableHeadCell>Name</TableHeadCell>
+        <TableHeadCell>Production Date</TableHeadCell>
+        <TableHeadCell>Expiration Date</TableHeadCell>
+        <TableHeadCell>Quantity</TableHeadCell>
+        <TableHeadCell>Cost</TableHeadCell>
+        <TableHeadCell></TableHeadCell>
+      </TableHead>
+      <TableBody>
+        {#each $itemStore.data as item}
+          <TableBodyRow class="text-center dark:bg-[#272727]">
+            <TableBodyCell class="flex justify-center">
+              <img
+                src={item.itemImage ?? "/images/item.png"}
+                alt=""
+                class="w-14"
+              />
+            </TableBodyCell>
+            <TableBodyCell>{item.name}</TableBodyCell>
 
-          <TableBodyCell
-            >{moment(item.productionDate).format("DD-MMM-YYYY")}</TableBodyCell
-          >
-          <TableBodyCell
-            >{moment(item.expiredDate).format("DD-MMM-YYYY")}</TableBodyCell
-          >
-          <TableBodyCell>{item.quantity}</TableBodyCell>
-          <TableBodyCell>{item.price}</TableBodyCell>
-          <TableBodyCell tdClass="w-16 h-24 flex gap-2 justify-center items-center mr-4" class="flex justify-center items-center">
-            <a href="/items/edit/{item.id}" class="flex items-center justify-center h-12">
-              <div class="flex items-center justify-center h-12">
-                <img
-                  src="/images/edit.png"
-                  alt=""
-                  class="w-12 bg-green-500  hover:bg-green-400 ease-in-out duration-300  p-1 rounded-md "
-                />
-              </div>
-            </a>
+            <TableBodyCell
+              >{moment(item.productionDate).format(
+                "DD-MMM-YYYY"
+              )}</TableBodyCell
+            >
+            <TableBodyCell
+              >{moment(item.expiredDate).format("DD-MMM-YYYY")}</TableBodyCell
+            >
+            <TableBodyCell>{item.quantity}</TableBodyCell>
+            <TableBodyCell>{item.price}</TableBodyCell>
+            <TableBodyCell
+              tdClass="w-16 h-24 flex gap-2 justify-center items-center mr-4"
+              class="flex justify-center items-center"
+            >
+              <a
+                href="/items/edit/{item.id}"
+                class="flex items-center justify-center h-12"
+              >
+                <div class="flex items-center justify-center h-12">
+                  <img
+                    src="/images/edit.png"
+                    alt=""
+                    class="w-12 bg-green-500 hover:bg-green-400 ease-in-out duration-300 p-1 rounded-md"
+                  />
+                </div>
+              </a>
 
-            <a href="#" class="flex items-center justify-center h-12" on:click={() => {(popupModal = true); itemId = item.id;}}>
-              <div class="flex items-center justify-center h-12">
-                <img
-                  src="/images/trash-bin.png"
-                  alt=""
-                  class="w-12 bg-red-600  hover:bg-red-500 ease-in-out duration-300  p-1 rounded-md"
-                />
-              </div>
-            </a>
-          </TableBodyCell>
-        </TableBodyRow>
-      {/each}
-    </TableBody>
-  </Table>
-</div>
+              <a
+                href="#"
+                class="flex items-center justify-center h-12"
+                on:click={() => {
+                  popupModal = true;
+                  itemId = item.id;
+                }}
+              >
+                <div class="flex items-center justify-center h-12">
+                  <img
+                    src="/images/trash-bin.png"
+                    alt=""
+                    class="w-12 bg-red-600 hover:bg-red-500 ease-in-out duration-300 p-1 rounded-md"
+                  />
+                </div>
+              </a>
+            </TableBodyCell>
+          </TableBodyRow>
+        {/each}
+      </TableBody>
+    </Table>
+  </div>
 {/if}
 
 <Modal bind:open={popupModal} size="xs" autoclose>
@@ -191,7 +223,7 @@ await itemStore.delete(id);
     </h3>
     <Button
       class="me-2 bg-red-500 p-2 w-auto h-10"
-      on:click={()=>deleteItem(itemId)}>Yes, I'm sure</Button
+      on:click={() => deleteItem(itemId)}>Yes, I'm sure</Button
     >
     <Button color="alternative">No, cancel</Button>
   </div>

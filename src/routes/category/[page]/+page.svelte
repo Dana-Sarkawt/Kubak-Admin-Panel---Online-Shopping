@@ -60,7 +60,7 @@
   {:else}
     {#each $categoryStore.data as category}
       <div
-        class="md:w-28 md:h-36 lg:w-44 lg:h-60 2xl:w-64 2xl:h-96 bg-white dark:bg-[#212121] dark:text-white px-5 flex justify-around items-center flex-col rounded-xl mb-5 relative top-0 hover:border-[#f17f18] hover:border ease-in-out duration-100 cursor-pointer"
+        class="md:w-28 md:h-36 lg:w-44 lg:h-60 2xl:w-64 2xl:h-96 bg-white dark:bg-[#212121] dark:text-white px-2 flex justify-around items-center flex-col rounded-xl  relative top-0 hover:border-[#f17f18] hover:border ease-in-out duration-100 cursor-pointer"
       >
         <!-- svelte-ignore a11y-click-events-have-key-events -->
         <!-- svelte-ignore a11y-no-static-element-interactions -->
@@ -87,14 +87,14 @@
 
         <a
           href="/category/edit/{category.id}"
-          class="text-center flex flex-col"
+          class="text-center h-36 flex flex-col justify-center items-center p-2 gap-2"
         >
           <img
             src={category.categoryImage ?? "/images/category.png"}
             alt=""
-            class="object-cover object-center m-2 h-[130px] rounded-lg"
+            class="object-cover object-center  w-auto  h-auto rounded-lg"
           />
-          <p class="text-2xl">{category.name ?? "Rice"}</p>
+          <p class="text-md lg:text-2xl text-center">{category.name ?? "Rice"}</p>
         </a>
       </div>
     {/each}

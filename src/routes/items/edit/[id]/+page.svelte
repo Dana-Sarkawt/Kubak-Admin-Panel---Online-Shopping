@@ -100,7 +100,7 @@
     <img
       src={options.image.localUrl ?? "/images/addImage.jpg"}
       alt=""
-      class="object-cover w-44 h-44 object-center p-1 rounded-xl flex"
+      class="object-contain w-44 h-44 object-center p-1 rounded-xl flex"
     />
   </div>
 
@@ -109,6 +109,7 @@
     id="uploadBtn"
     on:input={handleInputChange}
     on:change={handleFileChange}
+    accept=".jpg, .jpeg, .png"
   />
   <label for="uploadBtn" class=" bg-[#f0f0f0] dark:bg-[#363636]"
     >Add Image</label

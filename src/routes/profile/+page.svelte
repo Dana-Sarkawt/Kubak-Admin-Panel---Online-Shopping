@@ -6,6 +6,7 @@
     import { itemStore } from "$lib/Stores/Items.Store";
     import { Label, Input } from "flowbite-svelte";
     import { MultiSelect } from "flowbite-svelte";
+  import moment from "moment";
     import { onMount } from "svelte";
    
     let options: CreateAuthRequest = {
@@ -27,7 +28,7 @@
         id: $authStore!.id, 
         name: $authStore!.name,
         prefs:{
-            birthday: $authStore?.birthday as Date,
+            birthday: moment($authStore?.birthday).format("YYYY-MM-DD") as unknown as Date,
             gender:$authStore?.gender as Gender,
             image:{
                 url: "",
@@ -72,7 +73,7 @@
     />
   </div>
   
-    <input type="file" id="uploadBtn" on:change={handleFileChange} />
+    <input type="file" id="uploadBtn" on:change={handleFileChange} accept=".jpg, .jpeg, .png"/>
     <label for="uploadBtn" class=" bg-[#f0f0f0] dark:bg-[#363636]"
       >Add Image</label
     >
