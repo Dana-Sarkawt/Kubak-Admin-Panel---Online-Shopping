@@ -2,7 +2,7 @@
   import { goto } from "$app/navigation";
   import type { CreateCategoryRequest } from "$lib/Models/Requests/CreateCategory.Request";
   import { categoryStore } from "$lib/Stores/Categories.Store";
-  import { Label, Input } from "flowbite-svelte";
+  import { Label, Input, Spinner, Button } from "flowbite-svelte";
 
   let options: CreateCategoryRequest = {
     id: null,
@@ -23,10 +23,16 @@
     options.image.localUrl = URL.createObjectURL(file);
   }
 
+  let isLoading = false;
   async function create() {
-    options.userId = "6559e81344d4547079c9";
-    await categoryStore.create(options);
-    goto("/category/1");
+    isLoading = true;
+    try{
+      options.userId = "6559e81344d4547079c9";
+      await categoryStore.create(options);
+      goto("/category/1");
+    }finally{
+      isLoading = false;
+    }
   }
 
 </script>
@@ -75,8 +81,19 @@
     class="bg-[#f17f18] font-bold text-white py-3 px-8 rounded-xl duration-300"
     type="submit"
     on:click={create}
-    disabled={!options.name || !options.image.url}
-    >Add Category
+    disabled={!options.name || !options.image.url || isLoading}
+    >
+    {#if isLoading}
+    
+      <p>
+        <Spinner class="me-3" size="4" color="white" />
+        Loading
+      </p>
+      
+
+    {:else}
+    Add Category
+    {/if}
   </button>
 </div>
 

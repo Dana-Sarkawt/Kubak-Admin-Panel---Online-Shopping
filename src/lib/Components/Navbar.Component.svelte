@@ -11,13 +11,13 @@
   class="w-4/5 h-20 bg-white dark:bg-[#252525] flex flex-row float-right justify-end items-center"
 >
   <div class="w-3/4 flex justify-center items-center gap-3 mr-12">
-    <a href="/profile" class="flex justify-cennter items-center gap-3">
+    <a href="/profile" class="flex justify-cennter items-center gap-3 px-2 rounded-lg hover:bg-gray-200  dark:hover:bg-[#363636]">
 
       <p class="font-bold dark:text-white">{$authStore?.name??"Your name"}</p>
       <img
         src={ $authStore?.imgUrl || "/images/user.png"}
         alt=""
-        class="w-16 h-16 rounded-full object-cover bg-no-repeat object-center"
+        class="w-16 h-16 rounded-full object-cover bg-no-repeat object-center my-1"
       />
     </a>
     </div>
