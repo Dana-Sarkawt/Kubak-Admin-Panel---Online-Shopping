@@ -7,6 +7,8 @@
   import { onMount } from "svelte";
   import { authStore } from "$lib/Stores/Auth.Store";
   import { goto } from "$app/navigation";
+  import { routingStore } from "$lib/Stores/Routing.Store";
+  import type { LngLat } from "$lib/Models/Common/LngLat.Common.Model";
   $: pathUrl = $page.url.pathname;
 
   // let window: any;
@@ -22,6 +24,17 @@
     if ($authStore && $page.url.pathname === "/login") {
       goto("/");
     }
+    let source:LngLat = {
+      lat: 35.553831466871,
+      lng: 45.395440757275
+    }
+
+    let destination:LngLat = {
+      lat: 35.563564144067,
+      lng: 45.396189428866
+    }
+
+    await routingStore.create(source, destination);
   });
 
   async function checkDarkMode() {
