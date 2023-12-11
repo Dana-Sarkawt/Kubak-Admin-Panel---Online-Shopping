@@ -71,10 +71,11 @@
       src={options.image.localUrl ?? "/images/category.png"}
       alt=""
       class="object-cover w-44 h-44 object-center p-1 rounded-xl flex"
+
     />
   </div>
 
-  <input type="file" id="uploadBtn" on:change={handleFileChange} />
+  <input type="file" id="uploadBtn" on:change={handleFileChange} accept=".jpg, .jpeg, .png"/>
   <label
     for="uploadBtn"
     class="font-bold hover:bg-gray-800 bg-[#f0f0f0] text-[#f17f18] dark:bg-[#363636] hover:text-white transition-all"

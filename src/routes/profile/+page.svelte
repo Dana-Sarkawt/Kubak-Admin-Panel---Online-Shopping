@@ -72,7 +72,7 @@
     />
   </div>
   
-    <input type="file" id="uploadBtn" on:change={handleFileChange} />
+    <input type="file" id="uploadBtn" on:change={handleFileChange} accept=".jpg, .jpeg, .png"/>
     <label for="uploadBtn" class=" bg-[#f0f0f0] dark:bg-[#363636]"
       >Add Image</label
     >
