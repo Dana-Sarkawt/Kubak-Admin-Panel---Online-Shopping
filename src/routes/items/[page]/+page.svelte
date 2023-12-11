@@ -26,8 +26,6 @@
     limit: 7,
   };
 
-
-
   let popupModal: boolean = false;
   let itemId: string = "";
   let pages: number;
@@ -78,15 +76,6 @@
     />
   </div>
 
-  <div class=" h-auto flex justify-center items-center">
-    <button
-      class="bg-white dark:bg-[#212121]  flex items-center justify-center dark:text-white text-gray-600 font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline border dark:border-gray-600"
-      on:click={toggleSortOrder}
-    >
-      Sort {isAscending ? "Low to High" : "High to Low"}
-    </button>
-  </div>
-
   <div class="mb-6">
     <Label for="large-input" class="block mb-2">From</Label>
     <Input
@@ -113,6 +102,15 @@
       >Reset Date
     </button>
   </a>
+
+  <div class=" h-auto flex justify-center items-center">
+    <button
+      class="bg-white dark:bg-[#212121] flex items-center justify-center dark:text-white text-gray-600 py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline border dark:border-gray-600"
+      on:click={toggleSortOrder}
+    >
+      {isAscending ? "A-Z" : "Z-A"}
+    </button>
+  </div>
 
   <!-- svelte-ignore a11y-click-events-have-key-events -->
   <!-- svelte-ignore a11y-no-static-element-interactions -->
