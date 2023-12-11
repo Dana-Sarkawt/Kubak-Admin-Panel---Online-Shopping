@@ -78,7 +78,7 @@
     <div
       class="w-[30%] h-[300px] 2xl:h-[500px] flex flex-col justify-start items-center bg-white dark:text-white dark:bg-[#212121] rounded-2xl gap-2 p-2"
     >
-      <p class="text-lg lg:text-2xl 2xl:text-5xl">Lowest Order Items</p>
+      <p class="text-md lg:text-xl 2xl:text-3xl">Lowest Order Items</p>
 
       <!--  START FIRST LOWEST ORDER CARD  -->
 
@@ -104,7 +104,7 @@
     <div
       class="w-[30%] h-[300px] 2xl:h-[500px] flex flex-col justify-start items-center bg-white dark:bg-[#212121] dark:text-white rounded-2xl gap-2 p-2"
     >
-      <p class="text-lg lg:text-2xl 2xl:text-5xl">Most Order Items</p>
+      <p class="text-md lg:text-xl 2xl:text-3xl">Most Order Items</p>
 
       {#each mostItems as items}
         <div
