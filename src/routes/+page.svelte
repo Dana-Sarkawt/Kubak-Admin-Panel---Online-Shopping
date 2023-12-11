@@ -98,7 +98,7 @@
         </div>
       {/each}
       <!-- svelte-ignore a11y-invalid-attribute -->
-      <a href="#" class="text-[#f17f18]">See More</a>
+      <a href="/report/order/1" class="text-[#f17f18]">See More</a>
     </div>
     <!--  END LOWEST ORDER CARD  -->
     <div
@@ -122,7 +122,7 @@
         </div>
       {/each}
       <!-- svelte-ignore a11y-invalid-attribute -->
-      <a href="#" class="text-[#f17f18]">See More</a>
+      <a href="/report/order/1" class="text-[#f17f18]">See More</a>
     </div>
     <!--  END MOST ORDER CARD  -->
   </div>
@@ -194,7 +194,7 @@
         <p class="text-lg lg:text-2xl 2xl:text-5xl">Order</p>
         <p class="bg-black px-2 py-px rounded-full text-white text-sm">Today</p>
         <!-- svelte-ignore a11y-invalid-attribute -->
-        <a href="#" class="text-[#f17f18]">See More</a>
+        <a href="/report/order/1" class="text-[#f17f18]">See More</a>
       </div>
 
       <!--  START FIRST ORDER CARD  -->
