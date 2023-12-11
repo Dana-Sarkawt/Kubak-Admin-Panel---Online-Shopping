@@ -1,14 +1,16 @@
 import { Environment } from "$lib/Env/Environment";
-import type { LngLat } from "$lib/Models/Common/LngLat.Common.Model";
+import type { Direction, LngLat } from "$lib/Models/Common/LngLat.Common.Model";
+import type { ValhallaRoute } from "$lib/Models/Entities/Valhalla-Trip.Entity.Model";
 import type { CreateValhallaRoutingRequest } from "$lib/Models/Requests/CreateValhallaRouting.Request";
 import { writable } from "svelte/store";
+import { decodeFromPolyline6 } from "../../utils/ValhallaShapeDecode.Utils";
 
 const createRoutingStore = () => {
-  const { subscribe, set, update } = writable<CreateValhallaRoutingRequest>();
+  const { subscribe, set, update } = writable<Direction[]>();
   return {
     subscribe,
-    set: (value: CreateValhallaRoutingRequest) => set(value),
-    create:async (
+    set: (value: Direction[]) => set(value),
+    create: async (
       source: LngLat,
       destination: LngLat,
       excludePolygon?: number,
@@ -35,13 +37,12 @@ const createRoutingStore = () => {
           excludePolygon: excludePolygon ? [excludePolygon] : undefined,
         };
 
-        let json:string =  JSON.stringify(requestJson);
+        let json: string = JSON.stringify(requestJson);
         url = url.concat(json);
 
         console.log(url);
-        
 
-        let requestUrl:string = baseUrl + url;
+        let requestUrl: string = baseUrl + url;
 
         const response = await fetch(requestUrl, {
           method: "GET",
@@ -50,11 +51,25 @@ const createRoutingStore = () => {
           },
         });
 
-        if(!response){
+        if (!response) {
           throw new Error("No Response Was Found");
         }
 
-        console.log("Route Calculation ",JSON.parse(await response.text()));
+        const route: ValhallaRoute = JSON.parse(await response.text()).trip;
+
+        let directions: Direction[] = route.legs.map((leg) => {
+          return {
+            route: leg.shape,
+            distance: leg.summary.length * 1000,
+            duration: leg.summary.time,
+          };
+        });
+
+        directions[0].route = decodeFromPolyline6(
+          directions[0].route as string
+        );
+
+        set(directions);
       } catch (error) {
         console.error(error);
       }

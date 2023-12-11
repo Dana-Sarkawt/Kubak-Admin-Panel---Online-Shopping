@@ -12,6 +12,8 @@
   import { itemsBlockerStore } from "$lib/Stores/ItemsBlocker.Store";
   import type { OrderDto } from "$lib/Models/DTO/Order.DTO.Model";
   import type { Order } from "$lib/Models/Entities/Order.Entities.Model";
+  import type { LngLat } from "$lib/Models/Common/LngLat.Common.Model";
+  import { routingStore } from "$lib/Stores/Routing.Store";
 
   let L: any;
   let map: any;
@@ -66,6 +68,7 @@
   async function loadMap() {
     // @ts-ignore
     L = await import("leaflet");
+
     if (map) {
       map.remove();
     }
@@ -123,6 +126,14 @@
   async function getItemsOrder(order: OrderDto) {
     order_status = order.status;
     orderId = order.id;
+
+    let mapData: LngLat[] = Array.isArray($routingStore[0].route)
+      ? $routingStore[0].route.map((route: LngLat) => {
+          return route as LngLat;
+        })
+      : [];
+
+      L.polyline(mapData, {color: 'red'}).addTo(map);
     map.setView([order.address?.latitude, order.address?.longitude], 16);
     const itemsBlocker = await itemsBlockerStore.getAll(order.id);
     items =

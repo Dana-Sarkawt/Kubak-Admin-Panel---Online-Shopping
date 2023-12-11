@@ -4,7 +4,7 @@ export interface LngLat {
 }
 
 export interface Direction {
-    route:string,
+    route:string | LngLat[],
     distance:number,
     duration:number,
 }
