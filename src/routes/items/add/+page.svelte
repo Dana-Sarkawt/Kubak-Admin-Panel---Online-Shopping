@@ -3,7 +3,7 @@
   import { authStore } from "$lib/Stores/Auth.Store";
   import { categoryStore } from "$lib/Stores/Categories.Store";
   import { itemStore } from "$lib/Stores/Items.Store";
-  import { Label, Input } from "flowbite-svelte";
+  import { Label, Input, Spinner } from "flowbite-svelte";
   import { MultiSelect } from "flowbite-svelte";
   import { onMount } from "svelte";
   let options: CreateItemRequest = {
@@ -45,11 +45,16 @@
     options.image.localUrl = URL.createObjectURL(file);
   }
 
+  let isLoading = false;
   async function create(options: CreateItemRequest) {
-    options.userId = $authStore?.id ?? "";
-    options.categoryId = selected;
-    console.log(options);
-    await itemStore.create(options);
+    isLoading = true;
+    try{
+      options.categoryId = selected;
+      console.log(options);
+      await itemStore.create(options);
+    }finally{
+      isLoading = false;
+    }
   }
 
   let inputValue = "";
@@ -176,14 +181,26 @@
   </div>
   <button
     on:click={() => create(options)}
-    disabled={!options.name ||
+    disabled={!options.name || isLoading ||
       !options.image.url ||
       !options.price ||
       !options.quantity ||
       !options.productionDate ||
       !options.expiredDate}
     class="bg-[#f17f18] font-bold text-white py-3 px-8 rounded-xl"
-    type="submit">Add Item</button
+    type="submit">
+    {#if isLoading}
+    
+      <p>
+        <Spinner class="me-3" size="4" color="white" />
+        Loading
+      </p>
+      
+
+    {:else}
+    Add Item
+    {/if}
+    </button
   >
 </div>
 

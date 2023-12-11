@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Label, Input } from "flowbite-svelte";
+  import { Label, Input, Spinner } from "flowbite-svelte";
   import type { CreateCardRequest } from "$lib/Models/Requests/CreateCard.Request";
   import { authStore } from "$lib/Stores/Auth.Store";
   import { cardStore } from "$lib/Stores/Cards.Store";
@@ -23,10 +23,16 @@
     options.image.localUrl = URL.createObjectURL(file);
   }
 
+  let isLoading = false;
   async function create(options: CreateCardRequest) {
+    isLoading = true;
+    try{
       options.userId = $authStore?.id as string;
       await cardStore.create(options);
+    }finally{
+      isLoading = false;
   }
+}
 </script>
 
 <div class="container mx-auto h-auto">
@@ -47,7 +53,7 @@
     class="w-11/12 h-60 object-cover object-center rounded-xl flex bg-[#B0AFAF]"
   />
 
-  <input type="file" id="uploadBtn" on:change={handleFileChange} />
+  <input type="file" id="uploadBtn" on:change={handleFileChange} accept=".jpg, .jpeg, .png"/>
   <label for="uploadBtn" class="dark:bg-[#363636]">Add Image</label>
 
   <div class="mb-6 w-4/5 flex justify-center items-start flex-col">
@@ -72,8 +78,20 @@
   <button
     class="bg-[#f17f18] font-bold text-white py-3 px-8 rounded-xl"
     type="submit" on:click={()=>create(options)}
-    disabled={!options.webpageUrl || !options.expirationDate || !options.image.url}
-    >Add Card</button
+    disabled={!options.webpageUrl || isLoading || !options.expirationDate || !options.image.url}
+    >
+    {#if isLoading}
+    
+    <p>
+      <Spinner class="me-3" size="4" color="white" />
+      Loading
+    </p>
+    
+
+    {:else}
+    Add Card
+    {/if}
+    </button
   >
 </div>
 
