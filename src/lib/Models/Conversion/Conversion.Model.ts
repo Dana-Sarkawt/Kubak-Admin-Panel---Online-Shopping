@@ -13,6 +13,7 @@ import type { AddressDto } from "$lib/Models/DTO/Address.DTO.Model";
 import { BuildingType } from "$lib/Models/Enums/BuildingType.Enum.Model";
 import type { ItemsBlocker } from "../Entities/ItemBlocker.Entity.Model";
 import type { ItemsBlockerDto } from "../DTO/ItemBlocker.DTO.Model";
+import { Gender } from "../Enums/Gender.Enum.Model";
 
 export class Dto {
   static ToCardDto(card: Card): CardDto | null {

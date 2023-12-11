@@ -7,6 +7,7 @@ import type {
   CreateAuthRequest,
 } from "$lib/Models/Requests/CreateAuth.Request";
 import type { IAuthRepository } from "$lib/Repositories/Interface/I.Auth.Repository";
+import { authStore } from "$lib/Stores/Auth.Store";
 import { ID } from "appwrite";
 
 export class AuthRepository implements IAuthRepository {
@@ -77,16 +78,16 @@ export class AuthRepository implements IAuthRepository {
   }
 
   private async filterUpdatingOptions(options?: AuthRequest): Promise<void> {
-    if (options?.name === "") {
+    if (options?.name != "" ) {
       await Appwrite.account.updateName(options?.name as string);
     }
     if (options?.prefs.image === "") {
       options!.prefs.image = (await Appwrite.account.getPrefs()).image;
     }
-    if (options?.prefs.gender === 0) {
+    if (options?.prefs.gender) {
       options!.prefs.gender = (await Appwrite.account.getPrefs()).gender;
     }
-    if (options?.prefs.birthday) {
+    if (options?.prefs.birthday === "") {
       options!.prefs.birthday = (await Appwrite.account.getPrefs()).birthday;
     }
 

@@ -1,5 +1,6 @@
 <script lang="ts">
-  import type { Gender } from "$lib/Models/Enums/Gender.Enum.Model";
+  import type { Auth } from "$lib/Models/Entities/Auth.Entity.Model";
+  import { Gender } from "$lib/Models/Enums/Gender.Enum.Model";
   import type { CreateAuthRequest } from "$lib/Models/Requests/CreateAuth.Request";
   import { authStore } from "$lib/Stores/Auth.Store";
   import { Label, Input } from "flowbite-svelte";
@@ -17,15 +18,18 @@
       },
     },
   };
-
+  let genders: number[] = Object.values(Gender).filter(
+    (value) => typeof value === "number"
+  ) as number[];
+  
   onMount(async () => {
     await authStore.get();
     options = {
       id: $authStore!.id,
       name: $authStore!.name,
       prefs: {
-        birthday: ($authStore?.birthday as string) ?? new Date(),
-        gender: ($authStore?.gender as Gender) ?? 0,
+        birthday: ($authStore?.birthday as Date) ?? new Date(),
+        gender: parseInt($authStore?.gender +"") ?? 0,
         image: {
           url: "",
           localUrl: ($authStore!.imgUrl as string) ?? "",
@@ -50,6 +54,7 @@
     await authStore.update(options);
     window.location.reload();
   }
+
 </script>
 
 <div
@@ -89,24 +94,27 @@
     <div class="w-full flex flex-col mt-2">
       <Label for="large-input" class="block mb-2">Gender</Label>
       <select
+        bind:value={options.prefs.gender}
         name=""
         id=""
         class="rounded-lg dark:bg-[#363636] dark:text-white border-gray-300 dark:border-gray-500"
       >
-        <option value="Male">Male</option>
-        <option value="Female">Female</option>
+        {#each genders as gender}
+          <option value={gender}>{Gender[gender]}</option>
+        {/each}
       </select>
     </div>
     <div class="w-full flex items-center justify-center gap-2 my-3">
       <div class="w-full flex flex-col">
         <Label for="large-input" class="block mb-2">Birthday</Label>
-          <Input
-            id="large-input"
-            size="lg"
-            required
-            type="date"
-            class="w-full rounded-xl dark:bg-[#363636] dark:text-white"
-          />
+        <Input
+          bind:value={options.prefs.birthday}
+          id="large-input"
+          size="lg"
+          required
+          type="date"
+          class="w-full rounded-xl dark:bg-[#363636] dark:text-white"
+        />
       </div>
     </div>
   </div>

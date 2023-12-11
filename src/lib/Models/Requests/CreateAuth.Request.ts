@@ -3,7 +3,7 @@ import type { Gender } from "$lib/Models/Enums/Gender.Enum.Model";
 export interface CreateAuthRequest {
   id?: string | null,
   name?: string,
-  prefs?: Prefs,
+  prefs: Prefs,
 }
 
 interface Prefs {

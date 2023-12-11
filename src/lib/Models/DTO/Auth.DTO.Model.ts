@@ -5,7 +5,7 @@ export interface AuthDto {
     name: string,
     phone: string,
     imgUrl?: string,
-    gender?: Gender,
+    gender?: number,
     birthday?: Date | string,
     roles: string[],
 }
