@@ -56,7 +56,7 @@ export class Dto {
       imgUrl: auth.prefs!.image as string,
       roles: auth.labels,
       gender:auth.prefs?.gender as number,
-      birthday:auth.prefs?.birthday as Date,
+      birthday:auth.prefs?.birthday as string,
     };
   }
 

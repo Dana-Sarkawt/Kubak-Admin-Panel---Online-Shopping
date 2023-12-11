@@ -8,7 +8,7 @@ export interface CreateAuthRequest {
 
 interface Prefs {
   gender: Gender,
-  birthday: Date,
+  birthday: Date | string,
   image: {
     url: string | File,
     localUrl?: string | null,
@@ -17,7 +17,7 @@ interface Prefs {
 
 interface RequestPrefs {
     gender: Gender,
-    birthday: Date,
+    birthday: Date | string,
     image: string
   }
 

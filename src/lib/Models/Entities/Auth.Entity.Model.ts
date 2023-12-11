@@ -12,7 +12,7 @@ export interface Auth extends DatabaseAuth {
     prefs: {
         gender: number,
         image: string | null,
-        birthday: Date | null
+        birthday: Date | string | null
     } | null,
     registration: string,
     status: boolean,
