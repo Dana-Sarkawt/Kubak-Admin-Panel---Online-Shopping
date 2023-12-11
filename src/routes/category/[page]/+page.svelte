@@ -36,7 +36,6 @@
   }
 
   async function deleteCategory(id: string) {
-    console.log("Delete Category", id);
     await categoryStore.delete(id);
   }
 </script>
