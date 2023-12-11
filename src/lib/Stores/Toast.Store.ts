@@ -1,10 +1,8 @@
 import { ToastMessages } from "$lib/Models/Enums/Toast-Messages.Enum.Model";
-import { get, writable } from "svelte/store";
-
-const toastsStore = writable<ToastMessages>(ToastMessages.DEFAULT);
+import { writable } from "svelte/store";
 
 const createToastStore = () => {
-  const { subscribe, set, update } = toastsStore;
+  const { subscribe, set, update } = writable<ToastMessages>(ToastMessages.DEFAULT);;
 
   return {
     subscribe,

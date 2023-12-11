@@ -44,4 +44,7 @@ export namespace Environment {
   export const onesignal_app_id: string = ENVIRONMENT.VITE_ONESIGNAL_APP_ID;
   export const onesignal_rest_api_key: string = ENVIRONMENT.VITE_ONESIGNAL_REST_API_KEY;
   export const onesignal_user_auth_key: string = ENVIRONMENT.VITE_ONESIGNAL_USER_AUTH_KEY;
+
+  // Valhalla Config
+  export const valhalla_endpoint: string = ENVIRONMENT.VITE_VALHALLA_ENDPOINT;
 }

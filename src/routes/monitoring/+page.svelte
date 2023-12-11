@@ -20,49 +20,47 @@
   let totalAmount: number = 0;
   let markers: any[] = [];
   let order_status: number = -2;
-  let orderId:string = "";
+  let orderId: string = "";
 
   onMount(async () => {
     await loadMap();
 
     await ordersStore.getAll();
     darkMode.subscribe((value) => {
-      if (map) {
+      if (map && tileLayer) {
         map.removeLayer(tileLayer);
         tileLayer = createTileLayer(value);
         tileLayer.addTo(map);
       }
-
-      $ordersStore.data.map((order) => {
-        const myIcon = L.icon({
-          iconUrl: `images/${OrderStatus[order.status]}.png`,
-          iconSize: [38, 38],
-        });
-
-        markers.push({
-          marker: L.marker(
-            [order.address?.latitude, order.address?.longitude],
-            { icon: myIcon }
-          )
-            .addTo(map)
-            .on("click", function (e: any) {
-              getItemsOrder(order);
-            }),
-          id: order.id,
-        });
+    });
+    $ordersStore.data.map((order) => {
+      const myIcon = L.icon({
+        iconUrl: `images/${OrderStatus[order.status]}.png`,
+        iconSize: [38, 38],
       });
 
-      Appwrite.appwrite.subscribe(
-        `databases.${Environment.appwrite_database}.collections.${Environment.appwrite_collection_order}.documents`,
-        async (response) => {
-          await ordersStore.getAll();
-          const orderDto: OrderDto = Dto.ToOrderDto(
-            response.payload as Order
-          ) as OrderDto;
-          addMarkers(orderDto);
-        }
-      );
+      markers.push({
+        marker: L.marker([order.address?.latitude, order.address?.longitude], {
+          icon: myIcon,
+        })
+          .addTo(map)
+          .on("click", function (e: any) {
+            getItemsOrder(order);
+          }),
+        id: order.id,
+      });
     });
+
+    Appwrite.appwrite.subscribe(
+      `databases.${Environment.appwrite_database}.collections.${Environment.appwrite_collection_order}.documents`,
+      async (response) => {
+        await ordersStore.getAll();
+        const orderDto: OrderDto = Dto.ToOrderDto(
+          response.payload as Order
+        ) as OrderDto;
+        addMarkers(orderDto);
+      }
+    );
   });
 
   async function loadMap() {
@@ -118,6 +116,10 @@
     });
   }
 
+  function resetZoom() {
+    map.setView([35.5558, 45.4351], 13);
+  }
+
   async function getItemsOrder(order: OrderDto) {
     order_status = order.status;
     orderId = order.id;
@@ -135,29 +137,25 @@
     }, 0);
   }
 
-  function resetZoom() {
-    map.setView([35.5558, 45.4351], 13);
-  }
-
-  function sendEmail(userId:string, name:string, status: number ) {
-		fetch('/api/onesignal', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
+  function sendEmail(userId: string, name: string, status: number) {
+    fetch("/api/onesignal", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         userId: userId,
         name: name,
-        status: OrderStatus[status]
+        status: OrderStatus[status],
+      }),
+    })
+      .then((res) => {
+        if (res.status === 200) {
+        } else {
+        }
       })
-		})
-			.then((res) => {
-				if (res.status === 200) {
-				} else {
-				}
-			})
-			.catch((err) => {});
-	}
+      .catch((err) => {});
+  }
 </script>
 
 <div class="w-full flex justify-end">
