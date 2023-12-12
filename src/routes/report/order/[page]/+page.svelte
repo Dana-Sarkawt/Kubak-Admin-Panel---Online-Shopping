@@ -209,7 +209,7 @@
       bind:open={clickOutsideModal}
       autoclose
       outsideclose
-      backdropClass="fixed inset-0 z-40 bg-[#212121] bg-opacity-50 dark:bg-opacity-80 backdrop-blur-md"
+      backdropClass="fixed inset-0 z-40 bg-[#212121] bg-opacity-20 dark:bg-opacity-20 backdrop-blur-md"
       bodyClass="bg-[#fff] dark:bg-[#212121] rounded-lg "
       class="bg-[#fff] dark:bg-[#212121] h-auto"
       color="none"
