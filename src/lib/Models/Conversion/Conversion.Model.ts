@@ -54,7 +54,7 @@ export class Dto {
       id: auth.$id,
       name: auth.name,
       phone: auth.phone,
-      imgUrl: auth.prefs!.image as string,
+      imgUrl: auth.prefs?.image as string,
       roles: auth.labels,
       gender:auth.prefs?.gender as number,
       birthday:auth.prefs?.birthday as string,

@@ -2,6 +2,7 @@ import { Appwrite } from "$lib/Appwrite/Appwrite";
 import { Environment } from "$lib/Env/Environment";
 import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
 import type { Auth } from "$lib/Models/Entities/Auth.Entity.Model";
+import { Gender } from "$lib/Models/Enums/Gender.Enum.Model";
 import type {
   AuthRequest,
   CreateAuthRequest,
@@ -85,7 +86,7 @@ export class AuthRepository implements IAuthRepository {
       options!.prefs.image = (await Appwrite.account.getPrefs()).image;
     }
     if (options?.prefs.gender) {
-      options!.prefs.gender = (await Appwrite.account.getPrefs()).gender;
+      options!.prefs.gender === (await Appwrite.account.getPrefs()).gender ? options.prefs.gender : (await Appwrite.account.getPrefs()).gender;
     }
     if (options?.prefs.birthday === "") {
       options!.prefs.birthday = (await Appwrite.account.getPrefs()).birthday;
