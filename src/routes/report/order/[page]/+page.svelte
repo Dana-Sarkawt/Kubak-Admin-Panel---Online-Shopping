@@ -28,12 +28,15 @@
   import { ordersStore } from "$lib/Stores/Orders.Store";
   import { authStore } from "$lib/Stores/Auth.Store";
   import type { AuthDto } from "$lib/Models/DTO/Auth.DTO.Model";
-  import type { Store } from "$lib/Models/Response/Store.Response";
   import type { ItemDto } from "$lib/Models/DTO/Item.DTO.Model";
   import type { OrderDto } from "$lib/Models/DTO/Order.DTO.Model";
   import { itemsBlockerStore } from "$lib/Stores/ItemsBlocker.Store";
+<<<<<<< HEAD
   import { Spinner } from 'flowbite-svelte';
   import { fade, fly } from "svelte/transition";
+=======
+  import { Spinner } from "flowbite-svelte";
+>>>>>>> a1fb862fde25140235215e674db55dea9547c3c5
   let loading = true;
   let ModalLoading = true;
   let clickOutsideModal = false;
@@ -44,7 +47,6 @@
 
   let orderItems: ItemDto[] = [];
 
-  
   onMount(async () => {
     try {
       await ordersStore.getAll();
@@ -52,7 +54,8 @@
         return {
           ...order,
           auth: (await authStore.getUser(order.user as string)) as AuthDto,
-        }});
+        };
+      });
 
       console.log($ordersStore.data);
     } finally {
@@ -61,9 +64,7 @@
   });
 
   async function filterOptions() {
-
-      await ordersStore.getAll();
-  
+    await ordersStore.getAll();
   }
 
   async function resetDate() {
@@ -73,20 +74,17 @@
     await ordersStore.getAll();
   }
 
-
   async function getOrderItems(order: OrderDto) {
-    try{
-      const itemsQuantity: number[] =
-        (await itemsBlockerStore.getAll(order.id))?.map(
-          (item) => item.quantity
-        ) ?? [];
-  
-        order.items.map((item, index) => {
-          item.quantity = itemsQuantity[index];
-        });
-  
-      orderItems = order.items;
-    }finally{
+    try {
+      const itemsBlocker = await itemsBlockerStore.getAll(order.id);
+      orderItems =
+        itemsBlocker?.map((item) => {
+          return {
+            ...item.items,
+            quantity: item.quantity,
+          } as ItemDto;
+        }) ?? [];
+    } finally {
       ModalLoading = false;
     }
   }
@@ -218,6 +216,7 @@
   </div>
 
   {#each $ordersStore.data as order}
+<<<<<<< HEAD
   <Modal title={order.user.name} bind:open={clickOutsideModal} autoclose outsideclose backdropClass="fixed inset-0 z-40 bg-[#212121] bg-opacity-50 dark:bg-opacity-80 backdrop-blur-md" bodyClass="bg-[#fff] dark:bg-[#212121] rounded-lg " class="bg-[#fff] dark:bg-[#212121] h-auto" color="none"  classDialog="text-black dark:text-white">
     {#if ModalLoading}
       <div class="w-full h-auto flex justify-center mt-12" >
@@ -250,12 +249,61 @@
               > {order.price}
             </b>
           </p>
+=======
+    <Modal
+      title={order.user.name}
+      bind:open={clickOutsideModal}
+      autoclose
+      outsideclose
+      backdropClass="fixed inset-0 z-40 bg-[#212121] bg-opacity-50 dark:bg-opacity-80 backdrop-blur-md"
+      bodyClass="bg-[#fff] dark:bg-[#212121] rounded-lg "
+      class="bg-[#fff] dark:bg-[#212121] h-auto"
+      color="none"
+      classDialog="text-black dark:text-white"
+    >
+      {#if ModalLoading}
+        <div class="w-full h-auto flex justify-center mt-12">
+          <Spinner />
+>>>>>>> a1fb862fde25140235215e674db55dea9547c3c5
         </div>
-      </div>
-      {/each}
+      {:else}
+        {#each orderItems as order}
+          <div
+            class="bg-[#f1f1f1] dark:bg-[#363636] w-full rounded-lg h-24 flex items-start justify-start gap-2 px-2 py-2"
+          >
+            <Img
+              src={order.itemImage}
+              alt=""
+              class="w-[80px] h-[80px] bg-white dark:bg-[#212121] object-contain p-2 rounded-lg"
+            />
+
+            <div
+              class="flex flex-col text-ellipsis overflow-hidden truncate cursor-default mt-2"
+            >
+              <p class="text-[#474747] dark:text-gray-400 font-bold text-sm">
+                Name:
+                <b class="text-[#1b1b1b] dark:text-gray-50 font-medium text-sm"
+                  >{order.name}</b
+                >
+              </p>
+              <p class="text-[#474747] dark:text-gray-400 font-bold text-sm">
+                Quantity:
+                <b class="text-[#1d1d1d] dark:text-gray-50 font-medium text-sm">
+                  {order.quantity}</b
+                >
+              </p>
+              <p class="text-[#474747] dark:text-gray-400 font-bold text-sm">
+                Price:
+                <b class="text-[#1d1d1d] dark:text-gray-50 font-medium text-sm">
+                  {order.price}
+                </b>
+              </p>
+            </div>
+          </div>
+        {/each}
       {/if}
     </Modal>
-    {/each}
+  {/each}
 
   <Pagination
     name="report/items"
@@ -264,8 +312,3 @@
     Store={itemStore}
   />
 {/if}
-
-
-
-
-
