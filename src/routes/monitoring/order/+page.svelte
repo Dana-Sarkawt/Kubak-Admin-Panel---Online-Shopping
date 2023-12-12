@@ -25,7 +25,6 @@
   });
 
   async function create(options: CreateOrderRequest) {
-    console.log("Options :", options);
     await ordersStore.create(options);
   }
 
