@@ -23,6 +23,7 @@ const createCategoryStore = () => {
     set: (value: Store<CategoryDto>) => set(value),
     get: async (id: string) => {
       try {
+        if(!id) return;
         let document = await categoriesRepository.getCategory(id);
 
         return Dto.ToCategoriesDto(document);

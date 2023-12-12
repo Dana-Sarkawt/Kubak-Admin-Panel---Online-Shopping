@@ -26,6 +26,7 @@ const createOrdersStore = () => {
     set: (value: Store<OrderDto>) => set(value),
     get: async (id: string) => {
       try {
+        if (!id) return;
         let document = await ordersRepository.getOrder(id);
         return Dto.ToOrderDto(document);
       } catch (error) {
@@ -37,18 +38,22 @@ const createOrdersStore = () => {
         let { documents, total } = await ordersRepository.getOrders(options);
         let ordersDto: OrderDto[] = await Promise.all(
           documents.map(async (document) => {
-            const userDto = (await authStore.getUser(
-              document.userId
-            )) as AuthDto;
+            const userDto: AuthDto | undefined | null =
+              (await authStore.getUser(document.userId)) as
+                | AuthDto
+                | undefined
+                | null;
             const itemsDto: ItemDto[] = await Promise.all(
               document.itemIds.map(async (itemId) => {
                 const itemDto = await itemStore.get(itemId);
                 return itemDto;
               }) as Promise<ItemDto>[]
             );
-            const addressDto: AddressDto = (await addressStore.get(
-              document.addressId
-            )) as AddressDto;
+            const addressDto: AddressDto | null | undefined =
+              (await addressStore.get(document.addressId)) as
+                | AddressDto
+                | null
+                | undefined;
             return Dto.ToOrderDto(
               document,
               userDto,

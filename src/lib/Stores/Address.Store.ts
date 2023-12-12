@@ -14,6 +14,7 @@ const createAddressStore = () => {
     set: (value: Store<AddressDto>) => set(value),
     get: async (id: string) => {
       try {
+        if(!id) return;
         let document = await addressRepository.getAddress(id);
         return Dto.ToAddressDto(document);
       } catch (error) {

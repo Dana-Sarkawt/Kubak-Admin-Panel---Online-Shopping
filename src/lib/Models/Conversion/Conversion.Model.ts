@@ -93,7 +93,7 @@ export class Dto {
     }
   }
 
-  static ToOrderDto(order: Order,user?:AuthDto,items?:ItemDto[], address?:AddressDto): OrderDto | null {
+  static ToOrderDto(order: Order,user?:AuthDto | null,items?:ItemDto[], address?:AddressDto | null): OrderDto | null {
     try {
       let itemsDto: ItemDto[] = [];
       if (order.items) {
@@ -139,7 +139,7 @@ export class Dto {
     }
   }
 
-  static ToItemsBlockerDto(itemBlocker: ItemsBlocker): ItemsBlockerDto | null {
+  static ToItemsBlockerDto(itemBlocker: ItemsBlocker, item?:ItemDto, order?:OrderDto): ItemsBlockerDto | null {
     try {
       let itemsDto: ItemDto | null = null;
       let orderDto: OrderDto | null =  null;
@@ -155,8 +155,8 @@ export class Dto {
       return {
         id: itemBlocker.$id,
         quantity: itemBlocker.quantity,
-        items: itemsDto,
-        order: orderDto,
+        items: item ?? itemsDto,
+        order: order ?? orderDto,
       };
     } catch (error: any) {
       throw new Error(error);

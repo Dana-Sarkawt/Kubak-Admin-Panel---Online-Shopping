@@ -103,7 +103,7 @@
   function addMarkers(newOrder: OrderDto, status?: number) {
     if (!newOrder) return;
     const myIcon = L.icon({
-      iconUrl: `images/${OrderStatus[newOrder.status]}.png`,
+      iconUrl: `images/${OrderStatus[newOrder.status]}.png` ?? "",
       iconSize: [38, 38],
     });
     markers.forEach((marker) => {
