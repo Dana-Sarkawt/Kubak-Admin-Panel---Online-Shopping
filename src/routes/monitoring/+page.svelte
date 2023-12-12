@@ -133,7 +133,7 @@
         })
       : [];
 
-      L.polyline(mapData, {color: 'red'}).addTo(map);
+      L.polyline(mapData, {color: '#f17f18'}).addTo(map);
     map.setView([order.address?.latitude, order.address?.longitude], 16);
     const itemsBlocker = await itemsBlockerStore.getAll(order.id);
     items =
