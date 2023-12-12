@@ -1,6 +1,14 @@
 <script lang="ts">
   import { OrderStatus } from "$lib/Models/Enums/Order-Status.Enum.Model";
-  import { Label, Input, NavLi, NavUl, Navbar, Spinner } from "flowbite-svelte";
+  import {
+    Label,
+    Input,
+    NavLi,
+    NavUl,
+    Navbar,
+    Modal,
+    Img,
+  } from "flowbite-svelte";
 
   import {
     Table,
@@ -21,18 +29,21 @@
   import { authStore } from "$lib/Stores/Auth.Store";
   import type { AuthDto } from "$lib/Models/DTO/Auth.DTO.Model";
   import type { Store } from "$lib/Models/Response/Store.Response";
+  import type { ItemDto } from "$lib/Models/DTO/Item.DTO.Model";
+  import type { OrderDto } from "$lib/Models/DTO/Order.DTO.Model";
+  import { itemsBlockerStore } from "$lib/Stores/ItemsBlocker.Store";
+  import { Spinner } from 'flowbite-svelte';
   let loading = true;
-
+  let ModalLoading = true;
+  let clickOutsideModal = false;
   let filter: GenericListOptions = {
     page: parseInt($page.params.page),
     limit: 5,
   };
 
-  let listUsers: Store<AuthDto> = {
-    data: [],
-    total: 0,
-  };
+  let orderItems: ItemDto[] = [];
 
+  
   onMount(async () => {
     try {
       await ordersStore.getAll();
@@ -40,8 +51,7 @@
         return {
           ...order,
           auth: (await authStore.getUser(order.user as string)) as AuthDto,
-        };
-      });
+        }});
 
       console.log($ordersStore.data);
     } finally {
@@ -50,7 +60,9 @@
   });
 
   async function filterOptions() {
-    await ordersStore.getAll();
+
+      await ordersStore.getAll();
+  
   }
 
   async function resetDate() {
@@ -60,8 +72,22 @@
     await ordersStore.getAll();
   }
 
-  async function deleteItem(id: string) {
-    await ordersStore.delete(id);
+
+  async function getOrderItems(order: OrderDto) {
+    try{
+      const itemsQuantity: number[] =
+        (await itemsBlockerStore.getAll(order.id))?.map(
+          (item) => item.quantity
+        ) ?? [];
+  
+        order.items.map((item, index) => {
+          item.quantity = itemsQuantity[index];
+        });
+  
+      orderItems = order.items;
+    }finally{
+      ModalLoading = false;
+    }
   }
 </script>
 
@@ -136,24 +162,30 @@
       </TableHead>
       <TableBody>
         {#each $ordersStore.data as order}
-          <TableBodyRow class="text-center dark:bg-[#272727]">
-            <TableBodyCell tdClass="h-auto w-full flex justify-center items-center">
+          <TableBodyRow
+            class="text-center dark:bg-[#272727] dark:hover:bg-[#363636] hover:bg-gray-200 cursor-pointer"
+            on:click={() => {
+              clickOutsideModal = true;
+              getOrderItems(order);
+            }}
+          >
+            <TableBodyCell
+              tdClass="h-auto w-full flex justify-center items-center"
+            >
               <div class="w-full h-24 mt-3 flex justify-center items-center">
-
                 <img
                   src={order.user.imgUrl ?? "/images/user.png"}
-                  class="w-12 h-12 flex justify-center items-center  object-cover"
+                  class="w-12 h-12 flex justify-center items-center object-cover rounded-lg"
                   alt=""
-                /></div></TableBodyCell
-              
+                />
+              </div></TableBodyCell
             >
 
             <TableBodyCell>{order.user.name}</TableBodyCell>
             <TableBodyCell tdClass="flex justify-center items-center">
-              <div class="flex w-full h-24 items-center justify-center ">
-
+              <div class="flex w-full h-24 items-center justify-center">
                 <div
-                  class="h-8 w-20 rounded-lg flex justify-center text-center items-center mb-8  px-2 text-sm
+                  class="h-8 w-20 rounded-lg flex justify-center text-center items-center mb-8 px-2 text-sm
             {order.status === -1
                     ? ' bg-red-600 text-red-200'
                     : order.status === 0
@@ -174,16 +206,55 @@
             <TableBodyCell
               >{moment(order.createdAt).format("DD-MMM-YYYY")}</TableBodyCell
             >
-       
 
-          <TableBodyCell
-          >{moment(order.updatedAt).format("DD-MMM-YYYY")}</TableBodyCell
-        >
-      </TableBodyRow>
+            <TableBodyCell
+              >{moment(order.updatedAt).format("DD-MMM-YYYY")}</TableBodyCell
+            >
+          </TableBodyRow>
         {/each}
       </TableBody>
     </Table>
   </div>
+
+  {#each $ordersStore.data as order}
+  <Modal title={order.user.name} bind:open={clickOutsideModal} autoclose outsideclose backdropClass="fixed inset-0 z-40 bg-[#212121] bg-opacity-50 dark:bg-opacity-80 backdrop-blur-md" bodyClass="bg-[#fff] dark:bg-[#212121] rounded-lg " class="bg-[#fff] dark:bg-[#212121] h-auto" color="none"  classDialog="text-black dark:text-white">
+    {#if ModalLoading}
+      <div class="w-full h-auto flex justify-center mt-12">
+        <Spinner />
+      </div>
+    {:else}
+    {#each orderItems as order}
+      <div
+        class="bg-[#f1f1f1] dark:bg-[#363636] w-full rounded-lg h-24 flex items-start justify-start gap-2 px-2 py-2"
+      >
+        <Img
+          src={order.itemImage}
+          alt=""
+          class="w-[80px] h-[80px] bg-white dark:bg-[#212121] object-contain p-2 rounded-lg"
+        />
+
+        <div
+          class="flex flex-col text-ellipsis overflow-hidden truncate cursor-default mt-2"
+        >
+          <p class="text-[#474747] dark:text-gray-400 font-bold text-sm">Name: 
+            <b class="text-[#1b1b1b] dark:text-gray-50 font-medium text-sm">{order.name}</b>
+          </p>
+          <p class="text-[#474747] dark:text-gray-400  font-bold text-sm">Quantity:
+            <b class="text-[#1d1d1d] dark:text-gray-50  font-medium text-sm"
+              > {order.quantity}</b
+            >
+          </p>
+          <p class="text-[#474747] dark:text-gray-400 font-bold text-sm">Price:
+            <b class="text-[#1d1d1d] dark:text-gray-50 font-medium text-sm"
+              > {order.price}
+            </b>
+          </p>
+        </div>
+      </div>
+      {/each}
+      {/if}
+    </Modal>
+    {/each}
 
   <Pagination
     name="report/items"
@@ -192,3 +263,8 @@
     Store={itemStore}
   />
 {/if}
+
+
+
+
+
