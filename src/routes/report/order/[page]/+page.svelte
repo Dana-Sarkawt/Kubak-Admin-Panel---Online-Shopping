@@ -33,6 +33,7 @@
   import type { OrderDto } from "$lib/Models/DTO/Order.DTO.Model";
   import { itemsBlockerStore } from "$lib/Stores/ItemsBlocker.Store";
   import { Spinner } from 'flowbite-svelte';
+  import { fade, fly } from "svelte/transition";
   let loading = true;
   let ModalLoading = true;
   let clickOutsideModal = false;
@@ -219,7 +220,7 @@
   {#each $ordersStore.data as order}
   <Modal title={order.user.name} bind:open={clickOutsideModal} autoclose outsideclose backdropClass="fixed inset-0 z-40 bg-[#212121] bg-opacity-50 dark:bg-opacity-80 backdrop-blur-md" bodyClass="bg-[#fff] dark:bg-[#212121] rounded-lg " class="bg-[#fff] dark:bg-[#212121] h-auto" color="none"  classDialog="text-black dark:text-white">
     {#if ModalLoading}
-      <div class="w-full h-auto flex justify-center mt-12">
+      <div class="w-full h-auto flex justify-center mt-12" >
         <Spinner />
       </div>
     {:else}
