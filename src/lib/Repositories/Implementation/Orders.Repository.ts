@@ -63,17 +63,17 @@ export class OrdersRepository implements IOrdersRepository {
       Query.orderDesc(options?.sortField || "$createdAt"),
       Query.limit(options?.limit || 15),
       Query.isNull("deletedAt"),
-      // Query.select([
-      //   "$id",
-      //   "status",
-      //   "totalAmount",
-      //   "userId",
-      //   "items",
-      //   "address",
-      //   "$createdAt",
-      //   "$updatedAt",
-      //   "deletedAt",
-      // ]),
+      Query.select([
+        "$id",
+        "status",
+        "totalAmount",
+        "userId",
+        "addressId",
+        "itemIds",
+        "$createdAt",
+        "$updatedAt",
+        "deletedAt",
+      ])
     ];
     if (options?.status && options?.status != -2) {
       query.push(Query.equal("status", options?.status));

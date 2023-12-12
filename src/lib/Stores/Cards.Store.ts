@@ -22,6 +22,7 @@ const createCardStore = () => {
     set: (value: Store<CardDto>) => set(value),
     get: async (id: string) => {
       try {
+        if(!id) return;
         let document = await cardRepository.getCard(id);
 
         return Dto.ToCardDto(document);

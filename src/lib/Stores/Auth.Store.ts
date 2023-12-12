@@ -94,6 +94,7 @@ const createAuthStore = () => {
 
     getUser: async (userId: string) => {
       try {
+        if(!userId) return;
         const user = await authRepository.getUser(userId);
         const userDto: AuthDto = Dto.ToAuthDto(user);
 

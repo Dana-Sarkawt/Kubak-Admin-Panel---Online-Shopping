@@ -54,7 +54,7 @@ export class Dto {
       id: auth.$id,
       name: auth.name,
       phone: auth.phone,
-      imgUrl: auth.prefs!.image as string,
+      imgUrl: auth.prefs?.image as string,
       roles: auth.labels,
       gender:auth.prefs?.gender as number,
       birthday:auth.prefs?.birthday as string,
@@ -93,7 +93,7 @@ export class Dto {
     }
   }
 
-  static ToOrderDto(order: Order,user?:AuthDto): OrderDto | null {
+  static ToOrderDto(order: Order,user?:AuthDto | null,items?:ItemDto[], address?:AddressDto | null): OrderDto | null {
     try {
       let itemsDto: ItemDto[] = [];
       if (order.items) {
@@ -104,8 +104,8 @@ export class Dto {
         id: order.$id,
         user: user ?? order.userId,
         status: order.status,
-        items: itemsDto,
-        address: addressDto,
+        items: items ?? itemsDto,
+        address: address ?? addressDto,
         totalAmount: order.totalAmount,
         createdAt: order.$createdAt as Date,
         updatedAt: order.$updatedAt as Date,
@@ -139,7 +139,7 @@ export class Dto {
     }
   }
 
-  static ToItemsBlockerDto(itemBlocker: ItemsBlocker): ItemsBlockerDto | null {
+  static ToItemsBlockerDto(itemBlocker: ItemsBlocker, item?:ItemDto, order?:OrderDto): ItemsBlockerDto | null {
     try {
       let itemsDto: ItemDto | null = null;
       let orderDto: OrderDto | null =  null;
@@ -155,8 +155,8 @@ export class Dto {
       return {
         id: itemBlocker.$id,
         quantity: itemBlocker.quantity,
-        items: itemsDto,
-        order: orderDto,
+        items: item ?? itemsDto,
+        order: order ?? orderDto,
       };
     } catch (error: any) {
       throw new Error(error);

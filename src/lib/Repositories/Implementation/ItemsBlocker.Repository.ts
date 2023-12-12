@@ -42,6 +42,11 @@ export class ItemsBlockerRepository implements IItemsBlockerRepository {
     query = [
       Query.orderDesc(options?.sortField || "quantity"),
       Query.limit(options?.limit || 20),
+      Query.select([
+        "$id",
+        "quantity",
+        "itemId",
+      ])
     ];
     if (orderId) query.push(Query.equal("orderId", orderId));
 

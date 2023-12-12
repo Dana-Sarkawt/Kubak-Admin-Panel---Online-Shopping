@@ -1,14 +1,6 @@
 <script lang="ts">
   import { OrderStatus } from "$lib/Models/Enums/Order-Status.Enum.Model";
-  import {
-    Label,
-    Input,
-    NavLi,
-    NavUl,
-    Navbar,
-    Modal,
-    Img,
-  } from "flowbite-svelte";
+  import { Label, Input, Modal, Img } from "flowbite-svelte";
 
   import {
     Table,
@@ -22,7 +14,7 @@
   import moment from "moment";
   import { onMount } from "svelte";
   import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
-  import { page, updated } from "$app/stores";
+  import { page } from "$app/stores";
   import Pagination from "$lib/Components/Pagination.Component.svelte";
   import ReportsLinks from "$lib/Components/ReportsLinks.Component.svelte";
   import { ordersStore } from "$lib/Stores/Orders.Store";
@@ -31,8 +23,7 @@
   import type { ItemDto } from "$lib/Models/DTO/Item.DTO.Model";
   import type { OrderDto } from "$lib/Models/DTO/Order.DTO.Model";
   import { itemsBlockerStore } from "$lib/Stores/ItemsBlocker.Store";
-  import { Spinner } from 'flowbite-svelte';
-  import { fade, fly } from "svelte/transition";
+  import { Spinner } from "flowbite-svelte";
   let loading = true;
   let ModalLoading = true;
   let clickOutsideModal = false;
@@ -71,6 +62,7 @@
   }
 
   async function getOrderItems(order: OrderDto) {
+    ModalLoading = true;
     try {
       const itemsBlocker = await itemsBlockerStore.getAll(order.id);
       orderItems =

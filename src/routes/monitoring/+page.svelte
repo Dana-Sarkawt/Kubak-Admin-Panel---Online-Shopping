@@ -106,7 +106,7 @@
   function addMarkers(newOrder: OrderDto, status?: number) {
     if (!newOrder) return;
     const myIcon = L.icon({
-      iconUrl: `images/${OrderStatus[newOrder.status]}.png`,
+      iconUrl: `images/${OrderStatus[newOrder.status]}.png` ?? "",
       iconSize: [38, 38],
     });
     markers.forEach((marker) => {
@@ -146,7 +146,7 @@
         })
       : [];
 
-      L.polyline(mapData, {color: '#f17f18'}).addTo(map);
+    L.polyline(mapData, { color: "#f17f18" }).addTo(map);
     map.setView([order.address?.latitude, order.address?.longitude], 16);
         try{
 

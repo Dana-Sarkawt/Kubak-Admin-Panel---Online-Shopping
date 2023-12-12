@@ -5,5 +5,7 @@ import type { Order } from "$lib/Models/Entities/Order.Entities.Model";
 export interface ItemsBlocker extends Database {
     quantity: number,
     items: Item,
-    orders:Order
+    orders:Order,
+    orderId:string,
+    itemId:string,
 }

@@ -26,6 +26,7 @@ const createItemStore = () => {
     set: (value: Store<ItemDto>) => set(value),
     get: async (id: string) => {
       try {
+        if(!id) return;
         let document = await itemsRepository.getItem(id);
         return Dto.ToItemDto(document);
       } catch (error) {
