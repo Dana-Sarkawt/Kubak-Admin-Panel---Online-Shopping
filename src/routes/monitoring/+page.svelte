@@ -12,7 +12,7 @@
   import type { Order } from "$lib/Models/Entities/Order.Entities.Model";
   import type { LngLat } from "$lib/Models/Common/LngLat.Common.Model";
   import { routingStore } from "$lib/Stores/Routing.Store";
-  import { Img } from "flowbite-svelte";
+  import { Img, Spinner } from "flowbite-svelte";
   import { onMount } from "svelte";
   import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
 
@@ -27,6 +27,8 @@
   let options: GenericListOptions = {
     status: -2,
   };
+
+    let Loading = false;
 
   onMount(async () => {
     await loadMap();
@@ -130,8 +132,10 @@
   }
 
   async function getItemsOrder(order: OrderDto) {
-    order_status = order.status;
-    orderId = order.id;
+    Loading = true;
+      order_status = order.status;
+      orderId = order.id;
+ 
 
     let mapData: LngLat[] = Array.isArray($routingStore[0].route)
       ? $routingStore[0].route.map((route: LngLat) => {
@@ -141,17 +145,22 @@
 
     L.polyline(mapData, { color: "#f17f18" }).addTo(map);
     map.setView([order.address?.latitude, order.address?.longitude], 16);
-    const itemsBlocker = await itemsBlockerStore.getAll(order.id);
-    items =
-      itemsBlocker?.map((item) => {
-        return {
-          ...item.items,
-          quantity: item.quantity,
-        } as ItemDto;
-      }) ?? [];
-    totalAmount = items.reduce((acc, item) => {
-      return acc + item.price * item.quantity;
-    }, 0);
+        try{
+
+          const itemsBlocker = await itemsBlockerStore.getAll(order.id);
+          items =
+            itemsBlocker?.map((item) => {
+              return {
+                ...item.items,
+                quantity: item.quantity,
+              } as ItemDto;
+            }) ?? [];
+          totalAmount = items.reduce((acc, item) => {
+            return acc + item.price * item.quantity;
+          }, 0);
+        }finally{
+          Loading = false;
+        }
   }
 
   function sendEmail(userId: string, name: string, status: number) {
@@ -263,6 +272,7 @@
 
       <!-- svelte-ignore a11y-click-events-have-key-events -->
       <!-- svelte-ignore a11y-no-static-element-interactions -->
+    
       {#each $ordersStore.data as order}
         <!-- svelte-ignore a11y-click-events-have-key-events -->
         <div
@@ -302,11 +312,17 @@
           </div>
         </div>
       {/each}
+   
     </div>
 
     <div
       class="bg-black w-full h-1/2 rounded-xl p-2 flex justify-start flex-col gap-2 overflow-y-auto"
     >
+    {#if Loading}
+    <div class="w-full h-auto flex justify-center mt-12" >
+      <Spinner />
+    </div>
+    {:else}
       {#each items as item}
         <div
           class="bg-[#363636] w-full rounded-lg h-24 flex items-start justify-start gap-2 px-2 py-2"
@@ -341,6 +357,7 @@
           </div>
         </div>
       {/each}
+      {/if}
 
       <div
         class="fixed bottom-0 left-0 w-full h-auto flex flex-col gap-2 justify-center bg-black p-2 rounded-lg"

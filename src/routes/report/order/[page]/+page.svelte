@@ -31,7 +31,8 @@
   import type { ItemDto } from "$lib/Models/DTO/Item.DTO.Model";
   import type { OrderDto } from "$lib/Models/DTO/Order.DTO.Model";
   import { itemsBlockerStore } from "$lib/Stores/ItemsBlocker.Store";
-  import { Spinner } from "flowbite-svelte";
+  import { Spinner } from 'flowbite-svelte';
+  import { fade, fly } from "svelte/transition";
   let loading = true;
   let ModalLoading = true;
   let clickOutsideModal = false;
