@@ -28,7 +28,7 @@
     status: -2,
   };
 
-    let Loading = false;
+  let Loading = false;
 
   onMount(async () => {
     await loadMap();
@@ -86,22 +86,21 @@
     tileLayer.addTo(map);
   }
 
-
   function createTileLayer($darkMode: string) {
-      return L.tileLayer(
-        `https://cartodb-basemaps-{s}.global.ssl.fastly.net/${$darkMode === "dark" ?  "dark_all" : "light_all"}/{z}/{x}/{y}.png`,
-        
-        {
-          maxZoom: 15,
-          minZoom: 13,
-          attribution:
-            '© <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> © <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-            style: "light_all"
-        }
-        
-      );
+    return L.tileLayer(
+      `https://cartodb-basemaps-{s}.global.ssl.fastly.net/${
+        $darkMode === "dark" ? "dark_all" : "light_all"
+      }/{z}/{x}/{y}.png`,
 
-    }
+      {
+        maxZoom: 15,
+        minZoom: 13,
+        attribution:
+          '© <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> © <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        style: "light_all",
+      }
+    );
+  }
 
   function addMarkers(newOrder: OrderDto, status?: number) {
     if (!newOrder) return;
@@ -136,9 +135,8 @@
 
   async function getItemsOrder(order: OrderDto) {
     Loading = true;
-      order_status = order.status;
-      orderId = order.id;
- 
+    order_status = order.status;
+    orderId = order.id;
 
     let mapData: LngLat[] = Array.isArray($routingStore[0].route)
       ? $routingStore[0].route.map((route: LngLat) => {
@@ -148,22 +146,21 @@
 
     L.polyline(mapData, { color: "#f17f18" }).addTo(map);
     map.setView([order.address?.latitude, order.address?.longitude], 16);
-        try{
-
-          const itemsBlocker = await itemsBlockerStore.getAll(order.id);
-          items =
-            itemsBlocker?.map((item) => {
-              return {
-                ...item.items,
-                quantity: item.quantity,
-              } as ItemDto;
-            }) ?? [];
-          totalAmount = items.reduce((acc, item) => {
-            return acc + item.price * item.quantity;
-          }, 0);
-        }finally{
-          Loading = false;
-        }
+    try {
+      const itemsBlocker = await itemsBlockerStore.getAll(order.id);
+      items =
+        itemsBlocker?.map((item) => {
+          return {
+            ...item.items,
+            quantity: item.quantity,
+          } as ItemDto;
+        }) ?? [];
+      totalAmount = items.reduce((acc, item) => {
+        return acc + item.price * item.quantity;
+      }, 0);
+    } finally {
+      Loading = false;
+    }
   }
 
   function sendEmail(userId: string, name: string, status: number) {
@@ -275,7 +272,7 @@
 
       <!-- svelte-ignore a11y-click-events-have-key-events -->
       <!-- svelte-ignore a11y-no-static-element-interactions -->
-    
+
       {#each $ordersStore.data as order}
         <!-- svelte-ignore a11y-click-events-have-key-events -->
         <div
@@ -315,51 +312,50 @@
           </div>
         </div>
       {/each}
-   
     </div>
 
     <div
       class="bg-black w-full h-1/2 rounded-xl p-2 flex justify-start flex-col gap-2 overflow-y-auto"
     >
-    {#if Loading}
-    <div class="w-full h-auto flex justify-center mt-12" >
-      <Spinner />
-    </div>
-    {:else}
-      {#each items as item}
-        <div
-          class="bg-[#363636] w-full rounded-lg h-24 flex items-start justify-start gap-2 px-2 py-2"
-        >
-          <Img
-            src={item.itemImage ?? "images/rice.png"}
-            alt=""
-            class="w-[80px] h-[80px] bg-[#212121] object-contain p-2 rounded-lg"
-          />
-
-          <div
-            class="flex flex-col text-ellipsis overflow-hidden truncate cursor-default mt-2"
-          >
-            <p
-              class="text-white font-bold text-sm"
-              title={item.name ?? "have not Quantity"}
-            >
-              <b class="text-gray-400 font-medium text-sm"
-                >Name:
-              </b>{item.name ?? "no name"}
-            </p>
-            <p class="text-white font-bold text-sm">
-              <b class="text-gray-400 font-medium text-sm"
-                >Quantity:
-              </b>{item.quantity ?? "have not Quantity"}
-            </p>
-            <p class="text-white font-bold text-sm">
-              <b class="text-gray-400 font-medium text-sm"
-                >Price:
-              </b>{item.price ?? "have not Price"}
-            </p>
-          </div>
+      {#if Loading}
+        <div class="w-full h-auto flex justify-center mt-12">
+          <Spinner />
         </div>
-      {/each}
+      {:else}
+        {#each items as item}
+          <div
+            class="bg-[#363636] w-full rounded-lg h-24 flex items-start justify-start gap-2 px-2 py-2"
+          >
+            <Img
+              src={item.itemImage ?? "images/rice.png"}
+              alt=""
+              class="w-[80px] h-[80px] bg-[#212121] object-contain p-2 rounded-lg"
+            />
+
+            <div
+              class="flex flex-col text-ellipsis overflow-hidden truncate cursor-default mt-2"
+            >
+              <p
+                class="text-white font-bold text-sm"
+                title={item.name ?? "have not Quantity"}
+              >
+                <b class="text-gray-400 font-medium text-sm"
+                  >Name:
+                </b>{item.name ?? "no name"}
+              </p>
+              <p class="text-white font-bold text-sm">
+                <b class="text-gray-400 font-medium text-sm"
+                  >Quantity:
+                </b>{item.quantity ?? "have not Quantity"}
+              </p>
+              <p class="text-white font-bold text-sm">
+                <b class="text-gray-400 font-medium text-sm"
+                  >Price:
+                </b>{item.price ?? "have not Price"}
+              </p>
+            </div>
+          </div>
+        {/each}
       {/if}
 
       <div
@@ -386,5 +382,4 @@
   #request-box {
     backdrop-filter: blur(5px);
   }
-
 </style>
