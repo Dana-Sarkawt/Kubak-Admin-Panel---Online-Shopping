@@ -7,6 +7,7 @@ import { OrdersRepository } from "$lib/Repositories/Implementation/Orders.Reposi
 import { writable } from "svelte/store";
 import { authStore } from "./Auth.Store";
 import type { AuthDto } from "$lib/Models/DTO/Auth.DTO.Model";
+import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
 
 const ordersRepository = new OrdersRepository();
 
@@ -27,9 +28,9 @@ const createOrdersStore = () => {
         console.log(error);
       }
     },
-    getAll: async () => {
+    getAll: async (options?:GenericListOptions) => {
       try {
-        let { documents, total } = await ordersRepository.getOrders();
+        let { documents, total } = await ordersRepository.getOrders(options);
         let ordersDto: OrderDto[] = await Promise.all(
           documents.map(async (document) => {
             const userDto = (await authStore.getUser(

@@ -8,4 +8,5 @@ interface FilteringOptions {
     search?: string,
     from?: string,
     to?: string,
+    status?: number,
 }

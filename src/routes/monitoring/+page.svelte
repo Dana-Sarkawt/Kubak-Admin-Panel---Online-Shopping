@@ -1,12 +1,10 @@
 <script lang="ts">
-  import OrderStatusButtons from "./../../lib/Components/OrderStatusButtons.Component.svelte";
+  import OrderStatusButtons from "$lib/Components/OrderStatusButtons.Component.svelte";
   import { Dto } from "$lib/Models/Conversion/Conversion.Model";
   import { Appwrite } from "$lib/Appwrite/Appwrite";
   import { Environment } from "$lib/Env/Environment";
   import { darkMode } from "$lib/Stores/Darkmode.Store";
   import { ordersStore } from "$lib/Stores/Orders.Store";
-  import { Img } from "flowbite-svelte";
-  import { onMount } from "svelte";
   import { OrderStatus } from "$lib/Models/Enums/Order-Status.Enum.Model";
   import type { ItemDto } from "$lib/Models/DTO/Item.DTO.Model";
   import { itemsBlockerStore } from "$lib/Stores/ItemsBlocker.Store";
@@ -14,6 +12,9 @@
   import type { Order } from "$lib/Models/Entities/Order.Entities.Model";
   import type { LngLat } from "$lib/Models/Common/LngLat.Common.Model";
   import { routingStore } from "$lib/Stores/Routing.Store";
+  import { Img } from "flowbite-svelte";
+  import { onMount } from "svelte";
+  import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
 
   let L: any;
   let map: any;
@@ -23,6 +24,9 @@
   let markers: any[] = [];
   let order_status: number = -2;
   let orderId: string = "";
+  let options: GenericListOptions = {
+    status: -2,
+  };
 
   onMount(async () => {
     await loadMap();
@@ -60,7 +64,7 @@
         const orderDto: OrderDto = Dto.ToOrderDto(
           response.payload as Order
         ) as OrderDto;
-        addMarkers(orderDto);
+        addMarkers(orderDto, options.status);
       }
     );
   });
@@ -94,7 +98,7 @@
     );
   }
 
-  function addMarkers(newOrder: OrderDto) {
+  function addMarkers(newOrder: OrderDto, status?: number) {
     if (!newOrder) return;
     const myIcon = L.icon({
       iconUrl: `images/${OrderStatus[newOrder.status]}.png`,
@@ -106,17 +110,19 @@
         markers.splice(markers.indexOf(marker), 1);
       }
     });
-    markers.push({
-      marker: L.marker(
-        [newOrder.address?.latitude, newOrder.address?.longitude],
-        { icon: myIcon }
-      )
-        .addTo(map)
-        .on("click", function (e: any) {
-          getItemsOrder(newOrder);
-        }),
-      id: newOrder.id,
-    });
+    if (status === -2 || newOrder.status === status) {
+      markers.push({
+        marker: L.marker(
+          [newOrder.address?.latitude, newOrder.address?.longitude],
+          { icon: myIcon }
+        )
+          .addTo(map)
+          .on("click", function (e: any) {
+            getItemsOrder(newOrder);
+          }),
+        id: newOrder.id,
+      });
+    }
   }
 
   function resetZoom() {
@@ -133,7 +139,7 @@
         })
       : [];
 
-      L.polyline(mapData, {color: 'red'}).addTo(map);
+    L.polyline(mapData, { color: "#f17f18" }).addTo(map);
     map.setView([order.address?.latitude, order.address?.longitude], 16);
     const itemsBlocker = await itemsBlockerStore.getAll(order.id);
     items =
@@ -167,6 +173,29 @@
       })
       .catch((err) => {});
   }
+
+  async function filter(status: number) {
+    if (status == options.status) {
+      options.status = -2;
+      await ordersStore.getAll(options);
+      $ordersStore.data.map((order) => {
+        addMarkers(order, options.status);
+      });
+      return;
+    }
+    options.status = status;
+    await ordersStore.getAll(options);
+  }
+
+  $: {
+    if ($ordersStore.data.length > 0) {
+      if (options.status != -2) {
+        $ordersStore.data.map((order) => {
+          addMarkers(order, options.status);
+        });
+      }
+    }
+  }
 </script>
 
 <div class="w-full flex justify-end">
@@ -191,14 +220,45 @@
     </div>
 
     <div class="bg-black w-full h-1/2 rounded-xl flex flex-col gap-2 px-2">
+      <!-- svelte-ignore a11y-click-events-have-key-events -->
       <div
         class="bg-[#363636] w-full h-12 rounded-xl flex gap-3 mt-2 justify-center items-center"
       >
-        <div class="bg-[#009860] w-4 h-4 rounded-full" />
-        <div class="bg-gray-400 w-4 h-4 rounded-full" />
-        <div class="bg-[#F02525] w-4 h-4 rounded-full" />
-        <div class="bg-[#5570FF] w-4 h-4 rounded-full" />
-        <div class="bg-yellow-600 w-4 h-4 rounded-full" />
+        <!-- svelte-ignore a11y-no-static-element-interactions -->
+        <div
+          class="{options.status == OrderStatus.Delivered
+            ? 'bg-green-700'
+            : 'bg-[#009860]'} w-4 h-4 rounded-full cursor-pointer hover:bg-green-700"
+          on:click={() => filter(OrderStatus.Delivered)}
+        />
+        <!-- svelte-ignore a11y-no-static-element-interactions -->
+        <div
+          class="{options.status == OrderStatus.Pending
+            ? 'bg-gray-500'
+            : 'bg-gray-400'} bg-gray-400 w-4 h-4 rounded-full cursor-pointer hover:bg-gray-500"
+          on:click={() => filter(OrderStatus.Pending)}
+        />
+        <!-- svelte-ignore a11y-no-static-element-interactions -->
+        <div
+          class="{options.status == OrderStatus.Failed
+            ? 'bg-red-800'
+            : 'bg-[#F02525]'} bg-[#F02525] w-4 h-4 rounded-full cursor-pointer hover:bg-red-800"
+          on:click={() => filter(OrderStatus.Failed)}
+        />
+        <!-- svelte-ignore a11y-no-static-element-interactions -->
+        <div
+          class="{options.status == OrderStatus.Accepted
+            ? 'bg-blue-800'
+            : 'bg-[#5570FF]'} bg-[#5570FF] w-4 h-4 rounded-full cursor-pointer hover:bg-blue-800"
+          on:click={() => filter(OrderStatus.Accepted)}
+        />
+        <!-- svelte-ignore a11y-no-static-element-interactions -->
+        <div
+          class="{options.status == OrderStatus.Delivering
+            ? 'bg-yellow-800'
+            : 'bg-yellow-600'} bg-yellow-600 w-4 h-4 rounded-full cursor-pointer hover:bg-yellow-800"
+          on:click={() => filter(OrderStatus.Delivering)}
+        />
       </div>
 
       <!-- svelte-ignore a11y-click-events-have-key-events -->

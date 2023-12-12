@@ -25,7 +25,7 @@ export namespace Environment {
   export const appwrite_collection_order: string =
     ENVIRONMENT.VITE_APPWRITE_ORDER_ID;
   export const appwrite_collection_item_blocker: string =
-    ENVIRONMENT.VITE_APPWRITE_ITEMBLOCKER_ID;
+    ENVIRONMENT.VITE_APPWRITE_ITEM_BLOCKER_ID;
 
   // Appwrite Storage
   export const appwrite_storage: string = ENVIRONMENT.VITE_APPWRITE_STORAGE_ID;
@@ -34,11 +34,11 @@ export namespace Environment {
   export const appwrite_function_create_order: string =
     ENVIRONMENT.VITE_APPWRITE_FUNCTION_CREATE_ORDER_ID;
   export const appwrite_function_get_all_users: string =
-    ENVIRONMENT.VITE_APPWRITE_FUNCTION_GETALLUSERS_ID;
+    ENVIRONMENT.VITE_APPWRITE_FUNCTION_GET_ALL_USERS_ID;
   export const appwrite_function_check_cards_expiration: string =
-    ENVIRONMENT.VITE_APPWRITE_FUNCTION_CHECKCARDSEXPIRATION_ID;
+    ENVIRONMENT.VITE_APPWRITE_FUNCTION_CHECK_CARDS_EXPIRATION_ID;
   export const appwrite_function_get_user: string =
-    ENVIRONMENT.VITE_APPWRITE_FUNCTION_GETUSERBYID_ID;
+    ENVIRONMENT.VITE_APPWRITE_FUNCTION_GET_USER_BY_ID_ID;
 
   // Onesignal Config
   export const onesignal_app_id: string = ENVIRONMENT.VITE_ONESIGNAL_APP_ID;
