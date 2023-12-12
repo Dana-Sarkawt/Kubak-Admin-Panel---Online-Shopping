@@ -236,35 +236,35 @@
         <!-- svelte-ignore a11y-no-static-element-interactions -->
         <div
           class="{options.status == OrderStatus.Delivered
-            ? 'bg-green-700'
+            ? 'bg-green-700 border-2 border-[#fff]'
             : 'bg-[#009860]'} w-4 h-4 rounded-full cursor-pointer hover:bg-green-700"
           on:click={() => filter(OrderStatus.Delivered)}
         />
         <!-- svelte-ignore a11y-no-static-element-interactions -->
         <div
           class="{options.status == OrderStatus.Pending
-            ? 'bg-gray-500'
+            ? 'bg-gray-500  border-2 border-[#fff]'
             : 'bg-gray-400'} bg-gray-400 w-4 h-4 rounded-full cursor-pointer hover:bg-gray-500"
           on:click={() => filter(OrderStatus.Pending)}
         />
         <!-- svelte-ignore a11y-no-static-element-interactions -->
         <div
           class="{options.status == OrderStatus.Failed
-            ? 'bg-red-800'
+            ? 'bg-red-800  border-2 border-[#fff]'
             : 'bg-[#F02525]'} bg-[#F02525] w-4 h-4 rounded-full cursor-pointer hover:bg-red-800"
           on:click={() => filter(OrderStatus.Failed)}
         />
         <!-- svelte-ignore a11y-no-static-element-interactions -->
         <div
           class="{options.status == OrderStatus.Accepted
-            ? 'bg-blue-800'
+            ? 'bg-blue-800  border-2 border-[#fff]'
             : 'bg-[#5570FF]'} bg-[#5570FF] w-4 h-4 rounded-full cursor-pointer hover:bg-blue-800"
           on:click={() => filter(OrderStatus.Accepted)}
         />
         <!-- svelte-ignore a11y-no-static-element-interactions -->
         <div
           class="{options.status == OrderStatus.Delivering
-            ? 'bg-yellow-800'
+            ? 'bg-yellow-800  border-2 border-[#fff]'
             : 'bg-yellow-600'} bg-yellow-600 w-4 h-4 rounded-full cursor-pointer hover:bg-yellow-800"
           on:click={() => filter(OrderStatus.Delivering)}
         />
