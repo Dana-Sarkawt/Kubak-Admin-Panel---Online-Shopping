@@ -28,7 +28,6 @@
   import { ordersStore } from "$lib/Stores/Orders.Store";
   import { authStore } from "$lib/Stores/Auth.Store";
   import type { AuthDto } from "$lib/Models/DTO/Auth.DTO.Model";
-  import type { Store } from "$lib/Models/Response/Store.Response";
   import type { ItemDto } from "$lib/Models/DTO/Item.DTO.Model";
   import type { OrderDto } from "$lib/Models/DTO/Order.DTO.Model";
   import { itemsBlockerStore } from "$lib/Stores/ItemsBlocker.Store";
