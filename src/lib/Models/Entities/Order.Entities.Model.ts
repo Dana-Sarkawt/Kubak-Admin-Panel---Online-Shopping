@@ -8,5 +8,7 @@ export interface Order extends Database {
   userId: string,
   deletedAt: Date | string | null,
   items: Item[],
+  itemIds: string[],
   address: Address,
+  addressId: string,
 }

@@ -8,6 +8,10 @@ import { writable } from "svelte/store";
 import { authStore } from "./Auth.Store";
 import type { AuthDto } from "$lib/Models/DTO/Auth.DTO.Model";
 import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
+import { itemStore } from "./Items.Store";
+import { addressStore } from "./Address.Store";
+import type { ItemDto } from "$lib/Models/DTO/Item.DTO.Model";
+import type { AddressDto } from "$lib/Models/DTO/Address.DTO.Model";
 
 const ordersRepository = new OrdersRepository();
 
@@ -28,7 +32,7 @@ const createOrdersStore = () => {
         console.log(error);
       }
     },
-    getAll: async (options?:GenericListOptions) => {
+    getAll: async (options?: GenericListOptions) => {
       try {
         let { documents, total } = await ordersRepository.getOrders(options);
         let ordersDto: OrderDto[] = await Promise.all(
@@ -36,7 +40,21 @@ const createOrdersStore = () => {
             const userDto = (await authStore.getUser(
               document.userId
             )) as AuthDto;
-            return Dto.ToOrderDto(document, userDto) as OrderDto;
+            const itemsDto: ItemDto[] = await Promise.all(
+              document.itemIds.map(async (itemId) => {
+                const itemDto = await itemStore.get(itemId);
+                return itemDto;
+              }) as Promise<ItemDto>[]
+            );
+            const addressDto: AddressDto = (await addressStore.get(
+              document.addressId
+            )) as AddressDto;
+            return Dto.ToOrderDto(
+              document,
+              userDto,
+              itemsDto,
+              addressDto
+            ) as OrderDto;
           })
         );
 

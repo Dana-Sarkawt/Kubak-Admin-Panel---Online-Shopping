@@ -93,7 +93,7 @@ export class Dto {
     }
   }
 
-  static ToOrderDto(order: Order,user?:AuthDto): OrderDto | null {
+  static ToOrderDto(order: Order,user?:AuthDto,items?:ItemDto[], address?:AddressDto): OrderDto | null {
     try {
       let itemsDto: ItemDto[] = [];
       if (order.items) {
@@ -104,8 +104,8 @@ export class Dto {
         id: order.$id,
         user: user ?? order.userId,
         status: order.status,
-        items: itemsDto,
-        address: addressDto,
+        items: items ?? itemsDto,
+        address: address ?? addressDto,
         totalAmount: order.totalAmount,
         createdAt: order.$createdAt as Date,
         updatedAt: order.$updatedAt as Date,
