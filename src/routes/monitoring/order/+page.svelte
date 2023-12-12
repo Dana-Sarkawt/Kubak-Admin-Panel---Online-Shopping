@@ -25,8 +25,7 @@
   });
 
   async function create(options: CreateOrderRequest) {
-    console.log("Options :", options);
-    // await ordersStore.create(options);
+    await ordersStore.create(options);
   }
 
   var add_button = 0;
