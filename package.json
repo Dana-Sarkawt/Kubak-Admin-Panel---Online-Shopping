@@ -29,11 +29,13 @@
     "@k4ung/svelte-otp": "^0.0.9",
     "@nolanx/svelte-onesignal": "^2.0.5",
     "@onesignal/node-onesignal": "^2.0.1-beta2",
+    "@turf/turf": "^6.5.0",
     "appwrite": "^13.0.1",
     "date-picker-svelte": "^2.10.1",
     "flowbite-svelte-icons": "^0.4.5",
     "leaflet": "^1.9.4",
     "moment": "^2.29.4",
+    "node-appwrite": "^11.1.0",
     "particles.js": "^2.0.0",
     "phone": "^3.1.41",
     "ts-mapper": "^1.2.4"

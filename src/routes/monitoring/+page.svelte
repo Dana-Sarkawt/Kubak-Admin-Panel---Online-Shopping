@@ -12,9 +12,11 @@
   import type { Order } from "$lib/Models/Entities/Order.Entities.Model";
   import type { LngLat } from "$lib/Models/Common/LngLat.Common.Model";
   import { routingStore } from "$lib/Stores/Routing.Store";
-  import { Img, Spinner } from "flowbite-svelte";
+  import { Img, SpeedDial, SpeedDialButton, Spinner } from "flowbite-svelte";
   import { onMount } from "svelte";
   import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
+  import { mapTileLayersStore } from "$lib/Stores/MapTileLayers.Store";
+  import { ShareNodesSolid } from "flowbite-svelte-icons";
 
   let L: any;
   let map: any;
@@ -34,13 +36,7 @@
     await loadMap();
 
     await ordersStore.getAll();
-    darkMode.subscribe((value) => {
-      if (map && tileLayer) {
-        map.removeLayer(tileLayer);
-        tileLayer = createTileLayer(value);
-        tileLayer.addTo(map);
-      }
-    });
+
     $ordersStore.data.map((order) => {
       const myIcon = L.icon({
         iconUrl: `images/${OrderStatus[order.status]}.png`,
@@ -82,24 +78,15 @@
       fullscreenControl: true,
     }).setView([35.5558, 45.4351], 13);
 
-    tileLayer = createTileLayer($darkMode);
+    tileLayer = createTileLayer();
     tileLayer.addTo(map);
   }
 
-  function createTileLayer($darkMode: string) {
-    return L.tileLayer(
-      `https://cartodb-basemaps-{s}.global.ssl.fastly.net/${
-        $darkMode === "dark" ? "dark_all" : "light_all"
-      }/{z}/{x}/{y}.png`,
-
-      {
-        maxZoom: 15,
-        minZoom: 13,
-        attribution:
-          '© <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> © <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        style: "light_all",
-      }
-    );
+  function createTileLayer() {
+    return L.tileLayer($mapTileLayersStore, {
+      maxZoom: 16,
+      minZoom: 13,
+    });
   }
 
   function addMarkers(newOrder: OrderDto, status?: number) {
@@ -375,7 +362,16 @@
 </div>
 
 {#if typeof window !== "undefined"}
-  <div id="map" class="w-full h-[93.2vh]" />
+  <div
+    id="map"
+    class="w-full h-[93.2vh] relative flex justify-start items-center"
+  >
+    <SpeedDial pill={false}  class="absolute start-2 top-2 right bottom z-[500] mx-12 mt-1">
+      <SpeedDialButton name="Share" btnDefaultClass="w-[30px] h-[30px]">
+        <ShareNodesSolid class="w-5 h-5" />
+      </SpeedDialButton>
+    </SpeedDial>
+  </div>
 {/if}
 
 <style>

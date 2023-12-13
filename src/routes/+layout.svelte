@@ -4,7 +4,7 @@
   import Navbar from "$lib/Components/Navbar.Component.svelte";
   import { page } from "$app/stores";
   import { darkMode } from "$lib/Stores/Darkmode.Store";
-  import { onMount } from "svelte";
+  import { onDestroy, onMount } from "svelte";
   import { authStore } from "$lib/Stores/Auth.Store";
   import { goto } from "$app/navigation";
   import { routingStore } from "$lib/Stores/Routing.Store";
@@ -15,35 +15,66 @@
   // let OneSignalDeferred: any = [];
 
   onMount(async () => {
-
+    checkDarkMode(); // initial check
 
     darkMode.subscribe(() => {
-      checkDarkMode();
+      checkDarkMode(); // react to changes
     });
+
     await authStore.get();
     if ($authStore && $page.url.pathname === "/login") {
       goto("/");
     }
-    let source:LngLat = {
+    let source: LngLat = {
       lat: 35.553831466871,
-      lng: 45.395440757275
-    }
+      lng: 45.395440757275,
+    };
 
-    let destination:LngLat = {
+    let destination: LngLat = {
       lat: 35.563564144067,
-      lng: 45.396189428866
-    }
+      lng: 45.396189428866,
+    };
+
+    // await createRegion(destination, source, "test");
 
     await routingStore.create(source, destination);
   });
 
-  async function checkDarkMode() {
+  function checkDarkMode() {
     const htmlTag = document.documentElement;
     const classList = htmlTag.classList;
-    classList.contains("dark") ? darkMode.set("dark") : darkMode.set("");
+    darkMode.set(classList.contains("dark") ? "dark" : "");
   }
 
+  $:{
+    if($darkMode){
+      checkDarkMode();
+    }
+  }
 
+  // async function createRegion(
+  //   boundary: LngLat[],
+  //   location: LngLat,
+  //   name: string
+  // ) {
+  //   fetch("/api/region/create", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify({
+  //       name: name,
+  //       location: location,
+  //       boundary: boundary,
+  //     }),
+  //   })
+  //     .then((res) => {
+  //       if (res.status === 200) {
+  //       } else {
+  //       }
+  //     })
+  //     .catch((err) => {});
+  // }
 </script>
 
 <main class="bg-slate-100 dark:bg-gray-950 w-full h-full">

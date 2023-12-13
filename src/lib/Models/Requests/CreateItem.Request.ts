@@ -26,4 +26,5 @@ export interface ItemRequest {
   quantity: number,
   detail?: string,
   category: string[],
+  categoryIds?: string[],
 }

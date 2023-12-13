@@ -62,6 +62,7 @@ export class ItemsRepository implements IItemsRepository {
         quantity: item.quantity,
         detail: item.detail!,
         category: item.categoryId,
+        categoryIds: item.categoryId,
       };
 
       await Appwrite.databases.createDocument(
