@@ -372,7 +372,10 @@
     id="map"
     class="w-full h-[93.2vh] relative flex justify-start items-center"
   >
-    <SpeedDial pill={false}  class="absolute start-2 top-2 right bottom z-[500] mx-12 mt-1">
+    <SpeedDial
+      pill={false}
+      class="absolute start-2 top-2 right bottom  mx-12 mt-1"
+    >
       <SpeedDialButton name="Share" btnDefaultClass="w-[30px] h-[30px]">
         <ShareNodesSolid class="w-5 h-5" />
       </SpeedDialButton>
