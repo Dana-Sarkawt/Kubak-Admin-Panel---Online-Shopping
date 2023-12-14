@@ -145,13 +145,19 @@
       totalAmount = items.reduce((acc, item) => {
         return acc + item.price * item.quantity;
       }, 0);
+
+      sendNotification(
+        order.user.id,
+        order.user.name ?? "No Name",
+        order.status
+      );
     } finally {
       Loading = false;
     }
   }
 
-  function sendEmail(userId: string, name: string, status: number) {
-    fetch("/api/onesignal", {
+  function sendNotification(userId: string, name: string, status: number) {
+    fetch("/api/firebase/notification", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

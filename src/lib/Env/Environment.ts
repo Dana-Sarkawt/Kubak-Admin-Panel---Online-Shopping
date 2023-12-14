@@ -60,4 +60,7 @@ export namespace Environment {
   export const mapbox_style_satellite_streets: string = ENVIRONMENT.VITE_MAPBOX_STYLE_SATELLITE_STREETS;
   export const mapbox_style_light: string = ENVIRONMENT.VITE_MAPBOX_STYLE_LIGHT;
   export const mapbox_style_dark: string = ENVIRONMENT.VITE_MAPBOX_STYLE_DARK;
+
+  // Firebase Config
+  export const firebase_endpoint: string = ENVIRONMENT.VITE_FIREBASE_ENDPOINT;
 }
