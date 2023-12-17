@@ -82,7 +82,7 @@
 
   function createTileLayer() {
     const layerLocal = localStorage.getItem("mapLayer");
-    if(layerLocal) {
+    if (layerLocal) {
       mapTileLayersStore.set(layerLocal);
     }
     return L.tileLayer($mapTileLayersStore.url, {
@@ -192,14 +192,13 @@
   }
 
   function changeLayer(layer: string) {
-    if($mapTileLayersStore.name === layer) return;
+    if ($mapTileLayersStore.name === layer) return;
     // save the state name of the layer in local storage
     localStorage.setItem("mapLayer", layer);
     map.removeLayer(tileLayer);
     mapTileLayersStore.set(layer);
     tileLayer = createTileLayer();
     tileLayer.addTo(map);
-
   }
 
   $: {
@@ -390,14 +389,42 @@
       pill={false}
       class="absolute start-2 top-2 right bottom  mx-12 my-[0.35rem] z-[410] w-14 h-14"
     >
-      <SpeedDialButton name="Dark" on:click={()=>changeLayer(Environment.mapbox_style_dark)}>
-        <img src="images/{Environment.mapbox_style_dark}.png" alt="" class="{$mapTileLayersStore.name === Environment.mapbox_style_dark ? "border-2 border-orange-400" : "border"} rounded-md" />
+      <SpeedDialButton
+        name="Dark"
+        on:click={() => changeLayer(Environment.mapbox_style_dark)}
+      >
+        <img
+          src="images/{Environment.mapbox_style_dark}.png"
+          alt=""
+          class="{$mapTileLayersStore.name === Environment.mapbox_style_dark
+            ? 'border-2 border-orange-400'
+            : 'border'} rounded-md"
+        />
       </SpeedDialButton>
-      <SpeedDialButton name="Satellite" on:click={()=>changeLayer(Environment.mapbox_style_satellite_streets)}>
-        <img src="images/{Environment.mapbox_style_satellite_streets}.png" alt="" class="{$mapTileLayersStore.name === Environment.mapbox_style_satellite_streets ? "border-2 border-orange-400" : "border"} rounded-md" />
+      <SpeedDialButton
+        name="Satellite"
+        on:click={() => changeLayer(Environment.mapbox_style_satellite_streets)}
+      >
+        <img
+          src="images/{Environment.mapbox_style_satellite_streets}.png"
+          alt=""
+          class="{$mapTileLayersStore.name ===
+          Environment.mapbox_style_satellite_streets
+            ? 'border-2 border-orange-400'
+            : 'border'} rounded-md"
+        />
       </SpeedDialButton>
-      <SpeedDialButton name="Streets" on:click={()=>changeLayer(Environment.mapbox_style_streets)}>
-        <img src="images/{Environment.mapbox_style_streets}.png" alt="" class="{$mapTileLayersStore.name === Environment.mapbox_style_streets ? "border-2 border-orange-400" : "border"} rounded-md" />
+      <SpeedDialButton
+        name="Streets"
+        on:click={() => changeLayer(Environment.mapbox_style_streets)}
+      >
+        <img
+          src="images/{Environment.mapbox_style_streets}.png"
+          alt=""
+          class="{$mapTileLayersStore.name === Environment.mapbox_style_streets
+            ? 'border-2 border-orange-400'
+            : 'border'} rounded-md"
+        />
       </SpeedDialButton>
     </SpeedDial>
   </div>
