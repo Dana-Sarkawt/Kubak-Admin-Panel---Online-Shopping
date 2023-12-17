@@ -1,6 +1,6 @@
 import { Environment } from "$lib/Env/Environment";
 import type { RequestHandler } from "@sveltejs/kit";
-import { Client, Databases, ID, Query } from "node-appwrite";
+import { Client, Databases, ID } from "node-appwrite";
 import * as turf from "@turf/turf";
 import type {
   CreateRegionRequest,

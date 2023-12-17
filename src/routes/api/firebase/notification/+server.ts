@@ -6,14 +6,14 @@ import { OrderStatus } from "$lib/Models/Enums/Order-Status.Enum.Model";
 
 const serviceAccount = JSON.parse(JSON.stringify(serviceAccountJSON));
 
-if (admin.apps.length === 0) {
-  admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-    databaseURL: Environment.firebase_endpoint,
-  });
-}
-
 export const POST = (async ({ locals, params, request }) => {
+  if (admin.apps.length === 0) {
+    admin.initializeApp({
+      credential: admin.credential.cert(serviceAccount),
+      databaseURL: Environment.firebase_endpoint,
+    });
+  }
+
   const {
     userId,
     status,
