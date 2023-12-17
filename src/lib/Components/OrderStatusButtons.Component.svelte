@@ -6,16 +6,8 @@
   export let order_status: number;
   export let orderId: string;
 
-  onMount(async () => {
-    console.log(orderId);
-  });
-
   async function updateOrderStatus(status: number) {
-    ordersStore.updateStatus(orderId, status);
-  }
-
-  $: {
-    console.log(orderId);
+    await ordersStore.updateStatus(orderId, status);
   }
 </script>
 
