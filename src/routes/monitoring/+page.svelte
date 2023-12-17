@@ -3,7 +3,6 @@
   import { Dto } from "$lib/Models/Conversion/Conversion.Model";
   import { Appwrite } from "$lib/Appwrite/Appwrite";
   import { Environment } from "$lib/Env/Environment";
-  import { darkMode } from "$lib/Stores/Darkmode.Store";
   import { ordersStore } from "$lib/Stores/Orders.Store";
   import { OrderStatus } from "$lib/Models/Enums/Order-Status.Enum.Model";
   import type { ItemDto } from "$lib/Models/DTO/Item.DTO.Model";
@@ -16,7 +15,6 @@
   import { onMount } from "svelte";
   import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
   import { mapTileLayersStore } from "$lib/Stores/MapTileLayers.Store";
-  import { ShareNodesSolid } from "flowbite-svelte-icons";
 
   let L: any;
   let map: any;
@@ -83,7 +81,11 @@
   }
 
   function createTileLayer() {
-    return L.tileLayer($mapTileLayersStore, {
+    const layerLocal = localStorage.getItem("mapLayer");
+    if(layerLocal) {
+      mapTileLayersStore.set(layerLocal);
+    }
+    return L.tileLayer($mapTileLayersStore.url, {
       maxZoom: 16,
       minZoom: 13,
     });
@@ -146,11 +148,11 @@
         return acc + item.price * item.quantity;
       }, 0);
 
-      sendNotification(
-        order.user.id,
-        order.user.name ?? "No Name",
-        order.status
-      );
+      // sendNotification(
+      //   order.user.id,
+      //   order.user.name ?? "No Name",
+      //   order.status
+      // );
     } finally {
       Loading = false;
     }
@@ -187,6 +189,17 @@
     }
     options.status = status;
     await ordersStore.getAll(options);
+  }
+
+  function changeLayer(layer: string) {
+    if($mapTileLayersStore.name === layer) return;
+    // save the state name of the layer in local storage
+    localStorage.setItem("mapLayer", layer);
+    map.removeLayer(tileLayer);
+    mapTileLayersStore.set(layer);
+    tileLayer = createTileLayer();
+    tileLayer.addTo(map);
+
   }
 
   $: {
@@ -373,11 +386,18 @@
     class="w-full h-[93.2vh] relative flex justify-start items-center"
   >
     <SpeedDial
+      tooltip="right"
       pill={false}
-      class="absolute start-2 top-2 right bottom  mx-12 mt-1"
+      class="absolute start-2 top-2 right bottom  mx-12 my-[0.35rem] z-[410] w-14 h-14"
     >
-      <SpeedDialButton name="Share" btnDefaultClass="w-[30px] h-[30px]">
-        <ShareNodesSolid class="w-5 h-5" />
+      <SpeedDialButton name="Dark" on:click={()=>changeLayer(Environment.mapbox_style_dark)}>
+        <img src="images/{Environment.mapbox_style_dark}.png" alt="" class="{$mapTileLayersStore.name === Environment.mapbox_style_dark ? "border-2 border-orange-400" : "border"} rounded-md" />
+      </SpeedDialButton>
+      <SpeedDialButton name="Satellite" on:click={()=>changeLayer(Environment.mapbox_style_satellite_streets)}>
+        <img src="images/{Environment.mapbox_style_satellite_streets}.png" alt="" class="{$mapTileLayersStore.name === Environment.mapbox_style_satellite_streets ? "border-2 border-orange-400" : "border"} rounded-md" />
+      </SpeedDialButton>
+      <SpeedDialButton name="Streets" on:click={()=>changeLayer(Environment.mapbox_style_streets)}>
+        <img src="images/{Environment.mapbox_style_streets}.png" alt="" class="{$mapTileLayersStore.name === Environment.mapbox_style_streets ? "border-2 border-orange-400" : "border"} rounded-md" />
       </SpeedDialButton>
     </SpeedDial>
   </div>

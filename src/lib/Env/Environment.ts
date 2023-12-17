@@ -43,6 +43,7 @@ export namespace Environment {
     ENVIRONMENT.VITE_APPWRITE_FUNCTION_CHECK_CARDS_EXPIRATION_ID;
   export const appwrite_function_get_user: string =
     ENVIRONMENT.VITE_APPWRITE_FUNCTION_GET_USER_BY_ID_ID;
+  export const appwrite_function_order_notification: string = ENVIRONMENT.VITE_APPWRITE_FUNCTION_ORDER_NOTIFICATION_ID;
 
   // Onesignal Config
   export const onesignal_app_id: string = ENVIRONMENT.VITE_ONESIGNAL_APP_ID;
@@ -55,9 +56,12 @@ export namespace Environment {
   export const valhalla_endpoint: string = ENVIRONMENT.VITE_VALHALLA_ENDPOINT;
 
   // Mapbox Config
-  export const mapbox_access_token: string = ENVIRONMENT.VITE_MAPBOX_ACCESS_TOKEN;
-  export const mapbox_style_streets: string = ENVIRONMENT.VITE_MAPBOX_STYLE_STREETS;
-  export const mapbox_style_satellite_streets: string = ENVIRONMENT.VITE_MAPBOX_STYLE_SATELLITE_STREETS;
+  export const mapbox_access_token: string =
+    ENVIRONMENT.VITE_MAPBOX_ACCESS_TOKEN;
+  export const mapbox_style_streets: string =
+    ENVIRONMENT.VITE_MAPBOX_STYLE_STREETS;
+  export const mapbox_style_satellite_streets: string =
+    ENVIRONMENT.VITE_MAPBOX_STYLE_SATELLITE_STREETS;
   export const mapbox_style_light: string = ENVIRONMENT.VITE_MAPBOX_STYLE_LIGHT;
   export const mapbox_style_dark: string = ENVIRONMENT.VITE_MAPBOX_STYLE_DARK;
 
