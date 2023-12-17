@@ -37,21 +37,21 @@
 {:else if order_status === 2}
   <div class="flex justify-center gap-2">
     <button
-      class="bg-yellow-500 text-white font-bold w-full h-12 rounded-lg hover:bg-yellow-600"
+      class="bg-yellow-500 text-white font-bold w-full h-12 rounded-lg hover:bg-yellow-600 disabled:bg-yellow-600" disabled
       >Delivering...</button
     >
   </div>
 {:else if order_status === 3}
   <div class="flex justify-center gap-2">
     <button
-      class="bg-green-500 text-white font-bold w-full h-12 rounded-lg hover:bg-green-600"
+      class="bg-green-500 text-white font-bold w-full h-12 rounded-lg hover:bg-green-600 disabled:bg-green-600" disabled
       >Delivered</button
     >
   </div>
 {:else if order_status === -1}
   <div class="flex justify-center gap-2">
     <button
-      class="bg-red-500 text-white font-bold w-full h-12 rounded-lg hover:bg-red-600"
+      class="bg-red-500 text-white font-bold w-full h-12 rounded-lg hover:bg-red-600 disabled:bg-red-600" disabled
       >Canceled Delivery</button
     >
   </div>
