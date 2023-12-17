@@ -10,8 +10,7 @@
   import { onMount } from "svelte";
   let options: CreateOrderRequest = {
     id: null,
-    // items: Array.from({ length: 5 }, () => ({ itemId: "", quantity: 0 })),
-    items: [{ itemId: "", quantity: 0 }],
+    items: [{ itemId: "", quantity: 0, price: 0 }],
     userId: "",
     addressId: "",
   };
@@ -25,6 +24,12 @@
   });
 
   async function create(options: CreateOrderRequest) {
+    options.items = options.items.map((item) => {
+      return {
+        ...item,
+        price: $itemStore.data.find((i) => i.id === item.itemId)?.price,
+      }; 
+    }) as { itemId: string; quantity: number; price: number }[];
     await ordersStore.create(options);
   }
 
@@ -35,7 +40,7 @@
       add_button = 4;
       return;
     }
-    options.items.push({ itemId: "", quantity: 0 });
+    options.items.push({ itemId: "", quantity: 0, price: 0 });
     var newInput = document.createElement("div");
     newInput.innerHTML =
       "<div class='w-full flex flex-col h-auto'><Label for='large-input' class='block mb-2'>Items</Label><select name='' id='' class='w-full pt-2 rounded-lg h-12  border-gray-300'><option value=''></option></select></div><div class='w-full flex flex-col'><Label for='large-input' class='block mb-2'>Quantity</Label><Input id='large-input' size='lg' required type='number' class='w-full rounded-xl dark:bg-[#363636] dark:text-white'/></div>";

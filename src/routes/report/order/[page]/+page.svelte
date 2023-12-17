@@ -33,6 +33,7 @@
   };
 
   let orderItems: ItemDto[] = [];
+  let userData: AuthDto;
 
   onMount(async () => {
     try {
@@ -64,6 +65,7 @@
   async function getOrderItems(order: OrderDto) {
     ModalLoading = true;
     try {
+      userData = order.user;
       const itemsBlocker = await itemsBlockerStore.getAll(order.id);
       orderItems =
         itemsBlocker?.map((item) => {
@@ -80,6 +82,7 @@
 
 <ReportsLinks />
 
+<!-- svelte-ignore a11y-missing-attribute -->
 <div
   class="container mx-auto h-auto px-12 flex justify-center items-center gap-3 mt-16"
 >
@@ -112,14 +115,18 @@
       bind:value={filter.to}
     />
   </div>
-  <a href="#" on:click={resetDate}>
+  <!-- svelte-ignore a11y-click-events-have-key-events -->
+  <!-- svelte-ignore a11y-no-static-element-interactions -->
+  <a on:click={resetDate}>
     <button
       class="bg-white dark:bg-[#212121] dark:hover:bg-[#f17f18] duration-300 ease-in-out dark:text-white text-xs lg:text-lg h-12 p-3 rounded-xl text-center flex justify-center items-center"
       >Reset Date
     </button>
   </a>
 
-  <a href="#" on:click={filterOptions}>
+  <!-- svelte-ignore a11y-no-static-element-interactions -->
+  <!-- svelte-ignore a11y-click-events-have-key-events -->
+  <a on:click={filterOptions}>
     <img
       src="/images/search.png"
       alt=""
@@ -203,60 +210,58 @@
     </Table>
   </div>
 
-  {#each $ordersStore.data as order}
-    <Modal
-      title={order.user.name}
-      bind:open={clickOutsideModal}
-      autoclose
-      outsideclose
-      backdropClass="fixed inset-0 z-40 bg-[#212121] bg-opacity-20 dark:bg-opacity-20 backdrop-blur-md"
-      bodyClass="bg-[#fff] dark:bg-[#212121] rounded-lg "
-      class="bg-[#fff] dark:bg-[#212121] h-auto"
-      color="none"
-      classDialog="text-black dark:text-white"
-    >
-      {#if ModalLoading}
-        <div class="w-full h-auto flex justify-center mt-12">
-          <Spinner />
-        </div>
-      {:else}
-        {#each orderItems as order}
-          <div
-            class="bg-[#f1f1f1] dark:bg-[#363636] w-full rounded-lg h-24 flex items-start justify-start gap-2 px-2 py-2"
-          >
-            <Img
-              src={order.itemImage}
-              alt=""
-              class="w-[80px] h-[80px] bg-white dark:bg-[#212121] object-contain p-2 rounded-lg"
-            />
+  <Modal
+    title={userData ? userData.name : ""}
+    bind:open={clickOutsideModal}
+    autoclose
+    outsideclose
+    backdropClass="fixed inset-0 z-40 bg-[#212121] bg-opacity-20 dark:bg-opacity-20 backdrop-blur-md"
+    bodyClass="bg-[#fff] dark:bg-[#212121] rounded-lg "
+    class="bg-[#fff] dark:bg-[#212121] h-auto"
+    color="none"
+    classDialog="text-black dark:text-white"
+  >
+    {#if ModalLoading}
+      <div class="w-full h-auto flex justify-center mt-12">
+        <Spinner />
+      </div>
+    {:else}
+      {#each orderItems as order}
+        <div
+          class="bg-[#f1f1f1] dark:bg-[#363636] w-full rounded-lg h-24 flex items-start justify-start gap-2 px-2 py-2"
+        >
+          <Img
+            src={order.itemImage}
+            alt=""
+            class="w-[80px] h-[80px] bg-white dark:bg-[#212121] object-contain p-2 rounded-lg"
+          />
 
-            <div
-              class="flex flex-col text-ellipsis overflow-hidden truncate cursor-default mt-2"
-            >
-              <p class="text-[#474747] dark:text-gray-400 font-bold text-sm">
-                Name:
-                <b class="text-[#1b1b1b] dark:text-gray-50 font-medium text-sm"
-                  >{order.name}</b
-                >
-              </p>
-              <p class="text-[#474747] dark:text-gray-400 font-bold text-sm">
-                Quantity:
-                <b class="text-[#1d1d1d] dark:text-gray-50 font-medium text-sm">
-                  {order.quantity}</b
-                >
-              </p>
-              <p class="text-[#474747] dark:text-gray-400 font-bold text-sm">
-                Price:
-                <b class="text-[#1d1d1d] dark:text-gray-50 font-medium text-sm">
-                  {order.price}
-                </b>
-              </p>
-            </div>
+          <div
+            class="flex flex-col text-ellipsis overflow-hidden truncate cursor-default mt-2"
+          >
+            <p class="text-[#474747] dark:text-gray-400 font-bold text-sm">
+              Name:
+              <b class="text-[#1b1b1b] dark:text-gray-50 font-medium text-sm"
+                >{order.name}</b
+              >
+            </p>
+            <p class="text-[#474747] dark:text-gray-400 font-bold text-sm">
+              Quantity:
+              <b class="text-[#1d1d1d] dark:text-gray-50 font-medium text-sm">
+                {order.quantity}</b
+              >
+            </p>
+            <p class="text-[#474747] dark:text-gray-400 font-bold text-sm">
+              Price:
+              <b class="text-[#1d1d1d] dark:text-gray-50 font-medium text-sm">
+                {order.price}
+              </b>
+            </p>
           </div>
-        {/each}
-      {/if}
-    </Modal>
-  {/each}
+        </div>
+      {/each}
+    {/if}
+  </Modal>
 
   <Pagination
     name="report/items"

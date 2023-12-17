@@ -90,7 +90,24 @@ const createOrdersStore = () => {
         if (document === null) {
           throw new Error("Order Not Found");
         }
-        await ordersRepository.updateOrder(document);
+        if (order.items.length <= 0) {
+          throw new Error("Order Items is required");
+        }
+        if (order.addressId == "") {
+          throw new Error("Address is required");
+        }
+        await ordersRepository.updateOrder(order);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    updateStatus: async (id: string, status: number) => {
+      try {
+        const document = await ordersRepository.getOrder(id);
+        if (document === null) {
+          throw new Error("Order Not Found");
+        }
+        await ordersRepository.updateOrderStatus(id, status);
       } catch (error) {
         console.log(error);
       }
@@ -101,8 +118,7 @@ const createOrdersStore = () => {
         if (document === null) {
           throw new Error("Order Not Found");
         }
-        document.deletedAt = new Date();
-        await ordersRepository.updateOrder(document);
+        await ordersRepository.deleteOrder(id);
         ordersStore.getAll();
       } catch (error) {
         console.log(error);

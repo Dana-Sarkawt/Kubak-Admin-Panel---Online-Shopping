@@ -9,12 +9,13 @@ export interface CreateOrderRequest {
 interface RequestSelectedItems{
     itemId: string,
     quantity: number,
+    price: number
 }
 
 
 export interface OrderRequest {
     userId: string,
-    status: number,
+    status?: number,
     totalPrice: number,
     items: string[],
 }

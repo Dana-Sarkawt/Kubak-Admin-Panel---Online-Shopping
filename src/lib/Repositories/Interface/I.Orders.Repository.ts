@@ -9,7 +9,7 @@ export interface IOrdersRepository {
 
     createOrder(order: CreateOrderRequest): Promise<void>;
 
-    updateOrder(order: Order): Promise<Order>;
+    updateOrder(order: CreateOrderRequest): Promise<Order>;
 
     updateOrderStatus(id: string, status: number): Promise<Order>;
 }

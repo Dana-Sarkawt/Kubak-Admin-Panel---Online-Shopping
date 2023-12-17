@@ -2,7 +2,7 @@ import { Appwrite } from "$lib/Appwrite/Appwrite";
 import { Environment } from "$lib/Env/Environment";
 import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
 import type { Order } from "$lib/Models/Entities/Order.Entities.Model";
-import type { CreateOrderRequest } from "$lib/Models/Requests/CreateOrder.Request";
+import type { CreateOrderRequest, OrderRequest } from "$lib/Models/Requests/CreateOrder.Request";
 import type { IOrdersRepository } from "$lib/Repositories/Interface/I.Orders.Repository";
 import { Query } from "appwrite";
 
@@ -38,12 +38,17 @@ export class OrdersRepository implements IOrdersRepository {
       throw e;
     }
   }
-  async updateOrder(order: Order): Promise<Order> {
+  async updateOrder(order: CreateOrderRequest): Promise<Order> {
+    const orderRequest: OrderRequest ={
+      userId: order.userId,
+      totalPrice: order.items.reduce((total, item) => total + item.quantity * item.price, 0),
+      items: order.items.map(item => item.itemId),
+    }
     const orderResult = await Appwrite.databases.updateDocument(
       Environment.appwrite_database,
       Environment.appwrite_collection_order,
-      order.$id,
-      order
+      order.id as string,
+      orderRequest
     );
     return orderResult as Order;
   }
@@ -57,6 +62,16 @@ export class OrdersRepository implements IOrdersRepository {
       }
     );
     return orderResult as Order;
+  }
+  async deleteOrder(id: string): Promise<void> {
+    await Appwrite.databases.updateDocument(
+      Environment.appwrite_database,
+      Environment.appwrite_collection_order,
+      id,
+      {
+        deletedAt: Date.now(),
+      }
+    );
   }
   private filterQuery(query: string[], options?: GenericListOptions): string[] {
     query = [

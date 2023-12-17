@@ -151,14 +151,20 @@
       // sendNotification(
       //   order.user.id,
       //   order.user.name ?? "No Name",
-      //   order.status
+      //   order.status,
+      //   order.user.fcmToken ?? ""
       // );
     } finally {
       Loading = false;
     }
   }
 
-  function sendNotification(userId: string, name: string, status: number) {
+  function sendNotification(
+    userId: string,
+    name: string,
+    status: number,
+    fcmToken: string
+  ) {
     fetch("/api/firebase/notification", {
       method: "POST",
       headers: {
@@ -168,6 +174,7 @@
         userId: userId,
         name: name,
         status: OrderStatus[status],
+        fcmToken: fcmToken,
       }),
     })
       .then((res) => {
