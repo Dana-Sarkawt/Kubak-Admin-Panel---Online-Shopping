@@ -2,13 +2,11 @@ import { Appwrite } from "$lib/Appwrite/Appwrite";
 import { Environment } from "$lib/Env/Environment";
 import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
 import type { Auth } from "$lib/Models/Entities/Auth.Entity.Model";
-import { Gender } from "$lib/Models/Enums/Gender.Enum.Model";
 import type {
   AuthRequest,
   CreateAuthRequest,
 } from "$lib/Models/Requests/CreateAuth.Request";
 import type { IAuthRepository } from "$lib/Repositories/Interface/I.Auth.Repository";
-import { authStore } from "$lib/Stores/Auth.Store";
 import { ID } from "appwrite";
 
 export class AuthRepository implements IAuthRepository {
@@ -17,7 +15,6 @@ export class AuthRepository implements IAuthRepository {
       return (await Appwrite.account.get()) as Auth;
     } catch (error: any) {
       if (error && error.code === 401) {
-        // Return null if unauthorized
         return null;
       }
       throw error;
@@ -79,14 +76,16 @@ export class AuthRepository implements IAuthRepository {
   }
 
   private async filterUpdatingOptions(options?: AuthRequest): Promise<void> {
-    if (options?.name != "" ) {
+    if (options?.name != "") {
       await Appwrite.account.updateName(options?.name as string);
     }
     if (options?.prefs.image === "") {
       options!.prefs.image = (await Appwrite.account.getPrefs()).image;
     }
     if (options?.prefs.gender) {
-      options!.prefs.gender === (await Appwrite.account.getPrefs()).gender ? options.prefs.gender : (await Appwrite.account.getPrefs()).gender;
+      options!.prefs.gender === (await Appwrite.account.getPrefs()).gender
+        ? options.prefs.gender
+        : (await Appwrite.account.getPrefs()).gender;
     }
     if (options?.prefs.birthday === "") {
       options!.prefs.birthday = (await Appwrite.account.getPrefs()).birthday;
