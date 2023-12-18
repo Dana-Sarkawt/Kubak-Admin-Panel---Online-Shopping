@@ -78,7 +78,7 @@
 
       {#each lowestItems as items}
         <div
-          class="w-full h-12 2xl:h-20 bg-[#e8e8e8] dark:bg-[#363636] dark:text-white rounded-xl flex justify-center items-center text-center px-2 md:text-[8px] lg:text-lg"
+          class="w-full h-12 2xl:h-20 bg-[#e8e8e8] dark:bg-[#363636] dark:text-white rounded-xl grid grid-cols-3 justify-center items-center text-center px-2 md:text-[8px] lg:text-lg"
         >
           <img
             src={items.itemImage ?? "/images/item.png"}
@@ -104,14 +104,14 @@
 
       {#each mostItems as items}
         <div
-          class="w-full h-12 2xl:h-20 bg-[#e8e8e8] dark:bg-[#363636] dark:text-white rounded-xl flex justify-center items-center px-3 md:text-[8px] lg:text-lg"
+          class="w-full h-12 2xl:h-20 bg-[#e8e8e8] dark:bg-[#363636] dark:text-white rounded-xl grid grid-cols-3 justify-center items-center px-3 md:text-[8px] lg:text-lg"
         >
           <img
             src={items.itemImage ?? "/images/rice.png"}
             alt=""
             class="w-[30px] h-[30px] 2xl:w-[50px] 2xl:h-[50px] object-contain"
           />
-          <p class="w-full text-center">
+          <p class="w-full text-center flex justify-center">
             {items.name ?? "No Name"}
           </p>
           <p class="w-full text-center">{items.price ?? "0"} IQD</p>
@@ -157,7 +157,7 @@
                     ><img
                       src={item.itemImage ?? "/images/item.png"}
                       alt=""
-                      class="w-8"
+                      class="w-12 h-12 object-contain rounded-lg"
                     /></TableBodyCell
                   >
                   <TableBodyCell>{item.name}</TableBodyCell>

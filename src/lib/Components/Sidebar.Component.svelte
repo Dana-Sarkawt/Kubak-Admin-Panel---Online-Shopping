@@ -16,6 +16,8 @@
     NewspaperSolid,
     DesktopPcSolid,
     ArrowRightFromBracketSolid,
+    ProfileCardOutline,
+    UserCircleSolid,
   } from "flowbite-svelte-icons";
 
   async function SignOut() {
@@ -111,6 +113,18 @@
             >
               <svelte:fragment slot="icon">
                 <AddressCardSolid
+                  class="w-5 h-5 text-white transition duration-75"
+                />
+              </svelte:fragment>
+            </SidebarItem>
+
+            <SidebarItem
+              label="Drivers"
+              href="/driver"
+              spanClass="-lg lg:text-xl ml-2"
+            >
+              <svelte:fragment slot="icon">
+                <UserCircleSolid
                   class="w-5 h-5 text-white transition duration-75"
                 />
               </svelte:fragment>
