@@ -1,6 +1,5 @@
 <script lang="ts">
-  import { Label, Input, NavLi, NavUl, Navbar, Spinner } from "flowbite-svelte";
-
+  import { Label, Input, Spinner } from "flowbite-svelte";
   import {
     Table,
     TableBody,
@@ -16,13 +15,13 @@
   import { page } from "$app/stores";
   import Pagination from "$lib/Components/Pagination.Component.svelte";
   import ReportsLinks from "$lib/Components/ReportsLinks.Component.svelte";
-  import { ListPlaceholder } from "flowbite-svelte";
   let loading = true;
 
   let filter: GenericListOptions = {
     page: parseInt($page.params.page),
     limit: 5,
   };
+  let pages: number;
 
   onMount(async () => {
     try {
@@ -41,6 +40,13 @@
     filter.from = "";
     filter.to = "";
     await itemStore.getAll(filter);
+  }
+
+  $: {
+    if ($itemStore) {
+      pages = $itemStore.pages as number;
+      console.log(pages);
+    }
   }
 </script>
 

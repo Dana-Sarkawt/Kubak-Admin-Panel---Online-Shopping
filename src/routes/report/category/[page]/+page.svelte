@@ -49,6 +49,12 @@
     filter.to = "";
     await categoryStore.getAll(filter);
   }
+
+  $: {
+    if ($categoryStore) {
+      pages = $categoryStore.pages as number;
+    }
+  }
 </script>
 
 <ReportsLinks />

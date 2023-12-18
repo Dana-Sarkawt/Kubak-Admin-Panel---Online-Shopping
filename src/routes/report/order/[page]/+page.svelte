@@ -33,6 +33,7 @@
 
   let orderItems: ItemDto[] = [];
   let userData: AuthDto;
+  let pages: number;
 
   onMount(async () => {
     try {
@@ -43,8 +44,6 @@
           auth: (await authStore.getUser(order.user as string)) as AuthDto,
         };
       });
-
-      console.log($ordersStore.data);
     } finally {
       loading = false;
     }
@@ -75,6 +74,12 @@
         }) ?? [];
     } finally {
       ModalLoading = false;
+    }
+  }
+
+  $: {
+    if ($ordersStore) {
+      pages = $ordersStore.pages as number;
     }
   }
 </script>

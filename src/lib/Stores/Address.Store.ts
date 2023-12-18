@@ -30,7 +30,7 @@ const createAddressStore = () => {
           })
         );
 
-        const pages = Math.ceil(total / 8);
+        const pages = Math.ceil(total / (options?.limit ?? 8));
 
         set({ data: addressDto, total: total, pages: pages });
 

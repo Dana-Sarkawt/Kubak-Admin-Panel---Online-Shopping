@@ -7,9 +7,7 @@
   import { onMount } from "svelte";
   import { authStore } from "$lib/Stores/Auth.Store";
   import { goto } from "$app/navigation";
-  import { routingStore } from "$lib/Stores/Routing.Store";
   import type { LngLat } from "$lib/Models/Common/LngLat.Common.Model";
-  import { Appwrite } from "$lib/Appwrite/Appwrite";
   $: pathUrl = $page.url.pathname;
 
   onMount(async () => {

@@ -63,7 +63,7 @@ const createOrdersStore = () => {
           })
         );
 
-        const pages = Math.ceil(total / 8);
+        const pages = Math.ceil(total / (options?.limit ?? 8));
 
         set({ data: ordersDto, total: total, pages: pages });
       } catch (error) {

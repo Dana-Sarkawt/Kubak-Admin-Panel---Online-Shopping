@@ -41,8 +41,8 @@ const createItemStore = () => {
           return Dto.ToItemDto(document);
         });
 
-        const pages = Math.ceil(total / 7);
-        console.log("pages", pages);
+        const pages = Math.ceil(total / (options?.limit ?? 8));
+        console.log("pages", options);
 
         set({ data: itemsDto, total: total, pages: pages });
       } catch (error) {
