@@ -1,6 +1,6 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
-  import type { CreateCategoryRequest } from "$lib/Models/Requests/CreateCategory.Request";
+  import type { CreateCategoryRequest } from "$lib/Models/Requests/CreateCategory.Request.Model";
   import { categoryStore } from "$lib/Stores/Categories.Store";
   import { Label, Input, Spinner, Button } from "flowbite-svelte";
 

@@ -2,7 +2,7 @@
   import { page } from "$app/stores";
   import { onMount } from "svelte";
   import { Label, Input, Modal, Button } from "flowbite-svelte";
-  import type { CreateCardRequest } from "$lib/Models/Requests/CreateCard.Request";
+  import type { CreateCardRequest } from "$lib/Models/Requests/CreateCard.Request.Model";
   import { cardStore } from "$lib/Stores/Cards.Store";
   import type { CardDto } from "$lib/Models/DTO/Card.DTO.Model";
   import moment from "moment";

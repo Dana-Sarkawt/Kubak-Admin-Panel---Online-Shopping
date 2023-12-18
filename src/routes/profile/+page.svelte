@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { Auth } from "$lib/Models/Entities/Auth.Entity.Model";
   import { Gender } from "$lib/Models/Enums/Gender.Enum.Model";
-  import type { CreateAuthRequest } from "$lib/Models/Requests/CreateAuth.Request";
+  import type { CreateAuthRequest } from "$lib/Models/Requests/CreateAuth.Request.Model";
   import { authStore } from "$lib/Stores/Auth.Store";
   import { Label, Input } from "flowbite-svelte";
   import { onMount } from "svelte";

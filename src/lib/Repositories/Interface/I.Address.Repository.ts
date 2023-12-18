@@ -1,6 +1,6 @@
 import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
 import type { Address } from "$lib/Models/Entities/Address.Entity.Model";
-import type { CreateAddressRequest } from "$lib/Models/Requests/CreateAddress.Request";
+import type { CreateAddressRequest } from "$lib/Models/Requests/CreateAddress.Request.Model";
 
 export interface IAddressRepository {
   getAddresses(options?:GenericListOptions): Promise<AppwriteResponse<Address>>;

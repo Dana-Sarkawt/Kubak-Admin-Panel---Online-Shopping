@@ -2,7 +2,7 @@ import { Appwrite } from "$lib/Appwrite/Appwrite";
 import { Environment } from "$lib/Env/Environment";
 import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
 import type { Order } from "$lib/Models/Entities/Order.Entities.Model";
-import type { CreateOrderRequest, OrderRequest } from "$lib/Models/Requests/CreateOrder.Request";
+import type { CreateOrderRequest, OrderRequest } from "$lib/Models/Requests/CreateOrder.Request.Model";
 import type { IOrdersRepository } from "$lib/Repositories/Interface/I.Orders.Repository";
 import { Query } from "appwrite";
 

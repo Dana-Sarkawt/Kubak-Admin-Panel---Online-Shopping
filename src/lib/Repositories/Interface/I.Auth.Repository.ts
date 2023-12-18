@@ -1,6 +1,6 @@
 import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
 import type { Auth } from "$lib/Models/Entities/Auth.Entity.Model";
-import type { CreateAuthRequest } from "$lib/Models/Requests/CreateAuth.Request";
+import type { CreateAuthRequest } from "$lib/Models/Requests/CreateAuth.Request.Model";
 
 export interface IAuthRepository {
   getAuth(): Promise<Auth | null>;

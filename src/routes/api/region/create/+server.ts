@@ -5,7 +5,7 @@ import * as turf from "@turf/turf";
 import type {
   CreateRegionRequest,
   RegionRequest,
-} from "$lib/Models/Requests/CreateRegion.Request";
+} from "$lib/Models/Requests/CreateRegion.Request.Model";
 
 const client = new Client()
   .setEndpoint(Environment.appwrite_endpoint)

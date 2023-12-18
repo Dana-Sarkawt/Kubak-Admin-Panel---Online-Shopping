@@ -2,7 +2,7 @@ import { ItemsRepository } from "$lib/Repositories/Implementation/Items.Reposito
 import type { Store } from "$lib/Models/Response/Store.Response";
 import type { ItemDto } from "$lib/Models/DTO/Item.DTO.Model";
 import { Dto } from "$lib/Models/Conversion/Conversion.Model";
-import type { CreateItemRequest } from "$lib/Models/Requests/CreateItem.Request";
+import type { CreateItemRequest } from "$lib/Models/Requests/CreateItem.Request.Model";
 import { ImageToUrl } from "../../utils/ImageToUrl.Utils";
 import { writable } from "svelte/store";
 import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";

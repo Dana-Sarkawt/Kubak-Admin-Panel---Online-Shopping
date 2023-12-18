@@ -3,7 +3,7 @@ import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.M
 import { Dto } from "$lib/Models/Conversion/Conversion.Model";
 import type { AuthDto } from "$lib/Models/DTO/Auth.DTO.Model";
 import { Roles } from "$lib/Models/Enums/Roles.Enum.Model";
-import type { CreateAuthRequest } from "$lib/Models/Requests/CreateAuth.Request";
+import type { CreateAuthRequest } from "$lib/Models/Requests/CreateAuth.Request.Model";
 import { AuthRepository } from "$lib/Repositories/Implementation/Auth.Repository";
 import { writable } from "svelte/store";
 import { ImageToUrl } from "../../utils/ImageToUrl.Utils";

@@ -1,6 +1,6 @@
 import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
 import type { Category } from "$lib/Models/Entities/Category.Entity.Model";
-import type { CreateCategoryRequest } from "$lib/Models/Requests/CreateCategory.Request";
+import type { CreateCategoryRequest } from "$lib/Models/Requests/CreateCategory.Request.Model";
 
 export interface ICategoriesRepository {
   getCategories(

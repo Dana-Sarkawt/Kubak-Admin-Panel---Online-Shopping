@@ -6,7 +6,7 @@ import { ID, Query } from "appwrite";
 import type {
   CategoryRequest,
   CreateCategoryRequest,
-} from "$lib/Models/Requests/CreateCategory.Request";
+} from "$lib/Models/Requests/CreateCategory.Request.Model";
 import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
 import { toastStore } from "$lib/Stores/Toast.Store";
 

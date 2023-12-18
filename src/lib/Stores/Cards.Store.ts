@@ -1,6 +1,6 @@
 import { Dto } from "$lib/Models/Conversion/Conversion.Model";
 import type { CardDto } from "$lib/Models/DTO/Card.DTO.Model";
-import type { CreateCardRequest } from "$lib/Models/Requests/CreateCard.Request";
+import type { CreateCardRequest } from "$lib/Models/Requests/CreateCard.Request.Model";
 import type { Store } from "$lib/Models/Response/Store.Response";
 import { CardRepository } from "$lib/Repositories/Implementation/Card.Repository";
 import { writable } from "svelte/store";

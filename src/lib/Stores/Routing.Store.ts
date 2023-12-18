@@ -1,7 +1,7 @@
 import { Environment } from "$lib/Env/Environment";
 import type { Direction, LngLat } from "$lib/Models/Common/LngLat.Common.Model";
 import type { ValhallaRoute } from "$lib/Models/Entities/Valhalla-Trip.Entity.Model";
-import type { CreateValhallaRoutingRequest } from "$lib/Models/Requests/CreateValhallaRouting.Request";
+import type { CreateValhallaRoutingRequest } from "$lib/Models/Requests/CreateValhallaRouting.Request.Model";
 import { writable } from "svelte/store";
 import { decodeFromPolyline6 } from "../../utils/ValhallaShapeDecode.Utils";
 

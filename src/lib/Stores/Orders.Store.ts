@@ -1,7 +1,7 @@
 import { goto } from "$app/navigation";
 import { Dto } from "$lib/Models/Conversion/Conversion.Model";
 import type { OrderDto } from "$lib/Models/DTO/Order.DTO.Model";
-import type { CreateOrderRequest } from "$lib/Models/Requests/CreateOrder.Request";
+import type { CreateOrderRequest } from "$lib/Models/Requests/CreateOrder.Request.Model";
 import type { Store } from "$lib/Models/Response/Store.Response";
 import { OrdersRepository } from "$lib/Repositories/Implementation/Orders.Repository";
 import { writable } from "svelte/store";

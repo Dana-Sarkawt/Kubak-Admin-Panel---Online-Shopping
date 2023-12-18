@@ -1,6 +1,6 @@
 <script lang="ts">
   import { Label, Input, Spinner } from "flowbite-svelte";
-  import type { CreateCardRequest } from "$lib/Models/Requests/CreateCard.Request";
+  import type { CreateCardRequest } from "$lib/Models/Requests/CreateCard.Request.Model";
   import { authStore } from "$lib/Stores/Auth.Store";
   import { cardStore } from "$lib/Stores/Cards.Store";
   let options: CreateCardRequest = {

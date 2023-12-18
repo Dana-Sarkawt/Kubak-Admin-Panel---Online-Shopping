@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { AuthDto } from "$lib/Models/DTO/Auth.DTO.Model";
-  import type { CreateOrderRequest } from "$lib/Models/Requests/CreateOrder.Request";
+  import type { CreateOrderRequest } from "$lib/Models/Requests/CreateOrder.Request.Model";
   import { addressStore } from "$lib/Stores/Address.Store";
 
   import { authStore } from "$lib/Stores/Auth.Store";

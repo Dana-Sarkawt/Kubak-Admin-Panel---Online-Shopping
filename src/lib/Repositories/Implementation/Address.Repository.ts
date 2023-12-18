@@ -2,7 +2,7 @@ import { Appwrite } from "$lib/Appwrite/Appwrite";
 import { Environment } from "$lib/Env/Environment";
 import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
 import type { Address } from "$lib/Models/Entities/Address.Entity.Model";
-import type { CreateAddressRequest } from "$lib/Models/Requests/CreateAddress.Request";
+import type { CreateAddressRequest } from "$lib/Models/Requests/CreateAddress.Request.Model";
 import type { IAddressRepository } from "$lib/Repositories/Interface/I.Address.Repository";
 import { ID } from "appwrite";
 

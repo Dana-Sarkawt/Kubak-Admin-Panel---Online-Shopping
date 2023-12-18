@@ -6,7 +6,7 @@ import type { IItemsRepository } from "../Interface/I.Items.Repository";
 import type {
   CreateItemRequest,
   ItemRequest,
-} from "$lib/Models/Requests/CreateItem.Request";
+} from "$lib/Models/Requests/CreateItem.Request.Model";
 import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
 
 export class ItemsRepository implements IItemsRepository {

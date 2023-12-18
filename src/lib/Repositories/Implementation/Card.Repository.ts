@@ -1,7 +1,7 @@
 import { Appwrite } from "$lib/Appwrite/Appwrite";
 import { Environment } from "$lib/Env/Environment";
 import type { Card } from "$lib/Models/Entities/Card.Entity.Model";
-import type { CardRequest, CreateCardRequest } from "$lib/Models/Requests/CreateCard.Request";
+import type { CardRequest, CreateCardRequest } from "$lib/Models/Requests/CreateCard.Request.Model";
 import { ID, Query } from "appwrite";
 import type { ICardsRepository } from "../Interface/I.Cards.Repository";
 

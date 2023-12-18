@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { CreateCategoryRequest } from "$lib/Models/Requests/CreateCategory.Request";
+  import type { CreateCategoryRequest } from "$lib/Models/Requests/CreateCategory.Request.Model";
   import { categoryStore } from "$lib/Stores/Categories.Store";
   import { Label, Input } from "flowbite-svelte";
   import { onMount } from "svelte";

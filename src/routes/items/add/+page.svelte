@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { CreateItemRequest } from "$lib/Models/Requests/CreateItem.Request";
+  import type { CreateItemRequest } from "$lib/Models/Requests/CreateItem.Request.Model";
   import { authStore } from "$lib/Stores/Auth.Store";
   import { categoryStore } from "$lib/Stores/Categories.Store";
   import { itemStore } from "$lib/Stores/Items.Store";

@@ -5,7 +5,7 @@ import type { Auth } from "$lib/Models/Entities/Auth.Entity.Model";
 import type {
   AuthRequest,
   CreateAuthRequest,
-} from "$lib/Models/Requests/CreateAuth.Request";
+} from "$lib/Models/Requests/CreateAuth.Request.Model";
 import type { IAuthRepository } from "$lib/Repositories/Interface/I.Auth.Repository";
 import { ID } from "appwrite";
 
