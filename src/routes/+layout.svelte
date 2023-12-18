@@ -9,6 +9,7 @@
   import { goto } from "$app/navigation";
   import { routingStore } from "$lib/Stores/Routing.Store";
   import type { LngLat } from "$lib/Models/Common/LngLat.Common.Model";
+  import { Appwrite } from "$lib/Appwrite/Appwrite";
   $: pathUrl = $page.url.pathname;
 
   onMount(async () => {
@@ -32,7 +33,17 @@
       lng: 45.396189428866,
     };
 
-    await routingStore.create(source, destination);
+    // await routingStore.create(source, destination);
+
+    const execution = await Appwrite.functions.createExecution(
+        '65800476d6c076251359',
+        undefined,
+        false,
+        '/',
+        'POST'
+    )
+    console.log(execution)
+
   });
 
   function checkDarkMode() {
