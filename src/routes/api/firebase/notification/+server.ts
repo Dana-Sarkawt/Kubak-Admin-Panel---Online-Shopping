@@ -30,8 +30,6 @@ export const POST = (async ({ locals, params, request }) => {
   const userDoc = admin.firestore().collection("users").doc(userId);
   const doc = await userDoc.get();
 
-  console.log("User Doc", doc);
-
   // If the user document doesn't exist, create it
   if (!doc.exists) {
     await userDoc.set({ name: name });
@@ -41,7 +39,7 @@ export const POST = (async ({ locals, params, request }) => {
   const userTokens = tokens.docs.map((token) => token.data().id);
 
   // Check if there are any tokens
-  if (userTokens.length === 0) {
+  if (userTokens.length === 0 || !userTokens.includes(fcmToken)) {
     console.warn("No tokens found for user:", userId);
     if (!fcmToken)
       return new Response(
@@ -85,6 +83,7 @@ export const POST = (async ({ locals, params, request }) => {
 
   // Send the notifications
   try {
+    console.log("Sending messages", messages);
     await admin.messaging().sendEach(messages);
   } catch (e) {
     console.error(e);
@@ -93,5 +92,5 @@ export const POST = (async ({ locals, params, request }) => {
     );
   }
 
-  return new Response(JSON.stringify({ success: true }));
+  return new Response(JSON.stringify({ success: true, message: "Messages sent" }));
 }) satisfies RequestHandler;

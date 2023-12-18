@@ -4,15 +4,12 @@
   import Navbar from "$lib/Components/Navbar.Component.svelte";
   import { page } from "$app/stores";
   import { darkMode } from "$lib/Stores/Darkmode.Store";
-  import { onDestroy, onMount } from "svelte";
+  import { onMount } from "svelte";
   import { authStore } from "$lib/Stores/Auth.Store";
   import { goto } from "$app/navigation";
   import { routingStore } from "$lib/Stores/Routing.Store";
   import type { LngLat } from "$lib/Models/Common/LngLat.Common.Model";
   $: pathUrl = $page.url.pathname;
-
-  // let window: any;
-  // let OneSignalDeferred: any = [];
 
   onMount(async () => {
     checkDarkMode(); // initial check
@@ -35,8 +32,6 @@
       lng: 45.396189428866,
     };
 
-    // await createRegion(destination, source, "test");
-
     await routingStore.create(source, destination);
   });
 
@@ -46,8 +41,8 @@
     darkMode.set(classList.contains("dark") ? "dark" : "");
   }
 
-  $:{
-    if($darkMode){
+  $: {
+    if ($darkMode) {
       checkDarkMode();
     }
   }

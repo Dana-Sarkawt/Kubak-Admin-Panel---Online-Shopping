@@ -58,6 +58,7 @@ export class Dto {
       roles: auth.labels,
       gender:auth.prefs?.gender as number,
       birthday:auth.prefs?.birthday as string,
+      fcmToken:auth.prefs?.fcmToken as string,
     };
   }
 

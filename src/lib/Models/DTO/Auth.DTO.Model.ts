@@ -7,5 +7,6 @@ export interface AuthDto {
     imgUrl?: string,
     gender?: number,
     birthday?: Date | string,
+    fcmToken?: string,
     roles: string[],
 }

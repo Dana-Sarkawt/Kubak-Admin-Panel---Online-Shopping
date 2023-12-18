@@ -9,10 +9,11 @@ export interface Auth extends DatabaseAuth {
     passwordUpdate: string,
     phone: string,
     phoneVerification: boolean,
-    prefs: {
+    prefs?: {
         gender: number,
         image: string | null,
-        birthday: Date | string | null
+        birthday: Date | string | null,
+        fcmToken?: string | null,
     } | null,
     registration: string,
     status: boolean,

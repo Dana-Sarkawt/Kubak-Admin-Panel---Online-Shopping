@@ -148,12 +148,15 @@
         return acc + item.price * item.quantity;
       }, 0);
 
-      // sendNotification(
-      //   order.user.id,
-      //   order.user.name ?? "No Name",
-      //   order.status,
-      //   order.user.fcmToken ?? ""
-      // );
+      console.log("Rekan User",order.user);
+      
+
+      sendNotification(
+        order.user.id,
+        order.user.name ?? "No Name",
+        order.status,
+        order.user.fcmToken ?? ""
+      );
     } finally {
       Loading = false;
     }
