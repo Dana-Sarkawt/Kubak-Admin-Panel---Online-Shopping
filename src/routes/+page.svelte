@@ -32,16 +32,13 @@
   onMount(async () => {
     try {
       await itemStore.getAll(filter);
-      lowestItems = $itemStore.data.slice().reverse().slice(0,4);
-      mostItems = $itemStore.data.slice(0,4);
+      lowestItems = $itemStore.data.slice().reverse().slice(0, 4);
+      mostItems = $itemStore.data.slice(0, 4);
       console.log(lowestItems);
-      
     } finally {
       loading = false;
     }
   });
-
-
 
   onMount(async () => {
     try {
@@ -50,17 +47,14 @@
         return {
           ...order,
           auth: (await authStore.getUser(order.user as string)) as AuthDto,
-        }
+        };
       });
-      
+
       console.log($ordersStore.data);
-      
     } finally {
       loading = false;
     }
   });
-
-  
 </script>
 
 <div class="w-full h-auto flex flex-col justify-center items-center gap-2">
@@ -73,7 +67,7 @@
       <img src="/images/categories.png" alt="" class="px-2 w-72" />
     </div>
     <!--  END CATEGORIES CARD  -->
-  
+
     <!--  START LOWEST ORDER CARD  -->
     <div
       class="w-[30%] h-[300px] 2xl:h-[500px] flex flex-col justify-start items-center bg-white dark:text-white dark:bg-[#212121] rounded-2xl gap-2 p-2"
@@ -94,7 +88,9 @@
           <p class="w-full text-center">
             {items.name ?? "No Name"}
           </p>
-          <p class="w-full tex-center flex justify-center ">{items.price ?? "0"} IQD</p>
+          <p class="w-full tex-center flex justify-center">
+            {items.price ?? "0"} IQD
+          </p>
         </div>
       {/each}
       <!-- svelte-ignore a11y-invalid-attribute -->
@@ -183,7 +179,7 @@
         {/if}
       </div>
     </div>
-  
+
     <!--  END ITEMS LIST TABLE  -->
 
     <!--  START ORDER CARD  -->
@@ -200,34 +196,35 @@
       <!--  START FIRST ORDER CARD  -->
 
       {#each $ordersStore.data as order}
-      <div
-      class="w-11/12 h-12 2xl:h-20 bg-[#e8e8e8] dark:bg-[#363636] rounded-xl flex justify-around items-center px-3 md:text-[8px] lg:text-lg"
-      >
-        <p class="flex justify-center items-center text-center">{order.user.name}</p>
-        <div class="w-1/2 text-center flex justify-center items-center">
-          <div
-          class="h-8 w-20 rounded-lg flex justify-center  text-center items-center px-2 text-sm
-        {order.status === -1
-            ? ' bg-red-600 text-red-200'
-            : order.status === 0
-              ? 'bg-gray-400 text-white'
-              : order.status === 1
-                ? 'bg-blue-600 text-white'
-                : order.status === 2
-                  ? 'bg-yellow-600 text-white'
-                  : order.status == 3
-                    ? 'bg-green-600 text-white'
-                    : 'text-gray-400'}
-        "
+        <div
+          class="w-11/12 h-12 2xl:h-20 bg-[#e8e8e8] dark:bg-[#363636] rounded-xl flex justify-around items-center px-3 md:text-[8px] lg:text-lg"
         >
-          {OrderStatus[order.status]}
+          <p class="flex justify-center items-center text-center">
+            {order.user.name}
+          </p>
+          <div class="w-1/2 text-center flex justify-center items-center">
+            <div
+              class="h-8 w-20 rounded-lg flex justify-center text-center items-center px-2 text-sm
+        {order.status === -1
+                ? ' bg-red-600 text-red-200'
+                : order.status === 0
+                  ? 'bg-gray-400 text-white'
+                  : order.status === 1
+                    ? 'bg-blue-600 text-white'
+                    : order.status === 2
+                      ? 'bg-yellow-600 text-white'
+                      : order.status == 3
+                        ? 'bg-green-600 text-white'
+                        : 'text-gray-400'}
+        "
+            >
+              {OrderStatus[order.status]}
+            </div>
+          </div>
         </div>
-      </div>
-      
-    </div>
-    {/each}
-      
+      {/each}
+
       <!--  END ORDER CARD  -->
     </div>
-</div>
+  </div>
 </div>
