@@ -83,7 +83,6 @@ export const POST = (async ({ locals, params, request }) => {
 
   // Send the notifications
   try {
-    console.log("Sending messages", messages);
     await admin.messaging().sendEach(messages);
   } catch (e) {
     console.error(e);
