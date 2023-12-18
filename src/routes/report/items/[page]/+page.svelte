@@ -16,13 +16,12 @@
   import { page } from "$app/stores";
   import Pagination from "$lib/Components/Pagination.Component.svelte";
   import ReportsLinks from "$lib/Components/ReportsLinks.Component.svelte";
-  import { ListPlaceholder } from 'flowbite-svelte';
-  let loading = true; 
+  import { ListPlaceholder } from "flowbite-svelte";
+  let loading = true;
 
   let filter: GenericListOptions = {
     page: parseInt($page.params.page),
     limit: 5,
-  
   };
 
   onMount(async () => {
@@ -43,11 +42,6 @@
     filter.to = "";
     await itemStore.getAll(filter);
   }
-
-  async function deleteItem(id:string) {
-
-await itemStore.delete(id);
-}
 </script>
 
 <ReportsLinks />
@@ -58,7 +52,7 @@ await itemStore.delete(id);
   <div class="mb-6">
     <Label for="large-input" class="block mb-2">Search</Label>
     <Input
-     bind:value={filter.search}
+      bind:value={filter.search}
       id="large-input"
       placeholder="Search for Items"
       class="dark:bg-[#212121]"
@@ -67,13 +61,24 @@ await itemStore.delete(id);
 
   <div class="mb-6">
     <Label for="large-input" class="block mb-2">From</Label>
-    <Input id="large-input" bind:value={filter.from} type="date" class="dark:bg-[#212121]" />
+    <Input
+      id="large-input"
+      bind:value={filter.from}
+      type="date"
+      class="dark:bg-[#212121]"
+    />
   </div>
 
   <div class="mb-6">
     <Label for="large-input" class="block mb-2">To</Label>
-    <Input id="large-input" type="date" class="dark:bg-[#212121] "bind:value={filter.to} />
+    <Input
+      id="large-input"
+      type="date"
+      class="dark:bg-[#212121] "
+      bind:value={filter.to}
+    />
   </div>
+  <!-- svelte-ignore a11y-invalid-attribute -->
   <a href="#" on:click={resetDate}>
     <button
       class="bg-white dark:bg-[#212121] dark:hover:bg-[#f17f18] duration-300 ease-in-out dark:text-white text-xs lg:text-lg h-12 p-3 rounded-xl text-center flex justify-center items-center"
@@ -81,6 +86,7 @@ await itemStore.delete(id);
     </button>
   </a>
 
+  <!-- svelte-ignore a11y-invalid-attribute -->
   <a href="#" on:click={filterOptions}>
     <img
       src="/images/search.png"
@@ -91,10 +97,9 @@ await itemStore.delete(id);
 </div>
 
 {#if loading}
-<div class="w-full flex justify-center mt-12">
-
-  <Spinner />
-</div>
+  <div class="w-full flex justify-center mt-12">
+    <Spinner />
+  </div>
 {:else}
   <div class="container mx-auto px-12 mt-12">
     <p
@@ -120,8 +125,12 @@ await itemStore.delete(id);
               />
             </TableBodyCell>
             <TableBodyCell>{item.name}</TableBodyCell>
-            <TableBodyCell>{moment(item.createdAt).format("DD-MMM-YYYY")}</TableBodyCell>
-            <TableBodyCell>{moment(item.updatedAt).format("DD-MMM-YYYY")}</TableBodyCell>
+            <TableBodyCell
+              >{moment(item.createdAt).format("DD-MMM-YYYY")}</TableBodyCell
+            >
+            <TableBodyCell
+              >{moment(item.updatedAt).format("DD-MMM-YYYY")}</TableBodyCell
+            >
           </TableBodyRow>
         {/each}
       </TableBody>

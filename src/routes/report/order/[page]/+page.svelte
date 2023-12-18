@@ -10,7 +10,6 @@
     TableHead,
     TableHeadCell,
   } from "flowbite-svelte";
-  import { itemStore } from "$lib/Stores/Items.Store";
   import moment from "moment";
   import { onMount } from "svelte";
   import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
@@ -266,7 +265,7 @@
   <Pagination
     name="report/items"
     {filter}
-    pages={$itemStore.pages}
-    Store={itemStore}
+    pages={$ordersStore.pages}
+    Store={ordersStore}
   />
 {/if}

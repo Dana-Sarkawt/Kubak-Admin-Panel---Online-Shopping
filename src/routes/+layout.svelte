@@ -35,15 +35,6 @@
 
     // await routingStore.create(source, destination);
 
-    const execution = await Appwrite.functions.createExecution(
-        '65800476d6c076251359',
-        undefined,
-        false,
-        '/',
-        'POST'
-    )
-    console.log(execution)
-
   });
 
   function checkDarkMode() {

@@ -23,7 +23,6 @@
   onMount(async () => {
     try {
       await categoryStore.getAll(filter);
-      console.log($categoryStore.data);
     } finally {
       loading = false;
     }

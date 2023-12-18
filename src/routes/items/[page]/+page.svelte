@@ -20,10 +20,9 @@
   import Notification from "$lib/Components/Toasts.Notify.Component.svelte";
   import { toastStore } from "$lib/Stores/Toast.Store";
   import { ExclamationCircleOutline } from "flowbite-svelte-icons";
-  import type { ItemDto } from "$lib/Models/DTO/Item.DTO.Model";
   let filter: GenericListOptions = {
     page: parseInt($page.params.page),
-    limit: 7,
+    limit: 8,
   };
 
   let popupModal: boolean = false;
@@ -37,6 +36,12 @@
       loading = false;
     }
   });
+
+  $: {
+    if ($itemStore) {
+      pages = $itemStore.pages as number;
+    }
+  }
 
   async function filterOptions() {
     await itemStore.getAll(filter);
@@ -226,6 +231,7 @@
     <Button color="alternative">No, cancel</Button>
   </div>
 </Modal>
+
 
 <Pagination name="items" {pages} {filter} Store={itemStore} />
 

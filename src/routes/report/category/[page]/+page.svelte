@@ -16,7 +16,7 @@
   import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
   import Pagination from "$lib/Components/Pagination.Component.svelte";
   import ReportsLinks from "$lib/Components/ReportsLinks.Component.svelte";
-  import { ListPlaceholder } from 'flowbite-svelte';
+  import { ListPlaceholder } from "flowbite-svelte";
   let filter: GenericListOptions = {
     page: parseInt($page.params.page),
     limit: 5,
@@ -29,13 +29,13 @@
     pages = $categoryStore.pages as number;
   });
 
-  let loading = true; 
+  let loading = true;
   onMount(async () => {
     try {
       await categoryStore.getAll(filter);
       pages = $categoryStore.pages as number;
     } finally {
-      loading = false; 
+      loading = false;
     }
   });
 
@@ -49,11 +49,6 @@
     filter.to = "";
     await categoryStore.getAll(filter);
   }
-
-  async function deleteItem(id:string) {
-
-await categoryStore.delete(id);
-}
 </script>
 
 <ReportsLinks />
@@ -64,7 +59,7 @@ await categoryStore.delete(id);
   <div class="mb-6">
     <Label for="large-input" class="block mb-2">Search</Label>
     <Input
-     bind:value={filter.search}
+      bind:value={filter.search}
       id="large-input"
       placeholder="Search for Items"
       class="dark:bg-[#212121]"
@@ -73,12 +68,22 @@ await categoryStore.delete(id);
 
   <div class="mb-6">
     <Label for="large-input" class="block mb-2">From</Label>
-    <Input id="large-input" bind:value={filter.from} type="date" class="dark:bg-[#212121]" />
+    <Input
+      id="large-input"
+      bind:value={filter.from}
+      type="date"
+      class="dark:bg-[#212121]"
+    />
   </div>
 
   <div class="mb-6">
     <Label for="large-input" class="block mb-2">To</Label>
-    <Input id="large-input" type="date" class="dark:bg-[#212121] "bind:value={filter.to} />
+    <Input
+      id="large-input"
+      type="date"
+      class="dark:bg-[#212121] "
+      bind:value={filter.to}
+    />
   </div>
   <a href="#" on:click={resetDate}>
     <button
@@ -97,10 +102,9 @@ await categoryStore.delete(id);
 </div>
 
 {#if loading}
-<div class="w-full flex justify-center mt-12">
-
-  <Spinner />
-</div>
+  <div class="w-full flex justify-center mt-12">
+    <Spinner />
+  </div>
 {:else}
   <div class="container mx-auto px-12 mt-12">
     <p
@@ -119,17 +123,29 @@ await categoryStore.delete(id);
         {#each $categoryStore.data as category}
           <TableBodyRow class="text-center dark:bg-[#272727]">
             <TableBodyCell class="flex justify-center">
-              <img src={category.categoryImage ?? "/images/rice.png"} alt="" class="w-14 h-14 object-cover object-center rounded-lg" />
+              <img
+                src={category.categoryImage ?? "/images/rice.png"}
+                alt=""
+                class="w-14 h-14 object-cover object-center rounded-lg"
+              />
             </TableBodyCell>
             <TableBodyCell>{category.name}</TableBodyCell>
-  
-            <TableBodyCell>{moment(category.createdAt).format("DD-MMM-YYYY")}</TableBodyCell>
-            <TableBodyCell>{moment(category.updatedAt).format("DD-MMM-YYYY")}</TableBodyCell>
+
+            <TableBodyCell
+              >{moment(category.createdAt).format("DD-MMM-YYYY")}</TableBodyCell
+            >
+            <TableBodyCell
+              >{moment(category.updatedAt).format("DD-MMM-YYYY")}</TableBodyCell
+            >
           </TableBodyRow>
         {/each}
       </TableBody>
     </Table>
   </div>
-  {/if}
-  <Pagination name="report/category" {filter} pages={$categoryStore.pages} Store={categoryStore}/>
-  
+{/if}
+<Pagination
+  name="report/category"
+  {filter}
+  pages={$categoryStore.pages}
+  Store={categoryStore}
+/>

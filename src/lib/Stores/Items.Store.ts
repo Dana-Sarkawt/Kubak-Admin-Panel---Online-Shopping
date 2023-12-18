@@ -42,6 +42,7 @@ const createItemStore = () => {
         });
 
         const pages = Math.ceil(total / 7);
+        console.log("pages", pages);
 
         set({ data: itemsDto, total: total, pages: pages });
       } catch (error) {
