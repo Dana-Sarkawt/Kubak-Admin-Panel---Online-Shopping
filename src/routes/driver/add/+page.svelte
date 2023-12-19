@@ -89,6 +89,7 @@
         class="w-full rounded-xl dark:bg-[#363636] dark:text-white"
       />
 
+      <p class="w-full mt-5 font-bold text-red-600 text-center">Add Bike Annutiy Images</p>
       <div class="w-full h-auto flex gap-4 justify-center items-center mt-4">
 
           <div
@@ -151,12 +152,12 @@
           
   
             <div
-            class="w-60 h-60 bg-[#e9e9e9] dark:bg-[#363636] flex justify-center items-center rounded-lg flex-col"
+            class="w-full h-60 bg-[#e9e9e9] dark:bg-[#363636] flex justify-center items-center rounded-lg flex-col"
           >
             <img
               src={options.image.localUrl ?? "/images/item.png"}
               alt=""
-              class="object-cover w-44 h-44 object-center p-1 rounded-xl flex"
+              class="object-contain w-full h-44 object-center p-1 rounded-xl flex"
               />
               <input
                 type="file"
@@ -189,12 +190,12 @@
           
   
             <div
-            class="w-60 h-60 bg-[#e9e9e9] dark:bg-[#363636] flex justify-center items-center rounded-lg flex-col"
+            class="w-full h-60 bg-[#e9e9e9] dark:bg-[#363636] flex justify-center items-center rounded-lg flex-col"
           >
             <img
               src={options.image.localUrl ?? "/images/item.png"}
               alt=""
-              class="object-cover w-44 h-44 object-center p-1 rounded-xl flex"
+              class="object-contain w-full h-44 object-center p-1 rounded-xl flex"
               />
               <input
                 type="file"
@@ -238,7 +239,7 @@
         
   
       {:else}
-      Add Item
+      Add Driver
       {/if}
       </button
     >
