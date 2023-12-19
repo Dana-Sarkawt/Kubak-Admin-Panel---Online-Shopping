@@ -73,7 +73,7 @@
 </script>
 
 <main class="bg-slate-100 dark:bg-gray-950 w-full h-full">
-  {#if pathUrl !== "/login" && $authStore}
+  {#if $authStore && pathUrl !== "/login"}
     <Navbar />
     <div class="w-4/5 h-auto float-right">
       <slot />

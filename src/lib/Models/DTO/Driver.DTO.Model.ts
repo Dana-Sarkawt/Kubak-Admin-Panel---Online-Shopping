@@ -1,8 +1,10 @@
-import type { Datetime } from "../Extensions/Datetime.Extention.Model";
+import type { Datetime } from "$lib/Models/Extensions/Datetime.Extention.Model";
+import type { AuthDto } from "$lib/Models/DTO/Auth.DTO.Model";
 
 export interface DriverDto extends Datetime {
     id: string;
     userId: string;
+    user: AuthDto | null;
     onlineStatus: boolean;
     bikeAnnuity?: BikeAnnuityDto;
     passport?: PassportDto;

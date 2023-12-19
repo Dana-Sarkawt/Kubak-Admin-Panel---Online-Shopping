@@ -102,10 +102,14 @@ export class Dto {
       if (order.items) {
         itemsDto = order.items.map((item) => this.ToItemDto(item) as ItemDto);
       }
+      if(!user){
+        user = null;
+      }
       const addressDto: AddressDto | null = this.ToAddressDto(order.address);
       return {
         id: order.$id,
-        user: user ?? order.userId,
+        userId: order.userId,
+        user: user as AuthDto,
         status: order.status,
         items: items ?? itemsDto,
         address: address ?? addressDto,
@@ -170,14 +174,18 @@ export class Dto {
     }
   }
 
-  static ToDriverDto(driver: Driver): DriverDto | null {
+  static ToDriverDto(driver: Driver, user?:AuthDto | null): DriverDto | null {
     try {
       if (!driver) {
         return null;
       }
+      if(!user){
+        user = null;
+      }
       return {
         id: driver.$id,
         userId: driver.userId,
+        user: user as AuthDto,
         onlineStatus: driver.onlineStatus,
         bikeAnnuity: {
           model: driver.bikeAnnuity!.model,

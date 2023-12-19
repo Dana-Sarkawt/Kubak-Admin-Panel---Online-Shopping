@@ -3,6 +3,7 @@ import { Environment } from "$lib/Env/Environment";
 import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
 import type { Driver } from "$lib/Models/Entities/Driver.Entity.Model";
 import type {
+  BikeAnnuityRequest,
   CreateDriverRequest,
   DriverRequest,
 } from "$lib/Models/Requests/CreateDriver.Request.Model";
@@ -35,10 +36,28 @@ export class DriverRepository implements IDriversRepository {
     return Promise.all(drivers);
   }
   async createDriver(driver: CreateDriverRequest): Promise<void> {
+    const bikeRequest: BikeAnnuityRequest = {
+      model: driver.bikeAnnuity.model,
+      year: driver.bikeAnnuity.year,
+      color: driver.bikeAnnuity.color,
+      plateImage: driver.bikeAnnuity.plateImage.url as string,
+      plateNumber: driver.bikeAnnuity.plateNumber,
+      annuityImageFront: driver.bikeAnnuity.annuityImage.front.url as string,
+      annuityImageBack: driver.bikeAnnuity.annuityImage.back.url as string,
+      annuityNumber: driver.bikeAnnuity.annuityNumber
+    };
+
+    const bikeAnnuity = await Appwrite.databases.createDocument(
+      Environment.appwrite_database,
+      Environment.appwrite_collection_bike_annuity,
+      ID.unique(),
+      bikeRequest
+    );
+
     const driverRequest: DriverRequest = {
       userId: driver.userId as string,
       onlineStatus: driver.onlineStatus,
-      bikeAnnuity: "",
+      bikeAnnuity: bikeAnnuity.$id as string,
       passport: {
         passportNumber: driver.passport.passportNumber,
         passportImage: driver.passport.passportImage.url as string,

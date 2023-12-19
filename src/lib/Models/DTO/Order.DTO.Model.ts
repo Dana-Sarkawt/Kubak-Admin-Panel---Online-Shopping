@@ -5,7 +5,8 @@ import type { AuthDto } from "./Auth.DTO.Model";
 
 export interface OrderDto extends Datetime {
     id: string,
-    user: AuthDto | string | any,
+    userId: string;
+    user: AuthDto | null;
     status: number,
     totalAmount: number,
     items: ItemDto[],
