@@ -10,11 +10,13 @@ export interface Driver extends Database {
 
 interface BikeAnnuity {
   model: string;
-  year: string;
+  year: number;
   color: string;
+  plateImage: string;
   plateNumber: string;
   annuityImageFront: string;
   annuityImageBack: string;
+  annuityNumber: string;
 }
 
 interface Passport {

@@ -38,17 +38,10 @@ export class DriverRepository implements IDriversRepository {
     const driverRequest: DriverRequest = {
       userId: driver.userId as string,
       onlineStatus: driver.onlineStatus,
-      bikeAnnuity: {
-        model: driver.bikeAnnuity!.model,
-        year: driver.bikeAnnuity!.year,
-        color: driver.bikeAnnuity!.color,
-        plateNumber: driver.bikeAnnuity!.plateNumber,
-        annuityImageFront: driver.bikeAnnuity!.annuityImage.front.url as string,
-        annuityImageBack: driver.bikeAnnuity!.annuityImage.back.url as string,
-      },
+      bikeAnnuity: "",
       passport: {
-        passportNumber: driver.passport!.passportNumber,
-        passportImage: driver.passport!.passportImage.url as string,
+        passportNumber: driver.passport.passportNumber,
+        passportImage: driver.passport.passportImage.url as string,
       },
       deletedAt: driver.deletedAt,
     };
@@ -63,17 +56,10 @@ export class DriverRepository implements IDriversRepository {
     const driverRequest: DriverRequest = {
       userId: driver.userId as string,
       onlineStatus: driver.onlineStatus,
-      bikeAnnuity: {
-        model: driver.bikeAnnuity!.model,
-        year: driver.bikeAnnuity!.year,
-        color: driver.bikeAnnuity!.color,
-        plateNumber: driver.bikeAnnuity!.plateNumber,
-        annuityImageFront: driver.bikeAnnuity!.annuityImage.front.url as string,
-        annuityImageBack: driver.bikeAnnuity!.annuityImage.back.url as string,
-      },
+      bikeAnnuity: "",
       passport: {
-        passportNumber: driver.passport!.passportNumber,
-        passportImage: driver.passport!.passportImage.url as string,
+        passportNumber: driver.passport.passportNumber,
+        passportImage: driver.passport.passportImage.url as string,
       },
     };
     const result = await Appwrite.databases.updateDocument(

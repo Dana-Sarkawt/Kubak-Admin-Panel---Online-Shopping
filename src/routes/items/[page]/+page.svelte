@@ -232,7 +232,6 @@
   </div>
 </Modal>
 
-
 <Pagination name="items" {pages} {filter} Store={itemStore} />
 
 <Notification status={$toastStore} name="Item" />

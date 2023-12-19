@@ -3,7 +3,7 @@
   import SvelteOtp from "@k4ung/svelte-otp";
   import { onMount } from "svelte";
   import { Avatar } from "flowbite-svelte";
-  import { Button, Modal } from "flowbite-svelte";
+  import { Modal } from "flowbite-svelte";
   import { phone as PhoneVerify } from "phone";
   import { authStore } from "$lib/Stores/Auth.Store";
 

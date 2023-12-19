@@ -26,11 +26,12 @@ const createItemStore = () => {
     set: (value: Store<ItemDto>) => set(value),
     get: async (id: string) => {
       try {
-        if(!id) return;
+        if (!id) return;
         let document = await itemsRepository.getItem(id);
         return Dto.ToItemDto(document);
       } catch (error) {
         console.log(error);
+        toastStore.set(ToastMessages.ERROR);
       }
     },
 
@@ -47,6 +48,7 @@ const createItemStore = () => {
         set({ data: itemsDto, total: total, pages: pages });
       } catch (error) {
         console.log(error);
+        toastStore.set(ToastMessages.ERROR);
       }
     },
 
@@ -77,7 +79,7 @@ const createItemStore = () => {
         }
 
         await itemsRepository.createItem(item);
-        toastStore.set(3);
+        toastStore.set(ToastMessages.CREATE);
         goto("/items/1");
       } catch (error: any) {
         console.log(error);
@@ -86,9 +88,8 @@ const createItemStore = () => {
     },
     update: async (item: CreateItemRequest) => {
       try {
-        
         const document = await itemsRepository.getItem(item.id as string);
-  
+
         if (document === null) {
           throw new Error("Item Not Found");
         }
@@ -122,22 +123,24 @@ const createItemStore = () => {
           item.image.url = document.itemImage;
         } else {
           if (item.image.url instanceof File) {
-            item.image.url = (await ImageToUrl(item.image.url as File)) as string;
+            item.image.url = (await ImageToUrl(
+              item.image.url as File
+            )) as string;
           }
         }
         if (item.detail == "") {
           item.detail = document.detail;
         }
-        if(item.userId == ""){
+        if (item.userId == "") {
           item.userId = document.userId;
         }
-  
+
         await itemsRepository.updateItem(item);
         toastStore.set(ToastMessages.SUCCESS);
         goto("/items/1");
       } catch (error) {
-        console.log("Error: ",error);
-        
+        console.log("Error: ", error);
+        toastStore.set(ToastMessages.WARNING);
       }
     },
     delete: async (id: string) => {

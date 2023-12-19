@@ -10,10 +10,10 @@ import type { Order } from "$lib/Models/Entities/Order.Entities.Model";
 import type { OrderDto } from "$lib/Models/DTO/Order.DTO.Model";
 import type { Address } from "$lib/Models/Entities/Address.Entity.Model";
 import type { AddressDto } from "$lib/Models/DTO/Address.DTO.Model";
-import { BuildingType } from "$lib/Models/Enums/BuildingType.Enum.Model";
-import type { ItemsBlocker } from "../Entities/ItemBlocker.Entity.Model";
-import type { ItemsBlockerDto } from "../DTO/ItemBlocker.DTO.Model";
-import { Gender } from "../Enums/Gender.Enum.Model";
+import type { ItemsBlocker } from "$lib/Models/Entities/ItemBlocker.Entity.Model";
+import type { ItemsBlockerDto } from "$lib/Models/DTO/ItemBlocker.DTO.Model";
+import type { DriverDto } from "$lib/Models/DTO/Driver.DTO.Model";
+import type { Driver } from "$lib/Models/Entities/Driver.Entity.Model";
 
 export class Dto {
   static ToCardDto(card: Card): CardDto | null {
@@ -56,9 +56,9 @@ export class Dto {
       phone: auth.phone,
       imgUrl: auth.prefs?.image as string,
       roles: auth.labels,
-      gender:auth.prefs?.gender as number,
-      birthday:auth.prefs?.birthday as string,
-      fcmToken:auth.prefs?.fcmToken as string,
+      gender: auth.prefs?.gender as number,
+      birthday: auth.prefs?.birthday as string,
+      fcmToken: auth.prefs?.fcmToken as string,
     };
   }
 
@@ -70,9 +70,6 @@ export class Dto {
           (category) => this.ToCategoriesDto(category) as CategoryDto
         );
       }
-      // if (!item) {
-      //   return null;
-      // }
       return {
         id: item.$id,
         name: item.name,
@@ -94,7 +91,12 @@ export class Dto {
     }
   }
 
-  static ToOrderDto(order: Order,user?:AuthDto | null,items?:ItemDto[], address?:AddressDto | null): OrderDto | null {
+  static ToOrderDto(
+    order: Order,
+    user?: AuthDto | null,
+    items?: ItemDto[],
+    address?: AddressDto | null
+  ): OrderDto | null {
     try {
       let itemsDto: ItemDto[] = [];
       if (order.items) {
@@ -140,10 +142,14 @@ export class Dto {
     }
   }
 
-  static ToItemsBlockerDto(itemBlocker: ItemsBlocker, item?:ItemDto, order?:OrderDto): ItemsBlockerDto | null {
+  static ToItemsBlockerDto(
+    itemBlocker: ItemsBlocker,
+    item?: ItemDto,
+    order?: OrderDto
+  ): ItemsBlockerDto | null {
     try {
       let itemsDto: ItemDto | null = null;
-      let orderDto: OrderDto | null =  null;
+      let orderDto: OrderDto | null = null;
       if (itemBlocker.items) {
         itemsDto = this.ToItemDto(itemBlocker.items) as ItemDto;
       }
@@ -158,6 +164,42 @@ export class Dto {
         quantity: itemBlocker.quantity,
         items: item ?? itemsDto,
         order: order ?? orderDto,
+      };
+    } catch (error: any) {
+      throw new Error(error);
+    }
+  }
+
+  static ToDriverDto(driver: Driver): DriverDto | null {
+    try {
+      if (!driver) {
+        return null;
+      }
+      return {
+        id: driver.$id,
+        userId: driver.userId,
+        onlineStatus: driver.onlineStatus,
+        bikeAnnuity: {
+          model: driver.bikeAnnuity!.model,
+          year: driver.bikeAnnuity!.year,
+          color: driver.bikeAnnuity!.color,
+          plateImage: driver.bikeAnnuity!.plateImage as string,
+          plateNumber: driver.bikeAnnuity!.plateNumber,
+          annuity: {
+            image: {
+              front: driver.bikeAnnuity!.annuityImageFront as string,
+              back: driver.bikeAnnuity!.annuityImageBack as string,
+            },
+            number: driver.bikeAnnuity!.annuityNumber as string,
+          },
+        },
+        passport: {
+          passportNumber: driver.passport!.passportNumber,
+          passportImage: driver.passport!.passportImage as string,
+        },
+        deletedAt: driver.deletedAt as Date | null,
+        createdAt: driver.$createdAt as Date,
+        updatedAt: driver.$updatedAt as Date,
       };
     } catch (error: any) {
       throw new Error(error);

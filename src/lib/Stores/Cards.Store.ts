@@ -65,10 +65,11 @@ const createCardStore = () => {
         }
 
         await cardRepository.createCard(card);
-        toastStore.set(3);
+        toastStore.set(ToastMessages.CREATE);
         goto("/cards");
       } catch (e) {
         console.log(e);
+        toastStore.set(ToastMessages.CREATE);
       }
     },
 
