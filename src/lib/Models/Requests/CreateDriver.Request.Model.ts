@@ -1,9 +1,10 @@
 export interface CreateDriverRequest {
+  id?: string | null;
   userId: string;
   onlineStatus: boolean;
   bikeAnnuity?: CreateBikeAnnuityRequest;
   passport?: CreatePassportRequest;
-  deletedAt: Date | string | null;
+  deletedAt?: Date | string | null;
 }
 
 interface CreateBikeAnnuityRequest {
@@ -36,7 +37,7 @@ export interface DriverRequest {
   onlineStatus: boolean;
   bikeAnnuity?: BikeAnnuityRequest;
   passport?: PassportRequest;
-  deletedAt: Date | string | null;
+  deletedAt?: Date | string | null;
 }
 
 interface BikeAnnuityRequest {

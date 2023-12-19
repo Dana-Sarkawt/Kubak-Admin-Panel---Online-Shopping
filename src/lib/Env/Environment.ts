@@ -30,6 +30,8 @@ export namespace Environment {
     ENVIRONMENT.VITE_APPWRITE_ITEM_BLOCKER_ID;
   export const appwrite_collection_region: string =
     ENVIRONMENT.VITE_APPWRITE_REGION_ID;
+  export const appwrite_collection_driver: string =
+    ENVIRONMENT.VITE_APPWRITE_DRIVER_ID;
 
   // Appwrite Storage
   export const appwrite_storage: string = ENVIRONMENT.VITE_APPWRITE_STORAGE_ID;
