@@ -38,17 +38,39 @@
     }
     console.log("field", field);
 
-    const file = input.files[0];
-    options.bikeAnnuity!.annuityImage.front.url = file;
-    options.bikeAnnuity!.annuityImage.front.localUrl =
-      URL.createObjectURL(file);
+    switch (field) {
+      case "plateImage":
+        const file = input.files[0];
+        options.bikeAnnuity!.plateImage.url = file;
+        options.bikeAnnuity!.plateImage.localUrl = URL.createObjectURL(file);
+        break;
+      case "annuityImageFront":
+        const fileFront = input.files[0];
+        options.bikeAnnuity!.annuityImage.front.url = fileFront;
+        options.bikeAnnuity!.annuityImage.front.localUrl =
+          URL.createObjectURL(fileFront);
+        break;
+      case "annuityImageBack":
+        const fileBack = input.files[0];
+        options.bikeAnnuity!.annuityImage.back.url = fileBack;
+        options.bikeAnnuity!.annuityImage.back.localUrl =
+          URL.createObjectURL(fileBack);
+        break;
+      case "passportImage":
+        const filePassport = input.files[0];
+        options.passport!.passportImage.url = filePassport;
+        options.passport!.passportImage.localUrl =
+          URL.createObjectURL(filePassport);
+        break;
+    }
   }
 
   let isLoading = false;
   async function create(options: CreateDriverRequest) {
     isLoading = true;
     try {
-      await driverStore.create(options);
+      console.log(options);
+      // await driverStore.create(options);
     } finally {
       isLoading = false;
     }
@@ -99,13 +121,14 @@
         />
         <input
           type="file"
-          id="uploadBtn"
+          id="uploadBtnAnnuityFront"
           on:input={handleInputChange}
-          on:change={(event) => handleFileChange(event)}
+          on:change={(event) => handleFileChange(event, "annuityImageFront")}
           accept=".jpg, .jpeg, .png"
         />
-        <label for="uploadBtn" class=" bg-[#f0f0f0] dark:bg-[#363636]"
-          >Add Front Image</label
+        <label
+          for="uploadBtnAnnuityFront"
+          class=" bg-[#f0f0f0] dark:bg-[#363636]">Add Front Image</label
         >
       </div>
 
@@ -120,13 +143,14 @@
         />
         <input
           type="file"
-          id="uploadBtn"
+          id="uploadBtnAnnuityBack"
           on:input={handleInputChange}
-          on:change={handleFileChange}
+          on:change={(event) => handleFileChange(event, "annuityImageBack")}
           accept=".jpg, .jpeg, .png"
         />
-        <label for="uploadBtn" class=" bg-[#f0f0f0] dark:bg-[#363636]"
-          >Add Back Image</label
+        <label
+          for="uploadBtnAnnuityBack"
+          class=" bg-[#f0f0f0] dark:bg-[#363636]">Add Back Image</label
         >
       </div>
     </div>
@@ -153,12 +177,12 @@
           />
           <input
             type="file"
-            id="uploadBtn"
+            id="uploadBtnPassport"
             on:input={handleInputChange}
-            on:change={handleFileChange}
+            on:change={(event) => handleFileChange(event, "passportImage")}
             accept=".jpg, .jpeg, .png"
           />
-          <label for="uploadBtn" class=" bg-[#f0f0f0] dark:bg-[#363636]"
+          <label for="uploadBtnPassport" class=" bg-[#f0f0f0] dark:bg-[#363636]"
             >Add Image</label
           >
         </div>
@@ -187,13 +211,14 @@
           />
           <input
             type="file"
-            id="uploadBtn"
+            id="uploadBtnPlateNumber"
             on:input={handleInputChange}
-            on:change={handleFileChange}
+            on:change={(event) => handleFileChange(event, "plateImage")}
             accept=".jpg, .jpeg, .png"
           />
-          <label for="uploadBtn" class=" bg-[#f0f0f0] dark:bg-[#363636]"
-            >Add Image</label
+          <label
+            for="uploadBtnPlateNumber"
+            class=" bg-[#f0f0f0] dark:bg-[#363636]">Add Image</label
           >
         </div>
       </div>
