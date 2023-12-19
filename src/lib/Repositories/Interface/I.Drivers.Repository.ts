@@ -1,5 +1,6 @@
 import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
 import type { Driver } from "$lib/Models/Entities/Driver.Entity.Model";
+import type { CreateDriverRequest } from "$lib/Models/Requests/CreateDriver.Request.Model";
 
 export interface IDriversRepository {
   getDrivers(options?: GenericListOptions): Promise<AppwriteResponse<Driver>>;

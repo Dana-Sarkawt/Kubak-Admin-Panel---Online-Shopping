@@ -1,21 +1,23 @@
-import type { Database } from "../Extensions/Database.Extension.Model";
+import type { Database } from "$lib/Models/Extensions/Database.Extension.Model";
 
 export interface Driver extends Database {
-    userId: string,
-    onlineStatus: boolean,
-    bikeAnnuity?: BikeAnnuity,
-    passport?: Passaport,
-    deletedAt: Date | string | null,
+  userId: string;
+  onlineStatus: boolean;
+  bikeAnnuity?: BikeAnnuity;
+  passport?: Passport;
+  deletedAt: Date | string | null;
 }
 
 interface BikeAnnuity {
-    bikeModel: string,
-    bikeYear: string,
-    bikeColor: string,
-    bikePlateNumber: string,
+  model: string;
+  year: string;
+  color: string;
+  plateNumber: string;
+  annuityImageFront: string;
+  annuityImageBack: string;
 }
 
-interface Passaport {
-    passaportNumber: string,
-    passaportImage: string,
+interface Passport {
+  passportNumber: string;
+  passportImage: string;
 }
