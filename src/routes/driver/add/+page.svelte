@@ -105,7 +105,7 @@
           accept=".jpg, .jpeg, .png"
         />
         <label for="uploadBtn" class=" bg-[#f0f0f0] dark:bg-[#363636]"
-          >Add Image</label
+          >Add Front Image</label
         >
       </div>
 
@@ -126,7 +126,7 @@
           accept=".jpg, .jpeg, .png"
         />
         <label for="uploadBtn" class=" bg-[#f0f0f0] dark:bg-[#363636]"
-          >Add Image</label
+          >Add Back Image</label
         >
       </div>
     </div>
