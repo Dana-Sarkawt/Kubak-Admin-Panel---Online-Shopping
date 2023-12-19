@@ -84,9 +84,9 @@
       class="w-full rounded-xl dark:bg-[#363636] dark:text-white"
     />
 
-    <p class="w-full mt-5 font-bold text-red-600 text-center">
-      Add Bike Annuity Images
-    </p>
+    <Label class="w-full mt-5 font-bold text-center">
+      Add Bike Annuity Images</Label
+    >
     <div class="w-full h-auto flex gap-4 justify-center items-center mt-4">
       <div
         class="w-60 h-60 bg-[#e9e9e9] dark:bg-[#363636] flex justify-center items-center rounded-lg flex-col"
