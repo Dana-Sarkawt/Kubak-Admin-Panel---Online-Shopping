@@ -13,7 +13,6 @@
   import { Label, Input } from "flowbite-svelte";
   import Pagination from "$lib/Components/Pagination.Component.svelte";
   import { onMount } from "svelte";
-  import { itemStore } from "$lib/Stores/Items.Store";
   import { page } from "$app/stores";
   import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
   import Notification from "$lib/Components/Toasts.Notify.Component.svelte";
@@ -152,6 +151,7 @@
         <TableHeadCell>Bike Model</TableHeadCell>
         <TableHeadCell>Bike Color</TableHeadCell>
         <TableHeadCell>Bike Year</TableHeadCell>
+        <TableHeadCell></TableHeadCell>
       </TableHead>
       <TableBody>
         {#each $driverStore.data as driver}

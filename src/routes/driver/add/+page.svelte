@@ -3,6 +3,7 @@
   import type { AuthDto } from "$lib/Models/DTO/Auth.DTO.Model";
   import type { CreateDriverRequest } from "$lib/Models/Requests/CreateDriver.Request.Model";
   import { authStore } from "$lib/Stores/Auth.Store";
+  import { driverStore } from "$lib/Stores/Drivers.Store";
   import { Label, Input, Spinner } from "flowbite-svelte";
   import { onMount } from "svelte";
   let options: CreateDriverRequest = {
@@ -82,7 +83,7 @@
     isLoading = true;
     try {
       console.log(options);
-      // await driverStore.create(options);
+      await driverStore.create(options);
     } finally {
       isLoading = false;
     }

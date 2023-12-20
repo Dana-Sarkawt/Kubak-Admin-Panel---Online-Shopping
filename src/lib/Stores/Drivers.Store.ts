@@ -8,6 +8,8 @@ import { writable } from "svelte/store";
 import { toastStore } from "./Toast.Store";
 import type { CreateDriverRequest } from "$lib/Models/Requests/CreateDriver.Request.Model";
 import { ImageToUrl } from "../../utils/ImageToUrl.Utils";
+import type { AuthDto } from "$lib/Models/DTO/Auth.DTO.Model";
+import { authStore } from "./Auth.Store";
 
 const driverRepository = new DriverRepository();
 
@@ -31,9 +33,16 @@ const createDriverStore = () => {
       try {
         let { documents, total } = await driverRepository.getDrivers();
 
-        let dto: DriverDto[] = documents.map((document) => {
-          return Dto.ToDriverDto(document) as DriverDto;
-        });
+        let dto: DriverDto[] = await Promise.all(
+          documents.map(async (document) => {
+            const userDto: AuthDto | undefined | null =
+              (await authStore.getUser(document.userId)) as
+                | AuthDto
+                | undefined
+                | null;
+            return Dto.ToDriverDto(document, userDto) as DriverDto;
+          })
+        );
         set({
           data: dto,
           total: total,
@@ -60,11 +69,11 @@ const createDriverStore = () => {
             `Driver Bike Annuity Year Must Be Between 1980 And 2100`
           );
         }
-        if (driver.bikeAnnuity.plateNumber == "") {
-          throw new Error("Driver Bike Annuity Plate Number is required");
-        }
         if (driver.bikeAnnuity.color == "") {
           throw new Error("Driver Bike Annuity Color is required");
+        }
+        if (driver.bikeAnnuity.plateImage.url == "") {
+          throw new Error("Driver Bike Annuity Plate Number is required");
         }
         if (driver.bikeAnnuity.plateNumber == "") {
           throw new Error("Driver Bike Annuity Plate Number is required");
@@ -84,6 +93,16 @@ const createDriverStore = () => {
         if (driver.passport.passportImage.url == "") {
           throw new Error("Driver Passport Image is required");
         }
+        if (driver.bikeAnnuity.plateImage.url instanceof File) {
+          driver.bikeAnnuity.plateImage.url = (await ImageToUrl(
+            driver.bikeAnnuity.plateImage.url as File
+          )) as string;
+        }
+        if (driver.bikeAnnuity.annuityImage.front.url instanceof File) {
+          driver.bikeAnnuity.annuityImage.front.url = (await ImageToUrl(
+            driver.bikeAnnuity.annuityImage.front.url as File
+          )) as string;
+        }
         if (driver.bikeAnnuity.annuityImage.back.url instanceof File) {
           driver.bikeAnnuity.annuityImage.back.url = (await ImageToUrl(
             driver.bikeAnnuity.annuityImage.back.url as File
@@ -92,11 +111,6 @@ const createDriverStore = () => {
         if (driver.passport.passportImage.url instanceof File) {
           driver.passport.passportImage.url = (await ImageToUrl(
             driver.passport.passportImage.url as File
-          )) as string;
-        }
-        if (driver.passport.passportImage instanceof File) {
-          driver.passport.passportImage.url = (await ImageToUrl(
-            driver.bikeAnnuity.annuityImage.front.url as File
           )) as string;
         }
         await driverRepository.createDriver(driver);
@@ -116,16 +130,16 @@ const createDriverStore = () => {
           );
         }
         if (driver.bikeAnnuity?.plateNumber == "") {
-          driver.bikeAnnuity.plateNumber = document.bikeAnnuity!.plateNumber;
+          driver.bikeAnnuity.plateNumber = document.bikes!.plateNumber;
         }
         if (driver.bikeAnnuity?.color == "") {
-          driver.bikeAnnuity.color = document.bikeAnnuity!.color;
+          driver.bikeAnnuity.color = document.bikes!.color;
         }
         if (driver.bikeAnnuity?.plateNumber == "") {
-          driver.bikeAnnuity.plateNumber = document.bikeAnnuity!.plateNumber;
+          driver.bikeAnnuity.plateNumber = document.bikes!.plateNumber;
         }
         if (driver.passport?.passportNumber == "") {
-          driver.passport.passportNumber = document.passport!.passportNumber;
+          driver.passport.passportNumber = document.passportNumber;
         }
         if (driver.bikeAnnuity?.annuityImage.front.url != "") {
           if (driver.bikeAnnuity?.annuityImage.front.url instanceof File) {

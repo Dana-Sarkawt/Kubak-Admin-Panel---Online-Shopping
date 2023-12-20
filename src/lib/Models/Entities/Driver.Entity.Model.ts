@@ -3,7 +3,7 @@ import type { Database } from "$lib/Models/Extensions/Database.Extension.Model";
 export interface Driver extends Database {
   userId: string;
   onlineStatus: boolean;
-  bikeAnnuity?: BikeAnnuity;
+  bikes?: BikeAnnuity;
   passportNumber: string;
   passportImage: string;
   deletedAt: Date | string | null;

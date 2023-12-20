@@ -40,8 +40,9 @@ interface CreatePassportRequest {
 export interface DriverRequest {
   userId: string;
   onlineStatus: boolean;
-  bikeAnnuity?: string;
-  passport?: PassportRequest;
+  bikes?: string;
+  passportNumber: string;
+  passportImage: string;
   deletedAt?: Date | string | null;
 }
 
@@ -54,9 +55,4 @@ export interface BikeAnnuityRequest {
   annuityImageFront: string;
   annuityImageBack: string;
   annuityNumber: string;
-}
-
-interface PassportRequest {
-  passportNumber: string;
-  passportImage: string;
 }

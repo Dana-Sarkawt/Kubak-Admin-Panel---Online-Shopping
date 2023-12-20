@@ -57,11 +57,9 @@ export class DriverRepository implements IDriversRepository {
     const driverRequest: DriverRequest = {
       userId: driver.userId as string,
       onlineStatus: driver.onlineStatus,
-      bikeAnnuity: bikeAnnuity.$id as string,
-      passport: {
-        passportNumber: driver.passport.passportNumber,
-        passportImage: driver.passport.passportImage.url as string,
-      },
+      bikes: bikeAnnuity.$id as string,
+      passportNumber: driver.passport.passportNumber,
+      passportImage: driver.passport.passportImage.url as string,
       deletedAt: driver.deletedAt,
     };
     await Appwrite.databases.createDocument(
@@ -83,11 +81,9 @@ export class DriverRepository implements IDriversRepository {
     const driverRequest: DriverRequest = {
       userId: driver.userId as string,
       onlineStatus: driver.onlineStatus,
-      bikeAnnuity: "",
-      passport: {
-        passportNumber: driver.passport.passportNumber,
-        passportImage: driver.passport.passportImage.url as string,
-      },
+      bikes: "",
+      passportNumber: driver.passport.passportNumber,
+      passportImage: driver.passport.passportImage.url as string,
     };
     const result = await Appwrite.databases.updateDocument(
       Environment.appwrite_database,

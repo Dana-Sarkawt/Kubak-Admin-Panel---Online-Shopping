@@ -188,17 +188,17 @@ export class Dto {
         user: user as AuthDto,
         onlineStatus: driver.onlineStatus,
         bikeAnnuity: {
-          model: driver.bikeAnnuity!.model,
-          year: driver.bikeAnnuity!.year,
-          color: driver.bikeAnnuity!.color,
-          plateImage: driver.bikeAnnuity!.plateImage as string,
-          plateNumber: driver.bikeAnnuity!.plateNumber,
+          model: driver.bikes!.model,
+          year: driver.bikes!.year,
+          color: driver.bikes!.color,
+          plateImage: driver.bikes!.plateImage as string,
+          plateNumber: driver.bikes!.plateNumber,
           annuity: {
             image: {
-              front: driver.bikeAnnuity!.annuityImageFront as string,
-              back: driver.bikeAnnuity!.annuityImageBack as string,
+              front: driver.bikes!.annuityImageFront as string,
+              back: driver.bikes!.annuityImageBack as string,
             },
-            number: driver.bikeAnnuity!.annuityNumber as string,
+            number: driver.bikes!.annuityNumber as string,
           },
         },
         passport: {
