@@ -47,7 +47,10 @@ export namespace Environment {
     ENVIRONMENT.VITE_APPWRITE_FUNCTION_CHECK_CARDS_EXPIRATION_ID;
   export const appwrite_function_get_user: string =
     ENVIRONMENT.VITE_APPWRITE_FUNCTION_GET_USER_BY_ID_ID;
-  export const appwrite_function_order_notification: string = ENVIRONMENT.VITE_APPWRITE_FUNCTION_ORDER_NOTIFICATION_ID;
+  export const appwrite_function_order_notification: string =
+    ENVIRONMENT.VITE_APPWRITE_FUNCTION_ORDER_NOTIFICATION_ID;
+  export const appwrite_function_update_user: string =
+    ENVIRONMENT.VITE_APPWRITE_FUNCTION_UPDATE_USER_ID;
 
   // Onesignal Config
   export const onesignal_app_id: string = ENVIRONMENT.VITE_ONESIGNAL_APP_ID;

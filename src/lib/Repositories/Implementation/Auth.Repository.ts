@@ -59,7 +59,6 @@ export class AuthRepository implements IAuthRepository {
     );
     const documents = JSON.parse(result.responseBody).users;
     const total = JSON.parse(result.responseBody).total;
-
     const users: AppwriteResponse<Auth> = { documents, total };
     return users;
   }
