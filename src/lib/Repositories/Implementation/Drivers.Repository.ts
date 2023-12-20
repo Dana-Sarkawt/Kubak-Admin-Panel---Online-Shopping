@@ -44,7 +44,7 @@ export class DriverRepository implements IDriversRepository {
       plateNumber: driver.bikeAnnuity.plateNumber,
       annuityImageFront: driver.bikeAnnuity.annuityImage.front.url as string,
       annuityImageBack: driver.bikeAnnuity.annuityImage.back.url as string,
-      annuityNumber: driver.bikeAnnuity.annuityNumber
+      annuityNumber: driver.bikeAnnuity.annuityNumber,
     };
 
     const bikeAnnuity = await Appwrite.databases.createDocument(
@@ -69,6 +69,14 @@ export class DriverRepository implements IDriversRepository {
       Environment.appwrite_collection_driver,
       ID.unique(),
       driverRequest
+    );
+
+    await Appwrite.functions.createExecution(
+      Environment.appwrite_function_update_user,
+      JSON.stringify({ userId: driver.userId, labels: ["Driver"] }),
+      false,
+      "/",
+      "GET"
     );
   }
   async updateDriver(driver: CreateDriverRequest): Promise<Driver> {
