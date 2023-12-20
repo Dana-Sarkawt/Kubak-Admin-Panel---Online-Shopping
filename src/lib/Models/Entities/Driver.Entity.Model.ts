@@ -4,7 +4,8 @@ export interface Driver extends Database {
   userId: string;
   onlineStatus: boolean;
   bikeAnnuity?: BikeAnnuity;
-  passport?: Passport;
+  passportNumber: string;
+  passportImage: string;
   deletedAt: Date | string | null;
 }
 
@@ -19,7 +20,7 @@ interface BikeAnnuity {
   annuityNumber: string;
 }
 
-interface Passport {
-  passportNumber: string;
-  passportImage: string;
-}
+// interface Passport {
+//   passportNumber: string;
+//   passportImage: string;
+// }

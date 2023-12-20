@@ -102,7 +102,7 @@ export class Dto {
       if (order.items) {
         itemsDto = order.items.map((item) => this.ToItemDto(item) as ItemDto);
       }
-      if(!user){
+      if (!user) {
         user = null;
       }
       const addressDto: AddressDto | null = this.ToAddressDto(order.address);
@@ -174,12 +174,12 @@ export class Dto {
     }
   }
 
-  static ToDriverDto(driver: Driver, user?:AuthDto | null): DriverDto | null {
+  static ToDriverDto(driver: Driver, user?: AuthDto | null): DriverDto | null {
     try {
       if (!driver) {
         return null;
       }
-      if(!user){
+      if (!user) {
         user = null;
       }
       return {
@@ -202,8 +202,8 @@ export class Dto {
           },
         },
         passport: {
-          passportNumber: driver.passport!.passportNumber,
-          passportImage: driver.passport!.passportImage as string,
+          passportNumber: driver.passportNumber,
+          passportImage: driver.passportImage as string,
         },
         deletedAt: driver.deletedAt as Date | null,
         createdAt: driver.$createdAt as Date,

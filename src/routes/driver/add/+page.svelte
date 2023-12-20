@@ -1,7 +1,10 @@
 <script lang="ts">
+  import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
+  import type { AuthDto } from "$lib/Models/DTO/Auth.DTO.Model";
   import type { CreateDriverRequest } from "$lib/Models/Requests/CreateDriver.Request.Model";
-  import { driverStore } from "$lib/Stores/Drivers.Store";
+  import { authStore } from "$lib/Stores/Auth.Store";
   import { Label, Input, Spinner } from "flowbite-svelte";
+  import { onMount } from "svelte";
   let options: CreateDriverRequest = {
     userId: "",
     onlineStatus: false,
@@ -30,14 +33,23 @@
       passportNumber: "",
     },
   };
+  let filter: GenericListOptions = {
+    driverCheck: true,
+  };
+  let listUsers: AuthDto[] = [];
+
+  onMount(async () => {
+    try {
+      listUsers = (await authStore.listUsers(filter))?.data as AuthDto[];
+    } finally {
+    }
+  });
 
   function handleFileChange(event: Event, field?: string) {
     const input = event.target as HTMLInputElement;
     if (!input.files || input.files.length === 0) {
       return;
     }
-    console.log("field", field);
-
     switch (field) {
       case "plateImage":
         const file = input.files[0];
@@ -96,6 +108,19 @@
   class="container mx-auto max-w-2xl flex justify-center items-center flex-col gap-3 mt-23 py-12 rounded-xl bg-white dark:bg-[#212121]"
 >
   <div class="mb-6 w-4/5 flex justify-center items-start flex-col">
+    <Label for="large-input" class="block mb-2">User</Label>
+    <select
+      name=""
+      id=""
+      class="w-full pt-2 rounded-lg dark:bg-[#2c2c2c] dark:border-[#3b3b3b] dark:text-white border-gray-300 mb-4"
+      bind:value={options.userId}
+    >
+      {#each listUsers as user}
+        <option value={user.id}
+          >{user.name.length > 0 ? user.name : "No Name"}</option
+        >
+      {/each}
+    </select>
     <Label for="large-input" class="block mb-2">Bike Annuity</Label>
     <Input
       bind:value={options.bikeAnnuity.annuityNumber}
@@ -111,7 +136,7 @@
     >
     <div class="w-full h-auto flex gap-4 justify-center items-center mt-4">
       <div
-        class="w-60 h-60 bg-[#e9e9e9] dark:bg-[#363636] flex justify-center items-center rounded-lg flex-col"
+        class="w-full h-60 bg-[#e9e9e9] dark:bg-[#363636] flex justify-center items-center rounded-lg flex-col"
       >
         <img
           src={options.bikeAnnuity.annuityImage.front.localUrl ??
@@ -133,7 +158,7 @@
       </div>
 
       <div
-        class="w-60 h-60 bg-[#e9e9e9] dark:bg-[#363636] flex justify-center items-center rounded-lg flex-col"
+        class="w-full h-60 bg-[#e9e9e9] dark:bg-[#363636] flex justify-center items-center rounded-lg flex-col"
       >
         <img
           src={options.bikeAnnuity.annuityImage.back.localUrl ??
@@ -154,13 +179,51 @@
         >
       </div>
     </div>
+    <div class="w-full h-auto flex gap-4 justify-center items-center mt-4">
+      <Label for="large-input" class="block mb-2 w-full text-center"
+        >Bike Model
+        <Input
+          bind:value={options.bikeAnnuity.model}
+          id="large-input"
+          size="lg"
+          required
+          placeholder="Bike Model"
+          class="w-full rounded-xl dark:bg-[#363636] dark:text-white text-center"
+        />
+      </Label>
+
+      <Label for="large-input" class="block mb-2 w-full text-center"
+        >Bike Color
+        <Input
+          bind:value={options.bikeAnnuity.color}
+          id="large-input"
+          size="lg"
+          required
+          placeholder="Bike Color"
+          class="rounded-xl dark:bg-[#363636] dark:text-white text-center"
+        />
+      </Label>
+
+      <Label for="large-input" class="block mb-2 w-full text-center"
+        >Bike Year
+        <Input
+          bind:value={options.bikeAnnuity.year}
+          id="large-input"
+          size="lg"
+          required
+          type="number"
+          placeholder="Bike Year"
+          class="text-center rounded-xl dark:bg-[#363636] dark:text-white"
+        />
+      </Label>
+    </div>
 
     <div class="w-full flex flex-col mt-12">
       <Label for="large-input" class="block mb-2">Passport Number</Label>
       <Input
         bind:value={options.passport.passportNumber}
         id="large-input"
-        size="lg"
+        size="md"
         required
         placeholder="Passport Number"
         class="w-full rounded-xl dark:bg-[#363636] dark:text-white"

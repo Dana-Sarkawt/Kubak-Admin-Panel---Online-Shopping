@@ -32,7 +32,7 @@
   };
 
   let orderItems: ItemDto[] = [];
-  let userData: AuthDto;
+  let userData: AuthDto | null;
   let pages: number;
 
   onMount(async () => {
@@ -41,7 +41,7 @@
       $ordersStore.data.map(async (order) => {
         return {
           ...order,
-          auth: (await authStore.getUser(order.user as string)) as AuthDto,
+          auth: (await authStore.getUser(order.userId)) as AuthDto,
         };
       });
     } finally {
@@ -172,14 +172,14 @@
             >
               <div class="w-full h-24 mt-3 flex justify-center items-center">
                 <img
-                  src={order.user.imgUrl ?? "/images/user.png"}
+                  src={order.user?.imgUrl ?? "/images/user.png"}
                   class="w-12 h-12 flex justify-center items-center object-cover rounded-lg"
                   alt=""
                 />
               </div></TableBodyCell
             >
 
-            <TableBodyCell>{order.user.name}</TableBodyCell>
+            <TableBodyCell>{order.user?.name}</TableBodyCell>
             <TableBodyCell tdClass="flex justify-center items-center">
               <div class="flex w-full h-24 items-center justify-center">
                 <div
