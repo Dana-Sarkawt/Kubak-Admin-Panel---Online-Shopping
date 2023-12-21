@@ -127,13 +127,15 @@
     order_status = order.status;
     orderId = order.id;
 
-    let mapData: LngLat[] = Array.isArray($routingStore[0].route)
-      ? $routingStore[0].route.map((route: LngLat) => {
-          return route as LngLat;
-        })
-      : [];
+    // TODO: uncomment this when the routing is done
+    // let mapData: LngLat[] = Array.isArray($routingStore[0].route)
+    //   ? $routingStore[0].route.map((route: LngLat) => {
+    //       return route as LngLat;
+    //     })
+    //   : [];
 
-    L.polyline(mapData, { color: "#f17f18" }).addTo(map);
+    // L.polyline(mapData, { color: "#f17f18" }).addTo(map);
+    
     map.setView([order.address?.latitude, order.address?.longitude], 16);
     try {
       const itemsBlocker = await itemsBlockerStore.getAll(order.id);
@@ -148,14 +150,12 @@
         return acc + item.price * item.quantity;
       }, 0);
 
-      console.log("Rekan User",order.user);
-      
 
       sendNotification(
-        order.user.id,
-        order.user.name ?? "No Name",
+        order.user!.id,
+        order.user!.name ?? "No Name",
         order.status,
-        order.user.fcmToken ?? ""
+        order.user!.fcmToken ?? ""
       );
     } finally {
       Loading = false;
@@ -296,15 +296,15 @@
         >
           <div class="flex justify-center items-center gap-2 overflow-hidden">
             <img
-              src={order.user.imgUrl ?? "images/user.png"}
+              src={order.user?.imgUrl ?? "images/user.png"}
               alt=""
               class="w-8"
             />
             <p
               class="text-white text-sm text-ellipsis overflow-hidden truncate cursor-default"
-              title={order.user.name ?? "No Name"}
+              title={order.user?.name ?? "No Name"}
             >
-              {order.user.name ?? "No Name"}
+              {order.user?.name ?? "No Name"}
             </p>
           </div>
 
