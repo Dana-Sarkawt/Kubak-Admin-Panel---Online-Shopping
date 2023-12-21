@@ -16,7 +16,6 @@
     NewspaperSolid,
     DesktopPcSolid,
     ArrowRightFromBracketSolid,
-    ProfileCardOutline,
     UserCircleSolid,
   } from "flowbite-svelte-icons";
 
@@ -26,9 +25,6 @@
 
   $: activeUrl = $page.url.pathname;
 
-
-
-
   let activeClass =
     "flex items-center p-2 text-base font-normal text-white bg-[#CB5500] dark:bg-[#5B5B5B] rounded-l-full";
   let nonActiveClass =
@@ -36,7 +32,7 @@
 </script>
 
 <div class="w-1/5 h-[100vh] fixed bg-[#f17f18] dark:bg-[#212121]">
-  <Sidebar {activeUrl} {activeClass} {nonActiveClass} asideClass="w-full ">
+  <Sidebar {activeUrl} {activeClass} {nonActiveClass} asideClass="w-full">
     <SidebarWrapper class="bg-[#f17f18] dark:bg-[#212121] p-0 h-full">
       <SidebarGroup class="h-full " ulClass="h-full pl-3">
         <div class="w-full h-auto flex justify-center items-center pb-5 mt-5">
@@ -76,7 +72,9 @@
 
             <SidebarItem
               label="Categories"
-              href={$page.url.pathname.includes("category/add") ? "/category/add" : `/category/1`}
+              href={$page.url.pathname.includes("category/add")
+                ? "/category/add"
+                : `/category/1`}
               spanClass="-lg lg:text-xl ml-2"
             >
               <svelte:fragment slot="icon">
@@ -86,7 +84,9 @@
 
             <SidebarItem
               label="Items"
-              href={$page.url.pathname.includes("items/add") ? "/items/add" : `/items/1`}
+              href={$page.url.pathname.includes("items/add")
+                ? "/items/add"
+                : `/items/1`}
               spanClass="-lg lg:text-xl ml-2"
             >
               <svelte:fragment slot="icon">
@@ -120,7 +120,7 @@
 
             <SidebarItem
               label="Drivers"
-              href="/driver"
+              href="/driver/1"
               spanClass="-lg lg:text-xl ml-2"
             >
               <svelte:fragment slot="icon">

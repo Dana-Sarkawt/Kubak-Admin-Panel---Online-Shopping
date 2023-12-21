@@ -31,6 +31,8 @@
   onMount(async () => {
     try {
       await driverStore.getAll(filter);
+
+      pages = $driverStore.pages as number;
     } finally {
       loading = false;
     }
@@ -174,7 +176,7 @@
               class="flex justify-center items-center"
             >
               <a
-                href="/items/edit/{driver.id}"
+                href="/driver/edit/{driver.id}"
                 class="flex items-center justify-center h-12"
               >
                 <div class="flex items-center justify-center h-12">

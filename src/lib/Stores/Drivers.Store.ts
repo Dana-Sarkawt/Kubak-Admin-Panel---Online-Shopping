@@ -22,11 +22,13 @@ const createDriverStore = () => {
     },
     get: async (id: string) => {
       try {
-        if (!id) return;
+        if (!id) throw new Error("Driver Id is required");
         let document = await driverRepository.getDriver(id);
+        if(document == null) throw new Error("Driver not found");
         return Dto.ToDriverDto(document);
       } catch (e) {
         console.log(e);
+        return null;
       }
     },
     getAll: async (options?: GenericListOptions) => {
