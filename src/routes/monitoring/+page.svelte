@@ -49,7 +49,7 @@
           .on("click", function (e: any) {
             getItemsOrder(order);
           }),
-        id: order.id,
+        id: order.id
       });
     });
 
@@ -135,7 +135,7 @@
     //   : [];
 
     // L.polyline(mapData, { color: "#f17f18" }).addTo(map);
-    
+
     map.setView([order.address?.latitude, order.address?.longitude], 16);
     try {
       const itemsBlocker = await itemsBlockerStore.getAll(order.id);
@@ -149,7 +149,6 @@
       totalAmount = items.reduce((acc, item) => {
         return acc + item.price * item.quantity;
       }, 0);
-
 
       sendNotification(
         order.user!.id,
