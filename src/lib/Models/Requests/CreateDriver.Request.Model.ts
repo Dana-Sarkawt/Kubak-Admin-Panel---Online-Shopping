@@ -1,6 +1,7 @@
 export interface CreateDriverRequest {
   id?: string | null;
   userId: string;
+  labels: string[];
   onlineStatus: boolean;
   bikeAnnuity: CreateBikeAnnuityRequest;
   passport: CreatePassportRequest;

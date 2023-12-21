@@ -8,6 +8,7 @@
   import { onMount } from "svelte";
   let options: CreateDriverRequest = {
     userId: "",
+    labels: [],
     onlineStatus: false,
     bikeAnnuity: {
       model: "",
@@ -42,6 +43,7 @@
   onMount(async () => {
     try {
       listUsers = (await authStore.listUsers(filter))?.data as AuthDto[];
+      console.log(listUsers);
     } finally {
     }
   });

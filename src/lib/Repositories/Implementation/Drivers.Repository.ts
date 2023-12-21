@@ -71,7 +71,7 @@ export class DriverRepository implements IDriversRepository {
 
     await Appwrite.functions.createExecution(
       Environment.appwrite_function_update_user,
-      JSON.stringify({ userId: driver.userId, labels: "Driver" }),
+      JSON.stringify({ userId: driver.userId, labels: driver.labels }),
       false,
       "/",
       "GET"

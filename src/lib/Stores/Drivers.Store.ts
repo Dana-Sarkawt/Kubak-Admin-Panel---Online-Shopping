@@ -113,6 +113,15 @@ const createDriverStore = () => {
             driver.passport.passportImage.url as File
           )) as string;
         }
+        if(driver.labels.length == 0){
+          const user = await authStore.getUser(driver.userId);
+          if(user?.roles.includes("Driver")){
+            driver.labels = user?.roles;
+          }else{
+            user?.roles.push("Driver");
+            driver.labels = user?.roles as string[];
+          }
+        }
         await driverRepository.createDriver(driver);
         toastStore.set(ToastMessages.SUCCESS);
       } catch (e) {

@@ -21,6 +21,7 @@
     if ($authStore && $page.url.pathname === "/login") {
       goto("/");
     }
+
     let source: LngLat = {
       lat: 35.553831466871,
       lng: 45.395440757275,
@@ -32,7 +33,6 @@
     };
 
     // await routingStore.create(source, destination);
-
   });
 
   function checkDarkMode() {
