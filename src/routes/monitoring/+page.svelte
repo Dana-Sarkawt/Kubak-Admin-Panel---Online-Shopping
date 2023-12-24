@@ -49,7 +49,7 @@
           .on("click", function (e: any) {
             getItemsOrder(order);
           }),
-        id: order.id
+        id: order.id,
       });
     });
 
