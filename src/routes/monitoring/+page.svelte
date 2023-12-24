@@ -9,8 +9,6 @@
   import { itemsBlockerStore } from "$lib/Stores/ItemsBlocker.Store";
   import type { OrderDto } from "$lib/Models/DTO/Order.DTO.Model";
   import type { Order } from "$lib/Models/Entities/Order.Entities.Model";
-  import type { LngLat } from "$lib/Models/Common/LngLat.Common.Model";
-  import { routingStore } from "$lib/Stores/Routing.Store";
   import { Img, SpeedDial, SpeedDialButton, Spinner } from "flowbite-svelte";
   import { onMount } from "svelte";
   import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
