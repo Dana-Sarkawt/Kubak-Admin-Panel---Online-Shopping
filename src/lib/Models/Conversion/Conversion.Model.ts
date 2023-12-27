@@ -14,6 +14,8 @@ import type { ItemsBlocker } from "$lib/Models/Entities/ItemBlocker.Entity.Model
 import type { ItemsBlockerDto } from "$lib/Models/DTO/ItemBlocker.DTO.Model";
 import type { DriverDto } from "$lib/Models/DTO/Driver.DTO.Model";
 import type { Driver } from "$lib/Models/Entities/Driver.Entity.Model";
+import type { DriverLocation } from "../Entities/DriverLocation.Entity.Model";
+import type { DriverLocationDto } from "../DTO/DriverLocation.DTO.Model";
 
 export class Dto {
   static ToCardDto(card: Card): CardDto | null {
@@ -211,6 +213,29 @@ export class Dto {
       };
     } catch (error: any) {
       throw new Error(error);
+    }
+  }
+
+  static ToDriverLocationDto(
+    driverLocation: DriverLocation
+  ): DriverLocationDto | null {
+    try {
+      let driverDto: DriverDto | null = null;
+      if (driverLocation.driver != null) {
+        driverDto = this.ToDriverDto(driverLocation.driver) as DriverDto;
+      }
+      return {
+        id: driverLocation.$id,
+        driverId: driverLocation.driverId,
+        latitude: driverLocation.latitude,
+        longitude: driverLocation.longitude,
+        driver: driverDto,
+        createdAt: driverLocation.$createdAt as Date,
+        updatedAt: driverLocation.$updatedAt as Date,
+        deletedAt: driverLocation.deletedAt as Date | null,
+      };
+    } catch (error) {
+      throw error;
     }
   }
 }

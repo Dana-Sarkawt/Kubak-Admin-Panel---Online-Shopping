@@ -21,7 +21,7 @@
   let totalAmount: number = 0;
   let markers: any[] = [];
   let order_status: number = -2;
-  let orderId: string = "";
+  let orderData: OrderDto;
   let options: GenericListOptions = {
     status: -2,
   };
@@ -123,9 +123,9 @@
   async function getItemsOrder(order: OrderDto) {
     Loading = true;
     order_status = order.status;
-    orderId = order.id;
+    orderData = order;    
 
-    // TODO: uncomment this when the routing is done
+    // TODO: #1 uncomment this when the routing is done
     // let mapData: LngLat[] = Array.isArray($routingStore[0].route)
     //   ? $routingStore[0].route.map((route: LngLat) => {
     //       return route as LngLat;
@@ -182,7 +182,9 @@
         } else {
         }
       })
-      .catch((err) => {});
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   async function filter(status: number) {
@@ -380,7 +382,7 @@
             </b>{totalAmount ?? "0"} IQD
           </p>
         </div>
-        <OrderStatusButtons {order_status} {orderId} />
+        <OrderStatusButtons {order_status} order={orderData} />
       </div>
     </div>
   </div>

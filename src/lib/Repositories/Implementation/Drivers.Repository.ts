@@ -118,6 +118,9 @@ export class DriverRepository implements IDriversRepository {
     if (options?.from && options?.to) {
       query.push(Query.between("$createdAt", options?.from, options?.to));
     }
+    if (options?.driverCheck) {
+      query.push(Query.equal("onlineStatus", options?.driverCheck));
+    }
     return query;
   }
 }

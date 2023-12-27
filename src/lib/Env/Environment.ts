@@ -34,6 +34,7 @@ export namespace Environment {
     ENVIRONMENT.VITE_APPWRITE_DRIVER_ID;
   export const appwrite_collection_bike_annuity: string =
     ENVIRONMENT.VITE_APPWRITE_BIKE_ID;
+  export const appwrite_collection_driver_location: string = ENVIRONMENT.VITE_APPWRITE_DRIVER_LOCATION_ID;
 
   // Appwrite Storage
   export const appwrite_storage: string = ENVIRONMENT.VITE_APPWRITE_STORAGE_ID;

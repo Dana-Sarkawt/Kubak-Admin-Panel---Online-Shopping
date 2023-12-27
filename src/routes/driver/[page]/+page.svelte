@@ -26,13 +26,13 @@
 
   let popupModal: boolean = false;
   let itemId: string = "";
-  let pages: number;
+  let pages: number = 0;
   let loading = true;
   onMount(async () => {
     try {
       await driverStore.getAll(filter);
-
-      pages = $driverStore.pages as number;
+      $driverStore ? pages = $driverStore.pages as number : pages = 0;
+      console.log($driverStore);
     } finally {
       loading = false;
     }
@@ -229,6 +229,6 @@
   </div>
 </Modal>
 
-<Pagination name="items" {pages} {filter} Store={driverStore} />
+<Pagination name="Drivers" {pages} {filter} Store={driverStore} />
 
-<Notification status={$toastStore} name="Item" />
+<Notification status={$toastStore} name="Driver" />
