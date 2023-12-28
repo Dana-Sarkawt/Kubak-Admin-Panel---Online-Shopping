@@ -26,6 +26,8 @@ export namespace Environment {
     ENVIRONMENT.VITE_APPWRITE_ADDRESS_ID;
   export const appwrite_collection_order: string =
     ENVIRONMENT.VITE_APPWRITE_ORDER_ID;
+  export const appwrite_collection_order_status: string =
+    ENVIRONMENT.VITE_APPWRITE_ORDER_STATUS_ID;
   export const appwrite_collection_item_blocker: string =
     ENVIRONMENT.VITE_APPWRITE_ITEM_BLOCKER_ID;
   export const appwrite_collection_region: string =
@@ -34,7 +36,8 @@ export namespace Environment {
     ENVIRONMENT.VITE_APPWRITE_DRIVER_ID;
   export const appwrite_collection_bike_annuity: string =
     ENVIRONMENT.VITE_APPWRITE_BIKE_ID;
-  export const appwrite_collection_driver_location: string = ENVIRONMENT.VITE_APPWRITE_DRIVER_LOCATION_ID;
+  export const appwrite_collection_driver_location: string =
+    ENVIRONMENT.VITE_APPWRITE_DRIVER_LOCATION_ID;
 
   // Appwrite Storage
   export const appwrite_storage: string = ENVIRONMENT.VITE_APPWRITE_STORAGE_ID;
