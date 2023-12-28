@@ -3,6 +3,7 @@
         "Appwrite",
         "Enviroment",
         "flowbite",
-        "Prefs"
+        "Prefs",
+        "tailwindcss"
     ]
 }
