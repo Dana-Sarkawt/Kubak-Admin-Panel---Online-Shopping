@@ -13,6 +13,9 @@
   import { onMount } from "svelte";
   import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
   import { mapTileLayersStore } from "$lib/Stores/MapTileLayers.Store";
+  import { driverLocation } from "$lib/Stores/DriverLocation.Store";
+  import { routingStore } from "$lib/Stores/Routing.Store";
+  import type { LngLat } from "$lib/Models/Common/LngLat.Common.Model";
 
   let L: any;
   let map: any;
@@ -25,6 +28,9 @@
   let options: GenericListOptions = {
     status: -2,
   };
+  let driverId: string | null = "658bcd1807b9398dec19";
+  let destination: string | null = null;
+  let polyLines: any[] = [];
 
   let Loading = false;
 
@@ -121,18 +127,39 @@
   }
 
   async function getItemsOrder(order: OrderDto) {
+    if (polyLines.length > 0) {
+      polyLines.forEach((polyLine) => {
+        map.removeLayer(polyLine);
+      });
+    }
     Loading = true;
     order_status = order.status;
-    orderData = order;    
+    orderData = order;
+    let driver = await driverLocation.getDriverLocationByDriverId(driverId!);
 
+    // let orderStatus: OrderStatusDto | null | undefined = await orderStatusStore.getOrderStatusByOrderId(order.id);
+
+    // if (orderStatus) {
+    //   destination = orderStatus.destination;
+    // }
+    const source: LngLat = {
+      lng: driver?.longitude ?? 0,
+      lat: driver?.latitude ?? 0,
+    };
+
+    const destination: LngLat = {
+      lng: order.address?.longitude ?? 0,
+      lat: order.address?.latitude ?? 0,
+    };
+
+    await routingStore.create(source, destination);
     // TODO: #1 uncomment this when the routing is done
-    // let mapData: LngLat[] = Array.isArray($routingStore[0].route)
-    //   ? $routingStore[0].route.map((route: LngLat) => {
-    //       return route as LngLat;
-    //     })
-    //   : [];
-
-    // L.polyline(mapData, { color: "#f17f18" }).addTo(map);
+    let mapData: LngLat[] = Array.isArray($routingStore[0].routeLngLat)
+      ? $routingStore[0].routeLngLat!.map((route: LngLat) => {
+          return route as LngLat;
+        })
+      : [];
+    polyLines.push(L.polyline(mapData, { color: "#f17f18" }).addTo(map));
 
     map.setView([order.address?.latitude, order.address?.longitude], 16);
     try {
@@ -382,7 +409,7 @@
             </b>{totalAmount ?? "0"} IQD
           </p>
         </div>
-        <OrderStatusButtons {order_status} order={orderData} />
+        <OrderStatusButtons {destination} {order_status} order={orderData} />
       </div>
     </div>
   </div>

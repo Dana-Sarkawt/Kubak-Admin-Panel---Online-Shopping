@@ -16,6 +16,8 @@ import type { DriverDto } from "$lib/Models/DTO/Driver.DTO.Model";
 import type { Driver } from "$lib/Models/Entities/Driver.Entity.Model";
 import type { DriverLocation } from "../Entities/DriverLocation.Entity.Model";
 import type { DriverLocationDto } from "../DTO/DriverLocation.DTO.Model";
+import type { OrderStatus } from "../Entities/OrderStatus.Entity.Model";
+import type { OrderStatusDto } from "../DTO/OrderStatus.DTO.Model";
 
 export class Dto {
   static ToCardDto(card: Card): CardDto | null {
@@ -125,6 +127,33 @@ export class Dto {
     }
   }
 
+  static ToOrderStatusDto(orderStatus: OrderStatus): OrderStatusDto | null {
+    try {
+      let orderDto: OrderDto | null = null;
+      let driverDto: DriverDto | null = null;
+      if (orderStatus.order) {
+        orderDto = this.ToOrderDto(orderStatus.order) as OrderDto;
+      }
+      if (orderStatus.driver) {
+        driverDto = this.ToDriverDto(orderStatus.driver) as DriverDto;
+      }
+      return {
+        id: orderStatus.$id,
+        orderId: orderStatus.orderId,
+        order: orderDto,
+        driverId: orderStatus.driverId,
+        driver: driverDto,
+        status: orderStatus.status,
+        destination: orderStatus.destination,
+        createdAt: orderStatus.$createdAt as Date,
+        updatedAt: orderStatus.$updatedAt as Date,
+        deletedAt: orderStatus.deletedAt as Date | null,
+      };
+    } catch (error: any) {
+      throw new Error(error);
+    }
+  }
+
   static ToAddressDto(address: Address): AddressDto | null {
     try {
       if (!address) {
@@ -221,8 +250,8 @@ export class Dto {
   ): DriverLocationDto | null {
     try {
       let driverDto: DriverDto | null = null;
-      if (driverLocation.driver != null) {
-        driverDto = this.ToDriverDto(driverLocation.driver) as DriverDto;
+      if (driverLocation.drivers != null) {
+        driverDto = this.ToDriverDto(driverLocation.drivers) as DriverDto;
       }
       return {
         id: driverLocation.$id,

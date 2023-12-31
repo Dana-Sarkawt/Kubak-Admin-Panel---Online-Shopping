@@ -6,7 +6,7 @@ import { writable } from "svelte/store";
 
 const driverLocationRepository = new DriverLocationRepository();
 
-const createDriverLocation = async () => {
+const createDriverLocation = () => {
   const { subscribe, set, update } = writable<Store<DriverLocationDto>>();
 
   return {
@@ -14,11 +14,9 @@ const createDriverLocation = async () => {
     set: (value: Store<DriverLocationDto>) => {
       set(value);
     },
-    get: async (driverId: string) => {
+    get: async (id: string) => {
       try {
-        const document = await driverLocationRepository.getDriverLocation(
-          driverId
-        );
+        const document = await driverLocationRepository.getDriverLocation(id);
         if (!document) {
           throw new Error("Driver location not found");
         }
@@ -30,12 +28,27 @@ const createDriverLocation = async () => {
     },
     getAll: async () => {
       try {
-        const documents =
+        const { documents , total} =
           await driverLocationRepository.getAllDriverLocations();
-        const dto: DriverLocationDto[] = documents.documents.map((document) => {
+        const dto: DriverLocationDto[] = documents.map((document) => {
           return Dto.ToDriverLocationDto(document) as DriverLocationDto;
         });
-        set({ data: dto, total: documents.total });
+        set({ data: dto, total });
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    getDriverLocationByDriverId: async (driverId: string) => {
+      try {
+        const document =
+          await driverLocationRepository.getDriverLocationByDriverId(driverId);
+
+        if (!document) {
+          throw new Error("Driver location not found");
+        }
+        const dto = Dto.ToDriverLocationDto(document);
+
+        return dto;
       } catch (error) {
         console.log(error);
       }

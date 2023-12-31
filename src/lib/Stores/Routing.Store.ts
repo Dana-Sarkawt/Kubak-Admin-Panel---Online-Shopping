@@ -65,7 +65,7 @@ const createRoutingStore = () => {
           };
         });
 
-        directions[0].route = decodeFromPolyline6(
+        directions[0].routeLngLat = decodeFromPolyline6(
           directions[0].route as string
         );
 

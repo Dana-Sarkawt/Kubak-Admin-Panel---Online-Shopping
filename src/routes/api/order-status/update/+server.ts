@@ -12,7 +12,7 @@ const database = new Databases(client);
 export const POST = (async ({ locals, params, request }) => {
     const { id,status }:{id:string,status:string} = await request.json();
 
-    const response = await database.updateDocument(
+    await database.updateDocument(
         Environment.appwrite_database,
         Environment.appwrite_collection_order_status,
         id,
@@ -21,5 +21,5 @@ export const POST = (async ({ locals, params, request }) => {
         }
     );
 
-  return new Response("Good Job!");
+  return new Response(`Order Has Been ${status}`);
 }) satisfies RequestHandler;

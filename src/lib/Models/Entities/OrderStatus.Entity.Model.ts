@@ -9,4 +9,5 @@ export interface OrderStatus extends Database {
     driverId: string;
     driver: Driver | null;
     status: string;
+    deletedAt: Date | null;
 }

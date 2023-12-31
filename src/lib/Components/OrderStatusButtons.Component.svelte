@@ -1,15 +1,22 @@
 <script lang="ts">
   import type { OrderDto } from "$lib/Models/DTO/Order.DTO.Model";
   import { OrderStatus } from "$lib/Models/Enums/Order-Status.Enum.Model";
+  import type { CreateOrderStatusRequest } from "$lib/Models/Requests/CreateOrderStatus.Request.Model";
   import { ordersStore } from "$lib/Stores/Orders.Store";
-  import { Button, Modal } from "flowbite-svelte";
   export let order_status: number;
   export let order: OrderDto;
-  let modalStatus:boolean = false;
+  export let destination: string | null;
+  let options:CreateOrderStatusRequest;
 
   async function updateOrderStatus(status: number) {
-    modalStatus = true;
-    // await ordersStore.updateStatus(order.id, status);
+    options = {
+      orderId: order.id,
+      driverId: "658bcd1807b9398dec19",
+      status: null,
+      destination: destination,
+    }
+
+    await ordersStore.updateStatus(order.id, status);
   }
 </script>
 
@@ -60,10 +67,3 @@
 {:else}
   <div></div>
 {/if}
-
-<Modal bind:open={modalStatus} size="lg" autoclose placement="center">
-  <div class="text-center">
-    <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Choose A Driver</h3>
-    <Button color="primary" class="me-2" disabled>Submit</Button>
-  </div>
-</Modal>

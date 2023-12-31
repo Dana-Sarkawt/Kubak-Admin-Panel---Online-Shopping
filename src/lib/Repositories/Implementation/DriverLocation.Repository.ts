@@ -11,22 +11,34 @@ export class DriverLocationRepository implements IDriverLocationRepository {
         Environment.appwrite_database,
         Environment.appwrite_collection_driver_location,
         [Query.isNull("deletedAt")]
-      )) as AppwriteResponse<DriverLocation>;
+        )) as AppwriteResponse<DriverLocation>;
 
       return { documents, total };
     } catch (error) {
       throw error;
     }
   }
-  async getDriverLocation(driverId: string): Promise<DriverLocation> {
+  async getDriverLocation(id: string): Promise<DriverLocation> {
     try {
       const document = (await Appwrite.databases.getDocument(
         Environment.appwrite_database,
         Environment.appwrite_collection_driver_location,
-        driverId,
+        id,
         [Query.isNull("deletedAt")]
-      )) as DriverLocation;
-      return document;
+        )) as DriverLocation;
+        return document;
+    } catch (error) {
+      throw error;
+    }
+  }
+  async getDriverLocationByDriverId(driverId: string): Promise<DriverLocation> {
+    try {
+      const { documents } = (await Appwrite.databases.listDocuments(
+        Environment.appwrite_database,
+        Environment.appwrite_collection_driver_location,
+        [Query.equal("driverId", driverId), Query.isNull("deletedAt")]
+        )) as AppwriteResponse<DriverLocation>;
+        return documents[0];
     } catch (error) {
       throw error;
     }

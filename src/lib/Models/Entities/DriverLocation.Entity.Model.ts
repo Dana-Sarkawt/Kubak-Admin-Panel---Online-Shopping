@@ -3,7 +3,7 @@ import type { Driver } from "$lib/Models/Entities/Driver.Entity.Model";
 
 export interface DriverLocation extends Database {
     driverId: string;
-    driver: Driver| null;
+    drivers: Driver| null;
     latitude: number;
     longitude: number;
     deletedAt: Date | null;
