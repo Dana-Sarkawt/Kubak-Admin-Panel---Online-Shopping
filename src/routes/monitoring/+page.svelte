@@ -13,7 +13,7 @@
   import { onMount } from "svelte";
   import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
   import { mapTileLayersStore } from "$lib/Stores/MapTileLayers.Store";
-  import { driverLocation } from "$lib/Stores/DriverLocation.Store";
+  import { driverLocationStore } from "$lib/Stores/DriverLocation.Store";
   import { routingStore } from "$lib/Stores/Routing.Store";
   import type { LngLat } from "$lib/Models/Common/LngLat.Common.Model";
 
@@ -39,6 +39,8 @@
 
     await ordersStore.getAll();
 
+    await driverLocationStore.getAll();
+
     $ordersStore.data.map((order) => {
       const myIcon = L.icon({
         iconUrl: `images/${OrderStatus[order.status]}.png`,
@@ -54,6 +56,20 @@
             getItemsOrder(order);
           }),
         id: order.id,
+      });
+    });
+    
+    $driverLocationStore.data.map((driver) => {
+      const myIcon = L.icon({
+        iconUrl: `images/driver.png`,
+        iconSize: [38, 38],
+      });
+
+      markers.push({
+        marker: L.marker([driver.latitude, driver.longitude], {
+          icon: myIcon,
+        }).addTo(map),
+        id: driver.id,
       });
     });
 
@@ -131,11 +147,11 @@
       polyLines.forEach((polyLine) => {
         map.removeLayer(polyLine);
       });
-    }
+    }driverLocationStore
     Loading = true;
     order_status = order.status;
     orderData = order;
-    let driver = await driverLocation.getDriverLocationByDriverId(driverId!);
+    let driver = await driverLocationStore.getDriverLocationByDriverId(driverId!);
 
     // let orderStatus: OrderStatusDto | null | undefined = await orderStatusStore.getOrderStatusByOrderId(order.id);
 

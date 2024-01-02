@@ -6,7 +6,7 @@ import { writable } from "svelte/store";
 
 const driverLocationRepository = new DriverLocationRepository();
 
-const createDriverLocation = () => {
+const createDriverLocationStore = () => {
   const { subscribe, set, update } = writable<Store<DriverLocationDto>>();
 
   return {
@@ -56,4 +56,4 @@ const createDriverLocation = () => {
   };
 };
 
-export const driverLocation = createDriverLocation();
+export const driverLocationStore = createDriverLocationStore();
