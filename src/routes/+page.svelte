@@ -5,7 +5,6 @@
   import { OrderStatus } from "$lib/Models/Enums/Order-Status.Enum.Model";
   import { authStore } from "$lib/Stores/Auth.Store";
   import { itemStore } from "$lib/Stores/Items.Store";
-  import { itemsBlockerStore } from "$lib/Stores/ItemsBlocker.Store";
   import { ordersStore } from "$lib/Stores/Orders.Store";
   import {
     P,
@@ -46,7 +45,7 @@
       $ordersStore.data.map(async (order) => {
         return {
           ...order,
-          auth: (await authStore.getUser(order.user as string)) as AuthDto,
+          auth: (await authStore.getUser(order.user?.id as string)) as AuthDto,
         };
       });
 
@@ -200,7 +199,7 @@
           class="w-11/12 h-12 2xl:h-20 bg-[#e8e8e8] dark:bg-[#363636] rounded-xl flex justify-around items-center px-3 md:text-[8px] lg:text-lg"
         >
           <p class="flex justify-center items-center text-center">
-            {order.user.name}
+            {order.user?.name}
           </p>
           <div class="w-1/2 text-center flex justify-center items-center">
             <div
