@@ -1,23 +1,37 @@
 <script lang="ts">
   import type { OrderDto } from "$lib/Models/DTO/Order.DTO.Model";
+  import { DriverOrderStatus } from "$lib/Models/Enums/DriverOrderStatus.Enum.Model";
   import { OrderStatus } from "$lib/Models/Enums/Order-Status.Enum.Model";
   import type { CreateOrderStatusRequest } from "$lib/Models/Requests/CreateOrderStatus.Request.Model";
-  import { ordersStore } from "$lib/Stores/Orders.Store";
+  import { orderStatusStore } from "$lib/Stores/OrderStatus.Store";
   export let order_status: number;
   export let order: OrderDto;
   export let destination: string | null;
-  let options:CreateOrderStatusRequest;
+  export let driverId: string | null;
+  let options: CreateOrderStatusRequest;
 
   async function updateOrderStatus(status: number) {
     options = {
       orderId: order.id,
-      driverId: "658bcd1807b9398dec19",
+      driverId: driverId as string,
       status: null,
       destination: destination,
-    }
+    };
 
-    console.log(options);
-    // await ordersStore.updateStatus(order.id, status);
+    const orderStatus = await orderStatusStore.getOrderStatusByOrderId(
+      order.id
+    );
+
+    if (orderStatus?.status === DriverOrderStatus[DriverOrderStatus.REJECT]) {
+      options.id = orderStatus?.id;
+      await orderStatusStore.create(options);
+    } else if (orderStatus?.status === null) {
+      options.id = orderStatus?.id;
+      console.log(options);
+      
+      await orderStatusStore.update(options);
+    }
+    // await orderStatusStore.create(options);
   }
 </script>
 

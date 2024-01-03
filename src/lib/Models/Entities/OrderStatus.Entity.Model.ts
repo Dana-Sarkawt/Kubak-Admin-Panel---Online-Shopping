@@ -8,6 +8,6 @@ export interface OrderStatus extends Database {
     order:Order | null;
     driverId: string;
     driver: Driver | null;
-    status: string;
+    status: string | null;
     deletedAt: Date | null;
 }

@@ -16,12 +16,14 @@ export class OrderStatusRepository implements IOrderStatusRepository {
     try {
       const orderStatusRequest: OrderStatusRequest = {
         orderId: orderStatus.orderId,
-        order: orderStatus.orderId,
+        orders: orderStatus.orderId,
         driverId: orderStatus.driverId,
-        driver: orderStatus.driverId,
-        status: orderStatus.status,
+        drivers: orderStatus.driverId,
+        status: orderStatus.status ?? null,
         destination: orderStatus.destination,
       };
+      console.log(orderStatusRequest);
+      
       await Appwrite.databases.createDocument(
         Environment.appwrite_database,
         Environment.appwrite_collection_order_status,
@@ -38,7 +40,7 @@ export class OrderStatusRepository implements IOrderStatusRepository {
         Environment.appwrite_database,
         Environment.appwrite_collection_order_status,
         id
-      )) as OrderStatus;
+        )) as OrderStatus;
     } catch (error) {
       throw error;
     }
@@ -70,23 +72,34 @@ export class OrderStatusRepository implements IOrderStatusRepository {
       throw error;
     }
   }
+  async getOrderStatusByDriverId(driverId: string): Promise<OrderStatus> {
+    try {
+      const { documents } = (await Appwrite.databases.listDocuments(
+        Environment.appwrite_database,
+        Environment.appwrite_collection_order_status,
+        [Query.equal("driverId", driverId)]
+      )) as AppwriteResponse<OrderStatus>;
+      return documents[0];
+    } catch (error) {
+      throw error;
+    }
+  }
   async updateOrderStatus(
-    id: string,
     orderStatus: CreateOrderStatusRequest
   ): Promise<OrderStatusRequest> {
     try {
       const orderStatusRequest: OrderStatusRequest = {
         orderId: orderStatus.orderId,
-        order: orderStatus.orderId,
+        orders: orderStatus.orderId,
         driverId: orderStatus.driverId,
-        driver: orderStatus.driverId,
+        drivers: orderStatus.driverId,
         status: orderStatus.status,
         destination: orderStatus.destination,
       };
       await Appwrite.databases.updateDocument(
         Environment.appwrite_database,
         Environment.appwrite_collection_order_status,
-        id,
+        orderStatus.id!,
         orderStatusRequest
       );
       return orderStatusRequest;

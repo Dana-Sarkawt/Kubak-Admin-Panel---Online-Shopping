@@ -1,4 +1,5 @@
 export interface CreateOrderStatusRequest{
+    id?:string;
     orderId:string;
     driverId:string;
     status:string | null;
@@ -8,9 +9,9 @@ export interface CreateOrderStatusRequest{
 
 export interface OrderStatusRequest{
     orderId:string;
-    order:string;
+    orders:string;
     driverId:string;
-    driver:string;
+    drivers:string;
     status:string | null;
     destination:string | null;
     deletedAt?:Date | null;

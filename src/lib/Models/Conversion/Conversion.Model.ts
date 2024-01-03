@@ -18,6 +18,7 @@ import type { DriverLocation } from "../Entities/DriverLocation.Entity.Model";
 import type { DriverLocationDto } from "../DTO/DriverLocation.DTO.Model";
 import type { OrderStatus } from "../Entities/OrderStatus.Entity.Model";
 import type { OrderStatusDto } from "../DTO/OrderStatus.DTO.Model";
+import { DriverOrderStatus } from '../Enums/DriverOrderStatus.Enum.Model';
 
 export class Dto {
   static ToCardDto(card: Card): CardDto | null {

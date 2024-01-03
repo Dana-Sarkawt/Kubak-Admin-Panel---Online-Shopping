@@ -9,5 +9,5 @@ export interface OrderStatusDto extends Datetime {
     order: OrderDto | null;
     driverId: string;
     driver: DriverDto | null;
-    status: string;
+    status: string | null;
 }
