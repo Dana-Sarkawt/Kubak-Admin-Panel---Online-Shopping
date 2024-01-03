@@ -19,11 +19,13 @@ export const POST = (async ({ locals, params, request }) => {
     status,
     name,
     fcmToken,
+    message,
   }: {
     userId: string;
     status: string;
     name: string;
     fcmToken: string;
+    message?: string;
   } = await request.json();
 
   // Check if the user document exists
@@ -57,7 +59,7 @@ export const POST = (async ({ locals, params, request }) => {
   let title = "Order Status";
   let body = `Your order status ${
     status === OrderStatus[OrderStatus.Failed] ? "Has Failed" : `is ${status}`
-  }`;
+  }`+ (message ? `: ${message}` : "");
 
   // Create the messages
   const messages = userTokens.map((token) => ({

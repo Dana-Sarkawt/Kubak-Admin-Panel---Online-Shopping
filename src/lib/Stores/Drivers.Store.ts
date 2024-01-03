@@ -5,11 +5,11 @@ import { ToastMessages } from "$lib/Models/Enums/Toast-Messages.Enum.Model";
 import type { Store } from "$lib/Models/Response/Store.Response";
 import { DriverRepository } from "$lib/Repositories/Implementation/Drivers.Repository";
 import { writable } from "svelte/store";
-import { toastStore } from "./Toast.Store";
+import { toastStore } from "$lib/Stores/Toast.Store";
+import { authStore } from "$lib/Stores/Auth.Store";
 import type { CreateDriverRequest } from "$lib/Models/Requests/CreateDriver.Request.Model";
-import { ImageToUrl } from "../../utils/ImageToUrl.Utils";
 import type { AuthDto } from "$lib/Models/DTO/Auth.DTO.Model";
-import { authStore } from "./Auth.Store";
+import { ImageToUrl } from "../../utils/ImageToUrl.Utils";
 
 const driverRepository = new DriverRepository();
 
@@ -25,7 +25,9 @@ const createDriverStore = () => {
         if (!id) throw new Error("Driver Id is required");
         let document = await driverRepository.getDriver(id);
         if(document == null) throw new Error("Driver not found");
-        return Dto.ToDriverDto(document);
+        if(document.userId == "") throw new Error("Driver User Id is required");
+        const userDto: AuthDto = await authStore.getUser(document.userId) as AuthDto;
+        return Dto.ToDriverDto(document, userDto);
       } catch (e) {
         console.log(e);
         return null;

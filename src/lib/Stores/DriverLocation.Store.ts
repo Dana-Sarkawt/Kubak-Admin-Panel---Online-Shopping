@@ -37,22 +37,7 @@ const createDriverLocationStore = () => {
       } catch (error) {
         console.log(error);
       }
-    },
-    getDriverLocationByDriverId: async (driverId: string) => {
-      try {
-        const document =
-          await driverLocationRepository.getDriverLocationByDriverId(driverId);
-
-        if (!document) {
-          throw new Error("Driver location not found");
-        }
-        const dto = Dto.ToDriverLocationDto(document);
-
-        return dto;
-      } catch (error) {
-        console.log(error);
-      }
-    },
+    }
   };
 };
 

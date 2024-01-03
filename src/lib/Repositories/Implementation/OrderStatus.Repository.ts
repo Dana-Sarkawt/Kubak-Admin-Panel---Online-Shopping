@@ -65,7 +65,7 @@ export class OrderStatusRepository implements IOrderStatusRepository {
         Environment.appwrite_collection_order_status,
         [Query.equal("orderId", orderId)]
       )) as AppwriteResponse<OrderStatus>;
-        return documents[0];
+      return documents[0];
     } catch (error) {
       throw error;
     }

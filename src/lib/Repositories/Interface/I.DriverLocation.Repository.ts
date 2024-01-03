@@ -3,5 +3,4 @@ import type { DriverLocation } from "$lib/Models/Entities/DriverLocation.Entity.
 export interface IDriverLocationRepository {
     getDriverLocation(driverId: string): Promise<DriverLocation>;
     getAllDriverLocations(): Promise<AppwriteResponse<DriverLocation>>;
-    getDriverLocationByDriverId(driverId: string): Promise<DriverLocation>;
 }

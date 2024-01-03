@@ -207,6 +207,12 @@ export class Dto {
 
   static ToDriverDto(driver: Driver, user?: AuthDto | null): DriverDto | null {
     try {
+      let driverLocationDto: DriverLocationDto | null = null;
+      if (driver.driverLocation) {
+        driverLocationDto = this.ToDriverLocationDto(
+          driver.driverLocation
+        ) as DriverLocationDto;
+      }
       if (!driver) {
         return null;
       }
@@ -236,6 +242,7 @@ export class Dto {
           passportNumber: driver.passportNumber,
           passportImage: driver.passportImage as string,
         },
+        driverLocation: driverLocationDto,
         deletedAt: driver.deletedAt as Date | null,
         createdAt: driver.$createdAt as Date,
         updatedAt: driver.$updatedAt as Date,
@@ -249,16 +256,10 @@ export class Dto {
     driverLocation: DriverLocation
   ): DriverLocationDto | null {
     try {
-      let driverDto: DriverDto | null = null;
-      if (driverLocation.drivers != null) {
-        driverDto = this.ToDriverDto(driverLocation.drivers) as DriverDto;
-      }
       return {
         id: driverLocation.$id,
-        driverId: driverLocation.driverId,
         latitude: driverLocation.latitude,
         longitude: driverLocation.longitude,
-        driver: driverDto,
         createdAt: driverLocation.$createdAt as Date,
         updatedAt: driverLocation.$updatedAt as Date,
         deletedAt: driverLocation.deletedAt as Date | null,

@@ -31,16 +31,4 @@ export class DriverLocationRepository implements IDriverLocationRepository {
       throw error;
     }
   }
-  async getDriverLocationByDriverId(driverId: string): Promise<DriverLocation> {
-    try {
-      const { documents } = (await Appwrite.databases.listDocuments(
-        Environment.appwrite_database,
-        Environment.appwrite_collection_driver_location,
-        [Query.equal("driverId", driverId), Query.isNull("deletedAt")]
-        )) as AppwriteResponse<DriverLocation>;
-        return documents[0];
-    } catch (error) {
-      throw error;
-    }
-  }
 }

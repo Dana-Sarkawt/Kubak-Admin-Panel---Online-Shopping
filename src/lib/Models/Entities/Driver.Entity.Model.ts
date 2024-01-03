@@ -1,4 +1,5 @@
 import type { Database } from "$lib/Models/Extensions/Database.Extension.Model";
+import type { DriverLocation } from "./DriverLocation.Entity.Model";
 
 export interface Driver extends Database {
   userId: string;
@@ -7,6 +8,8 @@ export interface Driver extends Database {
   passportNumber: string;
   passportImage: string;
   deletedAt: Date | string | null;
+  driverLocation: DriverLocation;
+  driverLocationId: string;
 }
 
 interface BikeAnnuity {

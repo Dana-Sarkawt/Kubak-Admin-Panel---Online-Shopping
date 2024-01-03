@@ -16,7 +16,8 @@
       destination: destination,
     }
 
-    await ordersStore.updateStatus(order.id, status);
+    console.log(options);
+    // await ordersStore.updateStatus(order.id, status);
   }
 </script>
 

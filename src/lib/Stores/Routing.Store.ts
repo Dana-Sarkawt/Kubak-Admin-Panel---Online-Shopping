@@ -40,8 +40,6 @@ const createRoutingStore = () => {
         let json: string = JSON.stringify(requestJson);
         url = url.concat(json);
 
-        console.log(url);
-
         let requestUrl: string = baseUrl + url;
 
         const response = await fetch(requestUrl, {
