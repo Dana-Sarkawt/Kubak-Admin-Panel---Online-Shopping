@@ -27,6 +27,19 @@ export class AuthRepository implements IAuthRepository {
     );
     return result.userId;
   }
+  async signInWithEmailAndPassword(
+    email: string,
+    password: string
+  ): Promise<void> {
+    try {
+      await Appwrite.account.createEmailSession(
+        email,
+        password
+      );
+    } catch (error: any) {
+      throw error;
+    }
+  }
   async signOut(): Promise<void> {
     await Appwrite.account.deleteSession("current");
   }

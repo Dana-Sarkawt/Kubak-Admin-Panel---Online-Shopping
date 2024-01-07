@@ -17,10 +17,10 @@
       checkDarkMode(); // react to changes
     });
 
-    // await authStore.get();
-    // if ($authStore && $page.url.pathname === "/login") {
-    //   goto("/");
-    // }
+    await authStore.get();
+    if ($authStore && $page.url.pathname === "/login") {
+      goto("/");
+    }
 
     let source: LngLat = {
       lat: 35.553831466871,
@@ -73,15 +73,15 @@
 </script>
 
 <main class="bg-slate-100 dark:bg-gray-950 w-full h-full">
-  <!-- {#if $authStore && pathUrl !== "/login"} -->
+  {#if $authStore && pathUrl !== "/login"}
     <Navbar />
     <div class="w-4/5 h-auto float-right">
       <slot />
     </div>
     <Sidebar />
-  <!-- {:else}
+  {:else}
     <div class="w-full h-auto float-right">
       <slot />
     </div>
-  {/if} -->
+  {/if}
 </main>

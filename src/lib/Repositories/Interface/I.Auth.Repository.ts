@@ -7,6 +7,8 @@ export interface IAuthRepository {
 
   signIn(phone: string): Promise<string>;
 
+  signInWithEmailAndPassword(email:string, password:string): Promise<void>;
+
   signOut(): Promise<void>;
 
   secret(userId: string, secret: string): Promise<Auth>;

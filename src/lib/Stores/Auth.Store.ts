@@ -46,6 +46,15 @@ const createAuthStore = () => {
       }
     },
 
+    signInWithEmailAndPassword: async (email:string, password:string) => {
+      try {
+        await authRepository.signInWithEmailAndPassword(email, password);
+        authStore.get();
+      } catch (error) {
+        console.log("Error", error);
+      }
+    },
+
     secret: async (userId: string, secret: string) => {
       try {
         const user = await authRepository.secret(userId, secret);

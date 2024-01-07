@@ -2,7 +2,7 @@
   //@ts-ignore
   import SvelteOtp from "@k4ung/svelte-otp";
   import { onMount } from "svelte";
-  import { Avatar } from "flowbite-svelte";
+  import { Avatar, TabItem, Tabs } from "flowbite-svelte";
   import { Modal } from "flowbite-svelte";
   import { phone as PhoneVerify } from "phone";
   import { authStore } from "$lib/Stores/Auth.Store";
@@ -13,10 +13,14 @@
   onMount(async () => {
     particlesJS.load("particles-js", "/assets/particles.json");
   });
-  let secret = "";
-  let userInput = "";
+  let secret: string = "";
+  let userPhoneInput: string = "";
+  let userEmailPasswordInput: { email: string; password: string } = {
+    email: "",
+    password: "",
+  };
 
-  $: buttonActive = userInput && userInput.length >= 11;
+  $: buttonActive = userPhoneInput && userPhoneInput.length >= 11;
   $: otpActive = secret && secret.length >= 6;
 
   async function signIn(phone: string) {
@@ -34,6 +38,14 @@
   async function otpVerify(id: string, secret: string) {
     await authStore.secret(id, secret);
   }
+
+  async function signInEmail(email: string, password: string) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
+    emailRegex.test(email)
+      ? await authStore.signInWithEmailAndPassword(email, password)
+      : (errorMassege = "Error email is not valid email");    
+  }
 </script>
 
 <div
@@ -43,40 +55,95 @@
   <div
     class="container mx-auto absolute max-w-lg gap-3 h-[520px] shadow-2xl py-10 px-5 rounded-xl flex flex-col justify-center items-center bg-gradient-to-r from-[#ffffff81] to-[#bbbbbb60] backdrop-blur-md"
   >
-    <Avatar src="/images/kubak.jpg" class="w-[180px] h-[180px] mb-11" />
-    <div class="  flex justify-center items-center">
-      <!-- svelte-ignore missing-declaration -->
-    </div>
-    <br
-      class=" flex justify-center items-center w-full md:w-4/5 max-w-2xl my-11 rounded-lg px-3 py-5"
-    />
-    <div class="flex justify-center items-center w-full h-12 rounded-md gap-2">
-      <div
-        class="w-[60px] md:w-[90px] flex justify-center items-center gap-2 bg-white rounded-md h-[50px] md:h-[55px]"
+    <Tabs
+      contentClass="bg-transparent w-full"
+      defaultClass="flex w-full h-auto justify-center items-center gap-3"
+    >
+      <TabItem
+        open
+        title="E-mail"
+        defaultClass="w-full h-auto flex justify-center items-center font-bold text-lg md:text-xl"
+        contentClass="w-full h-auto flex justify-center items-center"
       >
-        <img src="/images/iraq.png" alt="" class="w-4 md:w-8" />
-      </div>
-      <input
-        type="tel"
-        placeholder="Phone Number"
-        class="py-3 rounded-md w-full text-center text-md md:text-lg tracking-[.15em]"
-        oninput="this.value = this.value.replace(/[^0-9]/g, '')"
-        onKeyPress="if(this.value.length==11) return false;"
-        required
-        bind:value={userInput}
-      />
-    </div>
+        <div class="w-full h-auto flex justify-center items-center mb-2">
+          <Avatar src="/images/kubak.jpg" class="w-[180px] h-[180px] mb-11" />
+        </div>
 
-    <button
-      type="submit"
-      disabled={!buttonActive}
-      id="submit-btn"
-      class="w-full"
-      on:click={() => {
-        signIn(userInput);
-      }}
-      >Send
-    </button>
+        <br
+          class=" flex justify-center items-center w-full md:w-4/5 max-w-2xl my-11 rounded-lg px-3 py-5"
+        />
+        <div
+          class="flex justify-center items-center w-full h-12 rounded-md gap-2 flex-col mb-3"
+        >
+          <input
+            type="email"
+            placeholder="Email"
+            class="py-3 rounded-md w-full text-center text-md md:text-lg tracking-[.10em]"
+            required
+            bind:value={userEmailPasswordInput.email}
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            class="py-3 rounded-md w-full text-center text-md md:text-lg tracking-[.10em]"
+            required
+            bind:value={userEmailPasswordInput.password}
+          />
+          <button
+            type="submit"
+            id="submit-btn"
+            class="w-full"
+            on:click={() => {
+              signInEmail(
+                userEmailPasswordInput.email,
+                userEmailPasswordInput.password
+              );
+            }}
+            >Send
+          </button>
+        </div>
+      </TabItem>
+      <TabItem
+        title="Phone Number"
+        defaultClass="w-full h-auto flex justify-center items-center font-bold text-lg md:text-xl"
+        contentClass="w-full h-auto flex justify-center items-center"
+      >
+        <div class="w-full h-auto flex justify-center items-center">
+          <Avatar src="/images/kubak.jpg" class="w-[180px] h-[180px] mb-11" />
+        </div>
+        <br
+          class=" flex justify-center items-center w-full md:w-4/5 max-w-2xl my-11 rounded-lg px-3 py-5"
+        />
+        <div
+          class="flex justify-center items-center w-full h-12 rounded-md gap-2"
+        >
+          <div
+            class="w-[60px] md:w-[90px] flex justify-center items-center gap-2 bg-white rounded-md h-[50px] md:h-[55px]"
+          >
+            <img src="/images/iraq.png" alt="" class="w-4 md:w-8" />
+          </div>
+          <input
+            type="tel"
+            placeholder="Phone Number"
+            class="py-3 rounded-md w-full text-center text-md md:text-lg tracking-[.15em]"
+            oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+            onKeyPress="if(this.value.length==11) return false;"
+            required
+            bind:value={userPhoneInput}
+          />
+        </div>
+        <button
+          type="submit"
+          disabled={!buttonActive}
+          id="submit-btn"
+          class="w-full my-4"
+          on:click={() => {
+            signIn(userPhoneInput);
+          }}
+          >Send
+        </button>
+      </TabItem>
+    </Tabs>
   </div>
 </div>
 
