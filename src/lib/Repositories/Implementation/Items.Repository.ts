@@ -8,6 +8,7 @@ import type {
   ItemRequest,
 } from "$lib/Models/Requests/CreateItem.Request.Model";
 import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
+import type { ItemDto } from "$lib/Models/DTO/Item.DTO.Model";
 
 export class ItemsRepository implements IItemsRepository {
   async getItems(
@@ -50,6 +51,23 @@ export class ItemsRepository implements IItemsRepository {
     let items = documents as Item[];
     return items;
   }
+
+  async getItemsByCategory(
+    categoryId: string
+  ): Promise<AppwriteResponse<Item>> {
+    try {
+      let { documents, total } = (await Appwrite.databases.listDocuments(
+        Environment.appwrite_database,
+        Environment.appwrite_collection_item,
+        [Query.search("categoryIds", categoryId)]
+      )) as AppwriteResponse<Item>;
+
+      return { documents, total };
+    } catch (e) {
+      console.log(e);
+      throw e;
+    }
+  }
   async createItem(item: CreateItemRequest): Promise<void> {
     try {
       const itemRequest: ItemRequest = {
@@ -86,6 +104,7 @@ export class ItemsRepository implements IItemsRepository {
       itemImage: item.image.url as string,
       userId: item.userId as string,
       category: item.categoryId,
+      categoryIds: item.categoryId,
     };
     try {
       const itemResult = (await Appwrite.databases.updateDocument(
@@ -100,6 +119,19 @@ export class ItemsRepository implements IItemsRepository {
       return itemResult;
     } catch (e) {
       throw e;
+    }
+  }
+
+  async updateItemsCategories(items:ItemDto[]){
+    for(let item of items){
+      await Appwrite.databases.updateDocument(
+        Environment.appwrite_database,
+        Environment.appwrite_collection_item,
+        item.id as string,
+        {
+          categoryIds: item.category?.map((category) => category.id),
+        }
+      );
     }
   }
 
@@ -126,6 +158,8 @@ export class ItemsRepository implements IItemsRepository {
         "price",
         "itemImage",
         "quantity",
+        "productionDate",
+        "expiredDate",
         "$createdAt",
         "$updatedAt",
         "deletedAt",

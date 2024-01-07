@@ -50,6 +50,7 @@ const createAuthStore = () => {
       try {
         await authRepository.signInWithEmailAndPassword(email, password);
         authStore.get();
+        goto("/");
       } catch (error) {
         console.log("Error", error);
       }

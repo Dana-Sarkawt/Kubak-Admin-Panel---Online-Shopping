@@ -55,6 +55,7 @@
         url: "",
         localUrl: item.itemImage,
       },
+      detail: item.detail,
     };
   });
 
@@ -75,6 +76,7 @@
   }
 
   async function update() {
+    options.categoryId = selected;
     console.log(options);
     await itemStore.update(options);
     goto("/items/1");

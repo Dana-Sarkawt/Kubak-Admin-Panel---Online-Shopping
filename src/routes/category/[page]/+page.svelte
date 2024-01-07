@@ -4,10 +4,19 @@
   import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
   import { categoryStore } from "$lib/Stores/Categories.Store";
   import { onMount } from "svelte";
-  import { Button, Modal, Spinner } from "flowbite-svelte";
+  import {
+    Avatar,
+    Button,
+    Listgroup,
+    ListgroupItem,
+    Modal,
+    Spinner,
+  } from "flowbite-svelte";
   import { toastStore } from "$lib/Stores/Toast.Store";
   import Notification from "$lib/Components/Toasts.Notify.Component.svelte";
   import { ExclamationCircleOutline } from "flowbite-svelte-icons";
+  import type { ItemDto } from "$lib/Models/DTO/Item.DTO.Model";
+  import { itemStore } from "$lib/Stores/Items.Store";
 
   let filter: GenericListOptions = {
     page: parseInt($page.params.page),
@@ -18,8 +27,9 @@
   let pages: number = 0;
   let popupModal: boolean = false;
   let categoryId: string = "";
+  let items: ItemDto[] = [];
 
-  let loading = true;
+  let loading: boolean = true;
   onMount(async () => {
     try {
       await categoryStore.getAll(filter);
@@ -34,8 +44,13 @@
     }
   }
 
-  async function deleteCategory(id: string) {
-    await categoryStore.delete(id);
+  async function itemsList(categoryId: string) {
+    items = await itemStore.getItemsByCategory(categoryId) as ItemDto[];
+  }
+
+  async function deleteCategory(id: string,items?:ItemDto[]) {
+    console.log(items);
+    await categoryStore.delete(id, items);
   }
 </script>
 
@@ -59,14 +74,18 @@
   {:else}
     {#each $categoryStore.data as category}
       <div
-        class="md:w-28 md:h-36 lg:w-44 lg:h-60 2xl:w-64 2xl:h-96 bg-white dark:bg-[#212121] dark:text-white px-2 flex justify-around items-center flex-col rounded-xl  relative top-0 hover:border-[#f17f18] hover:border ease-in-out duration-100 cursor-pointer"
+        class="md:w-28 md:h-36 lg:w-44 lg:h-60 2xl:w-64 2xl:h-96 bg-white dark:bg-[#212121] dark:text-white px-2 flex justify-around items-center flex-col rounded-xl relative top-0 hover:border-[#f17f18] hover:border ease-in-out duration-100 cursor-pointer"
       >
         <!-- svelte-ignore a11y-click-events-have-key-events -->
         <!-- svelte-ignore a11y-no-static-element-interactions -->
 
         <div
           class="absolute top-0 right-0 z-30 m-2 bg-red-600 text-white p-2 rounded-lg hover:bg-red-500 duration-300 ease-in-out"
-          on:click={() => {(popupModal = true); categoryId = category.id;}}
+          on:click={async () => {
+            popupModal = true;
+            categoryId = category.id;
+            itemsList(categoryId);
+          }}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -91,9 +110,11 @@
           <img
             src={category.categoryImage ?? "/images/category.png"}
             alt=""
-            class="object-cover object-center  w-auto  h-auto rounded-lg"
+            class="object-cover object-center w-auto h-auto rounded-lg"
           />
-          <p class="text-md lg:text-2xl text-center">{category.name ?? "Rice"}</p>
+          <p class="text-md lg:text-2xl text-center">
+            {category.name ?? "Rice"}
+          </p>
         </a>
       </div>
     {/each}
@@ -110,10 +131,22 @@
     </h3>
     <Button
       class="me-2 bg-red-500 p-2 w-auto h-10"
-      on:click={() => deleteCategory(categoryId)}>Yes, I'm sure</Button
+      on:click={() => deleteCategory(categoryId,items)}>Yes, I'm sure</Button
     >
     <Button color="alternative">No, cancel</Button>
   </div>
+  <Listgroup active class="w-full overflow-y-auto h-52">
+    <h3
+      class="p-1 text-center text-xl font-medium text-gray-900 dark:text-white"
+    >
+      Items list
+    </h3>
+    {#each items as item}
+      <ListgroupItem class="text-base font-semibold gap-2">
+        <Avatar src="{item.itemImage}" size="xs" />{item.name}
+      </ListgroupItem>
+    {/each}
+  </Listgroup>
 </Modal>
 
 <Pagination name="category" {pages} {filter} Store={categoryStore} />

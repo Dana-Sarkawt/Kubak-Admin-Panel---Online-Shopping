@@ -7,7 +7,6 @@ import { ImageToUrl } from "../../utils/ImageToUrl.Utils";
 import { writable } from "svelte/store";
 import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
 import { goto } from "$app/navigation";
-import { CategoriesRepository } from "$lib/Repositories/Implementation/Categories.Repository";
 import { toastStore } from "./Toast.Store";
 import { ToastMessages } from "$lib/Models/Enums/Toast-Messages.Enum.Model";
 
@@ -44,6 +43,25 @@ const createItemStore = () => {
         console.log("pages", options);
 
         set({ data: itemsDto, total: total, pages: pages });
+      } catch (error) {
+        console.log(error);
+        toastStore.set(ToastMessages.ERROR);
+      }
+    },
+
+    getItemsByCategory: async (categoryId: string) => {
+      try {
+        console.log("categoryId", categoryId);
+        let { documents, total } = await itemsRepository.getItemsByCategory(
+          categoryId
+        );
+
+        console.log("documents", documents);
+        let itemsDto: ItemDto[] = documents.map((document) => {
+          return Dto.ToItemDto(document);
+        });
+
+        return itemsDto;
       } catch (error) {
         console.log(error);
         toastStore.set(ToastMessages.ERROR);
