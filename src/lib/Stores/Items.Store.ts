@@ -7,13 +7,11 @@ import { ImageToUrl } from "../../utils/ImageToUrl.Utils";
 import { writable } from "svelte/store";
 import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
 import { goto } from "$app/navigation";
-import type { Category } from "$lib/Models/Entities/Category.Entity.Model";
 import { CategoriesRepository } from "$lib/Repositories/Implementation/Categories.Repository";
 import { toastStore } from "./Toast.Store";
 import { ToastMessages } from "$lib/Models/Enums/Toast-Messages.Enum.Model";
 
 const itemsRepository = new ItemsRepository();
-const categoriesRepository = new CategoriesRepository();
 
 const createItemStore = () => {
   const { subscribe, set, update } = writable<Store<ItemDto>>({
