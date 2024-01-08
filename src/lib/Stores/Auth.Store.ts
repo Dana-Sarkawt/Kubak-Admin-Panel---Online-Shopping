@@ -46,7 +46,7 @@ const createAuthStore = () => {
       }
     },
 
-    signInWithEmailAndPassword: async (email:string, password:string) => {
+    signInWithEmailAndPassword: async (email: string, password: string) => {
       try {
         await authRepository.signInWithEmailAndPassword(email, password);
         authStore.get();
@@ -104,7 +104,7 @@ const createAuthStore = () => {
 
     getUser: async (userId: string) => {
       try {
-        if(!userId) return;
+        if (!userId) return;
         const user = await authRepository.getUser(userId);
         const userDto: AuthDto = Dto.ToAuthDto(user);
 
