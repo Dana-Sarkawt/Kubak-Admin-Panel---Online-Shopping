@@ -26,19 +26,17 @@ const createCardStore = () => {
       errorStore.clear();
       try {
         if (!id) {
-          errorStore.add({code:Errors.NotFound, message:"Id is Required" })
-        }
-        if(errorStore.subscribe.length > 0){
           throw new HttpError(Errors.NotFound, "Id is Required");
         }
-        let document = await cardRepository.getCard(id!);
+        let document = await cardRepository.getCard(id);
         return Dto.ToCardDto(document);
       } catch (e) {
-        if (e instanceof HttpError) e.log();
+        if (e instanceof HttpError) errorStore.add(e.response());
       }
     },
 
     getAll: async () => {
+      errorStore.clear();
       try {
         let { documents, total } = await cardRepository.getCards();
 
@@ -87,6 +85,7 @@ const createCardStore = () => {
     },
 
     update: async (card: CreateCardRequest) => {
+      errorStore.clear();
       try {
         const document = await cardRepository.getCard(card.id as string);
 
@@ -117,6 +116,7 @@ const createCardStore = () => {
     },
 
     delete: async (id: string) => {
+      errorStore.clear();
       try {
         let document = await cardRepository.getCard(id);
 

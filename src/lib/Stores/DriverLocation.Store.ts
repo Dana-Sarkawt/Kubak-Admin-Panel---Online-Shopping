@@ -3,6 +3,11 @@ import type { DriverLocationDto } from "$lib/Models/DTO/DriverLocation.DTO.Model
 import type { Store } from "$lib/Models/Response/Store.Response";
 import { DriverLocationRepository } from "$lib/Repositories/Implementation/DriverLocation.Repository";
 import { writable } from "svelte/store";
+import { errorStore } from "./Errors.Store";
+import { HttpError } from "$lib/Errors/HttpErrors.Error";
+import { Errors } from "$lib/Models/Enums/Errors.Enum.Model";
+import { toastStore } from "./Toast.Store";
+import { ToastMessages } from "$lib/Models/Enums/Toast-Messages.Enum.Model";
 
 const driverLocationRepository = new DriverLocationRepository();
 
@@ -15,18 +20,21 @@ const createDriverLocationStore = () => {
       set(value);
     },
     get: async (id: string) => {
+      errorStore.clear();
       try {
         const document = await driverLocationRepository.getDriverLocation(id);
         if (!document) {
-          throw new Error("Driver location not found");
+          throw new HttpError(Errors.NotFound,"Driver location not found");
         }
 
         return document;
       } catch (error) {
-        console.log(error);
+        if (error instanceof HttpError) errorStore.add(error.response());
+        toastStore.set(ToastMessages.WARNING);
       }
     },
     getAll: async () => {
+      errorStore.clear();
       try {
         const { documents , total} =
           await driverLocationRepository.getAllDriverLocations();
@@ -35,7 +43,7 @@ const createDriverLocationStore = () => {
         });
         set({ data: dto, total });
       } catch (error) {
-        console.log(error);
+        toastStore.set(ToastMessages.WARNING);
       }
     }
   };

@@ -10,6 +10,8 @@ import { authStore } from "$lib/Stores/Auth.Store";
 import type { CreateDriverRequest } from "$lib/Models/Requests/CreateDriver.Request.Model";
 import type { AuthDto } from "$lib/Models/DTO/Auth.DTO.Model";
 import { ImageToUrl } from "../../utils/ImageToUrl.Utils";
+import { HttpError } from "$lib/Errors/HttpErrors.Error";
+import { Errors } from "$lib/Models/Enums/Errors.Enum.Model";
 
 const driverRepository = new DriverRepository();
 
@@ -22,10 +24,10 @@ const createDriverStore = () => {
     },
     get: async (id: string) => {
       try {
-        if (!id) throw new Error("Driver Id is required");
+        if (!id) throw new HttpError(Errors.BadRequest,"Driver Id is required");
         let document = await driverRepository.getDriver(id);
-        if(document == null) throw new Error("Driver not found");
-        if(document.userId == "") throw new Error("Driver User Id is required");
+        if(document == null) throw new HttpError(Errors.NotFound,"Driver not found");
+        if(document.userId == "") throw new HttpError(Errors.BadRequest,"Driver User Id is required");
         const userDto: AuthDto = await authStore.getUser(document.userId) as AuthDto;
         return Dto.ToDriverDto(document, userDto);
       } catch (e) {

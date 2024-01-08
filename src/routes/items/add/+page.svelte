@@ -4,6 +4,7 @@
   import { itemStore } from "$lib/Stores/Items.Store";
   import { Label, Input, Spinner } from "flowbite-svelte";
   import { MultiSelect } from "flowbite-svelte";
+  import moment from "moment";
   import { onMount } from "svelte";
   let options: CreateItemRequest = {
     id: null,
@@ -11,8 +12,8 @@
     categoryId: [],
     price: 0,
     quantity: 0,
-    productionDate: new Date(),
-    expiredDate: new Date(),
+    productionDate: moment(new Date()).format("YYYY-MM-DD"),
+    expiredDate: moment(new Date()).format("YYYY-MM-DD"),
     image: {
       url: "",
     },
