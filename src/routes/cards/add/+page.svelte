@@ -3,14 +3,15 @@
   import type { CreateCardRequest } from "$lib/Models/Requests/CreateCard.Request.Model";
   import { authStore } from "$lib/Stores/Auth.Store";
   import { cardStore } from "$lib/Stores/Cards.Store";
+  import moment from "moment";
   let options: CreateCardRequest = {
-    id:null,
+    id: null,
     webpageUrl: "",
     image: {
       url: "",
     },
     userId: "",
-    expirationDate: new Date(),
+    expirationDate: moment(new Date()).format("YYYY-MM-DD"),
   };
 
   function handleFileChange(event: Event) {
@@ -26,13 +27,13 @@
   let isLoading = false;
   async function create(options: CreateCardRequest) {
     isLoading = true;
-    try{
+    try {
       options.userId = $authStore?.id as string;
       await cardStore.create(options);
-    }finally{
+    } finally {
       isLoading = false;
+    }
   }
-}
 </script>
 
 <div class="container mx-auto h-auto">
@@ -53,7 +54,12 @@
     class="w-11/12 h-60 object-cover object-center rounded-xl flex bg-[#B0AFAF]"
   />
 
-  <input type="file" id="uploadBtn" on:change={handleFileChange} accept=".jpg, .jpeg, .png"/>
+  <input
+    type="file"
+    id="uploadBtn"
+    on:change={handleFileChange}
+    accept=".jpg, .jpeg, .png"
+  />
   <label for="uploadBtn" class="dark:bg-[#363636]">Add Image</label>
 
   <div class="mb-6 w-4/5 flex justify-center items-start flex-col">
@@ -77,22 +83,22 @@
   </div>
   <button
     class="bg-[#f17f18] font-bold text-white py-3 px-8 rounded-xl"
-    type="submit" on:click={()=>create(options)}
-    disabled={!options.webpageUrl || isLoading || !options.expirationDate || !options.image.url}
-    >
-    {#if isLoading}
-    
-    <p>
-      <Spinner class="me-3" size="4" color="white" />
-      Loading
-    </p>
-    
-
-    {:else}
-    Add Card
-    {/if}
-    </button
+    type="submit"
+    on:click={() => create(options)}
+    disabled={!options.webpageUrl ||
+      isLoading ||
+      !options.expirationDate ||
+      !options.image.url}
   >
+    {#if isLoading}
+      <p>
+        <Spinner class="me-3" size="4" color="white" />
+        Loading
+      </p>
+    {:else}
+      Add Card
+    {/if}
+  </button>
 </div>
 
 <style>
@@ -113,6 +119,5 @@
   button:disabled {
     opacity: 0.5;
     transition: ease-in-out 0.3s;
-    
   }
 </style>

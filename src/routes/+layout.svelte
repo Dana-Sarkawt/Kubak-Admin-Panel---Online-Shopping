@@ -8,6 +8,7 @@
   import { authStore } from "$lib/Stores/Auth.Store";
   import { goto } from "$app/navigation";
   import type { LngLat } from "$lib/Models/Common/LngLat.Common.Model";
+  import { errorStore } from "$lib/Stores/Errors.Store";
   $: pathUrl = $page.url.pathname;
 
   onMount(async () => {
@@ -44,6 +45,12 @@
   $: {
     if ($darkMode) {
       checkDarkMode();
+    }
+  }
+
+  $:{
+    if($errorStore){
+      console.log($errorStore);
     }
   }
 

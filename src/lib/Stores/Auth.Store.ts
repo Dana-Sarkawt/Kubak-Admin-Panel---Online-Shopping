@@ -10,6 +10,8 @@ import { ImageToUrl } from "../../utils/ImageToUrl.Utils";
 
 const authRepository = new AuthRepository();
 
+const errors: string[] = [];
+
 const createAuthStore = () => {
   const { subscribe, set, update } = writable<AuthDto | null>();
   return {
@@ -20,6 +22,7 @@ const createAuthStore = () => {
         const user = await authRepository.getAuth();
 
         if (!user) {
+          errors.push("No User Was Found");
           throw new Error("No User Was Found");
         }
         const userDto: AuthDto = Dto.ToAuthDto(user);
@@ -29,7 +32,7 @@ const createAuthStore = () => {
         console.log(error);
         set(null);
         goto("/login");
-        return null;
+        return errors;
       }
     },
 
@@ -37,12 +40,14 @@ const createAuthStore = () => {
       try {
         const userId = await authRepository.signIn(phone);
         if (!userId) {
+          errors.push(`No User Was Found By This Phone Number : ${phone}`);
           throw new Error(`No User Was Found By This Phone Number : ${phone}`);
         }
 
         return userId;
       } catch (error) {
         console.log("Error", error);
+        return errors;
       }
     },
 
@@ -53,6 +58,7 @@ const createAuthStore = () => {
         goto("/");
       } catch (error) {
         console.log("Error", error);
+        return errors;
       }
     },
 
@@ -69,12 +75,14 @@ const createAuthStore = () => {
           goto("/");
         } else {
           await authRepository.signOut();
+          errors.push("This User Does Not have The right Permission To Login");
           throw new Error(
             "This User Does Not have The right Permission To Login"
           );
         }
       } catch (error) {
         console.log("Error", error);
+        return errors;
       }
     },
 
@@ -85,6 +93,7 @@ const createAuthStore = () => {
         goto("/login");
       } catch (error) {
         console.log("Error", error);
+        return errors;
       }
     },
 
@@ -99,26 +108,30 @@ const createAuthStore = () => {
         return { data: listUsersDto, total };
       } catch (error) {
         console.log("Error", error);
+        return errors;
       }
     },
 
     getUser: async (userId: string) => {
       try {
-        if (!userId) return;
+        if (!userId) {
+          errors.push("User Id is Required");
+          throw new Error("User Id is Required");
+        }
         const user = await authRepository.getUser(userId);
         const userDto: AuthDto = Dto.ToAuthDto(user);
 
         return userDto;
       } catch (error) {
         console.log("Error", error);
+        return errors;
       }
     },
 
     update: async (auth: CreateAuthRequest) => {
       try {
-        console.log("auth", auth);
-
         if (auth.name === "") {
+          errors.push("Name is Required");
           throw new Error("Name is Required");
         }
         if (auth.prefs?.image.url) {
@@ -131,6 +144,7 @@ const createAuthStore = () => {
         await authRepository.update(auth);
       } catch (e) {
         console.log("Error :", e);
+        return errors;
       }
     },
   };

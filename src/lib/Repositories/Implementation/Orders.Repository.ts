@@ -10,7 +10,7 @@ export class OrdersRepository implements IOrdersRepository {
   async getOrders(options?:GenericListOptions): Promise<AppwriteResponse<Order>> {
     const query = this.filterQuery([], options);
     const { documents, total } = (await Appwrite.databases.listDocuments(
-      Environment.appwrite_database,
+      Environment.appwrite_database_online_shopping,
       Environment.appwrite_collection_order,
       query
     )) as AppwriteResponse<Order>;
@@ -19,7 +19,7 @@ export class OrdersRepository implements IOrdersRepository {
   }
   async getOrder(id: string): Promise<Order> {
     return (await Appwrite.databases.getDocument(
-      Environment.appwrite_database,
+      Environment.appwrite_database_online_shopping,
       Environment.appwrite_collection_order,
       id
     )) as Order;
@@ -45,7 +45,7 @@ export class OrdersRepository implements IOrdersRepository {
       items: order.items.map(item => item.itemId),
     }
     const orderResult = await Appwrite.databases.updateDocument(
-      Environment.appwrite_database,
+      Environment.appwrite_database_online_shopping,
       Environment.appwrite_collection_order,
       order.id as string,
       orderRequest
@@ -54,7 +54,7 @@ export class OrdersRepository implements IOrdersRepository {
   }
   async updateOrderStatus(id: string, status: number): Promise<Order> {
     const orderResult = await Appwrite.databases.updateDocument(
-      Environment.appwrite_database,
+      Environment.appwrite_database_online_shopping,
       Environment.appwrite_collection_order,
       id,
       {
@@ -65,7 +65,7 @@ export class OrdersRepository implements IOrdersRepository {
   }
   async deleteOrder(id: string): Promise<void> {
     await Appwrite.databases.updateDocument(
-      Environment.appwrite_database,
+      Environment.appwrite_database_online_shopping,
       Environment.appwrite_collection_order,
       id,
       {

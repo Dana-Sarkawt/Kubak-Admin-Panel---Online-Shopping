@@ -8,12 +8,8 @@
   import moment from "moment";
   import { ExclamationCircleOutline } from "flowbite-svelte-icons";
 
-  let popupModal = false;
-  onMount(async () => {
-    console.log($page.params.id);
-  });
+  let popupModal: boolean = false;
   let options: CreateCardRequest = {
-    id: "",
     webpageUrl: "",
     image: {
       url: "",
@@ -21,6 +17,20 @@
     userId: "",
     expirationDate: new Date(),
   };
+  onMount(async () => {
+    const card: CardDto = (await cardStore.get($page.params.id)) as CardDto;
+
+    options = {
+      id: card.id,
+      webpageUrl: card.webpageUrl,
+      expirationDate: moment(card.expirationDate).format("YYYY-MM-DD"),
+      image: {
+        url: "",
+        localUrl: card.cardImage,
+      },
+      userId: card.userId,
+    };
+  });
 
   function handleFileChange(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -35,20 +45,6 @@
   async function updateCard(options: CreateCardRequest) {
     await cardStore.update(options);
   }
-
-  onMount(async () => {
-    const card: CardDto = (await cardStore.get($page.params.id)) as CardDto;
-    options = {
-      id: card.id,
-      webpageUrl: card.webpageUrl,
-      expirationDate: moment(card.expirationDate).format("YYYY-MM-DD"),
-      image: {
-        url: "",
-        localUrl: card.cardImage,
-      },
-      userId: card.userId,
-    };
-  });
 </script>
 
 <div class="container mx-auto h-auto">

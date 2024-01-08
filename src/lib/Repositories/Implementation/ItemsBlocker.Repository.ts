@@ -8,7 +8,7 @@ import { Query } from "appwrite";
 export class ItemsBlockerRepository implements IItemsBlockerRepository {
   async get(id: string): Promise<ItemsBlocker> {
     const itemBlocker: ItemsBlocker = (await Appwrite.databases.getDocument(
-      Environment.appwrite_database,
+      Environment.appwrite_database_online_shopping,
       Environment.appwrite_collection_item_blocker,
       id
     )) as ItemsBlocker;
@@ -18,7 +18,7 @@ export class ItemsBlockerRepository implements IItemsBlockerRepository {
     try {
       const query = this.filterQuery([], undefined, orderId);
       const { documents, total } = (await Appwrite.databases.listDocuments(
-        Environment.appwrite_database,
+        Environment.appwrite_database_online_shopping,
         Environment.appwrite_collection_item_blocker,
         query
       )) as AppwriteResponse<ItemsBlocker>;
@@ -29,7 +29,7 @@ export class ItemsBlockerRepository implements IItemsBlockerRepository {
   }
   async delete(id: string): Promise<void> {
     await Appwrite.databases.deleteDocument(
-      Environment.appwrite_database,
+      Environment.appwrite_database_online_shopping,
       Environment.appwrite_collection_item_blocker,
       id
     );

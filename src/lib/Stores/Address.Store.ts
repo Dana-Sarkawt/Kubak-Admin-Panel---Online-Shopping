@@ -12,9 +12,11 @@ const createAddressStore = () => {
   return {
     subscribe,
     set: (value: Store<AddressDto>) => set(value),
-    get: async (id: string) => {
+    get: async (id?: string) => {
       try {
-        if(!id) return;
+        if (!id) {
+          throw new Error("Id is Required");
+        }
         let document = await addressRepository.getAddress(id);
         return Dto.ToAddressDto(document);
       } catch (error) {

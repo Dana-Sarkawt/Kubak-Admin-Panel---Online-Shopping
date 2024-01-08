@@ -19,7 +19,7 @@ export class ItemsRepository implements IItemsRepository {
     try {
       let query = this.filterQuery([], options);
       let { documents, total } = (await Appwrite.databases.listDocuments(
-        Environment.appwrite_database,
+        Environment.appwrite_database_online_shopping,
         Environment.appwrite_collection_item,
         query
       )) as AppwriteResponse<Item>;
@@ -32,7 +32,7 @@ export class ItemsRepository implements IItemsRepository {
   }
   async getItem(id: string): Promise<Item> {
     return (await Appwrite.databases.getDocument(
-      Environment.appwrite_database,
+      Environment.appwrite_database_online_shopping,
       Environment.appwrite_collection_item,
       id
     )) as Item;
@@ -40,7 +40,7 @@ export class ItemsRepository implements IItemsRepository {
 
   async getItemsByIds(ids: string[]): Promise<Item[]> {
     const { documents, total } = (await Appwrite.databases.listDocuments(
-      Environment.appwrite_database,
+      Environment.appwrite_database_online_shopping,
       Environment.appwrite_collection_item,
       [
         Query.equal("$id", ids),
@@ -57,7 +57,7 @@ export class ItemsRepository implements IItemsRepository {
   ): Promise<AppwriteResponse<Item>> {
     try {
       let { documents, total } = (await Appwrite.databases.listDocuments(
-        Environment.appwrite_database,
+        Environment.appwrite_database_online_shopping,
         Environment.appwrite_collection_item,
         [Query.search("categoryIds", categoryId)]
       )) as AppwriteResponse<Item>;
@@ -84,7 +84,7 @@ export class ItemsRepository implements IItemsRepository {
       };
 
       await Appwrite.databases.createDocument(
-        Environment.appwrite_database,
+        Environment.appwrite_database_online_shopping,
         Environment.appwrite_collection_item,
         ID.unique(),
         itemRequest
@@ -108,7 +108,7 @@ export class ItemsRepository implements IItemsRepository {
     };
     try {
       const itemResult = (await Appwrite.databases.updateDocument(
-        Environment.appwrite_database,
+        Environment.appwrite_database_online_shopping,
         Environment.appwrite_collection_item,
         item.id as string,
         itemRequest
@@ -125,7 +125,7 @@ export class ItemsRepository implements IItemsRepository {
   async updateItemsCategories(items:ItemDto[]){
     for(let item of items){
       await Appwrite.databases.updateDocument(
-        Environment.appwrite_database,
+        Environment.appwrite_database_online_shopping,
         Environment.appwrite_collection_item,
         item.id as string,
         {
@@ -137,7 +137,7 @@ export class ItemsRepository implements IItemsRepository {
 
   async deleteItem(id: string): Promise<void> {
     await Appwrite.databases.updateDocument(
-      Environment.appwrite_database,
+      Environment.appwrite_database_online_shopping,
       Environment.appwrite_collection_item,
       id,
       {

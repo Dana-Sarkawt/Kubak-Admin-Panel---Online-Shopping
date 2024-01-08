@@ -11,7 +11,7 @@ export class AddressRepository implements IAddressRepository {
     options?: GenericListOptions
   ): Promise<AppwriteResponse<Address>> {
     const { documents, total } = (await Appwrite.databases.listDocuments(
-      Environment.appwrite_database,
+      Environment.appwrite_database_online_shopping,
       Environment.appwrite_collection_address
     )) as AppwriteResponse<Address>;
 
@@ -19,7 +19,7 @@ export class AddressRepository implements IAddressRepository {
   }
   async getAddress(id: string): Promise<Address> {
     const address = (await Appwrite.databases.getDocument(
-      Environment.appwrite_database,
+      Environment.appwrite_database_online_shopping,
       Environment.appwrite_collection_address,
       id
     )) as Address;
@@ -27,7 +27,7 @@ export class AddressRepository implements IAddressRepository {
   }
   async createAddress(address: CreateAddressRequest): Promise<void> {
     await Appwrite.databases.createDocument(
-      Environment.appwrite_database,
+      Environment.appwrite_database_online_shopping,
       Environment.appwrite_collection_address,
       ID.unique(),
       address
@@ -35,7 +35,7 @@ export class AddressRepository implements IAddressRepository {
   }
   async updateAddress(address: Address): Promise<Address> {
     const addressResult = (await Appwrite.databases.updateDocument(
-      Environment.appwrite_database,
+      Environment.appwrite_database_online_shopping,
       Environment.appwrite_collection_address,
       address.$id,
       address
@@ -45,7 +45,7 @@ export class AddressRepository implements IAddressRepository {
   }
   async deleteAddress(id: string): Promise<void> {
     await Appwrite.databases.updateDocument(
-      Environment.appwrite_database,
+      Environment.appwrite_database_online_shopping,
       Environment.appwrite_collection_address,
       id,
       {
