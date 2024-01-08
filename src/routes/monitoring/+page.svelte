@@ -18,6 +18,7 @@
   import type { LngLat } from "$lib/Models/Common/LngLat.Common.Model";
   import { driverStore } from "$lib/Stores/Drivers.Store";
 
+
   let L: any;
   let map: any;
   let tileLayer: any;
@@ -269,13 +270,29 @@
       }
     }
   }
+
+
+  function updateOrderStatus(Accepted: OrderStatus): void {
+    throw new Error("Function not implemented.");
+  }
+  import openModal from "$lib/Components/OrderStatusButtons.Component.svelte";
 </script>
 
+
+
+
 <div class="w-full flex justify-end">
+
+
+
+
+
+
   <div
     class="w-60 h-[90vh] rounded-xl my-5 mr-3 flex-col gap-2 opacity-80 absolute flex justify-center items-center z-[5000]"
     id="request-box"
   >
+  
     <div class="w-full h-auto flex gap-2">
       <button
         class="w-16 h-12 bg-gray-500 flex rounded-lg items-center justify-center"
@@ -437,7 +454,9 @@
           {order_status}
           order={orderData}
           {driverId}
+
         />
+       
       </div>
     </div>
   </div>
@@ -491,8 +510,11 @@
         />
       </SpeedDialButton>
     </SpeedDial>
+    
   </div>
+
 {/if}
+
 
 <style>
   #request-box {

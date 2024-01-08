@@ -4,6 +4,8 @@
   import { OrderStatus } from "$lib/Models/Enums/Order-Status.Enum.Model";
   import type { CreateOrderStatusRequest } from "$lib/Models/Requests/CreateOrderStatus.Request.Model";
   import { orderStatusStore } from "$lib/Stores/OrderStatus.Store";
+  import { Button, Img, Modal } from 'flowbite-svelte';
+ 
   export let order_status: number;
   export let order: OrderDto;
   export let destination: string | null;
@@ -33,14 +35,51 @@
     }
     // await orderStatusStore.create(options);
   }
+
+  let openModal = false;
+  let size:any;
+   
+
+
 </script>
 
+{#if openModal === true}
+<div class="z-[60000] w-full h-[87vh] bg-black">
+
+  <Modal
+   style="background-color:#1a1a1a;" bind:open={openModal} {size} autoclose class="z-[1000]flex justify-center items-center pt-12" backdropClass="bg-black w-full h-[5vh] flex justify-center items-center p-0"
+   dialogClass="block h-modal  z-50 w-full flex  p-0" bodyClass=" flex justify-center flex-col items-center p-0">
+   <div class="w-auto flex mx-2 gap-1">
+    <input type="text" class="w-full rounded-lg dark:bg-[#000] dark:text-white">
+    <a href="#" class="w-12 h-12 rounded-lg bg-[#f17f18] flex justify-center items-center">
+      <img src="/images/search.png" alt="" class="w-5 h-5 object-contain">
+    </a>
+   </div>
+   <div class="w-52 h-[60vh] bg-black flex flex-col gap-2 px-2 overflow-y-auto overflow-x-hidden justify-center items-center m-0">
+    
+
+<div class="w-full h-12 bg-[#1a1a1a] flex mx-2 rounded-lg justify-around flex-row-reverse items-center">
+  <p>ahmad</p>
+  <Img src="/images/kubak.jpg" class="w-8 h-8 object-cover rounded-full"/>
+</div>
+
+
+
+   </div>
+<div class="w-full h-auto flex justify-center items-center pb-5">
+
+  <button on:click={() => updateOrderStatus(OrderStatus.Accepted)} class="w-full h-auto p-3 mx-2 bg-[#f17f18] text-white rounded-lg font-bold">Accept</button>
+</div>
+  </Modal>
+</div>
+{:else}
 {#if order_status === 0}
   <div class="flex justify-center gap-2">
     <button
       class="bg-green-500 text-white font-bold w-full h-12 rounded-lg hover:bg-green-600"
-      on:click={() => updateOrderStatus(OrderStatus.Accepted)}>Accept</button
+      on:click={() => { size = 'xl'; openModal = true; }}>Accept</button
     >
+   
     <button
       class="bg-red-600 w-full text-white font-bold rounded-lg hover:bg-red-700"
       on:click={() => updateOrderStatus(OrderStatus.Failed)}>Reject</button
@@ -81,4 +120,7 @@
   </div>
 {:else}
   <div></div>
+{/if}
+
+
 {/if}
