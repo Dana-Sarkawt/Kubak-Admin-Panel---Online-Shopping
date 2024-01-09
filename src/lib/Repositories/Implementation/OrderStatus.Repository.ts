@@ -25,7 +25,7 @@ export class OrderStatusRepository implements IOrderStatusRepository {
       console.log(orderStatusRequest);
       
       await Appwrite.databases.createDocument(
-        Environment.appwrite_database,
+        Environment.appwrite_database_online_shopping,
         Environment.appwrite_collection_order_status,
         ID.unique(),
         orderStatusRequest
@@ -37,7 +37,7 @@ export class OrderStatusRepository implements IOrderStatusRepository {
   async getOrderStatus(id: string): Promise<OrderStatus> {
     try {
       return (await Appwrite.databases.getDocument(
-        Environment.appwrite_database,
+        Environment.appwrite_database_online_shopping,
         Environment.appwrite_collection_order_status,
         id
         )) as OrderStatus;
@@ -51,7 +51,7 @@ export class OrderStatusRepository implements IOrderStatusRepository {
     try {
       const query = this.filterQuery([], options);
       const { documents, total } = (await Appwrite.databases.listDocuments(
-        Environment.appwrite_database,
+        Environment.appwrite_database_online_shopping,
         Environment.appwrite_collection_order_status,
         [Query.isNull("deletedAt")]
       )) as AppwriteResponse<OrderStatus>;
@@ -63,7 +63,7 @@ export class OrderStatusRepository implements IOrderStatusRepository {
   async getOrderStatusByOrderId(orderId: string): Promise<OrderStatus> {
     try {
       const { documents } = (await Appwrite.databases.listDocuments(
-        Environment.appwrite_database,
+        Environment.appwrite_database_online_shopping,
         Environment.appwrite_collection_order_status,
         [Query.equal("orderId", orderId)]
       )) as AppwriteResponse<OrderStatus>;
@@ -75,7 +75,7 @@ export class OrderStatusRepository implements IOrderStatusRepository {
   async getOrderStatusByDriverId(driverId: string): Promise<OrderStatus> {
     try {
       const { documents } = (await Appwrite.databases.listDocuments(
-        Environment.appwrite_database,
+        Environment.appwrite_database_online_shopping,
         Environment.appwrite_collection_order_status,
         [Query.equal("driverId", driverId)]
       )) as AppwriteResponse<OrderStatus>;
@@ -97,7 +97,7 @@ export class OrderStatusRepository implements IOrderStatusRepository {
         destination: orderStatus.destination,
       };
       await Appwrite.databases.updateDocument(
-        Environment.appwrite_database,
+        Environment.appwrite_database_online_shopping,
         Environment.appwrite_collection_order_status,
         orderStatus.id!,
         orderStatusRequest
@@ -110,7 +110,7 @@ export class OrderStatusRepository implements IOrderStatusRepository {
   async deleteOrderStatus(id: string): Promise<void> {
     try {
       await Appwrite.databases.updateDocument(
-        Environment.appwrite_database,
+        Environment.appwrite_database_online_shopping,
         Environment.appwrite_collection_order_status,
         id,
         {

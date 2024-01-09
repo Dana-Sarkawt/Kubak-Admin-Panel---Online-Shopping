@@ -10,6 +10,9 @@ import { toastStore } from "./Toast.Store";
 import { ToastMessages } from "$lib/Models/Enums/Toast-Messages.Enum.Model";
 import type { ItemDto } from "$lib/Models/DTO/Item.DTO.Model";
 import { ItemsRepository } from "$lib/Repositories/Implementation/Items.Repository";
+import { errorStore } from "./Errors.Store";
+import { HttpError } from "$lib/Errors/HttpErrors.Error";
+import { Errors } from "$lib/Models/Enums/Errors.Enum.Model";
 
 const categoriesRepository = new CategoriesRepository();
 const itemsRepositories = new ItemsRepository();
@@ -24,17 +27,22 @@ const createCategoryStore = () => {
   return {
     subscribe,
     set: (value: Store<CategoryDto>) => set(value),
-    get: async (id: string) => {
+    get: async (id?: string) => {
+      errorStore.clear();
       try {
-        if (!id) return;
+        if (!id) {
+          throw new HttpError(Errors.NotFound, "Id is Required");
+        }
         let document = await categoriesRepository.getCategory(id);
 
         return Dto.ToCategoriesDto(document);
       } catch (e) {
-        console.log("Error :", e);
+        if (e instanceof HttpError) errorStore.add(e.response());
+        toastStore.set(ToastMessages.WARNING);
       }
     },
     getAll: async (options?: GenericListOptions) => {
+      errorStore.clear();
       try {
         let { documents, total } = await categoriesRepository.getCategories(
           options
@@ -49,16 +57,17 @@ const createCategoryStore = () => {
         set({ data: dto, total: total, pages: pages });
         return dto;
       } catch (e) {
-        console.log("Error:", e);
+        toastStore.set(ToastMessages.WARNING);
       }
     },
     create: async (category: CreateCategoryRequest) => {
+      errorStore.clear();
       try {
         if (category.name == "") {
-          throw new Error("Category Name is required");
+          throw new HttpError(Errors.BadRequest, "Category Name is required");
         }
         if (category.image.url == "") {
-          throw new Error("Category Image is required");
+          throw new HttpError(Errors.BadRequest, "Category Image is required");
         }
         if (category.image.url instanceof File) {
           category.image.url = (await ImageToUrl(
@@ -67,18 +76,21 @@ const createCategoryStore = () => {
         }
 
         await categoriesRepository.createCategory(category);
-        toastStore.set(3);
+        toastStore.set(ToastMessages.SUCCESS);
       } catch (e) {
-        console.log("Error :", e);
+        if (e instanceof HttpError) errorStore.add(e.response());
+        toastStore.set(ToastMessages.WARNING);
       }
     },
     update: async (category: CreateCategoryRequest) => {
+      errorStore.clear();
       try {
         const document = await categoriesRepository.getCategory(
           category.id as string
         );
         if (document === null) {
-          throw new Error(
+          throw new HttpError(
+            Errors.NotFound,
             `Category not found with the following id:${category.id}`
           );
         }
@@ -102,16 +114,20 @@ const createCategoryStore = () => {
         await categoryStore.getAll();
         toastStore.set(ToastMessages.SUCCESS);
       } catch (e) {
-        console.log("Error :", e);
-        toastStore.set(4);
+        if (e instanceof HttpError) errorStore.add(e.response());
+        toastStore.set(ToastMessages.WARNING);
       }
     },
     delete: async (id: string, items?: ItemDto[]) => {
+      errorStore.clear();
       try {
         let document = await categoriesRepository.getCategory(id);
 
         if (document === null)
-          throw new Error(`Category not found with the following id:${id}`);
+          throw new HttpError(
+            Errors.NotFound,
+            `Category not found with the following id:${id}`
+          );
 
         await categoriesRepository.deleteCategory(id);
         if (items) {
@@ -127,7 +143,8 @@ const createCategoryStore = () => {
         toastStore.set(ToastMessages.ERROR);
         return "Deleted";
       } catch (e) {
-        console.log("Error :", e);
+        if (e instanceof HttpError) errorStore.add(e.response());
+        toastStore.set(ToastMessages.WARNING);
       }
     },
   };

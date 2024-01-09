@@ -1,5 +1,5 @@
 export interface CreateCardRequest {
-  id:string | null,
+  id?:string | null,
   userId: string,
   webpageUrl: string,
   expirationDate: Date | string,

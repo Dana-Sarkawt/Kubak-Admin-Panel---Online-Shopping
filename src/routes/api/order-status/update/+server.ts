@@ -17,7 +17,7 @@ export const POST = (async ({ locals, params, request }) => {
 
   lock.acquire(id, async function (done) {
     await database.updateDocument(
-      Environment.appwrite_database,
+      Environment.appwrite_database_online_shopping,
       Environment.appwrite_collection_order_status,
       id,
       {

@@ -4,10 +4,13 @@ import type { CreateCardRequest } from "$lib/Models/Requests/CreateCard.Request.
 import type { Store } from "$lib/Models/Response/Store.Response";
 import { CardRepository } from "$lib/Repositories/Implementation/Card.Repository";
 import { writable } from "svelte/store";
-import { ImageToUrl } from "../../utils/ImageToUrl.Utils";
 import { goto } from "$app/navigation";
 import { toastStore } from "./Toast.Store";
 import { ToastMessages } from "$lib/Models/Enums/Toast-Messages.Enum.Model";
+import { HttpError } from "$lib/Errors/HttpErrors.Error";
+import { errorStore } from "./Errors.Store";
+import { Errors } from "$lib/Models/Enums/Errors.Enum.Model";
+import { ImageToUrl } from "../../utils/ImageToUrl.Utils";
 
 const cardRepository = new CardRepository();
 
@@ -16,22 +19,24 @@ const createCardStore = () => {
     data: [],
     total: 0,
   });
-
   return {
     subscribe,
     set: (value: Store<CardDto>) => set(value),
-    get: async (id: string) => {
+    get: async (id?: string) => {
+      errorStore.clear();
       try {
-        if(!id) return;
+        if (!id) {
+          throw new HttpError(Errors.NotFound, "Id is Required");
+        }
         let document = await cardRepository.getCard(id);
-
         return Dto.ToCardDto(document);
       } catch (e) {
-        console.log(e);
+        if (e instanceof HttpError) errorStore.add(e.response());
       }
     },
 
     getAll: async () => {
+      errorStore.clear();
       try {
         let { documents, total } = await cardRepository.getCards();
 
@@ -46,39 +51,46 @@ const createCardStore = () => {
     },
 
     create: async (card: CreateCardRequest) => {
+      errorStore.clear();
       try {
         if (card.webpageUrl == "") {
-          throw new Error("Card Web Url is required");
+          throw new HttpError(Errors.BadRequest, "Card Web Url is required");
         }
         if (new Date(card.expirationDate) < new Date()) {
-          throw new Error("Expiration date Must be Greater Than Todays Date");
+          throw new HttpError(
+            Errors.BadRequest,
+            "Expiration date Must be Greater Than Todays Date"
+          );
         }
         const listCards = (await cardRepository.getCards()).documents;
-        if(listCards.length >= 3){
-          throw new Error("Cards Limit Has Been Reached Please Delete Some Cards");
+        if (listCards.length >= 3) {
+          throw new HttpError(
+            Errors.Forbidden,
+            "Cards Limit Has Been Reached Please Delete Some Cards"
+          );
         }
         if (card.image.url == "") {
-          throw new Error("Card Image is required");
+          throw new HttpError(Errors.BadRequest, "Card Image is required");
         }
         if (card.image.url instanceof File) {
           card.image.url = (await ImageToUrl(card.image.url as File)) as string;
         }
-
         await cardRepository.createCard(card);
         toastStore.set(ToastMessages.CREATE);
         goto("/cards");
       } catch (e) {
-        console.log(e);
-        toastStore.set(ToastMessages.CREATE);
+        if (e instanceof HttpError) errorStore.add(e.response());
+        toastStore.set(ToastMessages.WARNING);
       }
     },
 
     update: async (card: CreateCardRequest) => {
+      errorStore.clear();
       try {
         const document = await cardRepository.getCard(card.id as string);
 
         if (document === null) {
-          throw new Error(`Card not found with the following id:${card.id}`);
+          throw new HttpError(Errors.NotFound, `Card not found`);
         }
 
         if (card.webpageUrl == "") {
@@ -90,7 +102,7 @@ const createCardStore = () => {
               card.image.url as File
             )) as string;
           }
-        }else{
+        } else {
           card.image.url = document.cardImage;
         }
 
@@ -98,19 +110,21 @@ const createCardStore = () => {
         toastStore.set(ToastMessages.SUCCESS);
         goto("/cards");
       } catch (e) {
-        console.log("Error :", e);
+        if (e instanceof HttpError) errorStore.add(e.response());
         toastStore.set(ToastMessages.WARNING);
       }
     },
 
     delete: async (id: string) => {
+      errorStore.clear();
       try {
-       
         let document = await cardRepository.getCard(id);
-        
 
         if (document === null)
-          throw new Error(`Card not found with the following id:${id}`);
+          throw new HttpError(
+            Errors.NotFound,
+            `Card not found with the following id:${id}`
+          );
 
         await cardRepository.deleteCard(id);
 
@@ -119,7 +133,7 @@ const createCardStore = () => {
         toastStore.set(ToastMessages.ERROR);
         return "Deleted";
       } catch (e) {
-        console.log("Error :", e);
+        if (e instanceof HttpError) errorStore.add(e.response());
         toastStore.set(ToastMessages.WARNING);
       }
     },

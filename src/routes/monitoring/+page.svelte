@@ -76,7 +76,7 @@
     });
 
     Appwrite.appwrite.subscribe(
-      `databases.${Environment.appwrite_database}.collections.${Environment.appwrite_collection_order}.documents`,
+      `databases.${Environment.appwrite_database_online_shopping}.collections.${Environment.appwrite_collection_order}.documents`,
       async (response) => {
         await ordersStore.getAll();
         const orderDto: OrderDto = Dto.ToOrderDto(

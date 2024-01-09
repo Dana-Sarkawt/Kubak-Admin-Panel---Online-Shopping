@@ -10,8 +10,9 @@ export namespace Environment {
     ENVIRONMENT.VITE_APPWRITE_SDK_API_KEY;
 
   // Appwrite Database
-  export const appwrite_database: string =
-    ENVIRONMENT.VITE_APPWRITE_DATABASE_ID;
+  export const appwrite_database_online_shopping: string =
+    ENVIRONMENT.VITE_APPWRITE_DATABASE_ID_ONLINE_SHOPPING;
+  export const appwrite_database_drivers: string = ENVIRONMENT.VITE_APPWRITE_DATABASE_ID_DRIVERS;
 
   // Appwrite Collections
   export const appwrite_collection_card: string =

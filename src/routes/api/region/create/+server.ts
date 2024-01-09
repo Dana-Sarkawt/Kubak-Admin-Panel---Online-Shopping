@@ -39,7 +39,7 @@ export const POST = (async ({ locals, params, request }) => {
   };
 
   const response = await database.createDocument(
-    Environment.appwrite_database,
+    Environment.appwrite_database_online_shopping,
     Environment.appwrite_collection_region,
     ID.unique(),
     region

@@ -18,7 +18,7 @@ export class CategoriesRepository implements ICategoriesRepository {
       const query = this.filterQuery([], options);
 
       let { documents, total } = (await Appwrite.databases.listDocuments(
-        Environment.appwrite_database,
+        Environment.appwrite_database_online_shopping,
         Environment.appwrite_collection_category,
         query
       )) as AppwriteResponse<Category>;
@@ -33,7 +33,7 @@ export class CategoriesRepository implements ICategoriesRepository {
   async getCategory(id: string): Promise<Category> {
     try{
       const category = await Appwrite.databases.getDocument(
-        Environment.appwrite_database,
+        Environment.appwrite_database_online_shopping,
         Environment.appwrite_collection_category,
         id
       ) as Category;
@@ -60,7 +60,7 @@ export class CategoriesRepository implements ICategoriesRepository {
     };
 
     await Appwrite.databases.createDocument(
-      Environment.appwrite_database,
+      Environment.appwrite_database_online_shopping,
       Environment.appwrite_collection_category,
       ID.unique(),
       categoryRequest
@@ -76,7 +76,7 @@ export class CategoriesRepository implements ICategoriesRepository {
         description: category.description,
       };
       const result = await Appwrite.databases.updateDocument(
-        Environment.appwrite_database,
+        Environment.appwrite_database_online_shopping,
         Environment.appwrite_collection_category,
         category.id as string,
         categoryRequest
@@ -90,7 +90,7 @@ export class CategoriesRepository implements ICategoriesRepository {
 
   async deleteCategory(id: string): Promise<void> {
     await Appwrite.databases.updateDocument(
-      Environment.appwrite_database,
+      Environment.appwrite_database_online_shopping,
       Environment.appwrite_collection_category,
       id,
       {

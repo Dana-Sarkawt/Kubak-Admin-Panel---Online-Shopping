@@ -8,7 +8,7 @@ import type { ICardsRepository } from "../Interface/I.Cards.Repository";
 export class CardRepository implements ICardsRepository {
   async getCards(): Promise<AppwriteResponse<Card>> {
     let { documents, total } = (await Appwrite.databases.listDocuments(
-      Environment.appwrite_database,
+      Environment.appwrite_database_online_shopping,
       Environment.appwrite_collection_card,
       [
         Query.isNull("deletedAt"),
@@ -20,7 +20,7 @@ export class CardRepository implements ICardsRepository {
   }
   async getCard(id: string): Promise<Card> {
     return (await Appwrite.databases.getDocument(
-      Environment.appwrite_database,
+      Environment.appwrite_database_online_shopping,
       Environment.appwrite_collection_card,
       id
     )) as Card;
@@ -34,7 +34,7 @@ export class CardRepository implements ICardsRepository {
     };
 
     await Appwrite.databases.createDocument(
-      Environment.appwrite_database,
+      Environment.appwrite_database_online_shopping,
       Environment.appwrite_collection_card,
       ID.unique(),
       cardRequest
@@ -48,7 +48,7 @@ export class CardRepository implements ICardsRepository {
       expirationDate: card.expirationDate as Date,
     };
     const result = await Appwrite.databases.updateDocument(
-      Environment.appwrite_database,
+      Environment.appwrite_database_online_shopping,
       Environment.appwrite_collection_card,
       card.id as string,
       cardRequest
@@ -60,7 +60,7 @@ export class CardRepository implements ICardsRepository {
   async deleteCard(id: string): Promise<void> {
     console.log(id);
     await Appwrite.databases.updateDocument(
-      Environment.appwrite_database,
+      Environment.appwrite_database_online_shopping,
       Environment.appwrite_collection_card,
       id,
       {
