@@ -1,13 +1,14 @@
 <script lang="ts">
+	import { driverStore } from '$lib/Stores/Drivers.Store';
   import type { OrderDto } from "$lib/Models/DTO/Order.DTO.Model";
   import { DriverOrderStatus } from "$lib/Models/Enums/DriverOrderStatus.Enum.Model";
   import { OrderStatus } from "$lib/Models/Enums/Order-Status.Enum.Model";
   import type { CreateOrderStatusRequest } from "$lib/Models/Requests/CreateOrderStatus.Request.Model";
   import { orderStatusStore } from "$lib/Stores/OrderStatus.Store";
   import { Button, Img, Modal } from 'flowbite-svelte';
-
   import { Select, Dropdown, DropdownItem } from 'flowbite-svelte';
   import { ChevronDownSolid } from 'flowbite-svelte-icons';
+  import { onMount } from "svelte";
 
  
   export let order_status: number;
@@ -40,6 +41,9 @@
     // await orderStatusStore.create(options);
   }
 
+onMount(async () => {
+  await driverStore.getAll();
+});
 
    
 
@@ -50,7 +54,7 @@
 <div class="flex h-full ">
   <button id="states-button" class="w-full flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-500 bg-gray-100 border border-gray-300 rounded-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600 justify-around" type="button">
    <img src="/images/kubak.jpg" alt="" class="w-8 h-8 object-contain rounded-full">
-    USA
+    Select Driver
     
     <ChevronDownSolid class="w-3 h-3 ms-2" />
   </button>
@@ -64,22 +68,13 @@
 
     <div class="w-full h-44 my-5 flex flex-col justify-center items-centers overflow-y-auto">
 
-      <DropdownItem class="items-center flex justify-start gap-2">
-        <img src="/images/kubak.jpg" alt="" class="w-8 h-8 object-contain rounded-full">
-        United States
-      </DropdownItem>
-      <DropdownItem class="flex items-center justify-start gap-2">
-        <img src="/images/kubak.jpg" alt="" class="w-8 h-8 object-contain rounded-full">
-        Germany
-      </DropdownItem>
-      <DropdownItem class="flex items-center justify-start gap-2">
-        <img src="/images/kubak.jpg" alt="" class="w-8 h-8 object-contain rounded-full">
-        Italy
-      </DropdownItem>
-      <DropdownItem class="flex items-center justify-start gap-2">
-        <img src="/images/kubak.jpg" alt="" class="w-8 h-8 object-contain rounded-full">
-        China
-      </DropdownItem>
+      {#each $driverStore.data as driver}
+        <DropdownItem class="flex items-center justify-start gap-2">
+          <img src={driver.user?.imgUrl ?? "/images/kubak.jpg"} alt="" class="w-8 h-8 object-contain rounded-full">
+          {driver.user?.name}
+        </DropdownItem>
+      {/each}
+    
     </div>
   </Dropdown>
   
