@@ -66,7 +66,7 @@ onMount(async () => {
       </a>
     </div>
 
-    <div class="w-full h-44 my-5 flex flex-col justify-center items-centers overflow-y-auto">
+    <div class="w-full h-44 my-5 flex flex-col justify-start items-center overflow-y-auto">
 
       {#each $driverStore.data as driver}
         <DropdownItem class="flex items-center justify-start gap-2">
