@@ -9,6 +9,9 @@ import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.M
 import { goto } from "$app/navigation";
 import { toastStore } from "./Toast.Store";
 import { ToastMessages } from "$lib/Models/Enums/Toast-Messages.Enum.Model";
+import { HttpError } from "$lib/Errors/HttpErrors.Error";
+import { Errors } from "$lib/Models/Enums/Errors.Enum.Model";
+import { errorStore } from "./Errors.Store";
 
 const itemsRepository = new ItemsRepository();
 
@@ -23,12 +26,12 @@ const createItemStore = () => {
     set: (value: Store<ItemDto>) => set(value),
     get: async (id: string) => {
       try {
-        if (!id) return;
+        if (!id) throw new HttpError(Errors.BadRequest, "Item Id is required");
         let document = await itemsRepository.getItem(id);
         return Dto.ToItemDto(document);
       } catch (error) {
-        console.log(error);
-        toastStore.set(ToastMessages.ERROR);
+        if (error instanceof HttpError) errorStore.add(error.response());
+        toastStore.set(ToastMessages.WARNING);
       }
     },
 
@@ -40,55 +43,61 @@ const createItemStore = () => {
         });
 
         const pages = Math.ceil(total / (options?.limit ?? 8));
-        console.log("pages", options);
 
         set({ data: itemsDto, total: total, pages: pages });
       } catch (error) {
-        console.log(error);
         toastStore.set(ToastMessages.ERROR);
       }
     },
 
     getItemsByCategory: async (categoryId: string) => {
       try {
-        console.log("categoryId", categoryId);
         let { documents, total } = await itemsRepository.getItemsByCategory(
           categoryId
         );
 
-        console.log("documents", documents);
+        if (documents.length == 0)
+          throw new HttpError(Errors.NotFound, "Items not found");
+
         let itemsDto: ItemDto[] = documents.map((document) => {
           return Dto.ToItemDto(document);
         });
 
         return itemsDto;
       } catch (error) {
-        console.log(error);
-        toastStore.set(ToastMessages.ERROR);
+        if (error instanceof HttpError) errorStore.add(error.response());
+        toastStore.set(ToastMessages.WARNING);
       }
     },
 
     create: async (item: CreateItemRequest) => {
       try {
         if (item.name == "") {
-          throw new Error("Item Name is required");
+          throw new HttpError(Errors.BadRequest, "Item Name is required");
         }
         if (item.image.url == "") {
-          throw new Error("Item Image is required");
+          throw new HttpError(Errors.BadRequest, "Item Image is required");
         }
         if (item.price <= 0) {
-          throw new Error("Item Price Hast to Be Greater Than Zero");
+          throw new HttpError(
+            Errors.BadRequest,
+            "Item Price Hast to Be Greater Than Zero"
+          );
         }
         if (item.quantity <= 0 && item.quantity > 10000) {
-          throw new Error("Item Quantity Is Not Right");
+          throw new HttpError(Errors.BadRequest, "Item Quantity Is Not Right");
         }
         if (item.productionDate >= item.expiredDate) {
-          throw new Error(
+          throw new HttpError(
+            Errors.BadRequest,
             "Item Production Date Must Be Lesser Than The Expiration Date"
           );
         }
         if (item.categoryId.length == 0) {
-          throw new Error("Please Add A Category To The Item");
+          throw new HttpError(
+            Errors.BadRequest,
+            "Please Add A Category To The Item"
+          );
         }
         if (item.image.url instanceof File) {
           item.image.url = (await ImageToUrl(item.image.url as File)) as string;
@@ -98,7 +107,7 @@ const createItemStore = () => {
         toastStore.set(ToastMessages.CREATE);
         goto("/items/1");
       } catch (error: any) {
-        console.log(error);
+        if (error instanceof HttpError) errorStore.add(error.response());
         toastStore.set(ToastMessages.WARNING);
       }
     },
@@ -107,7 +116,7 @@ const createItemStore = () => {
         const document = await itemsRepository.getItem(item.id as string);
 
         if (document === null) {
-          throw new Error("Item Not Found");
+          throw new HttpError(Errors.NotFound, "Item Not Found");
         }
         if (item.name == "") {
           item.name = document.name;
@@ -155,7 +164,7 @@ const createItemStore = () => {
         toastStore.set(ToastMessages.SUCCESS);
         goto("/items/1");
       } catch (error) {
-        console.log("Error: ", error);
+        if (error instanceof HttpError) errorStore.add(error.response());
         toastStore.set(ToastMessages.WARNING);
       }
     },
@@ -163,14 +172,15 @@ const createItemStore = () => {
       try {
         const document = await itemsRepository.getItem(id);
         if (document === null) {
-          throw new Error("Item Not Found");
+          throw new HttpError(Errors.NotFound, "Item Not Found");
         }
 
         await itemsRepository.deleteItem(id);
         itemStore.getAll();
         toastStore.set(ToastMessages.ERROR);
+        return "Deleted";
       } catch (error) {
-        console.log(error);
+        if (error instanceof HttpError) errorStore.add(error.response());
         toastStore.set(ToastMessages.WARNING);
       }
     },

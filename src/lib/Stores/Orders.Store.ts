@@ -12,6 +12,11 @@ import { itemStore } from "./Items.Store";
 import { addressStore } from "./Address.Store";
 import type { ItemDto } from "$lib/Models/DTO/Item.DTO.Model";
 import type { AddressDto } from "$lib/Models/DTO/Address.DTO.Model";
+import { HttpError } from "$lib/Errors/HttpErrors.Error";
+import { Errors } from "$lib/Models/Enums/Errors.Enum.Model";
+import { errorStore } from "./Errors.Store";
+import { toastStore } from "./Toast.Store";
+import { ToastMessages } from "$lib/Models/Enums/Toast-Messages.Enum.Model";
 
 const ordersRepository = new OrdersRepository();
 
@@ -26,11 +31,13 @@ const createOrdersStore = () => {
     set: (value: Store<OrderDto>) => set(value),
     get: async (id: string) => {
       try {
-        if (!id) return;
+        if (!id) throw new HttpError(Errors.BadRequest, "Order Id is required");
         let document = await ordersRepository.getOrder(id);
+        if (!document) throw new HttpError(Errors.NotFound, "Order not found");
         return Dto.ToOrderDto(document);
       } catch (error) {
-        console.log(error);
+        if (error instanceof HttpError) errorStore.add(error.response());
+        toastStore.set(ToastMessages.WARNING);
       }
     },
     getAll: async (options?: GenericListOptions) => {
@@ -67,61 +74,64 @@ const createOrdersStore = () => {
 
         set({ data: ordersDto, total: total, pages: pages });
       } catch (error) {
-        console.log(error);
+        toastStore.set(ToastMessages.WARNING);
       }
     },
     create: async (order: CreateOrderRequest) => {
       try {
         if (order.items.length == 0) {
-          throw new Error("Order Items is required");
+          throw new HttpError(Errors.BadRequest, "Order Items is required");
         }
         if (order.addressId == "") {
-          throw new Error("Address is required");
+          throw new HttpError(Errors.BadRequest, "Address is required");
         }
         await ordersRepository.createOrder(order);
         goto("/monitoring");
       } catch (error) {
-        console.log(error);
+        if (error instanceof HttpError) errorStore.add(error.response());
+        toastStore.set(ToastMessages.WARNING);
       }
     },
     update: async (order: CreateOrderRequest) => {
       try {
         const document = await ordersRepository.getOrder(order.id as string);
         if (document === null) {
-          throw new Error("Order Not Found");
+          throw new HttpError(Errors.NotFound, "Order Not Found");
         }
         if (order.items.length <= 0) {
-          throw new Error("Order Items is required");
+          throw new HttpError(Errors.BadRequest, "Order Items is required");
         }
         if (order.addressId == "") {
-          throw new Error("Address is required");
+          throw new HttpError(Errors.BadRequest, "Address is required");
         }
         await ordersRepository.updateOrder(order);
       } catch (error) {
-        console.log(error);
+        if (error instanceof HttpError) errorStore.add(error.response());
+        toastStore.set(ToastMessages.WARNING);
       }
     },
     updateStatus: async (id: string, status: number) => {
       try {
         const document = await ordersRepository.getOrder(id);
         if (document === null) {
-          throw new Error("Order Not Found");
+          throw new HttpError(Errors.NotFound, "Order Not Found");
         }
         await ordersRepository.updateOrderStatus(id, status);
       } catch (error) {
-        console.log(error);
+        if (error instanceof HttpError) errorStore.add(error.response());
+        toastStore.set(ToastMessages.WARNING);
       }
     },
     delete: async (id: string) => {
       try {
         const document = await ordersRepository.getOrder(id);
-        if (document === null) {
-          throw new Error("Order Not Found");
-        }
+        if (document === null)
+          throw new HttpError(Errors.NotFound, "Order Not Found");
         await ordersRepository.deleteOrder(id);
         ordersStore.getAll();
       } catch (error) {
-        console.log(error);
+        if (error instanceof HttpError) errorStore.add(error.response());
+        toastStore.set(ToastMessages.WARNING);
       }
     },
   };

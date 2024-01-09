@@ -18,7 +18,6 @@
   import type { LngLat } from "$lib/Models/Common/LngLat.Common.Model";
   import { driverStore } from "$lib/Stores/Drivers.Store";
 
-
   let L: any;
   let map: any;
   let tileLayer: any;
@@ -41,7 +40,7 @@
 
     await ordersStore.getAll();
 
-    await driverLocationStore.getAll();
+    await driverStore.getAll();
 
     $ordersStore.data.map((order) => {
       const myIcon = L.icon({
@@ -61,16 +60,19 @@
       });
     });
 
-    $driverLocationStore.data.map((driver) => {
+    $driverStore.data.map((driver) => {
       const myIcon = L.icon({
         iconUrl: `images/driver.png`,
         iconSize: [38, 38],
       });
 
       markers.push({
-        marker: L.marker([driver.latitude, driver.longitude], {
-          icon: myIcon,
-        }).addTo(map),
+        marker: L.marker(
+          [driver.driverLocation?.latitude, driver.driverLocation?.longitude],
+          {
+            icon: myIcon,
+          }
+        ).addTo(map),
         id: driver.id,
       });
     });
@@ -83,6 +85,16 @@
           response.payload as Order
         ) as OrderDto;
         addMarkers(orderDto, options.status);
+      }
+    );
+
+    Appwrite.appwrite.subscribe(
+      `databases.${Environment.appwrite_database_drivers}.collections.${Environment.appwrite_collection_driver}.documents`,
+      async (response) => {
+        console.log(response.payload);
+        await driverStore.getAll();
+        const driverDto = Dto.ToDriverDto(response.payload as Driver);
+        addMarkersForDrivers(driverDto as DriverDto);
       }
     );
   });
@@ -138,6 +150,30 @@
         id: newOrder.id,
       });
     }
+  }
+
+  function addMarkersForDrivers(newDriver: DriverDto) {
+    if (!newDriver) return;
+    const myIcon = L.icon({
+      iconUrl: `images/driver.png`,
+      iconSize: [38, 38],
+    });
+    markers.forEach((marker) => {
+      if (marker.id == newDriver.id) {
+        map.removeLayer(marker.marker);
+        markers.splice(markers.indexOf(marker), 1);
+      }
+    });
+    markers.push({
+      marker: L.marker(
+        [
+          newDriver.driverLocation?.latitude,
+          newDriver.driverLocation?.longitude,
+        ],
+        { icon: myIcon }
+      ).addTo(map),
+      id: newDriver.id,
+    });
   }
 
   function resetZoom() {
@@ -271,28 +307,19 @@
     }
   }
 
-
   function updateOrderStatus(Accepted: OrderStatus): void {
     throw new Error("Function not implemented.");
   }
   import openModal from "$lib/Components/OrderStatusButtons.Component.svelte";
+  import type { Driver } from "$lib/Models/Entities/Driver.Entity.Model";
+  import type { DriverDto } from "$lib/Models/DTO/Driver.DTO.Model";
 </script>
 
-
-
-
 <div class="w-full flex justify-end">
-
-
-
-
-
-
   <div
     class="w-60 h-[90vh] rounded-xl my-5 mr-3 flex-col gap-2 opacity-80 absolute flex justify-center items-center z-[5000]"
     id="request-box"
   >
-  
     <div class="w-full h-auto flex gap-2">
       <button
         class="w-16 h-12 bg-gray-500 flex rounded-lg items-center justify-center"
@@ -454,9 +481,7 @@
           {order_status}
           order={orderData}
           {driverId}
-
         />
-       
       </div>
     </div>
   </div>
@@ -510,11 +535,8 @@
         />
       </SpeedDialButton>
     </SpeedDial>
-    
   </div>
-
 {/if}
-
 
 <style>
   #request-box {
