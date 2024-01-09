@@ -8,6 +8,8 @@ export namespace Appwrite {
     .setEndpoint(Environment.appwrite_endpoint)
     .setProject(Environment.appwrite_project); // Replace with your project ID
 
+  client.setEndpointRealtime('wss://appwrite.kubak.co/v1/realtime');
+
   export const appwrite = client;
   export const account = new Account(client);
   export const databases = new Databases(client);
