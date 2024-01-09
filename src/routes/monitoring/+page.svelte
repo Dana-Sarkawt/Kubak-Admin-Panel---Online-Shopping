@@ -80,6 +80,8 @@
     Appwrite.appwrite.subscribe(
       `databases.${Environment.appwrite_database_online_shopping}.collections.${Environment.appwrite_collection_order}.documents`,
       async (response) => {
+        console.log("Hello There From Order", response.payload);
+        
         await ordersStore.getAll();
         const orderDto: OrderDto = Dto.ToOrderDto(
           response.payload as Order
@@ -88,10 +90,14 @@
       }
     );
 
+    console.log(
+      `databases.${Environment.appwrite_database_drivers}.collections.${Environment.appwrite_collection_driver_location}.documents`
+    );
+
     Appwrite.appwrite.subscribe(
-      `databases.${Environment.appwrite_database_drivers}.collections.${Environment.appwrite_collection_driver}.documents`,
+      `databases.${Environment.appwrite_database_drivers}.collections.${Environment.appwrite_collection_driver_location}.documents`,
       async (response) => {
-        console.log(response.payload);
+        console.log("Hello There", response.payload);
         await driverStore.getAll();
         const driverDto = Dto.ToDriverDto(response.payload as Driver);
         addMarkersForDrivers(driverDto as DriverDto);
