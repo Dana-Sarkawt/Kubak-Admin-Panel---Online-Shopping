@@ -59,8 +59,8 @@ onMount(async () => {
     <ChevronDownSolid class="w-3 h-3 ms-2" />
   </button>
   <Dropdown  class="w-64 h-auto">
-    <div class="w-full h-auto flex gap-2 px-2">
-      <input type="text" class="rounded-lg">
+    <div class="w-auto h-auto flex gap-2 px-2">
+      <input type="text" class="rounded-lg w-full">
       <a href="#" class="w-12 h-12 p-2 bg-[#f17f18] rounded-lg">
         <Img src="/images/search.png" alt="" class="w-8 h-8 object-contain rounded-full"/>
       </a>
