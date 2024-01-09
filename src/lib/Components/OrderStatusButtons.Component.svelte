@@ -5,6 +5,10 @@
   import type { CreateOrderStatusRequest } from "$lib/Models/Requests/CreateOrderStatus.Request.Model";
   import { orderStatusStore } from "$lib/Stores/OrderStatus.Store";
   import { Button, Img, Modal } from 'flowbite-svelte';
+
+  import { Select, Dropdown, DropdownItem } from 'flowbite-svelte';
+  import { ChevronDownSolid } from 'flowbite-svelte-icons';
+
  
   export let order_status: number;
   export let order: OrderDto;
@@ -36,48 +40,59 @@
     // await orderStatusStore.create(options);
   }
 
-  let openModal = false;
-  let size:any;
+
    
 
 
 </script>
 
-{#if openModal === true}
-<div class="z-[60000] w-full h-[87vh] bg-black">
 
-  <Modal
-   style="background-color:#1a1a1a;" bind:open={openModal} {size} autoclose class="z-[1000]flex justify-center items-center pt-12" backdropClass="bg-black w-full h-[5vh] flex justify-center items-center p-0"
-   dialogClass="block h-modal  z-50 w-full flex  p-0" bodyClass=" flex justify-center flex-col items-center p-0">
-   <div class="w-auto flex mx-2 gap-1">
-    <input type="text" class="w-full rounded-lg dark:bg-[#000] dark:text-white">
-    <a href="#" class="w-12 h-12 rounded-lg bg-[#f17f18] flex justify-center items-center">
-      <img src="/images/search.png" alt="" class="w-5 h-5 object-contain">
-    </a>
-   </div>
-   <div class="w-52 h-[60vh] bg-black flex flex-col gap-2 px-2 overflow-y-auto overflow-x-hidden justify-center items-center m-0">
+<div class="flex h-full ">
+  <button id="states-button" class="w-full flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-500 bg-gray-100 border border-gray-300 rounded-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600 justify-around" type="button">
+   <img src="/images/kubak.jpg" alt="" class="w-8 h-8 object-contain rounded-full">
+    USA
     
+    <ChevronDownSolid class="w-3 h-3 ms-2" />
+  </button>
+  <Dropdown  class="w-64 h-auto">
+    <div class="w-full h-auto flex gap-2 px-2">
+      <input type="text" class="rounded-lg">
+      <a href="#" class="w-12 h-12 p-2 bg-[#f17f18] rounded-lg">
+        <Img src="/images/search.png" alt="" class="w-8 h-8 object-contain rounded-full"/>
+      </a>
+    </div>
 
-<div class="w-full h-12 bg-[#1a1a1a] flex mx-2 rounded-lg justify-around flex-row-reverse items-center">
-  <p>ahmad</p>
-  <Img src="/images/kubak.jpg" class="w-8 h-8 object-cover rounded-full"/>
+    <div class="w-full h-44 my-5 flex flex-col justify-center items-centers overflow-y-auto">
+
+      <DropdownItem class="items-center flex justify-start gap-2">
+        <img src="/images/kubak.jpg" alt="" class="w-8 h-8 object-contain rounded-full">
+        United States
+      </DropdownItem>
+      <DropdownItem class="flex items-center justify-start gap-2">
+        <img src="/images/kubak.jpg" alt="" class="w-8 h-8 object-contain rounded-full">
+        Germany
+      </DropdownItem>
+      <DropdownItem class="flex items-center justify-start gap-2">
+        <img src="/images/kubak.jpg" alt="" class="w-8 h-8 object-contain rounded-full">
+        Italy
+      </DropdownItem>
+      <DropdownItem class="flex items-center justify-start gap-2">
+        <img src="/images/kubak.jpg" alt="" class="w-8 h-8 object-contain rounded-full">
+        China
+      </DropdownItem>
+    </div>
+  </Dropdown>
+  
 </div>
 
 
+  
 
-   </div>
-<div class="w-full h-auto flex justify-center items-center pb-5">
-
-  <button on:click={() => updateOrderStatus(OrderStatus.Accepted)} class="w-full h-auto p-3 mx-2 bg-[#f17f18] text-white rounded-lg font-bold">Accept</button>
-</div>
-  </Modal>
-</div>
-{:else}
 {#if order_status === 0}
   <div class="flex justify-center gap-2">
     <button
       class="bg-green-500 text-white font-bold w-full h-12 rounded-lg hover:bg-green-600"
-      on:click={() => { size = 'xl'; openModal = true; }}>Accept</button
+      on:click={() => updateOrderStatus(OrderStatus.Accepted)}>Accept</button
     >
    
     <button
@@ -123,4 +138,3 @@
 {/if}
 
 
-{/if}
