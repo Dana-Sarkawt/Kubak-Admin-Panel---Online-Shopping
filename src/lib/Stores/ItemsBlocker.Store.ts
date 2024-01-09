@@ -7,6 +7,11 @@ import { writable } from "svelte/store";
 import { itemStore } from "./Items.Store";
 import type { OrderDto } from "$lib/Models/DTO/Order.DTO.Model";
 import { ordersStore } from "./Orders.Store";
+import { HttpError } from "$lib/Errors/HttpErrors.Error";
+import { Errors } from "$lib/Models/Enums/Errors.Enum.Model";
+import { errorStore } from "./Errors.Store";
+import { toastStore } from "./Toast.Store";
+import { ToastMessages } from "$lib/Models/Enums/Toast-Messages.Enum.Model";
 
 const itemsBlockerRepository = new ItemsBlockerRepository();
 
@@ -17,11 +22,15 @@ const createItemsBlockerStore = () => {
     set: (value: Store<ItemsBlockerDto>) => set(value),
     get: async (id: string) => {
       try {
-        if(!id) return;
+        if (!id)
+          throw new HttpError(Errors.BadRequest, "Item Blocker Id is required");
         let document = await itemsBlockerRepository.get(id);
+        if (!document)
+          throw new HttpError(Errors.NotFound, "Item Blocker not found");
         return Dto.ToItemsBlockerDto(document);
       } catch (error) {
-        console.log(error);
+        if (error instanceof HttpError) errorStore.add(error.response());
+        toastStore.set(ToastMessages.WARNING);
       }
     },
     getAll: async (orderId?: string) => {
@@ -49,14 +58,20 @@ const createItemsBlockerStore = () => {
 
         return itemsBlockerDto;
       } catch (error) {
-        console.log(error);
+        toastStore.set(ToastMessages.WARNING);
       }
     },
     delete: async (id: string) => {
       try {
+        if (!id)
+          throw new HttpError(Errors.BadRequest, "Item Blocker Id is required");
+        const document = await itemsBlockerRepository.get(id);
+        if (!document)
+          throw new HttpError(Errors.NotFound, "Item Blocker not found");
         await itemsBlockerRepository.delete(id);
       } catch (error) {
-        console.log(error);
+        if (error instanceof HttpError) errorStore.add(error.response());
+        toastStore.set(ToastMessages.WARNING);
       }
     },
   };

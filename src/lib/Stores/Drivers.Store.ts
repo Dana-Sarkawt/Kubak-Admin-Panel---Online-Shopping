@@ -12,6 +12,7 @@ import type { AuthDto } from "$lib/Models/DTO/Auth.DTO.Model";
 import { ImageToUrl } from "../../utils/ImageToUrl.Utils";
 import { HttpError } from "$lib/Errors/HttpErrors.Error";
 import { Errors } from "$lib/Models/Enums/Errors.Enum.Model";
+import { errorStore } from "./Errors.Store";
 
 const driverRepository = new DriverRepository();
 
@@ -24,15 +25,20 @@ const createDriverStore = () => {
     },
     get: async (id: string) => {
       try {
-        if (!id) throw new HttpError(Errors.BadRequest,"Driver Id is required");
+        if (!id)
+          throw new HttpError(Errors.BadRequest, "Driver Id is required");
         let document = await driverRepository.getDriver(id);
-        if(document == null) throw new HttpError(Errors.NotFound,"Driver not found");
-        if(document.userId == "") throw new HttpError(Errors.BadRequest,"Driver User Id is required");
-        const userDto: AuthDto = await authStore.getUser(document.userId) as AuthDto;
+        if (document == null)
+          throw new HttpError(Errors.NotFound, "Driver not found");
+        if (document.userId == "")
+          throw new HttpError(Errors.BadRequest, "Driver User Id is required");
+        const userDto: AuthDto = (await authStore.getUser(
+          document.userId
+        )) as AuthDto;
         return Dto.ToDriverDto(document, userDto);
       } catch (e) {
-        console.log(e);
-        return null;
+        if (e instanceof HttpError) errorStore.add(e.response());
+        toastStore.set(ToastMessages.WARNING);
       }
     },
     getAll: async (options?: GenericListOptions) => {
@@ -55,49 +61,76 @@ const createDriverStore = () => {
           pages: Math.ceil(total / (options?.limit ?? 8)),
         });
       } catch (e) {
-        console.log(e);
-        toastStore.set(ToastMessages.ERROR);
+        toastStore.set(ToastMessages.WARNING);
       }
     },
     create: async (driver: CreateDriverRequest) => {
       try {
         if (driver.userId == "") {
-          throw new Error("Driver User Id is required");
+          throw new HttpError(Errors.BadRequest, "Driver User Id is required");
         }
         if (driver.bikeAnnuity.model == "") {
-          throw new Error("Driver Bike Annuity Model is required");
+          throw new HttpError(
+            Errors.BadRequest,
+            "Driver Bike Annuity Model is required"
+          );
         }
         if (
           (driver.bikeAnnuity.year as number) < 1980 ||
           (driver.bikeAnnuity.year as number) > 2100
         ) {
-          throw new Error(
+          throw new HttpError(
+            Errors.BadRequest,
             `Driver Bike Annuity Year Must Be Between 1980 And 2100`
           );
         }
         if (driver.bikeAnnuity.color == "") {
-          throw new Error("Driver Bike Annuity Color is required");
+          throw new HttpError(
+            Errors.BadRequest,
+            "Driver Bike Annuity Color is required"
+          );
         }
         if (driver.bikeAnnuity.plateImage.url == "") {
-          throw new Error("Driver Bike Annuity Plate Number is required");
+          throw new HttpError(
+            Errors.BadRequest,
+            "Driver Bike Annuity Plate Number is required"
+          );
         }
         if (driver.bikeAnnuity.plateNumber == "") {
-          throw new Error("Driver Bike Annuity Plate Number is required");
+          throw new HttpError(
+            Errors.BadRequest,
+            "Driver Bike Annuity Plate Number is required"
+          );
         }
         if (driver.bikeAnnuity.annuityImage.front.url == "") {
-          throw new Error("Driver Bike Annuity Front Image is required");
+          throw new HttpError(
+            Errors.BadRequest,
+            "Driver Bike Annuity Front Image is required"
+          );
         }
         if (driver.bikeAnnuity.annuityImage.back.url == "") {
-          throw new Error("Driver Bike Annuity Back Image is required");
+          throw new HttpError(
+            Errors.BadRequest,
+            "Driver Bike Annuity Back Image is required"
+          );
         }
         if (driver.bikeAnnuity.annuityNumber == "") {
-          throw new Error("Driver Bike Annuity Number is required");
+          throw new HttpError(
+            Errors.BadRequest,
+            "Driver Bike Annuity Number is required"
+          );
         }
         if (driver.passport.passportNumber == "") {
-          throw new Error("Driver Passport Number is required");
+          throw new HttpError(
+            Errors.BadRequest,
+            "Driver Passport Number is required"
+          );
         }
         if (driver.passport.passportImage.url == "") {
-          throw new Error("Driver Passport Image is required");
+          throw new HttpError(
+            Errors.BadRequest,
+            "Driver Passport Image is required"
+          );
         }
         if (driver.bikeAnnuity.plateImage.url instanceof File) {
           driver.bikeAnnuity.plateImage.url = (await ImageToUrl(
@@ -119,11 +152,11 @@ const createDriverStore = () => {
             driver.passport.passportImage.url as File
           )) as string;
         }
-        if(driver.labels.length == 0){
+        if (driver.labels.length == 0) {
           const user = await authStore.getUser(driver.userId);
-          if(user?.roles.includes("Driver")){
+          if (user?.roles.includes("Driver")) {
             driver.labels = user?.roles;
-          }else{
+          } else {
             user?.roles.push("Driver");
             driver.labels = user?.roles as string[];
           }
@@ -131,8 +164,8 @@ const createDriverStore = () => {
         await driverRepository.createDriver(driver);
         toastStore.set(ToastMessages.SUCCESS);
       } catch (e) {
-        console.log(e);
-        toastStore.set(ToastMessages.ERROR);
+        if (e instanceof HttpError) errorStore.add(e.response());
+        toastStore.set(ToastMessages.WARNING);
       }
     },
     update: async (driver: CreateDriverRequest) => {
@@ -140,7 +173,8 @@ const createDriverStore = () => {
         const document = await driverRepository.getDriver(driver.id as string);
 
         if (document === null) {
-          throw new Error(
+          throw new HttpError(
+            Errors.NotFound,
             `Driver not found with the following id:${driver.id}`
           );
         }
@@ -181,7 +215,7 @@ const createDriverStore = () => {
         await driverRepository.updateDriver(driver);
         toastStore.set(ToastMessages.SUCCESS);
       } catch (e) {
-        console.log("Error :", e);
+        if (e instanceof HttpError) errorStore.add(e.response());
         toastStore.set(ToastMessages.WARNING);
       }
     },
@@ -190,7 +224,10 @@ const createDriverStore = () => {
         let document = await driverRepository.getDriver(id);
 
         if (document === null)
-          throw new Error(`Driver not found with the following id:${id}`);
+          throw new HttpError(
+            Errors.NotFound,
+            `Driver not found with the following id:${id}`
+          );
 
         await driverRepository.deleteDriver(id);
 
@@ -199,7 +236,7 @@ const createDriverStore = () => {
         toastStore.set(ToastMessages.ERROR);
         return "Deleted";
       } catch (e) {
-        console.log("Error :", e);
+        if (e instanceof HttpError) errorStore.add(e.response());
         toastStore.set(ToastMessages.WARNING);
       }
     },
