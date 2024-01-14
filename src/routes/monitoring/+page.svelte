@@ -29,7 +29,7 @@
   let options: GenericListOptions = {
     status: -2,
   };
-  let driverId: string | null = "658bcd1807b9398dec19";
+  let driverId: string | null = "659e8408d7ed7f1690dc";
   let route: string | null = null;
   let polyLines: any[] = [];
 
@@ -63,7 +63,7 @@
     $driverStore.data.map((driver) => {
       const myIcon = L.icon({
         iconUrl: `images/driver.png`,
-        iconSize: [38, 38],
+        iconSize: [42, 42],
       });
 
       markers.push({
@@ -90,17 +90,13 @@
       }
     );
 
-    console.log(
-      `databases.${Environment.appwrite_database_drivers}.collections.${Environment.appwrite_collection_driver_location}.documents`
-    );
-
     Appwrite.appwrite.subscribe(
-      `databases.${Environment.appwrite_database_drivers}.collections.${Environment.appwrite_collection_driver_location}.documents`,
+      `databases.${Environment.appwrite_database_online_shopping}.collections.${Environment.appwrite_collection_driver_location}.documents`,
       async (response) => {
         console.log("Hello There", response.payload);
-        await driverStore.getAll();
-        const driverDto = Dto.ToDriverDto(response.payload as Driver);
-        addMarkersForDrivers(driverDto as DriverDto);
+        const driver = await driverStore.get(response.payload.driverId as string);
+        console.log(driver);
+        addMarkersForDrivers(driver as DriverDto);
       }
     );
   });
@@ -195,6 +191,8 @@
     Loading = true;
     order_status = order.status;
     orderData = order;
+    console.log("driver Id",driverId);
+    
     let driver = await driverStore.get(driverId!);
     console.log(driver);
 

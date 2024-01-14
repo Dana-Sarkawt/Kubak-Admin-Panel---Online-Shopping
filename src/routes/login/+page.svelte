@@ -11,6 +11,7 @@
   let defaultModal: boolean = false;
   let errorMassege: string;
   onMount(async () => {
+    //@ts-ignore
     particlesJS.load("particles-js", "/assets/particles.json");
   });
   let secret: string = "";

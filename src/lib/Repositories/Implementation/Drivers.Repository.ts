@@ -16,7 +16,7 @@ export class DriverRepository implements IDriversRepository {
     const query = this.filterQuery([], options);
 
     let { documents, total } = (await Appwrite.databases.listDocuments(
-      Environment.appwrite_database_drivers,
+      Environment.appwrite_database_online_shopping,
       Environment.appwrite_collection_driver,
       query
     )) as AppwriteResponse<Driver>;
@@ -25,7 +25,7 @@ export class DriverRepository implements IDriversRepository {
   }
   async getDriver(id: string): Promise<Driver> {
     const driver = (await Appwrite.databases.getDocument(
-      Environment.appwrite_database_drivers,
+      Environment.appwrite_database_online_shopping,
       Environment.appwrite_collection_driver,
       id
     )) as Driver;
@@ -48,7 +48,7 @@ export class DriverRepository implements IDriversRepository {
     };
 
     const bikeAnnuity = await Appwrite.databases.createDocument(
-      Environment.appwrite_database_drivers,
+      Environment.appwrite_database_online_shopping,
       Environment.appwrite_collection_bike_annuity,
       ID.unique(),
       bikeRequest
@@ -63,7 +63,7 @@ export class DriverRepository implements IDriversRepository {
       deletedAt: driver.deletedAt,
     };
     await Appwrite.databases.createDocument(
-      Environment.appwrite_database_drivers,
+      Environment.appwrite_database_online_shopping,
       Environment.appwrite_collection_driver,
       ID.unique(),
       driverRequest
@@ -86,7 +86,7 @@ export class DriverRepository implements IDriversRepository {
       passportImage: driver.passport.passportImage.url as string,
     };
     const result = await Appwrite.databases.updateDocument(
-      Environment.appwrite_database_drivers,
+      Environment.appwrite_database_online_shopping,
       Environment.appwrite_collection_driver,
       driver.id as string,
       driverRequest
@@ -96,7 +96,7 @@ export class DriverRepository implements IDriversRepository {
   }
   async deleteDriver(id: string): Promise<void> {
     await Appwrite.databases.updateDocument(
-      Environment.appwrite_database_drivers,
+      Environment.appwrite_database_online_shopping,
       Environment.appwrite_collection_driver,
       id,
       {

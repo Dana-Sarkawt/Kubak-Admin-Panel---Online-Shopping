@@ -44,6 +44,7 @@ const createDriverStore = () => {
     getAll: async (options?: GenericListOptions) => {
       try {
         let { documents, total } = await driverRepository.getDrivers(options);
+        
 
         let dto: DriverDto[] = await Promise.all(
           documents.map(async (document) => {
