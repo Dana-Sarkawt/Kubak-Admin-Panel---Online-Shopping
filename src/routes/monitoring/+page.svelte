@@ -6,6 +6,7 @@
   import { ordersStore } from "$lib/Stores/Orders.Store";
   import { OrderStatus } from "$lib/Models/Enums/Order-Status.Enum.Model";
   import type { ItemDto } from "$lib/Models/DTO/Item.DTO.Model";
+  import type { DriverDto } from "$lib/Models/DTO/Driver.DTO.Model";
   import { itemsBlockerStore } from "$lib/Stores/ItemsBlocker.Store";
   import type { OrderDto } from "$lib/Models/DTO/Order.DTO.Model";
   import type { Order } from "$lib/Models/Entities/Order.Entities.Model";
@@ -13,7 +14,6 @@
   import { onMount } from "svelte";
   import type { GenericListOptions } from "$lib/Models/Common/ListOptions.Common.Model";
   import { mapTileLayersStore } from "$lib/Stores/MapTileLayers.Store";
-  import { driverLocationStore } from "$lib/Stores/DriverLocation.Store";
   import { routingStore } from "$lib/Stores/Routing.Store";
   import type { LngLat } from "$lib/Models/Common/LngLat.Common.Model";
   import { driverStore } from "$lib/Stores/Drivers.Store";
@@ -310,13 +310,6 @@
       }
     }
   }
-
-  function updateOrderStatus(Accepted: OrderStatus): void {
-    throw new Error("Function not implemented.");
-  }
-  import openModal from "$lib/Components/OrderStatusButtons.Component.svelte";
-  import type { Driver } from "$lib/Models/Entities/Driver.Entity.Model";
-  import type { DriverDto } from "$lib/Models/DTO/Driver.DTO.Model";
 </script>
 
 <div class="w-full flex justify-end">

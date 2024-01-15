@@ -31,17 +31,15 @@ export class CategoriesRepository implements ICategoriesRepository {
   }
 
   async getCategory(id: string): Promise<Category> {
-    try{
-      const category = await Appwrite.databases.getDocument(
+    try {
+      const category = (await Appwrite.databases.getDocument(
         Environment.appwrite_database_online_shopping,
         Environment.appwrite_collection_category,
         id
-      ) as Category;
+      )) as Category;
 
       return category;
     } catch (e) {
-      console.log(e);
-      toastStore.set(2);
       throw e;
     }
   }
@@ -69,7 +67,6 @@ export class CategoriesRepository implements ICategoriesRepository {
 
   async updateCategory(category: CreateCategoryRequest): Promise<Category> {
     try {
-
       const categoryRequest: CategoryRequest = {
         name: category.name,
         categoryImage: category.image.url as string,

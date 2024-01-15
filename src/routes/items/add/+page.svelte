@@ -50,14 +50,13 @@
     isLoading = true;
     try {
       options.categoryId = selected;
-      console.log(options);
       await itemStore.create(options);
     } finally {
       isLoading = false;
     }
   }
 
-  let inputValue = "";
+  let inputValue:string = "";
 
   function handleInputChange(activEvent: any) {
     inputValue = activEvent.target.value;
